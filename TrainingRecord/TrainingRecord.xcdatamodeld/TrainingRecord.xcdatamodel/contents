@@ -1,4 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="true" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="TrainingitemAbdomen" representedClassName="AbdomenItem" syncable="YES" codeGenerationType="class">
+        <attribute name="def" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="image2" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TrainingitemArm" representedClassName="ArmItem" syncable="YES" codeGenerationType="class">
+        <attribute name="def" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="image2" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TrainingitemBack" representedClassName="BackItem" syncable="YES" codeGenerationType="class">
+        <attribute name="def" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="image2" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TrainingitemBL" representedClassName="BLItem" syncable="YES" codeGenerationType="class">
+        <attribute name="def" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="image2" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TrainingItemBrest" representedClassName="BrestItem" syncable="YES" codeGenerationType="class">
+        <attribute name="def" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="image2" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TrainingitemExercise" representedClassName="ExerciseItem" syncable="YES" codeGenerationType="class">
+        <attribute name="def" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="image2" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="TrainingitemAbdomen" positionX="-9" positionY="126" width="128" height="104"/>
+        <element name="TrainingitemArm" positionX="-27" positionY="117" width="128" height="104"/>
+        <element name="TrainingitemBack" positionX="-54" positionY="153" width="128" height="104"/>
+        <element name="TrainingitemBL" positionX="-45" positionY="108" width="128" height="104"/>
+        <element name="TrainingItemBrest" positionX="-54" positionY="-9" width="128" height="104"/>
+        <element name="TrainingitemExercise" positionX="27" positionY="144" width="128" height="104"/>
+    </elements>
 </model>
