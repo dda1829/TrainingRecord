@@ -8,10 +8,10 @@
 import UIKit
 
 class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewAccessibilityDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    var trainWeight : Int = 300
+    var trainWeight : Int = 10
     var trainSet : Int = 3
     var trainSetCount : Int = 10
-    var trainEachSetInterval : Int = 60
+    var trainEachSetInterval : Int = 30
     var trainSetEachInterval : Double = 1
     var trainUnit: String = "kg"
     var trainLS = 0
@@ -126,6 +126,12 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate,
         trainSetEachIntervalPV.delegate = self
         trainEachSetIntervalPV.delegate = self
         
+        trainWeightPV.setValue(UIColor.white, forKey: "textColor")
+        trainUnitPV.setValue(UIColor.white, forKey: "textColor")
+        trainSetPV.setValue(UIColor.white, forKey: "textColor")
+        trainSetCountPV.setValue(UIColor.white, forKey: "textColor")
+        trainSetEachIntervalPV.setValue(UIColor.white, forKey: "textColor")
+        trainEachSetIntervalPV.setValue(UIColor.white, forKey: "textColor")
         
     }
     

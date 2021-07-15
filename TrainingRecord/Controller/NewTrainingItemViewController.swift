@@ -66,6 +66,7 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     override func viewDidLoad() {
         super.viewDidLoad()
         addTrainingItemPV.delegate = self
+        addTrainingItemPV.setValue(UIColor.white, forKey: "textColor")
         TrainingItemD.delegate = self
         TrainingItemDefD.delegate = self
         if let str = str {
