@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Firebase
+
 class RecordItem :NSObject ,NSCoding {
     var trainDate : String
 //    var trainDateYesterday: Stringlkl

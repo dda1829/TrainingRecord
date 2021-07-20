@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate{
    
@@ -58,18 +59,18 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var exerciseImageform : [UIImage] = []
     // MARK: TrainItem's list
     var formListLocation : [String] = ["運動部位", "肩胸部","背部", "臀腿部", "核心", "手臂","有氧運動"]
-    var formListBrest : [String] = [ "訓練項目", "胸部推舉機"]
-    var formListBL : [String] = [ "訓練項目", "深蹲"]
-    var formListAbdomen : [String] = [ "訓練項目", "腹部訓練機"]
-    var formListArm : [String] = [ "訓練項目", "二頭彎舉機"]
-    var formListEx : [String] = [ "訓練項目", "跑步機"]
-    var formListBack : [String] = [ "訓練項目", "高拉背部訓練機","坐式划船機","槓鈴划船","啞鈴划船"]
-    var trainBrestText:[String] = [ "", "訓練目標：前三角肌,胸大肌,三頭肌",]
-    var trainBackText:[String] = [ "","訓練目標：闊背肌、大小圓肌、菱形肌、後三角肌","訓練目標：闊背肌、大小圓肌、菱形肌、後三角肌","訓練目標：闊背肌、大小圓肌、菱形肌、後三角肌","訓練目標：闊背肌、大小圓肌、菱形肌、後三角肌","訓練目標：脊立住肌"]
-    var trainBLText:[String] = ["", "訓練目標：股四頭、股二頭、臀大肌、小腿肌群",]
-    var trainAbdomenText:[String] = ["", "訓練目標：上中段腹直肌",]
-    var trainArmText:[String] = ["", "訓練目標：二頭肌",]
-    var trainExText:[String] = ["", "訓練目標：心肺",]
+    var formListBrest : [String] = [ "訓練項目"]
+    var formListBL : [String] = [ "訓練項目"]
+    var formListAbdomen : [String] = [ "訓練項目"]
+    var formListArm : [String] = [ "訓練項目"]
+    var formListEx : [String] = [ "訓練項目"]
+    var formListBack : [String] = [ "訓練項目"]
+    var trainBrestText:[String] = [ ""]
+    var trainBackText:[String] = [ ""]
+    var trainBLText:[String] = [""]
+    var trainAbdomenText:[String] = [""]
+    var trainArmText:[String] = [""]
+    var trainExText:[String] = [""]
     var newFormList : [Array<String>] = [[]]
     var newFormListDef : [Array<String>] = [[]]
     
@@ -86,16 +87,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var trainToday = ""
     
     
+    //MARK: firebase firestore used
+    var db: Firestore!
+    
     @IBOutlet weak var MainLabel: UILabel!
 
     
     // MARK: PickerView Delegate
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        if trainLS[0] == 0 {
-            return 1
-        } else {
             return 2
-        }
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -117,7 +117,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             case 6:
                 return formListEx.count
             default:
-                return 0
+                return 1
             }
             
         }
@@ -146,11 +146,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             case 6:
                 return formListEx[row]
             default:
-                return nil
+                return "訓練項目"
             }
             
         }
-        
         return nil
     }
     
@@ -161,31 +160,31 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             case 1:
                 print(formListLocation[row])
                 trainLS[0] = 1
-                pickerView.reloadAllComponents()
-                
+                pickerView.reloadComponent(1)                
             case 2:
                 print(formListLocation[row])
                 trainLS[0] = 2
-                pickerView.reloadAllComponents()
+                pickerView.reloadComponent(1)
             case 3:
                 trainLS[0] = 3
-                pickerView.reloadAllComponents()
+                pickerView.reloadComponent(1)
             case 4:
                 trainLS[0] = 4
-                pickerView.reloadAllComponents()
+                pickerView.reloadComponent(1)
             case 5:
                 trainLS[0] = 5
-                pickerView.reloadAllComponents()
+                pickerView.reloadComponent(1)
             case 6:
                 trainLS[0] = 6
-                pickerView.reloadAllComponents()
+                pickerView.reloadComponent(1)
             default:
                 print("title")
                 trainLS[0] = 0
                 trainLS[1] = 0
-                DefinitionTV.text = ""
+                definitionTV.text = ""
+                trainParametersTV.text = ""
                 trainImageView.image = noColor
-                homeImageViewGen()
+                homeImageView!.isHidden = false
                 pickerView.reloadAllComponents()
                 
             }}
@@ -194,99 +193,91 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             case 1:    //Brest
                 trainLS[1]=row
                 if row == 0 {
-                    DefinitionTV.text = ""
-                    trainLS[0] = 0
-                    homeImageViewGen()
-                    pickerView.reloadAllComponents()
-                    pickerView.selectRow(0, inComponent: 0, animated: true)
+                    definitionTV.text = ""
+                    trainParametersTV.text = ""
+                    homeImageView!.isHidden = false
                 }else{
-                homeImageView!.removeFromSuperview()
-                print("1")
-                    
+                    homeImageView!.isHidden = true
+                    reloadTrainParameters()
                 }
-                DefinitionTV.text = trainBrestText[row]
+                definitionTV.text = trainBrestText[row]
                 trainImageView.image = brestImageform[row]
-                
+                print(row)
                 
                 
             case 2:   //Back
                 trainLS[1]=row
                 if row == 0 {
-                    DefinitionTV.text = ""
-                    trainLS[0] = 0
-                    pickerView.reloadAllComponents()
-                    homeImageViewGen()
+                    definitionTV.text = ""
+                    trainParametersTV.text = ""
+                    homeImageView!.isHidden = false
                 }else{
-                    homeImageView!.removeFromSuperview()
-                    
+                    homeImageView!.isHidden = true
+                    reloadTrainParameters()
                         
                     }
                 
-                DefinitionTV.text = trainBackText[row]
+                definitionTV.text = trainBackText[row]
                 trainImageView.image = backImageform[row]
                 
             case 3:   //Bottom Lap
                 trainLS[1]=row
                 if row == 0 {
-                    DefinitionTV.text = ""
-                    trainLS[0] = 0
-                    pickerView.reloadAllComponents()
-                    homeImageViewGen()
+                    definitionTV.text = ""
+                    trainParametersTV.text = ""
+                    homeImageView!.isHidden = false
                 }else{
-                    homeImageView!.removeFromSuperview()
-                    
+                    homeImageView!.isHidden = true
+                    reloadTrainParameters()
                         
                     }
                 
-                DefinitionTV.text = trainBLText[row]
+                definitionTV.text = trainBLText[row]
                 trainImageView.image = blImageform[row]
                 
             case 4:   //Abodmen
                 trainLS[1]=row
                 if row == 0 {
-                    DefinitionTV.text = ""
-                    trainLS[0] = 0
-                    pickerView.reloadAllComponents()
-                    homeImageViewGen()
+                    definitionTV.text = ""
+                    trainParametersTV.text = ""
+                    homeImageView!.isHidden = false
                 }else{
-                    homeImageView!.removeFromSuperview()
-                    
+                    homeImageView!.isHidden = true
+                    reloadTrainParameters()
                         
                     }
                 
-                DefinitionTV.text = trainAbdomenText[row]
+                definitionTV.text = trainAbdomenText[row]
                 trainImageView.image = abdomenImageform[row]
                 
             case 5: //Arm
                 trainLS[1]=row
                 if row == 0 {
-                    DefinitionTV.text = ""
-                    trainLS[0] = 0
-                    pickerView.reloadAllComponents()
-                    homeImageViewGen()
+                    definitionTV.text = ""
+                    trainParametersTV.text = ""
+                    homeImageView!.isHidden = false
                 }else{
-                    homeImageView!.removeFromSuperview()
-                    
+                    homeImageView!.isHidden = true
+                    reloadTrainParameters()
                         
                     }
                 
-                DefinitionTV.text = trainArmText[row]
+                definitionTV.text = trainArmText[row]
                 trainImageView.image = armImageform[row]
                 
             case 6: //excerise
                 trainLS[1]=row
                 if row == 0 {
-                    DefinitionTV.text = ""
-                    trainLS[0] = 0
-                    pickerView.reloadAllComponents()
-                    homeImageViewGen()
+                    definitionTV.text = ""
+                    trainParametersTV.text = ""
+                    homeImageView!.isHidden = false
                 }else{
-                    homeImageView!.removeFromSuperview()
-                    
+                    homeImageView!.isHidden = true
+                    reloadTrainParameters()
                         
                     }
                 
-                DefinitionTV.text = trainExText[row]
+                definitionTV.text = trainExText[row]
                 trainImageView.image = exerciseImageform[row]
                 
                 
@@ -294,68 +285,84 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 print("")
             }
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
         }
         
     }
     
 
-    @IBOutlet weak var DefinitionTV: UITextView!
+    @IBOutlet weak var definitionTV: UITextView!
     
     @IBOutlet weak var trainImageView: UIImageView!
     
+    @IBOutlet weak var trainParametersTV: UITextView!
     
     @IBOutlet weak var TrainPickerView: UIPickerView!
     
-     func homeImageViewGen () {
-        let imageView = UIImageView(image: self.homeImage)
-        homeImageView = imageView
-        self.view.addSubview(homeImageView!)
-        homeImageView!.frame = CGRect(x: 106, y: 103, width: 163, height: 141)
-        homeImageView!.contentMode = .scaleAspectFit //把圖片縮在你指定的大小
-        homeImageView!.clipsToBounds = true
-        
-        
-        homeImageView!.translatesAutoresizingMaskIntoConstraints = false
-        
-        homeImageView!.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        homeImageView!.topAnchor.constraint(equalTo: MainLabel.bottomAnchor, constant: 20).isActive = true
+
    
+    
+    // MARK: firestore load Data
+    func loadData(_ location: String) {
+        self.db.collection(location).getDocuments() { (querySnapshot, error) in
+            if let e = error {
+                print("error \(e)")
+            }
+            guard let data = querySnapshot else {return}
+            for document in data.documents{
+                let item = TrainingItem()
+                item.itemName = document.data()["itemName"] as? String
+                item.itemDef = document.data()["itemDef"] as? String
+                item.itemImage = document.data()["itemImage"] as? String
+                item.itemID = document.documentID
+                switch location{
+                case "BrestShoulder":
+                    self.formListBrest.append(item.itemName!)
+                    self.trainBrestText.append(item.itemDef!)
+                case "BottomLap":
+                    self.formListBL.append(item.itemName!)
+                    self.trainBLText.append(item.itemDef!)
+                case "Arm":
+                    self.formListArm.append(item.itemName!)
+                    self.trainArmText.append(item.itemDef!)
+                case "Back":
+                    self.formListBack.append(item.itemName!)
+                    self.trainBackText.append(item.itemDef!)
+                case "Abdomen":
+                    self.formListAbdomen.append(item.itemName!)
+                    self.trainAbdomenText.append(item.itemDef!)
+                case "Exercise":
+                    self.formListEx.append(item.itemName!)
+                    self.trainExText.append(item.itemDef!)
+                default:
+                    print("type wrong")
+                }
+                
+            }
+        }
         
-        print(UIDevice.current.model                  )
     }
-   
+    func reloadTrainParameters(){
+        let textDefault : String = "訓練重量：\(trainWeight)kg。\n訓練組數：\(trainSet)組。\n每組次數：\(trainSetCount)下。\n每下間隔：\(trainSetEachInterval )秒。\n每組間隔：\(trainEachSetInterval)秒。"
+        trainParametersTV.text = textDefault
+    }
+    
     func DefaultFormEditor(){
         
-        let textDefault : String = "\n訓練重量：\(trainWeight)kg。\n訓練組數：\(trainSet)組。\n每組次數：\(trainSetCount)下。\n每下間隔：\(trainEachSetInterval)秒。\n每組間隔：\(trainSetEachInterval)秒。"
+        loadData("BrestShoulder")
+        loadData("BottomLap")
+        loadData("Arm")
+        loadData("Back")
+        loadData("Abdomen")
+        loadData("Exercise")
         
-        let listBrest : [String] = [ "訓練項目", "胸部推舉機"]
-        let listBL : [String] = [ "訓練項目", "深蹲"]
         
-        let listAbdomen : [String] = [ "訓練項目", "腹部訓練機"]
-        let listArm : [String] = [ "訓練項目", "二頭彎舉機"]
-        let listEx : [String] = [ "訓練項目", "跑步機"]
-        let listBack : [String] = [ "訓練項目", "高拉背部訓練機","坐式划船機","槓鈴划船","啞鈴划船"]
-        let brestText:[String] = [ "", "訓練目標：前三角肌,胸大肌,三頭肌\n\(textDefault)",]
-        let backText:[String] = [ "","訓練目標：闊背肌、大小圓肌、菱形肌、後三角肌\n\(textDefault)","訓練目標：闊背肌、大小圓肌、菱形肌、後三角肌\n\(textDefault)","訓練目標：闊背肌、大小圓肌、菱形肌、後三角肌\n\(textDefault)","訓練目標：闊背肌、大小圓肌、菱形肌、後三角肌\n\(textDefault)","訓練目標：脊立住肌\n\(textDefault)"]
-        let bLText:[String] = ["", "訓練目標：股四頭、股二頭、臀大肌、小腿肌群\n\(textDefault)",]
-        let abdomenText:[String] = ["", "訓練目標：上中段腹直肌\n\(textDefault)",]
-        let armText:[String] = ["", "訓練目標：二頭肌\n\(textDefault)",]
-        let exText:[String] = ["", "訓練目標：心肺\n\(textDefault)",]
-        formListBrest = listBrest
-        formListBack = listBack
-        formListBL = listBL
-        formListAbdomen = listAbdomen
-        formListArm = listArm
-        formListEx = listEx
+        let brestText:[String] = [ ""]
+        let backText:[String] = [ ""]
+        let bLText:[String] = ["",]
+        let abdomenText:[String] = [""]
+        let armText:[String] = [""]
+        let exText:[String] = [""]
+
         trainBrestText = brestText
         trainBackText = backText
         trainBLText = bLText
@@ -380,174 +387,32 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         exerciseImageform.append(noColor!)
         exerciseImageform.append(runmachine!)
     
-    
+        
     
     }
     
     
-    func loadTheTrainList(){
-        // Fetch data from data store Brest
-        var fetchResultController: NSFetchedResultsController<BrestItem>
-        let fetchRequest: NSFetchRequest<BrestItem> = BrestItem.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultController.delegate = self
-
-            do {
-                try fetchResultController.performFetch()
-                if let fetchedObjects = fetchResultController.fetchedObjects {
-                    beforeBrestData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeBrestData.count{
-      
-            formListBrest.append(beforeBrestData[x].name!)
-            trainBrestText.append(beforeBrestData[x].def!)
-            if let trainImage = beforeBrestData[x].image {
-                brestImageform.append( UIImage(data: trainImage as Data)!)
-            }
-
-       
-        }
-  
-        // Fetch data from data store Back
-        var fetchResultControllerback: NSFetchedResultsController<BackItem>!
-        
-        let fetchRequestback: NSFetchRequest<BackItem> = BackItem.fetchRequest()
-        let sortDescriptorback = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequestback.sortDescriptors = [sortDescriptorback]
-
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerback = NSFetchedResultsController(fetchRequest: fetchRequestback, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerback.delegate = self
-
-            do {
-                try fetchResultControllerback.performFetch()
-                if let fetchedObjects = fetchResultControllerback.fetchedObjects {
-                    beforeBackData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeBackData.count{
-      
-            formListBack.append(beforeBackData[x].name!)
-            trainBackText.append(beforeBackData[x].def!)
-            if let trainImage = beforeBrestData[x].image {
-                backImageform.append( UIImage(data: trainImage as Data)!)
-            }
-           
-        }
-        
-        print(formListBack)
-        // Fetch data from data store Abdomen
-        var fetchResultControllerabdomen: NSFetchedResultsController<AbdomenItem>!
-        
-        let fetchRequestabdomen: NSFetchRequest<AbdomenItem> = AbdomenItem.fetchRequest()
-        let sortDescriptorabdomen = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequestabdomen.sortDescriptors = [sortDescriptorabdomen]
-
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerabdomen = NSFetchedResultsController(fetchRequest: fetchRequestabdomen, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerabdomen.delegate = self
-
-            do {
-                try fetchResultControllerabdomen.performFetch()
-                if let fetchedObjects = fetchResultControllerabdomen.fetchedObjects {
-                    beforeAbdomenData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeAbdomenData.count{
-      
-            formListAbdomen.append(beforeAbdomenData[x].name!)
-            trainAbdomenText.append(beforeAbdomenData[x].def!)
-            if let trainImage = beforeAbdomenData[x].image {
-                abdomenImageform.append(UIImage(data: trainImage as Data)!)
-            }
-             
-        }
-        // Fetch data from data store Bottom
-        var fetchResultControllerbl: NSFetchedResultsController<BLItem>!
-        
-        let fetchRequestbl: NSFetchRequest<BLItem> = BLItem.fetchRequest()
-        let sortDescriptorbl = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequestbl.sortDescriptors = [sortDescriptorbl]
-
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerbl = NSFetchedResultsController(fetchRequest: fetchRequestbl, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerbl.delegate = self
-
-            do {
-                try fetchResultControllerbl.performFetch()
-                if let fetchedObjects = fetchResultControllerbl.fetchedObjects {
-                    beforeBLData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeBLData.count{
-      
-            formListBL.append(beforeBLData[x].name!)
-            trainBLText.append(beforeBLData[x].def!)
-            if let trainImage = beforeBLData[x].image {
-                blImageform.append(UIImage(data: trainImage as Data)!)
-            }
-            
-        }
-        // Fetch data from data store Exercise
-        var fetchResultControllerex: NSFetchedResultsController<ExerciseItem>!
-        
-        let fetchRequestexercise: NSFetchRequest<ExerciseItem> = ExerciseItem.fetchRequest()
-        let sortDescriptorexercise = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequestexercise.sortDescriptors = [sortDescriptorexercise]
-
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerex = NSFetchedResultsController(fetchRequest: fetchRequestexercise, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerex.delegate = self
-
-            do {
-                try fetchResultControllerex.performFetch()
-                if let fetchedObjects = fetchResultControllerex.fetchedObjects {
-                    beforeExerciseData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeExerciseData.count{
-      
-            formListEx.append(beforeExerciseData[x].name!)
-            trainExText.append(beforeExerciseData[x].def!)
-            if let trainImage = beforeExerciseData[x].image {
-                exerciseImageform.append(UIImage(data: trainImage as Data)!)
-            }
-        }
-    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         TrainPickerView.delegate = self
-        DefinitionTV.text = ""
+        definitionTV.text = ""
+        trainParametersTV.text = ""
         TrainPickerView.setValue(UIColor.white, forKey: "textColor")
-        homeImageViewGen()
+        self.db = Firestore.firestore()
+        let imageView = UIImageView(image: self.homeImage)
+        homeImageView = imageView
+        self.view.addSubview(homeImageView!)
+        homeImageView!.frame = CGRect(x: 106, y: 103, width: 163, height: 141)
+        homeImageView!.contentMode = .scaleAspectFit //把圖片縮在你指定的大小
+        homeImageView!.clipsToBounds = true
+        homeImageView!.translatesAutoresizingMaskIntoConstraints = false
+        homeImageView!.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        homeImageView!.topAnchor.constraint(equalTo: MainLabel.bottomAnchor, constant: 20).isActive = true
+        
         DefaultFormEditor()
         loadTheTrainList()
         
@@ -584,6 +449,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
     }
     
+    
+    
+    
+ 
   
     //MARK: Archiving
     func writeToFile()  {
@@ -873,8 +742,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     // 用於連結至下一個ViewController
     override func prepare (for segue: UIStoryboardSegue, sender:Any?){
         if segue.identifier == "seague_vc_to_NewTrainItemVC"{
-            let vc = segue.destination as! NewTrainingItemViewController
-            vc.str = "hello"
+        
         }
         else if segue.identifier == "seague_vc_to_ManageTrainSetVC"{
             
@@ -892,7 +760,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             if vc.trainingItem != "" {
 
 
-                newFormList.append(["A"])
+                newFormList.append([])
                 newFormListDef.append([])
 
                 newFormList[vc.trainLS-1].append(vc.trainingItem)
@@ -1026,8 +894,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             print(trainSetEachInterval)
             print(trainEachSetInterval)
             
-            DefaultFormEditor()
-            TrainPickerView.reloadAllComponents()
+            reloadTrainParameters()
         }
     }
   
@@ -1040,5 +907,159 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
 }
 
 extension TrainRecordHomeVC {
+    func loadTheTrainList(){
+  
+        // Fetch data from data store Brest
+        var fetchResultController: NSFetchedResultsController<BrestItem>
+        let fetchRequest: NSFetchRequest<BrestItem> = BrestItem.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
 
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+
+            do {
+                try fetchResultController.performFetch()
+                if let fetchedObjects = fetchResultController.fetchedObjects {
+                    beforeBrestData = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< beforeBrestData.count{
+      
+            formListBrest.append(beforeBrestData[x].name!)
+            trainBrestText.append(beforeBrestData[x].def!)
+            if let trainImage = beforeBrestData[x].image {
+                brestImageform.append( UIImage(data: trainImage as Data)!)
+            }
+
+       
+        }
+  
+        // Fetch data from data store Back
+        var fetchResultControllerback: NSFetchedResultsController<BackItem>!
+        
+        let fetchRequestback: NSFetchRequest<BackItem> = BackItem.fetchRequest()
+        let sortDescriptorback = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequestback.sortDescriptors = [sortDescriptorback]
+
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerback = NSFetchedResultsController(fetchRequest: fetchRequestback, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerback.delegate = self
+
+            do {
+                try fetchResultControllerback.performFetch()
+                if let fetchedObjects = fetchResultControllerback.fetchedObjects {
+                    beforeBackData = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< beforeBackData.count{
+      
+            formListBack.append(beforeBackData[x].name!)
+            trainBackText.append(beforeBackData[x].def!)
+            if let trainImage = beforeBrestData[x].image {
+                backImageform.append( UIImage(data: trainImage as Data)!)
+            }
+           
+        }
+        
+        print(formListBack)
+        // Fetch data from data store Abdomen
+        var fetchResultControllerabdomen: NSFetchedResultsController<AbdomenItem>!
+        
+        let fetchRequestabdomen: NSFetchRequest<AbdomenItem> = AbdomenItem.fetchRequest()
+        let sortDescriptorabdomen = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequestabdomen.sortDescriptors = [sortDescriptorabdomen]
+
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerabdomen = NSFetchedResultsController(fetchRequest: fetchRequestabdomen, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerabdomen.delegate = self
+
+            do {
+                try fetchResultControllerabdomen.performFetch()
+                if let fetchedObjects = fetchResultControllerabdomen.fetchedObjects {
+                    beforeAbdomenData = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< beforeAbdomenData.count{
+      
+            formListAbdomen.append(beforeAbdomenData[x].name!)
+            trainAbdomenText.append(beforeAbdomenData[x].def!)
+            if let trainImage = beforeAbdomenData[x].image {
+                abdomenImageform.append(UIImage(data: trainImage as Data)!)
+            }
+             
+        }
+        // Fetch data from data store Bottom
+        var fetchResultControllerbl: NSFetchedResultsController<BLItem>!
+        
+        let fetchRequestbl: NSFetchRequest<BLItem> = BLItem.fetchRequest()
+        let sortDescriptorbl = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequestbl.sortDescriptors = [sortDescriptorbl]
+
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerbl = NSFetchedResultsController(fetchRequest: fetchRequestbl, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerbl.delegate = self
+
+            do {
+                try fetchResultControllerbl.performFetch()
+                if let fetchedObjects = fetchResultControllerbl.fetchedObjects {
+                    beforeBLData = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< beforeBLData.count{
+      
+            formListBL.append(beforeBLData[x].name!)
+            trainBLText.append(beforeBLData[x].def!)
+            if let trainImage = beforeBLData[x].image {
+                blImageform.append(UIImage(data: trainImage as Data)!)
+            }
+            
+        }
+        // Fetch data from data store Exercise
+        var fetchResultControllerex: NSFetchedResultsController<ExerciseItem>!
+        
+        let fetchRequestexercise: NSFetchRequest<ExerciseItem> = ExerciseItem.fetchRequest()
+        let sortDescriptorexercise = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequestexercise.sortDescriptors = [sortDescriptorexercise]
+
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerex = NSFetchedResultsController(fetchRequest: fetchRequestexercise, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerex.delegate = self
+
+            do {
+                try fetchResultControllerex.performFetch()
+                if let fetchedObjects = fetchResultControllerex.fetchedObjects {
+                    beforeExerciseData = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< beforeExerciseData.count{
+      
+            formListEx.append(beforeExerciseData[x].name!)
+            trainExText.append(beforeExerciseData[x].def!)
+            if let trainImage = beforeExerciseData[x].image {
+                exerciseImageform.append(UIImage(data: trainImage as Data)!)
+            }
+        }
+    }
 }
