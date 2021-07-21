@@ -299,7 +299,11 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     @IBOutlet weak var TrainPickerView: UIPickerView!
     
 
-   
+    @IBAction func TrainDatePicker(_ sender: UIDatePicker) {
+    }
+    
+    @IBAction func BreakCounterBtn(_ sender: Any) {
+    }
     
     // MARK: firestore load Data
     func loadData(_ location: String) {
@@ -559,6 +563,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             for view in self.view.subviews{
                 view.isHidden = false
             }
+            self.homeImageView?.isHidden = true
         }
         
         
@@ -696,6 +701,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 for view in self.view.subviews{
                     view.isHidden = false
                 }
+                self.homeImageView?.isHidden = true
                 self.countDownCounter = 3
                 return
             }
