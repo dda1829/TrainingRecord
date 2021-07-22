@@ -13,14 +13,14 @@ class TimerUse {
     private var timer2 = Timer()
     private var timer3 = Timer()
     init() { }
-    func setTimer(_ Second: Double,_ toClass: Any, _ toDo: Selector,_ isRepeated: Bool, _ number: Int){
+    func setTimer(_ Second: Float,_ toClass: Any, _ toDo: Selector,_ isRepeated: Bool, _ number: Int){
         switch number {
         case 1:
-            timer = Timer.scheduledTimer(timeInterval: Second, target: toClass, selector: toDo, userInfo: nil, repeats: isRepeated)
+            timer = Timer.scheduledTimer(timeInterval: TimeInterval(Second), target: toClass, selector: toDo, userInfo: nil, repeats: isRepeated)
         case 2:
-            timer2 = Timer.scheduledTimer(timeInterval: Second, target: toClass, selector: toDo, userInfo: nil, repeats: isRepeated)
+            timer2 = Timer.scheduledTimer(timeInterval: TimeInterval(Second), target: toClass, selector: toDo, userInfo: nil, repeats: isRepeated)
         case 3:
-            timer3 = Timer.scheduledTimer(timeInterval: Second, target: toClass, selector: toDo, userInfo: nil, repeats: isRepeated)
+            timer3 = Timer.scheduledTimer(timeInterval: TimeInterval(Second), target: toClass, selector: toDo, userInfo: nil, repeats: isRepeated)
         default:
             print("Something wrong")
         }

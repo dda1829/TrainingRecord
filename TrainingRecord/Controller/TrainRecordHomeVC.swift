@@ -10,8 +10,8 @@ import UIKit
 import CoreData
 import Firebase
 
-class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate{
-   
+class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverPresentationControllerDelegate{
+    
     // MARK: CoreData for TrainItem's List
     var brestData : BrestItem!
     var backData : BackItem!
@@ -30,9 +30,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     // MARK: Train's setting
     var trainWeight : Int = 10
     var trainSet : Int = 2
-    var trainSetCount : Int = 1
+    var trainTimes : Int = 1
     var trainEachSetInterval : Int = 1
-    var trainSetEachInterval : Double = 1
+    var trainSetEachInterval : Float = 1
     
     
     
@@ -298,7 +298,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     @IBOutlet weak var TrainPickerView: UIPickerView!
     
-
+    
+    @IBOutlet weak var TrainDatePickerView: UIDatePicker!
+    
     @IBAction func TrainDatePicker(_ sender: UIDatePicker) {
     }
     
@@ -346,7 +348,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
     }
     func reloadTrainParameters(){
-        let textDefault : String = "訓練重量：\(trainWeight)kg。\n訓練組數：\(trainSet)組。\n每組次數：\(trainSetCount)下。\n每下間隔：\(trainSetEachInterval )秒。\n每組間隔：\(trainEachSetInterval)秒。"
+        let textDefault : String = "訓練重量：\(trainWeight)kg。\n訓練組數：\(trainSet)組。\n每組次數：\(trainTimes)下。\n每下間隔：\(trainSetEachInterval )秒。\n每組間隔：\(trainEachSetInterval)秒。"
         trainParametersTV.text = textDefault
     }
     
@@ -415,7 +417,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         homeImageView!.clipsToBounds = true
         homeImageView!.translatesAutoresizingMaskIntoConstraints = false
         homeImageView!.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        homeImageView!.topAnchor.constraint(equalTo: MainLabel.bottomAnchor, constant: 20).isActive = true
+        homeImageView!.bottomAnchor.constraint(equalTo: self.TrainPickerView.topAnchor, constant: -10).isActive = true
         
         DefaultFormEditor()
         loadTheTrainList()
@@ -603,7 +605,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 isPlay = true
             }else{
                 self.pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
-                TimerUse.share.setTimer(self.trainSetEachInterval, self, #selector(self.CountTimer),true,1)
+                TimerUse.share.setTimer(Float(Double(self.trainSetEachInterval)), self, #selector(self.CountTimer),true,1)
                 isPlay = false
             }
             
@@ -666,15 +668,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         countdownTV.isSelectable = false
         countdownTV.alwaysBounceHorizontal = true
 
-        print("sum = \(trainSet * trainSetCount)")
+        print("sum = \(trainSet * trainTimes)")
         print(countDownCounter)
         print(todayItem.trainTimes[recordTimesCount])
 //        print(2)
-        if countDownCounter == trainSetCount {
+        if countDownCounter == trainTimes {
 //            pauseAndplayImageButton.removeFromSuperview()
             countDownCounter = trainEachSetInterval
             TimerUse.share.stopTimer(1)
-            if todayItem.trainTimes[recordTimesCount] == trainSet * trainSetCount{
+            if todayItem.trainTimes[recordTimesCount] == trainSet * trainTimes{
                 // MARK: alert training over show the traintimes
                 let alertController = UIAlertController(title: "您完成了您所選擇的部位訓練。", message: "", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
@@ -752,9 +754,16 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         else if segue.identifier == "seague_vc_to_ManageTrainSetVC"{
             
-            
         }
+        segue.destination.preferredContentSize = CGSize(width: 200, height: 400)
+        segue.destination.popoverPresentationController?.delegate = self
+        
     }
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+        
+    }
+    
     var locationC : [Int] = [0,0,0,0,0,0]
     var formCounter = 0
     @IBAction func unwind(for segue: UIStoryboardSegue){
@@ -890,13 +899,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             let vc = segue.source as! ManageTrainSetVC
             trainWeight = vc.trainWeight
             trainSet = vc.trainSet
-            trainSetCount = vc.trainSetCount
+            trainTimes = vc.trainTimes
             trainSetEachInterval = vc.trainSetEachInterval
             trainEachSetInterval = vc.trainEachSetInterval
             
             print(trainWeight)
             print(trainSet)
-            print(trainSetCount)
+            print(trainTimes)
             print(trainSetEachInterval)
             print(trainEachSetInterval)
             
