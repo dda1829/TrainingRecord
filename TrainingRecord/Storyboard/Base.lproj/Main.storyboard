@@ -128,32 +128,56 @@
                                 <rect key="frame" x="16" y="373" width="343" height="254"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TrainRecordCell" id="RxL-YI-wIh">
-                                        <rect key="frame" x="0.0" y="24.5" width="343" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TrainRecordCell" textLabel="mtG-de-A5M" detailTextLabel="G3X-Ed-IdG" rowHeight="80" style="IBUITableViewCellStyleValue1" id="RxL-YI-wIh">
+                                        <rect key="frame" x="0.0" y="24.5" width="343" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RxL-YI-wIh" id="fW8-B5-8sr">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mtG-de-A5M">
+                                                    <rect key="frame" x="16" y="26" width="25" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="100" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G3X-Ed-IdG">
+                                                    <rect key="frame" x="213" y="26" width="114" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <string key="text">第1組 10 公斤 * 1 下
+第2組 10 公斤 * 1 下</string>
+                                                    <fontDescription key="fontDescription" name=".PingFangTC-Regular" family=".PingFang TC" pointSize="13"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNF-8N-Dkw">
-                                <rect key="frame" x="65" y="610" width="64" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="MIt-0g-KQd">
+                                <rect key="frame" x="256" y="627" width="103" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="103" id="9E7-Gw-H9j"/>
+                                    <constraint firstAttribute="height" constant="35" id="EjH-Nd-uQN"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="TrainDatePicker:" destination="BYZ-38-t0r" eventType="valueChanged" id="hxf-xi-ziB"/>
+                                </connections>
+                            </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNF-8N-Dkw">
+                                <rect key="frame" x="77" y="639" width="64" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="htn-yF-9CT"/>
+                                    <constraint firstAttribute="width" constant="64" id="nhN-t0-Nie"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="test:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0xB-e5-96t"/>
                                 </connections>
                             </button>
-                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="MIt-0g-KQd">
-                                <rect key="frame" x="256" y="626" width="101" height="31"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="TrainDatePicker:" destination="BYZ-38-t0r" eventType="valueChanged" id="hxf-xi-ziB"/>
-                                </connections>
-                            </datePicker>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -162,10 +186,16 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5l8-n7-G92" secondAttribute="bottom" constant="10" id="20I-wB-f9p"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RJB-eR-AVK" secondAttribute="trailing" constant="16" id="2PN-Ws-j5x"/>
                             <constraint firstItem="nIS-gp-DlZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="6QZ-gL-pWZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rNF-8N-Dkw" secondAttribute="bottom" constant="10" id="BGm-xp-96G"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ARs-7t-36B" secondAttribute="trailing" constant="16" id="Cjz-pI-DXg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MIt-0g-KQd" secondAttribute="bottom" constant="5" id="ERQ-er-iJ8"/>
+                            <constraint firstItem="gfq-nh-KtU" firstAttribute="top" secondItem="ARs-7t-36B" secondAttribute="bottom" id="EY3-j7-H7Q"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nIS-gp-DlZ" secondAttribute="trailing" constant="16" id="FoO-W7-A8L"/>
                             <constraint firstItem="Nfm-vP-5wa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="KPs-sb-1jq"/>
+                            <constraint firstItem="gfq-nh-KtU" firstAttribute="top" secondItem="ARs-7t-36B" secondAttribute="bottom" id="N4A-N3-eGU"/>
                             <constraint firstItem="ARs-7t-36B" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RVJ-8N-3WS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MIt-0g-KQd" secondAttribute="trailing" constant="16" id="Tdy-hL-ym3"/>
+                            <constraint firstItem="MIt-0g-KQd" firstAttribute="leading" secondItem="gfq-nh-KtU" secondAttribute="trailing" constant="53" id="Ypw-HF-eBM"/>
                             <constraint firstItem="gxM-L5-SGT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="ZKn-fJ-UkO"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="boJ-Ur-Dsd"/>
                             <constraint firstItem="7jb-3j-wrG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="cjN-Er-H89"/>
@@ -197,6 +227,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="RecordListTV" destination="ARs-7t-36B" id="Uxh-VZ-Aas"/>
                         <outlet property="TrainDatePickerView" destination="MIt-0g-KQd" id="tXS-7w-xKM"/>
                         <outlet property="TrainPickerView" destination="nIS-gp-DlZ" id="Iku-k8-UHz"/>
                         <outlet property="definitionTV" destination="7jb-3j-wrG" id="MJn-Zh-3E6"/>
@@ -677,9 +708,6 @@
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <systemColor name="separatorColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

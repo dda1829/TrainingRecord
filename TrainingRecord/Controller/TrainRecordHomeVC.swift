@@ -83,12 +83,21 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     let stopImageButton = UIButton()
     var countDownCounter = 3
     var trainIsStart = false
-    var data : [RecordItem] = []
+    var data : [String: RecordItem] = [:]
     var trainToday = ""
     
     
     //MARK: firebase firestore used
     var db: Firestore!
+    
+    //MARK: Variable made for record list
+    var recordLocation = ""
+    var recordLocationItem = ""
+    var recordDataList: [String:[RecordItem]]?
+    var recordListString = ""
+    var recordsort: [[Int]] = []
+    
+    
     
     @IBOutlet weak var MainLabel: UILabel!
 
@@ -299,9 +308,24 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     @IBOutlet weak var TrainPickerView: UIPickerView!
     
     
+    @IBOutlet weak var RecordListTV: UITableView!
     @IBOutlet weak var TrainDatePickerView: UIDatePicker!
     
+    
+    var dateRecord : String = ""
+    
+    
     @IBAction func TrainDatePicker(_ sender: UIDatePicker) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        
+        dateRecord = dateFormatter.string(from: sender.date)
+        RecordListTV.reloadData()
+        print(dateRecord)
+        
     }
     
     @IBAction func BreakCounterBtn(_ sender: Any) {
@@ -348,7 +372,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
     }
     func reloadTrainParameters(){
-        let textDefault : String = "訓練重量：\(trainWeight)kg。\n訓練組數：\(trainSet)組。\n每組次數：\(trainTimes)下。\n每下間隔：\(trainSetEachInterval )秒。\n每組間隔：\(trainEachSetInterval)秒。"
+        let textDefault : String = "訓練重量：\(trainWeight)kg。\n此組次數：\(trainTimes)下。\n每下間隔：\(Float(Int(trainSetEachInterval*10))/10 )秒。"
         trainParametersTV.text = textDefault
     }
     
@@ -425,13 +449,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
         
         
-        
         // MARK: 先把資料抓出來確認是否為今天的資料，若為今天的資料便將資料存回今日，或非則將資料改至明日。
         loadFromFile()
         print(data)
-        if let item = data.last {
-            todayItem = item
-        }
+    
         
         // MARK: Save today's date
         let nowDate = Date()
@@ -439,23 +460,21 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
-        let trainToday = dateFormatter.string(from: nowDate)
+        trainToday = dateFormatter.string(from: nowDate)
         print(trainToday)
+        dateRecord = trainToday
         // MARK: Build a new todayItem, to check if it isn't a new today's item
-        if todayItem.trainDate == " " {
-            todayItem = RecordItem(trainToday, [], [])
-        }else if todayItem.trainDate != trainToday{
-//            todayItem = RecordItem(trainToday, <#T##traindateyesterday: String##String#>, [0], [])
-            todayItem = RecordItem(trainToday, [], [])
-        }
-        print(todayItem.trainDate, todayItem.trainTimes, todayItem.trainLocation)
-        if todayItem.trainTimes.count != 0 {
-        recordTimesCount = todayItem.trainTimes.count - 1
-        }
+        todayItem = RecordItem(trainToday,[:] ,[:], [], [:],[:])
+        data.updateValue(todayItem!, forKey: trainToday)
+        print(trainToday)
+        print(data)
         
     }
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        self.RecordListTV.dataSource = self
+        self.RecordListTV.delegate = self
+    }
     
     
  
@@ -483,17 +502,19 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         //載入成Data（二進位資料)
               let data =  try Data(contentsOf: filePath)
                 //把資料轉成[Note]
-              if let arrayData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [RecordItem]{
+            if let arrayData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String:RecordItem]{
                 self.data = arrayData//轉成功就放到self.data裏
               }
         } catch  {
             print("error while fetching data array \(error)")
-            self.data = []//有任何錯誤,空陣列
+            self.data = [:]//有任何錯誤,空陣列
         }
     }
     // MARK: Save Archiving after click the checklist button
-    var todayItem = RecordItem(" ",[], [])
-    var recordTimesCount = 0
+    var todayItem : RecordItem?
+    var recordTimesCount: [[Int]:Int] = [:]
+    var checkmatrix : [[Int]:[Int]] = [:]
+    var checkcount = 0
     // MARK: Start the Record
     @IBAction func trainStart(_ sender: UIButton) {
         print(trainLS)
@@ -513,12 +534,38 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         TimerUse.share.setTimer(1,self, #selector(CountDown), true,1)
         TimerUse.share.setTimer(4, self, #selector(CountTimeStart), false,2)
         
-        
-        todayItem.trainLocation.append(trainLS)
-        
-        todayItem.trainTimes.append(0)
 
+        todayItem!.trainLocationSort.append(trainLS)
+        todayItem!.trainLocation.updateValue(trainLS, forKey: trainLS)
         
+        if let value = todayItem!.trainSet[trainLS] {
+            todayItem!.trainSet[trainLS]! += 1
+            print("add new value \(value)")
+        }else {
+            todayItem!.trainSet.updateValue(1, forKey: trainLS)
+            print(todayItem!.trainSet)
+        }
+        if let value = todayItem!.trainTimes[trainLS] {
+            todayItem!.trainTimes[trainLS]!.append(0)
+            print("add new value \(value)")
+        }else {
+            todayItem!.trainTimes.updateValue([0], forKey: trainLS)
+            print(todayItem!.trainTimes)
+        }
+        if let value = todayItem!.trainWeight[trainLS] {
+            todayItem!.trainWeight[trainLS]!.append(trainWeight)
+            print("add new value \(value)")
+        }else {
+            todayItem!.trainWeight.updateValue([trainWeight], forKey: trainLS)
+            print(todayItem!.trainWeight)
+        }
+        if let value = recordTimesCount[trainLS]{
+            recordTimesCount[trainLS]! += 1
+            print("add RecordTimesCount \(value)")
+        }else {
+            recordTimesCount.updateValue(1, forKey: trainLS)
+            print(recordTimesCount[trainLS]!)
+        }
        
         let stopTrainBegin = UIAction(title: "stopTrainBegin"){(action) in
             self.stopImageButton.removeFromSuperview()
@@ -529,38 +576,38 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.countDownCounter = 3
             
             // MARK: build an alert activity to check the data if you want to record
-            if self.todayItem.trainTimes[self.recordTimesCount] != 0 {
-                let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值", message: "", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-                    print("OK")
-                    let alertController = UIAlertController(title: "您完成了\(self.todayItem.trainTimes[self.recordTimesCount])次了！", message: "", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-                        print("OK")
-                        self.recordTimesCount += 1
-                        if let item = self.data.last {
-                            if item.trainDate == self.trainToday {
-                                self.data[self.data.endIndex] = self.todayItem
-                            }else{
-                                self.data.append(self.todayItem)
-                            }
-                            self.writeToFile()
-                        }else{
-                            self.data.append(self.todayItem)
-                            self.writeToFile()
-                        }
-                        }
-                    alertController.addAction(okAction)
-                    
-                    self.present(alertController, animated: true, completion: nil)
-                }
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-                    print("Cancel")
-                    self.todayItem.trainTimes[self.recordTimesCount] = 0
-                }
-                alertController.addAction(okAction)
-                alertController.addAction(cancelAction)
-                self.present(alertController, animated: true, completion: nil)
-            }
+//            if self.todayItem.trainTimes[self.recordTimesCount] != 0 {
+//                let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值", message: "", preferredStyle: .alert)
+//                let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+//                    print("OK")
+//                    let alertController = UIAlertController(title: "您完成了\(self.todayItem.trainTimes[self.recordTimesCount])次了！", message: "", preferredStyle: .alert)
+//                    let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+//                        print("OK")
+//                        self.recordTimesCount += 1
+//                        if let item = self.data.last {
+//                            if item.trainDate == self.trainToday {
+//                                self.data[self.data.endIndex] = self.todayItem
+//                            }else{
+//                                self.data.append(self.todayItem)
+//                            }
+//                            self.writeToFile()
+//                        }else{
+//                            self.data.append(self.todayItem)
+//                            self.writeToFile()
+//                        }
+//                        }
+//                    alertController.addAction(okAction)
+//
+//                    self.present(alertController, animated: true, completion: nil)
+//                }
+//                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+//                    print("Cancel")
+//                    self.todayItem.trainTimes[self.recordTimesCount] = 0
+//                }
+//                alertController.addAction(okAction)
+//                alertController.addAction(cancelAction)
+//                self.present(alertController, animated: true, completion: nil)
+//            }
             
             for view in self.view.subviews{
                 view.isHidden = false
@@ -655,48 +702,42 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     
     @IBAction func test(_ sender: Any) {
-        print(todayItem.trainDate,todayItem.trainLocation,todayItem.trainTimes)
+
         print(data)
         
     }
     @objc func CountTimer(){
         countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
-        
+
         countdownTV.textAlignment = .center
         countdownTV.textColor = .red
         countdownTV.isEditable = false
         countdownTV.isSelectable = false
         countdownTV.alwaysBounceHorizontal = true
 
-        print("sum = \(trainSet * trainTimes)")
+        print("sum = \(trainTimes)")
         print(countDownCounter)
-        print(todayItem.trainTimes[recordTimesCount])
-//        print(2)
+        print(todayItem!.trainTimes[trainLS])
+
         if countDownCounter == trainTimes {
-//            pauseAndplayImageButton.removeFromSuperview()
+
             countDownCounter = trainEachSetInterval
             TimerUse.share.stopTimer(1)
-            if todayItem.trainTimes[recordTimesCount] == trainSet * trainTimes{
+            
                 // MARK: alert training over show the traintimes
-                let alertController = UIAlertController(title: "您完成了您所選擇的部位訓練。", message: "", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "您完成了\(fitRecordLocation(trainLS))部位的\(fitRecordLocationItem(trainLS))訓練。", message: "", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                     print("OK")
+                    self.data = [self.trainToday: self.todayItem!]
+                    print(self.trainToday)
+                    print(self.data)
+                    self.self.RecordListTV.reloadData()
+                    self.writeToFile()
                 }
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
-                if let item = self.data.last {
-                    if item.trainDate == trainToday {
-                        self.data[self.data.endIndex] = self.todayItem
-                    }else{
-                        self.data.append(self.todayItem)
-                    }
-                    self.writeToFile()
-                }else{
-                    self.data.append(self.todayItem)
-                    self.writeToFile()
-                }
-                print(todayItem.trainTimes)
-                recordTimesCount += 1
+                
+                print(todayItem!.trainTimes)
                 stopImageButton.removeFromSuperview()
                 self.pauseAndplayImageButton.removeFromSuperview()
                 self.countdownTV.removeFromSuperview()
@@ -705,18 +746,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 }
                 self.homeImageView?.isHidden = true
                 self.countDownCounter = 3
-                return
-            }
-            countdownTV.text = "\(countDownCounter)"
-            countdownTV.textColor = .green
-            countDownCounter -= 1
-            TimerUse.share.setTimer(1,self, #selector(CountTimeBreak), true,1)
-            
+
             return
         }
         countDownCounter += 1
         countdownTV.text = "\(countDownCounter)"
-        todayItem.trainTimes[recordTimesCount] += 1
+        todayItem!.trainTimes[trainLS]![todayItem!.trainSet[trainLS]!-1] += 1
     }
     
     @objc func CountTimeBreak (){
@@ -908,14 +943,17 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             print(trainTimes)
             print(trainSetEachInterval)
             print(trainEachSetInterval)
+            if homeImageView?.isHidden == true {
+                reloadTrainParameters()
+            }
             
-            reloadTrainParameters()
         }
     }
   
     override func viewWillDisappear(_ animated: Bool) {
         print("a")
-        data.append(todayItem)
+        
+        data.updateValue(todayItem!, forKey: trainToday)
         writeToFile()
     }
     
@@ -1078,3 +1116,166 @@ extension TrainRecordHomeVC {
         }
     }
 }
+
+
+extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate {
+    
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "\(todayItem!.trainDate)"
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if data[dateRecord] != nil {
+            return (data[dateRecord]?.trainLocation.count)!
+        }
+        return 0
+    }
+    
+
+    func recordStringGen (_ traindate : String) -> [String]{
+        var result: [String] = []
+
+        
+        if data[traindate] != nil {
+            print(data[traindate]!.trainLocation)
+
+            var wantDeletenumber: [Int] = []
+            let location = data[traindate]!.trainLocation
+            let locationsort = data[traindate]!.trainLocationSort
+            var target : [[Int]] = []
+            for x in locationsort {
+                
+                if !target.contains(x) {
+                target.append(x)
+                }
+                    
+                
+            }
+            
+            
+            
+            
+            for trainlocation in target{
+                let recordstringdefault = "第\(1)組 \(data[traindate]!.trainWeight[trainlocation]![0]) 公斤 * \( data[traindate]!.trainTimes[trainlocation]![0]) 下"
+            recordListString = recordstringdefault
+            for itemSetCount in 1 ..< (data[traindate]?.trainSet[trainlocation])! {
+                let y = itemSetCount + 1
+                recordListString += "\n第\(y)組 \(data[traindate]!.trainWeight[trainlocation]![itemSetCount]) 公斤 * \(data[traindate]!.trainTimes[trainlocation]![itemSetCount]) 下"
+                
+            }
+                result.append(recordListString)
+                recordsort.append(trainlocation)
+            }
+        }
+        
+        
+        print("record String result = \(result)")
+        
+        return result
+        
+        
+        
+    }
+    
+    
+    
+    func recordLocationStringGen (_ traindate: String) -> [String] {
+        var result: [String] = []
+        var locationString = ""
+        for x in recordsort {
+          locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
+            result.append(locationString)
+        }
+        recordsort = []
+        print("record location result = \(result)")
+        return result
+    }
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TrainRecordCell" ,for: indexPath)
+        print("tableview dateRecord = \(dateRecord)")
+        if data[dateRecord] != nil {
+
+            print("data is not nil")
+            let detailLabelText = recordStringGen(dateRecord)[indexPath.row]
+            let labelText = recordLocationStringGen(dateRecord)[indexPath.row]
+            print(detailLabelText)
+            print(labelText)
+            cell.textLabel?.text =  labelText
+            cell.detailTextLabel?.text = detailLabelText
+                cell.showsReorderControl = true
+            
+            
+            
+            
+            
+        }
+            
+        
+        return cell
+    }
+    
+    
+    func fitRecordLocation(_ locationdata: [Int]) -> String{
+        switch locationdata[0] {
+        case 1:
+            return formListLocation[1]
+        case 2:
+            return formListLocation[2]
+        case 3:
+            return formListLocation[3]
+        case 4:
+            return formListLocation[4]
+        case 5:
+            return formListLocation[5]
+        case 6:
+            return formListLocation[6]
+        default:
+            return ""
+        }
+    }
+    func fitRecordLocationItem(_ locationdata: [Int])  -> String {
+        switch locationdata[0] {
+        case 1:
+            print(locationdata[1])
+            print(formListBrest)
+            return formListBrest[locationdata[1]]
+        case 2:
+            print(locationdata[1])
+            print(formListBack)
+            return formListBack[locationdata[1]]
+        case 3:
+            print(locationdata[1])
+            print(formListBL)
+            return formListBL[locationdata[1]]
+        case 4:
+            print(locationdata[1])
+            print(formListAbdomen)
+            return formListAbdomen[locationdata[1]]
+        case 5:
+            print(locationdata[1])
+            print(formListArm)
+            return formListArm[locationdata[1]]
+        case 6:
+            print(locationdata[1])
+            print(formListEx)
+            return formListEx[locationdata[1]]
+        default:
+            print(locationdata[1])
+            print(formListBack)
+            return ""
+        }
+    }
+    
+}
+
