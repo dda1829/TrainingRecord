@@ -11,12 +11,16 @@ class TrainingItem {
     var itemDef: String?
     var itemImage: String?
     var itemID: String
+    var itemNumber: String?
     init() {
         itemID = UUID().uuidString
-  
     }
-    
+}
 
-    
-    
+class InfoItemForFireStore {
+    var ItemID: String
+    var ItemContent: String?
+    init(){
+        ItemID = UUID().uuidString
+    }
 }

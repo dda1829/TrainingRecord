@@ -157,16 +157,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="MIt-0g-KQd">
-                                <rect key="frame" x="256" y="627" width="103" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="103" id="9E7-Gw-H9j"/>
-                                    <constraint firstAttribute="height" constant="35" id="EjH-Nd-uQN"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="TrainDatePicker:" destination="BYZ-38-t0r" eventType="valueChanged" id="hxf-xi-ziB"/>
-                                </connections>
-                            </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNF-8N-Dkw">
                                 <rect key="frame" x="77" y="639" width="64" height="18"/>
                                 <constraints>
@@ -178,6 +168,16 @@
                                     <action selector="test:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0xB-e5-96t"/>
                                 </connections>
                             </button>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="MIt-0g-KQd">
+                                <rect key="frame" x="243" y="626" width="150" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="EjH-Nd-uQN"/>
+                                    <constraint firstAttribute="width" constant="150" id="xBX-p8-qdj"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="TrainDatePicker:" destination="BYZ-38-t0r" eventType="valueChanged" id="hxf-xi-ziB"/>
+                                </connections>
+                            </datePicker>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -188,18 +188,17 @@
                             <constraint firstItem="nIS-gp-DlZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="6QZ-gL-pWZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rNF-8N-Dkw" secondAttribute="bottom" constant="10" id="BGm-xp-96G"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ARs-7t-36B" secondAttribute="trailing" constant="16" id="Cjz-pI-DXg"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MIt-0g-KQd" secondAttribute="bottom" constant="5" id="ERQ-er-iJ8"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="top" secondItem="ARs-7t-36B" secondAttribute="bottom" id="EY3-j7-H7Q"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nIS-gp-DlZ" secondAttribute="trailing" constant="16" id="FoO-W7-A8L"/>
                             <constraint firstItem="Nfm-vP-5wa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="KPs-sb-1jq"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="top" secondItem="ARs-7t-36B" secondAttribute="bottom" id="N4A-N3-eGU"/>
                             <constraint firstItem="ARs-7t-36B" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RVJ-8N-3WS"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MIt-0g-KQd" secondAttribute="trailing" constant="16" id="Tdy-hL-ym3"/>
-                            <constraint firstItem="MIt-0g-KQd" firstAttribute="leading" secondItem="gfq-nh-KtU" secondAttribute="trailing" constant="53" id="Ypw-HF-eBM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MIt-0g-KQd" secondAttribute="bottom" constant="6" id="XGc-e7-fKT"/>
                             <constraint firstItem="gxM-L5-SGT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="ZKn-fJ-UkO"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="boJ-Ur-Dsd"/>
                             <constraint firstItem="7jb-3j-wrG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="cjN-Er-H89"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zs6-W4-NQA" secondAttribute="trailing" constant="16" id="eku-Rp-AoT"/>
+                            <constraint firstItem="MIt-0g-KQd" firstAttribute="leading" secondItem="gfq-nh-KtU" secondAttribute="trailing" constant="40" id="gXO-nA-bQH"/>
                             <constraint firstItem="ARs-7t-36B" firstAttribute="top" secondItem="RJB-eR-AVK" secondAttribute="bottom" constant="10" id="k65-TP-VSf"/>
                             <constraint firstItem="Nfm-vP-5wa" firstAttribute="top" secondItem="nIS-gp-DlZ" secondAttribute="bottom" constant="10" id="nP3-Na-8UN"/>
                             <constraint firstItem="gxM-L5-SGT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="nsd-Dr-xuR"/>
