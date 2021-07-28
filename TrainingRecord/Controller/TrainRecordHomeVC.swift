@@ -53,12 +53,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     let armmachine = UIImage(named: "armmachine")
     let runmachine = UIImage(named: "runmachine")
     var homeImageView : UIImageView?
-    var brestImageform : [UIImage] = []
-    var backImageform : [UIImage] = []
-    var blImageform : [UIImage] =  []
-    var abdomenImageform : [UIImage] = []
-    var armImageform : [UIImage] = []
-    var exerciseImageform : [UIImage] = []
+    var brestImageform : [UIImage] = [UIImage(named: "nocolor")!]
+    var backImageform : [UIImage] = [UIImage(named: "nocolor")!]
+    var blImageform : [UIImage] =  [UIImage(named: "nocolor")!]
+    var abdomenImageform : [UIImage] = [UIImage(named: "nocolor")!]
+    var armImageform : [UIImage] = [UIImage(named: "nocolor")!]
+    var exerciseImageform : [UIImage] = [UIImage(named: "nocolor")!]
     // MARK: TrainItem's list
     var formListLocation : [String] = ["運動部位", "肩胸部","背部", "臀腿部", "核心", "手臂","有氧運動"]
     var formListBrest : [String] = [ "訓練項目"]
@@ -397,32 +397,32 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 item.itemID = document.documentID
                 switch location{
                 case "BrestShoulder":
-                    if !self.formListBrest.contains(item.itemName!) && !self.trainBrestText.contains(item.itemDef!){
+                    if !self.formListBrest.contains(item.itemName!){
                     self.formListBrest.append(item.itemName!)
                     self.trainBrestText.append(item.itemDef!)
                     }
                 case "BottomLap":
-                    if !self.formListBL.contains(item.itemName!) && !self.trainBackText.contains(item.itemDef!){
+                    if !self.formListBL.contains(item.itemName!){
                     self.formListBL.append(item.itemName!)
                     self.trainBLText.append(item.itemDef!)
                     }
                 case "Arm":
-                    if !self.formListArm.contains(item.itemName!) && !self.trainArmText.contains(item.itemDef!){
+                    if !self.formListArm.contains(item.itemName!){
                     self.formListArm.append(item.itemName!)
                     self.trainArmText.append(item.itemDef!)
                     }
                 case "Back":
-                    if !self.formListBack.contains(item.itemName!) && !self.trainBackText.contains(item.itemDef!){
+                    if !self.formListBack.contains(item.itemName!){
                     self.formListBack.append(item.itemName!)
                     self.trainBackText.append(item.itemDef!)
                     }
                 case "Abdomen":
-                    if !self.formListAbdomen.contains(item.itemName!) && !self.trainAbdomenText.contains(item.itemDef!){
+                    if !self.formListAbdomen.contains(item.itemName!){
                     self.formListAbdomen.append(item.itemName!)
                         self.trainAbdomenText.append(item.itemDef!)
                     }
                 case "Exercise":
-                    if !self.formListEx.contains(item.itemName!) && !self.trainExText.contains(item.itemDef!){
+                    if !self.formListEx.contains(item.itemName!){
                     self.formListEx.append(item.itemName!)
                         self.trainExText.append(item.itemDef!)
                     }
@@ -439,33 +439,58 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         trainParametersTV.text = textDefault
     }
     
+    func DownLoadTrainingItemImage(_ documentname: String, _ filename: String) {
+        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
+        let docUrl = homeUrl.appendingPathComponent("Documents")
+        let doc2Url = docUrl.appendingPathComponent(documentname)
+        let fileUrl = doc2Url.appendingPathComponent(filename)
+        
+        let storageRef = Storage.storage(url: "gs://trainingrecord-ad7d7.appspot.com/").reference()
+        let imageRef = storageRef.child("\(documentname)/\(filename)")
+        imageRef.write(toFile: fileUrl) { (url,error) in
+            if let e = error {
+                print( "error \(e)")
+            } else {
+                switch documentname {
+                case "BrestShoulder":
+                    self.brestImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
+                case "Back":
+                    self.backImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
+                case "Abdomen":
+                    self.abdomenImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
+                case "Arm":
+                    self.armImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
+                case "BottomLap":
+                    self.blImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
+                case "Exercise":
+                    self.exerciseImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
+                default:
+                    print("wrong type")
+                }
+                
+            }
+        }
+    }
+    
+    
     func DefaultFormEditor(){
         loadData("Info")
         if formListBrest.count == 1{
-        loadData("BrestShoulder")
-        loadData("BottomLap")
-        loadData("Arm")
-        loadData("Back")
-        loadData("Abdomen")
-        loadData("Exercise")
-        infodatainside?.append("a")
+            let trainLocationLoading : [String] = ["BrestShoulder","Back","Abdomen","Arm","BottomLap","Exercise"]
+            for x in trainLocationLoading{
+                loadData(x)
+            }
         }
 
-        brestImageform.append(noColor!)
         brestImageform.append(BrestPush)
-        backImageform.append(noColor!)
         backImageform.append(backPull!)
         backImageform.append(seatingRow!)
         backImageform.append(barbell!)
         backImageform.append(dumbbell!)
         backImageform.append(backmachine!)
-        abdomenImageform.append(noColor!)
         abdomenImageform.append(absmachine!)
-        armImageform.append(noColor!)
         armImageform.append(armmachine!)
-        blImageform.append(noColor!)
         blImageform.append(halfrack!)
-        exerciseImageform.append(noColor!)
         exerciseImageform.append(runmachine!)
         
         
@@ -687,18 +712,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
         NSLayoutConstraint(item: stopImageButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.7, constant: 1).isActive = true
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        //        for view in self.view.subviews{
-        //            view.isHidden = false
-        //        }
     }
     
     

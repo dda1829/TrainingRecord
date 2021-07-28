@@ -157,17 +157,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNF-8N-Dkw">
-                                <rect key="frame" x="77" y="639" width="64" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="htn-yF-9CT"/>
-                                    <constraint firstAttribute="width" constant="64" id="nhN-t0-Nie"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="test:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0xB-e5-96t"/>
-                                </connections>
-                            </button>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="MIt-0g-KQd">
                                 <rect key="frame" x="243" y="626" width="150" height="35"/>
                                 <constraints>
@@ -178,15 +167,27 @@
                                     <action selector="TrainDatePicker:" destination="BYZ-38-t0r" eventType="valueChanged" id="hxf-xi-ziB"/>
                                 </connections>
                             </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNF-8N-Dkw">
+                                <rect key="frame" x="73" y="634" width="64" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="htn-yF-9CT"/>
+                                    <constraint firstAttribute="width" constant="64" id="nhN-t0-Nie"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="test:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0xB-e5-96t"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rNF-8N-Dkw" secondAttribute="bottom" constant="15" id="0vO-BB-SGN"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="top" secondItem="ARs-7t-36B" secondAttribute="bottom" id="10g-k0-kKO"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5l8-n7-G92" secondAttribute="bottom" constant="10" id="20I-wB-f9p"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RJB-eR-AVK" secondAttribute="trailing" constant="16" id="2PN-Ws-j5x"/>
+                            <constraint firstItem="gfq-nh-KtU" firstAttribute="leading" secondItem="rNF-8N-Dkw" secondAttribute="trailing" constant="35" id="6Pv-az-Bh8"/>
                             <constraint firstItem="nIS-gp-DlZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="6QZ-gL-pWZ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rNF-8N-Dkw" secondAttribute="bottom" constant="10" id="BGm-xp-96G"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ARs-7t-36B" secondAttribute="trailing" constant="16" id="Cjz-pI-DXg"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="top" secondItem="ARs-7t-36B" secondAttribute="bottom" id="EY3-j7-H7Q"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nIS-gp-DlZ" secondAttribute="trailing" constant="16" id="FoO-W7-A8L"/>
