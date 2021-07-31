@@ -8,11 +8,17 @@
 import UIKit
 
 class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewAccessibilityDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    var str : String?
+    
+    //MARK: parameters for demonstration
     var trainingItem : String = ""
     var trainingItemDef : String = ""
     var trainLS = 0
     var formListLocation : [String] = ["運動部位", "肩胸部", "背部" ,"臀腿部", "腹部", "手臂","有氧運動"]
+    let manager = FileManager.default
+    var imageURL : URL?
+    var imageString : String?
+
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
             return 1
     }
@@ -45,8 +51,6 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
                
             case 3:
                 trainLS = 3
-
-               
             case 4:
                 trainLS = 4
             case 5:
@@ -69,9 +73,7 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         addTrainingItemPV.setValue(UIColor.white, forKey: "textColor")
         TrainingItemD.delegate = self
         TrainingItemDefD.delegate = self
-        if let str = str {
-            print(str)
-        }
+        
         
     }
     
@@ -97,11 +99,21 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         show(imagePickerVC,sender :self)
     }
     
+    @IBAction func backBtn(_ sender: UIBarButtonItem) {
+        try? manager.removeItem(atPath: imageURL!.absoluteString)
+    }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
       ///關閉ImagePickerController
       picker.dismiss(animated: true, completion: nil)
       if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-        
+        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
+        let docUrl = homeUrl.appendingPathComponent("Documents")
+        let doc2Url = docUrl.appendingPathComponent(fitRecordLocation(trainLS))
+        let fileName = UUID().uuidString
+        let fileUrl = doc2Url.appendingPathComponent(fileName)
+        imageString = "Documents/\(fitRecordLocation(trainLS))/\(fileName)"
+        imageURL = fileUrl
+        manager.createFile(atPath: fileUrl.absoluteString, contents: info[UIImagePickerController.InfoKey.originalImage] as? Data, attributes: nil)
         ///取得使用者選擇的圖片
         imageView.image = image
        
@@ -112,7 +124,25 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
       ///關閉ImagePickerController
       picker.dismiss(animated: true, completion: nil)
     }
-  
+    func fitRecordLocation(_ locationdata: Int) -> String{
+        let trainLocationLoading : [String] = ["BrestShoulder","Back","BottomLap","Abdomen","Arm","Exercise"]
+        switch locationdata {
+        case 1:
+            return trainLocationLoading[1]
+        case 2:
+            return trainLocationLoading[2]
+        case 3:
+            return trainLocationLoading[3]
+        case 4:
+            return trainLocationLoading[4]
+        case 5:
+            return trainLocationLoading[5]
+        case 6:
+            return trainLocationLoading[6]
+        default:
+            return ""
+        }
+    }
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {

@@ -53,7 +53,13 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         // 註冊tab事件，點選瑩幕任一處可關閉瑩幕小鍵盤
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tap)
+        let notificationName = Notification.Name("GetUpdateNoti")
+           NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
         
+    }
+    @objc func getUpdateNoti(noti:Notification) {
+        trainUnit = noti.userInfo!["trainUnit"] as! String
+       
     }
     // 關閉瑩幕小鍵盤
     @objc func dismissKeyboard() {

@@ -15,6 +15,7 @@
 		DC62BC1926A806F700B245F6 /* InfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */; };
 		DC7D8870266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */; };
 		DC94415126A424E500A4A3ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC94415026A424E500A4A3ED /* GoogleService-Info.plist */; };
+		DCA2CA5D26B5453900D29E40 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA2CA5C26B5453900D29E40 /* SignInViewController.swift */; };
 		DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13A26529D290040DFA8 /* AppDelegate.swift */; };
 		DCC7D13D26529D290040DFA8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */; };
 		DCC7D13F26529D290040DFA8 /* TrainRecordHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */; };
@@ -36,6 +37,7 @@
 		DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewController.swift; sourceTree = "<group>"; };
 		DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrainingItem+InfoitemForFireStore.swift"; sourceTree = "<group>"; };
 		DC94415026A424E500A4A3ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DCA2CA5C26B5453900D29E40 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		DCC7D13726529D290040DFA8 /* TrainingRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCC7D13A26529D290040DFA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				DCF123AD2655011F00CB9307 /* NewTrainingItemViewController.swift */,
+				DCA2CA5C26B5453900D29E40 /* SignInViewController.swift */,
 				DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */,
 				DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */,
 				DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */,
@@ -265,6 +268,7 @@
 				DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */,
 				DCC7D14526529D290040DFA8 /* TrainingRecord.xcdatamodeld in Sources */,
 				DCC7D13D26529D290040DFA8 /* SceneDelegate.swift in Sources */,
+				DCA2CA5D26B5453900D29E40 /* SignInViewController.swift in Sources */,
 				DC62BC1926A806F700B245F6 /* InfoTableViewController.swift in Sources */,
 				DCF123AE2655011F00CB9307 /* NewTrainingItemViewController.swift in Sources */,
 				DC00C5DF2685DFAF00161DBA /* Timer.swift in Sources */,

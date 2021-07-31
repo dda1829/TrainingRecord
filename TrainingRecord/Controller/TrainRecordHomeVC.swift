@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 import Firebase
 
+
+
 class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverPresentationControllerDelegate{
     
     // MARK: CoreData for TrainItem's List
@@ -28,6 +30,20 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var beforeExerciseData : [ExerciseItem] = []
     var beforeArmData : [ArmItem] = []
     
+    //MARK: CoreData for User's TrainItem's List
+    var uBrestData: UBrestItem!
+    var uBackData: UBackItem!
+    var uAbdomenData: UAbdomenItem!
+    var uBLData : UBLItem!
+    var uArmData : UArmItem!
+    var uExData : UExerciseItem!
+    var uBrestDatas: [UBrestItem] = []
+    var uBackDatas: [UBackItem] = []
+    var uAbdomenDatas: [UAbdomenItem] = []
+    var uBLDatas: [UBLItem] = []
+    var uArmDatas: [UArmItem] = []
+    var uExDatas: [UExerciseItem] = []
+    
     
     // MARK: Train's setting
     var trainWeight : Int = 10
@@ -35,30 +51,52 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var trainTimes : Int = 1
     var trainEachSetInterval : Int = 1
     var trainSetEachInterval : Float = 1
-    
+    var trainUnit: String = "Kg"
     
     
     // MARK: TrainItem's Image
-    let homeImage = UIImage(named: "homechicken")
-    let BrestPush = UIImage(named: "Brest push machine")!
-    let noColor = UIImage(named: "nocolor")
-    let backPull = UIImage(named: "BackPull")
-    let rowingMaching = UIImage(named: "RowingMachine")
-    let seatingRow = UIImage(named: "SeatedRow")
-    let dumbbell = UIImage(named: "Dumbbell")
-    let barbell = UIImage(named: "Barbell")
-    let backmachine = UIImage(named:"backmachine")
-    let halfrack = UIImage(named: "halfrack")
-    let absmachine = UIImage(named: "absmachine")
-    let armmachine = UIImage(named: "armmachine")
-    let runmachine = UIImage(named: "runmachine")
     var homeImageView : UIImageView?
-    var brestImageform : [UIImage] = [UIImage(named: "nocolor")!]
-    var backImageform : [UIImage] = [UIImage(named: "nocolor")!]
-    var blImageform : [UIImage] =  [UIImage(named: "nocolor")!]
-    var abdomenImageform : [UIImage] = [UIImage(named: "nocolor")!]
-    var armImageform : [UIImage] = [UIImage(named: "nocolor")!]
+    let noColor = UIImage(named: "nocolor")!
+    let homeImage = UIImage(named: "homechicken")
+    var brestImageforms : [UIImage] = [UIImage(named: "nocolor")!]
+    var backImageforms : [UIImage] = [UIImage(named: "nocolor")!]
+    var blImageforms : [UIImage] =  [UIImage(named: "nocolor")!]
+    var abdomenImageforms : [UIImage] = [UIImage(named: "nocolor")!]
+    var armImageforms : [UIImage] = [UIImage(named: "nocolor")!]
     var exerciseImageform : [UIImage] = [UIImage(named: "nocolor")!]
+    var brestImageURLs: [String] = []
+    var backImageURLs: [String] = []
+    var abdomenImageURLs: [String] = []
+    var blImageURLs: [String] = []
+    var armImageURLs: [String] = []
+    var exImageURLs: [String] = []
+    
+    
+    
+    
+    
+    //MARK: Manage the TrainingItems
+    var preBrestItems : [TrainingItem] = []
+    var preBackItems : [TrainingItem] = []
+    var preAbdomenItems : [TrainingItem] = []
+    var preBLItems : [TrainingItem] = []
+    var preArmItems : [TrainingItem] = []
+    var preExItems : [TrainingItem] = []
+    
+    
+    
+    //MARK: User's adding TrainingItem
+    var usersBrestItems : [TrainingItem] = []
+    var usersBackItems : [TrainingItem] = []
+    var usersAbdomenItems : [TrainingItem] = []
+    var usersBLItems : [TrainingItem] = []
+    var userArmItems : [TrainingItem] = []
+    var userExItems : [TrainingItem] = []
+    
+    
+    
+    
+    
     // MARK: TrainItem's list
     var formListLocation : [String] = ["運動部位", "肩胸部","背部", "臀腿部", "核心", "手臂","有氧運動"]
     var formListBrest : [String] = [ "訓練項目"]
@@ -93,6 +131,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var db: Firestore!
     
     //MARK: Variable made for record list
+    var dateRecord : String = ""
     var recordLocation = ""
     var recordLocationItem = ""
     var recordDataList: [String:[RecordItem]]?
@@ -100,8 +139,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var recordsort: [[Int]] = []
     
     //MARK:  Storage properties for new info
-    var infodatainside: [String]? = []
-    var beforeinfodatainside : [String]? = []
+    var infodatainside: [String] = []
+    var beforeinfodatainside : [String] = []
     
     
     // MARK: PickerView Delegate
@@ -249,7 +288,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                     reloadTrainParameters()
                 }
                 definitionTV.text = trainBrestText[row]
-                trainImageView.image = brestImageform[row]
+                trainImageView.image = brestImageforms[row]
                 print(row)
                 
                 
@@ -266,7 +305,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 }
                 
                 definitionTV.text = trainBackText[row]
-                trainImageView.image = backImageform[row]
+                trainImageView.image = backImageforms[row]
                 
             case 3:   //Bottom Lap
                 trainLS[1]=row
@@ -281,7 +320,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 }
                 
                 definitionTV.text = trainBLText[row]
-                trainImageView.image = blImageform[row]
+                trainImageView.image = blImageforms[row]
                 
             case 4:   //Abodmen
                 trainLS[1]=row
@@ -296,7 +335,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 }
                 
                 definitionTV.text = trainAbdomenText[row]
-                trainImageView.image = abdomenImageform[row]
+                trainImageView.image = abdomenImageforms[row]
                 
             case 5: //Arm
                 trainLS[1]=row
@@ -311,7 +350,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 }
                 
                 definitionTV.text = trainArmText[row]
-                trainImageView.image = armImageform[row]
+                trainImageView.image = armImageforms[row]
                 
             case 6: //excerise
                 trainLS[1]=row
@@ -351,7 +390,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     @IBOutlet weak var TrainDatePickerView: UIDatePicker!
     
     
-    var dateRecord : String = ""
+    
     
     
     @IBAction func TrainDatePicker(_ sender: UIDatePicker) {
@@ -364,7 +403,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         dateRecord = dateFormatter.string(from: sender.date)
         RecordListTV.reloadData()
         print(dateRecord)
-        todayItem = RecordItem(trainToday,[:],[:],[],[:],[:])
+        if let recorddata = data[dateRecord] {
+            todayItem = RecordItem(dateRecord, recorddata.trainSet, recorddata.trainTimes, recorddata.trainLocationSort, recorddata.trainWeight, recorddata.trainLocation,recorddata.trainUnit)
+        }
         
     }
     
@@ -382,9 +423,17 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 for document in data.documents{
                     let item = InfoItemForFireStore()
                     item.ItemContent = document.data()["itemContent"] as? String
+                    item.ItemNumber = document.data()["itemNumber"] as? String
                     item.ItemID = document.documentID
-                    if !(self.infodatainside?.contains(item.ItemContent!))!{
-                        self.infodatainside?.append(item.ItemContent!)
+                    if !(self.infodatainside.contains(item.ItemContent!)){
+                        self.infodatainside.append(item.ItemContent!)
+                        print(infodatainside)
+                    }
+                        if beforeinfodatainside.count != infodatainside.count {
+                            let trainLocationLoading : [String] = ["BrestShoulder","Back","Abdomen","Arm","BottomLap","Exercise"]
+                            for x in trainLocationLoading{
+                                loadData(x)
+                            }
                     }
                 }
             }else{
@@ -451,59 +500,70 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             if let e = error {
                 print( "error \(e)")
             } else {
-                switch documentname {
-                case "BrestShoulder":
-                    self.brestImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
-                case "Back":
-                    self.backImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
-                case "Abdomen":
-                    self.abdomenImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
-                case "Arm":
-                    self.armImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
-                case "BottomLap":
-                    self.blImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
-                case "Exercise":
-                    self.exerciseImageform.append(UIImage(contentsOfFile: fileUrl.absoluteString)!)
-                default:
-                    print("wrong type")
-                }
                 
             }
         }
     }
     
+    func trainingItemImageAppend(_ documentname: String, _ filename: String) {
+        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
+        let docUrl = homeUrl.appendingPathComponent("Documents")
+        let doc2Url = docUrl.appendingPathComponent(documentname)
+        let fileUrl = doc2Url.appendingPathComponent(filename)
+        let a : NSData = try! NSData.init(contentsOf: fileUrl)
+        let b = UIImage(data: a as Data)!
+        switch documentname {
+        case "BrestShoulder":
+                    self.brestImageforms.append(b)
+            print(fileUrl.absoluteString)
+            self.brestImageURLs.append("Documents/\(documentname)/\(filename)")
+            print(homeUrl.absoluteString)
+                    print("Documents/\(documentname)/\(filename)")
+        case "Back":
+                    self.backImageforms.append(b)
+                    self.backImageURLs.append("Documents/\(documentname)/\(filename)")
+        case "Abdomen":
+                    self.abdomenImageforms.append(b)
+                    self.abdomenImageURLs.append("Documents/\(documentname)/\(filename)")
+        case "Arm":
+                    self.armImageforms.append(b)
+                    self.armImageURLs.append("Documents/\(documentname)/\(filename)")
+        case "BottomLap":
+                    self.blImageforms.append(b)
+                    self.blImageURLs.append("Documents/\(documentname)/\(filename)")
+        case "Exercise":
+                    self.exerciseImageform.append(b)
+                    self.exImageURLs.append("Documents/\(documentname)/\(filename)")
+        default:
+            print("wrong type")
+        }
+    }
+    
     
     func DefaultFormEditor(){
-        loadData("Info")
+        loadData("info")
         if formListBrest.count == 1{
             let trainLocationLoading : [String] = ["BrestShoulder","Back","Abdomen","Arm","BottomLap","Exercise"]
             for x in trainLocationLoading{
                 loadData(x)
             }
         }
-
-        brestImageform.append(BrestPush)
-        backImageform.append(backPull!)
-        backImageform.append(seatingRow!)
-        backImageform.append(barbell!)
-        backImageform.append(dumbbell!)
-        backImageform.append(backmachine!)
-        abdomenImageform.append(absmachine!)
-        armImageform.append(armmachine!)
-        blImageform.append(halfrack!)
-        exerciseImageform.append(runmachine!)
-        
-        
         
     }
     
-    
-    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        let notificationName = Notification.Name("GetUpdateNoti")
+           NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        data.updateValue(todayItem!, forKey: trainToday)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         TrainPickerView.delegate = self
         definitionTV.text = ""
         trainParametersTV.text = ""
@@ -523,8 +583,31 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         if formListBrest.count != 1{
         self.RecordListTV.dataSource = self
         self.RecordListTV.delegate = self
+            setImageFormListFromfirebase()
         }
-        
+       
+        var isPlay = false
+        let pauseTraining = UIAction(title: "pauseTraining"){(action) in
+            if isPlay == false {
+                self.pauseAndplayImageButton.setImage(UIImage(named: "play"), for: .normal)
+                TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
+                self.pauseAndplayImageButton.isEnabled = false
+                TimerUse.share.stopTimer(1)
+                print(self.countDownCounter)
+                isPlay = true
+                return
+            }else{
+                self.pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
+                TimerUse.share.setTimer(self.trainSetEachInterval, self, #selector(self.CountTimer),true,1)
+                TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
+                self.pauseAndplayImageButton.isEnabled = false
+                isPlay = false
+                return
+            }
+            
+        }
+        pauseAndplayImageButton.addAction(pauseTraining, for: .touchUpInside)
+        pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
         
         // MARK: 先把資料抓出來確認是否為今天的資料，若為今天的資料便將資料存回今日，或非則將資料改至明日。
         loadFromFile()
@@ -541,10 +624,20 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         print(trainToday)
         dateRecord = trainToday
         // MARK: Build a new todayItem, to check if it isn't a new today's item
-        todayItem = RecordItem(trainToday,[:],[:],[],[:],[:])
+        if let recorddata = data[dateRecord] {
+            todayItem = RecordItem(dateRecord, recorddata.trainSet, recorddata.trainTimes, recorddata.trainLocationSort, recorddata.trainWeight, recorddata.trainLocation,recorddata.trainUnit)
+        }else{
+            todayItem = RecordItem(dateRecord,[:],[:],[],[:],[:],[:])
+        }
         print(trainToday)
         print(data)
         
+        
+        
+    }
+    @objc func getUpdateNoti(noti:Notification) {
+        trainUnit = noti.userInfo!["trainUnit"] as! String
+       print(trainUnit)
     }
     
     func manageStringArray(_ arraydata: [String]) -> [String]{
@@ -555,30 +648,32 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         result.removeFirst()
         return result
     }
-    func manageUIImageArray(_ arraydata: [UIImage]) -> [UIImage]{
-        var result : [UIImage] = []
-        for item in arraydata{
-            result.append(item)
-        }
-        result.removeFirst()
-        return result
-    }
-    func formlistCoredata (_ locationnumber: Int,_ namearray: [String], _ defarray: [String], _ imagearray: [UIImage]){
+//    func manageUIImageArray(_ arraydata: [String]) -> [String]{
+//        var result : [UIImage] = []
+//        for item in arraydata{
+//            result.append(item)
+//        }
+//        return result
+//    }
+    func formlistCoredata (_ locationnumber: Int,_ namearray: [String], _ defarray: [String], _ imagearray: [String]){
 
         let itemname: [String] = manageStringArray(namearray)
-        let itemdef: [String] = manageStringArray(defarray )
-        let itemimage: [UIImage] = manageUIImageArray(imagearray)
+        let itemdef: [String] = manageStringArray(defarray)
+        let itemimage: [String] = imagearray
         
         for x in 0 ..< itemname.count {
-        trainingItemCoreDataStore(locationnumber, itemimage[x], itemname[x], itemdef[x], x)
+        trainingItemCoreDataStore(locationnumber, itemimage[x], itemname[x], itemdef[x], x + 1)
         }
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        DefaultFormEditor()
         if formListBrest.count == 1{
-            TimerUse.share.setTimer(5, self, #selector(setCoreDataStore), false, 1)
+            TimerUse.share.setTimer(30, self, #selector(setCoreDataStore), false, 1)
+            TimerUse.share.setTimer(5, self, #selector(downloadImageFormListFromfirebase), false, 2)
+            TimerUse.share.setTimer(20, self, #selector(setImageFormListFromfirebase), false, 3)
             self.RecordListTV.dataSource = self
             self.RecordListTV.delegate = self
         }
@@ -587,17 +682,88 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
     }
     
+    @objc func setImageFormListFromfirebase() {
+        let trainLocationLoading : [String] = ["BrestShoulder","Back","Abdomen","Arm","BottomLap","Exercise"]
+        for x in trainLocationLoading{
+            switch x {
+            case "BrestShoulder":
+                for y in 1 ..< formListBrest.count{
+                    trainingItemImageAppend(x, "\(y).png")
+                }
+            case "Back":
+                for y in 1 ..< formListBack.count{
+                    trainingItemImageAppend(x, "\(y).png")
+                }
+            case "Abdomen":
+                for y in 1 ..< formListAbdomen.count{
+                    trainingItemImageAppend(x, "\(y).png")
+                }
+            case "Arm":
+                for y in 1 ..< formListArm.count{
+                    trainingItemImageAppend(x, "\(y).png")
+                }
+            case "BottomLap":
+                for y in 1 ..< formListBL.count{
+                    trainingItemImageAppend(x, "\(y).png")
+                }
+            case "Exercise":
+                for y in 1 ..< formListEx.count{
+                    trainingItemImageAppend(x, "\(y).png")
+                }
+            default:
+                print("Wrong Input")
+            }
+            
+        }
+    }
+    @objc func downloadImageFormListFromfirebase() {
+        let trainLocationLoading : [String] = ["BrestShoulder","Back","Abdomen","Arm","BottomLap","Exercise"]
+        for x in trainLocationLoading{
+            switch x {
+            case "BrestShoulder":
+                for y in 1 ..< formListBrest.count{
+                    DownLoadTrainingItemImage(x, "\(y).png")
+                }
+            case "Back":
+                for y in 1 ..< formListBack.count{
+                    DownLoadTrainingItemImage(x, "\(y).png")
+                }
+            case "Abdomen":
+                for y in 1 ..< formListAbdomen.count{
+                    DownLoadTrainingItemImage(x, "\(y).png")
+                }
+            case "Arm":
+                for y in 1 ..< formListArm.count{
+                    DownLoadTrainingItemImage(x, "\(y).png")
+                }
+            case "BottomLap":
+                for y in 1 ..< formListBL.count{
+                    DownLoadTrainingItemImage(x, "\(y).png")
+                }
+            case "Exercise":
+                for y in 1 ..< formListEx.count{
+                    DownLoadTrainingItemImage(x, "\(y).png")
+                }
+            default:
+                print("Wrong Input")
+            }
+            
+        }
+    }
+    
+    
+    
     @objc func setCoreDataStore() {
         print(formListBrest)
-        if beforeInfoData == [] || beforeInfoData.count != beforeinfodatainside?.count{
-        formlistCoredata(1,formListBrest, trainBrestText, brestImageform)
-        formlistCoredata(2,formListBack, trainBackText, backImageform)
-        formlistCoredata(3, formListBL, trainBLText, blImageform)
-        formlistCoredata(4, formListAbdomen, trainAbdomenText, abdomenImageform)
-        formlistCoredata(5, formListArm, trainArmText, armImageform)
-        formlistCoredata(6, formListEx, trainExText, exerciseImageform)
-            for x in 0 ..< infodatainside!.count {
-                trainingItemCoreDataStore(7, backImageform[x], infodatainside![x], infodatainside![x], x)
+        if beforeInfoData == [] || infodatainside.count != beforeinfodatainside.count{
+        formlistCoredata(1,formListBrest, trainBrestText, brestImageURLs)
+        formlistCoredata(2,formListBack, trainBackText, backImageURLs)
+        formlistCoredata(3, formListBL, trainBLText, blImageURLs)
+        formlistCoredata(4, formListAbdomen, trainAbdomenText, abdomenImageURLs)
+        formlistCoredata(5, formListArm, trainArmText, armImageURLs)
+        formlistCoredata(6, formListEx, trainExText, exImageURLs)
+            for x in 0 ..< infodatainside.count {
+                trainingItemCoreDataStore(7, infodatainside[x], infodatainside[x], infodatainside[x], x)
             }
         }
     }
@@ -685,10 +851,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                                 print("Cancel")
 //
                                 if self.recordIsStart{
-                                self.todayItem!.trainSet[self.trainLS]! -= 1
-                                self.todayItem!.trainTimes[self.trainLS]!.removeLast()
-                                self.todayItem!.trainWeight[self.trainLS]!.removeLast()
-                                    self.recordTimesCount[self.trainLS]! -= 1
+                                self.todayItem?.trainSet[self.trainLS]! -= 1
+                                self.todayItem?.trainTimes[self.trainLS]?.removeLast()
+                                self.todayItem?.trainWeight[self.trainLS]?.removeLast()
+                                    self.todayItem?.trainUnit[self.trainLS]?.removeLast()
+                                self.recordTimesCount[self.trainLS]? -= 1
+                                    self.recordIsStart = false
                                 }
                             }
                             alertController.addAction(okAction)
@@ -718,41 +886,17 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     @objc func enablePause (){
         pauseAndplayImageButton.isEnabled = true
     }
-    var isPauseImageExist: Bool = false
     func CountTimeStart (){
-        TimerUse.share.stopTimer(2)
-        var isPlay = false
-        let pauseTraining = UIAction(title: "pauseTraining"){(action) in
-            if isPlay == false {
-                self.pauseAndplayImageButton.setImage(UIImage(named: "play"), for: .normal)
-                TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
-                self.pauseAndplayImageButton.isEnabled = false
-                TimerUse.share.stopTimer(1)
-                print(self.countDownCounter)
-                isPlay = true
-                return
-            }else{
-                self.pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
-                TimerUse.share.setTimer(self.trainSetEachInterval, self, #selector(self.CountTimer),true,1)
-                TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
-                self.pauseAndplayImageButton.isEnabled = false
-                isPlay = false
-                return
-            }
-            
-        }
-        
-        pauseAndplayImageButton.addAction(pauseTraining, for: .touchUpInside)
-        pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
-        if isPauseImageExist == false {
+
         self.view.addSubview(pauseAndplayImageButton)
         pauseAndplayImageButton.translatesAutoresizingMaskIntoConstraints = false
         pauseAndplayImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             NSLayoutConstraint(item: pauseAndplayImageButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.4, constant: 1).isActive = true
             print("pause item is generated")
-            isPauseImageExist = true
-        }
+            
     }
+    
+    
     
     
     var recordIsStart : Bool = false
@@ -807,6 +951,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 todayItem!.trainWeight.updateValue([trainWeight], forKey: trainLS)
                 print(todayItem!.trainWeight)
             }
+                if let value = todayItem!.trainUnit[trainLS] {
+                    todayItem!.trainUnit[trainLS]!.append(trainUnit)
+                    print("add new value \(value)")
+                }else {
+                    todayItem!.trainUnit.updateValue([trainUnit], forKey: trainLS)
+                    print(todayItem!.trainWeight)
+                }
             if let value = recordTimesCount[trainLS]{
                 recordTimesCount[trainLS]! += 1
                 print("add RecordTimesCount \(value)")
@@ -844,7 +995,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             
             countDownCounter = trainEachSetInterval
             TimerUse.share.stopTimer(1)
-            TimerUse.share.stopTimer(2)
             // MARK: alert training over show the traintimes
             let alertController = UIAlertController(title: "您完成了\(fitRecordLocation(trainLS))部位的\(fitRecordLocationItem(trainLS))訓練！若您不想紀錄，請點Cancel，謝謝！", message: "", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
@@ -862,6 +1012,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 self.todayItem!.trainSet[self.trainLS]! -= 1
                 self.todayItem!.trainTimes[self.trainLS]!.removeLast()
                 self.todayItem!.trainWeight[self.trainLS]!.removeLast()
+                self.todayItem!.trainUnit[self.trainLS]!.removeLast()
                 self.recordTimesCount[self.trainLS]! -= 1
             }
             alertController.addAction(okAction)
@@ -870,7 +1021,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             
             print(todayItem!.trainTimes)
             stopImageButton.removeFromSuperview()
-            isPauseImageExist = false
             self.pauseAndplayImageButton.removeFromSuperview()
             self.countdownTV.removeFromSuperview()
             for view in self.view.subviews{
@@ -901,8 +1051,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         countdownTV.isSelectable = false
         countdownTV.alwaysBounceHorizontal = true
         
-        
-        //        print(2)
+
         if countDownCounter == 0 {
             //            pauseAndplayImageButton.removeFromSuperview()
             countDownCounter = 0
@@ -921,6 +1070,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         else if segue.identifier == "seague_vc_to_ManageTrainSetVC"{
             
+        }else if segue.identifier == "Segue_Home_InfoVC" {
+            let vc = segue.destination as! InfoTableViewController
+            vc.infodata = infodatainside
         }
         // make for popover
         segue.destination.preferredContentSize = CGSize(width: 200, height: 400)
@@ -933,7 +1085,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     
     
-    func trainingItemCoreDataStore (_ selected: Int,_ imagedata: UIImage?,_ itemname: String,_ itemdef: String,_ itemid: Int ) {
+    func trainingItemCoreDataStore (_ selected: Int,_ imageurl: String,_ itemname: String,_ itemdef: String,_ itemid: Int ) {
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate){
         switch selected{
         case 1:
@@ -941,33 +1093,28 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 brestData.name = itemname
                 brestData.def = itemdef
                 brestData.id = Int16(itemid)
-                if let brestImage = imagedata {
-                    brestData.image = brestImage.pngData()
-                }
+                brestData.image = imageurl
+                print(imageurl)
         case 2:
                 backData = BackItem(context: appDelegate.persistentContainer.viewContext)
                 backData.name = itemname
                 backData.def = itemdef
                 backData.id = Int16(itemid)
-                if let backImage = imagedata {
-                    backData.image = backImage.pngData()
-                }
+                backData.image = imageurl
+                
         case 3:
                 blData = BLItem(context: appDelegate.persistentContainer.viewContext)
                 blData.name = itemname
                 blData.def = itemdef
                 blData.id = Int16(itemid)
-                if let bottomImage = imagedata {
-                    blData.image = bottomImage.pngData()
-                }
+                blData.image = imageurl
+            
         case 4:
                 abdomenData = AbdomenItem(context: appDelegate.persistentContainer.viewContext)
                 abdomenData.name = itemname
                 abdomenData.def = itemdef
                 abdomenData.id = Int16(itemid)
-                if let abdomenImage = imagedata {
-                    abdomenData.image = abdomenImage.pngData()
-                }
+            abdomenData.image = imageurl
             
         case 5:
 
@@ -975,18 +1122,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 armData.name = itemname
                 armData.def = itemdef
                 armData.id = Int16(itemid)
-                if let armImage = imagedata {
-                    armData.image = armImage.pngData()
-                }
+                armData.image = imageurl
             
         case 6:
                 exerciseData = ExerciseItem(context: appDelegate.persistentContainer.viewContext)
                 exerciseData.name = itemname
                 exerciseData.def = itemdef
                 exerciseData.id = Int16(itemid)
-                if let exImage = imagedata {
-                    exerciseData.image = exImage.pngData()
-                }
+                exerciseData.image = imageurl
+                
         case 7:
                 infoData = InfoItem(context: appDelegate.persistentContainer.viewContext)
                 infoData.content = itemname
@@ -997,7 +1141,58 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         appDelegate.saveContext()
         }
     }
-    
+    func userTrainingItemCoreDataStore (_ selected: Int,_ imageurl: String,_ itemname: String,_ itemdef: String,_ itemid: Int ) {
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate){
+        switch selected{
+        case 1:
+                uBrestData = UBrestItem(context: appDelegate.persistentContainer.viewContext)
+                uBrestData.name = itemname
+                uBrestData.def = itemdef
+                uBrestData.id = Int16(itemid)
+                uBrestData.image = imageurl
+                
+        case 2:
+                uBackData = UBackItem(context: appDelegate.persistentContainer.viewContext)
+                uBackData.name = itemname
+                uBackData.def = itemdef
+                uBackData.id = Int16(itemid)
+                uBackData.image = imageurl
+                
+        case 3:
+                uBLData = UBLItem(context: appDelegate.persistentContainer.viewContext)
+                uBLData.name = itemname
+                uBLData.def = itemdef
+                uBLData.id = Int16(itemid)
+                uBLData.image = imageurl
+            
+        case 4:
+                uAbdomenData = UAbdomenItem(context: appDelegate.persistentContainer.viewContext)
+                uAbdomenData.name = itemname
+                uAbdomenData.def = itemdef
+                uAbdomenData.id = Int16(itemid)
+            uAbdomenData.image = imageurl
+            
+        case 5:
+
+                uArmData = UArmItem(context: appDelegate.persistentContainer.viewContext)
+                uArmData.name = itemname
+                uArmData.def = itemdef
+                uArmData.id = Int16(itemid)
+                uArmData.image = imageurl
+            
+        case 6:
+                uExData = UExerciseItem(context: appDelegate.persistentContainer.viewContext)
+                uExData.name = itemname
+                uExData.def = itemdef
+                uExData.id = Int16(itemid)
+                uExData.image = imageurl
+
+        default:
+            print("CoreData store select is wrong")
+        }
+        appDelegate.saveContext()
+        }
+    }
     
     
     
@@ -1007,69 +1202,47 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     @IBAction func unwind(for segue: UIStoryboardSegue){
         if segue.identifier == "unwind_NewTrainItemVC_to_vc"{
             let vc = segue.source as! NewTrainingItemViewController
-            
-            
-            print(vc.trainingItem)
+
             if vc.trainingItem != "" {
-                
-                
-                newFormList.append([])
-                newFormListDef.append([])
-                
-                newFormList[vc.trainLS-1].append(vc.trainingItem)
-                newFormListDef[vc.trainLS-1].append(vc.trainingItemDef)
                 switch vc.trainLS{
                 case 1:
-                    formListBrest.append(newFormList[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    trainBrestText.append(newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    if let trainImage = vc.imageView.image {
-                        brestImageform.append(trainImage)
-                    }
-                    
+                    formListBrest.append(vc.trainingItem)
+                    trainBrestText.append(vc.trainingItemDef)
+                    brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
+                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
                     locationC[0] += 1
                     
                 case 2:
                     
-                    formListBack.append(newFormList[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    trainBackText.append(newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    if let trainImage = vc.imageView.image {
-                        backImageform.append(trainImage)
-                    }
-                    trainingItemCoreDataStore(2, vc.imageView.image, newFormList[vc.trainLS-1][locationC[vc.trainLS-1]], newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]], locationC[1])
+                    formListBack.append(vc.trainingItem)
+                    trainBackText.append(vc.trainingItemDef)
+                        backImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
+                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
                     locationC[1] += 1
                 case 3:
-                    formListBL.append(newFormList[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    trainBLText.append(newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    if let trainImage = vc.imageView.image {
-                        blImageform.append(trainImage)
-                    }
-                    trainingItemCoreDataStore(3, vc.imageView.image, newFormList[vc.trainLS-1][locationC[vc.trainLS-1]], newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]], locationC[2])
+                    formListBL.append(vc.trainingItem)
+                    trainBLText.append(vc.trainingItemDef)
+                        blImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
+                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
                     locationC[2] += 1
                 case 4:
-                    formListAbdomen.append(newFormList[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    trainAbdomenText.append(newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    if let trainImage = vc.imageView.image {
-                        abdomenImageform.append(trainImage)
-                    }
-                    trainingItemCoreDataStore(4, vc.imageView.image, newFormList[vc.trainLS-1][locationC[vc.trainLS-1]], newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]], locationC[3])
+                    formListAbdomen.append(vc.trainingItem)
+                    trainAbdomenText.append(vc.trainingItemDef)
+                        abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
+                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
                     locationC[3] += 1
                 case 5:
                     
-                    formListArm.append(newFormList[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    trainArmText.append(newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    if let trainImage = vc.imageView.image {
-                        armImageform.append(trainImage)
-                    }
-                    trainingItemCoreDataStore(5, vc.imageView.image, newFormList[vc.trainLS-1][locationC[vc.trainLS-1]], newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]], locationC[4])
+                    formListArm.append(vc.trainingItem)
+                    trainArmText.append(vc.trainingItemDef)
+                        armImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
+                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
                     locationC[4] += 1
                 case 6:
-                    formListEx.append(newFormList[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    trainExText.append(newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]])
-                    if let trainImage = vc.imageView.image {
-                        exerciseImageform.append(trainImage)
-                    }
-                    
-                    trainingItemCoreDataStore(6, vc.imageView.image, newFormList[vc.trainLS-1][locationC[vc.trainLS-1]], newFormListDef[vc.trainLS-1][locationC[vc.trainLS-1]], locationC[5])
+                    formListEx.append(vc.trainingItem)
+                    trainExText.append(vc.trainingItemDef)
+                        exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
+                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
                     locationC[5] += 1
                 default:
                     print("nothing added")
@@ -1099,16 +1272,14 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     override func viewWillDisappear(_ animated: Bool) {
         print("a")
-        
-        data.updateValue(todayItem!, forKey: trainToday)
         writeToFile()
     }
     
-}
-
-extension TrainRecordHomeVC {
-    func loadTheTrainList(){
+    func manageShowData(){
         
+    }
+    func loadTheTrainList(){
+        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
         // Fetch data from data store Brest
         var fetchResultController: NSFetchedResultsController<BrestItem>
         let fetchRequest: NSFetchRequest<BrestItem> = BrestItem.fetchRequest()
@@ -1130,14 +1301,9 @@ extension TrainRecordHomeVC {
             }
         }
         for x in 0 ..< beforeBrestData.count{
-            
-            
-                formListBrest.append(beforeBrestData[x].name!)
-                trainBrestText.append(beforeBrestData[x].def!)
-//                if let trainImage = beforeBrestData[x].image {
-//                    brestImageform.append( UIImage(data: trainImage as Data)!)
-//                }
-          
+            formListBrest.append(beforeBrestData[x].name!)
+            trainBrestText.append(beforeBrestData[x].def!)
+            brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent("\(beforeBrestData[x].image!)")) as Data)!)
         }
         
         // Fetch data from data store Back
@@ -1164,9 +1330,7 @@ extension TrainRecordHomeVC {
         for x in 0 ..< beforeBackData.count{
             formListBack.append(beforeBackData[x].name!)
             trainBackText.append(beforeBackData[x].def!)
-//            if let trainImage = beforeBrestData[x].image {
-//                backImageform.append( UIImage(data: trainImage as Data)!)
-//            }
+            backImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeBackData[x].image!) ) as Data)!)
         }
         // Fetch data from data store Abdomen
         var fetchResultControllerabdomen: NSFetchedResultsController<AbdomenItem>!
@@ -1192,9 +1356,9 @@ extension TrainRecordHomeVC {
         for x in 0 ..< beforeAbdomenData.count{
             formListAbdomen.append(beforeAbdomenData[x].name!)
             trainAbdomenText.append(beforeAbdomenData[x].def!)
-//            if let trainImage = beforeAbdomenData[x].image {
-//                abdomenImageform.append(UIImage(data: trainImage as Data)!)
-//            }
+            
+//            abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeAbdomenData[x].image!)) as Data)!)
+            
         }
         // Fetch data from data store Bottom
         var fetchResultControllerbl: NSFetchedResultsController<BLItem>!
@@ -1220,9 +1384,8 @@ extension TrainRecordHomeVC {
         for x in 0 ..< beforeBLData.count{
             formListBL.append(beforeBLData[x].name!)
             trainBLText.append(beforeBLData[x].def!)
-//            if let trainImage = beforeBLData[x].image {
-//                blImageform.append(UIImage(data: trainImage as Data)!)
-//            }
+            blImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeBLData[x].image!) ) as Data)!)
+                        
         }
         // Fetch data from data store Arm
         var fetchResultControllerarm: NSFetchedResultsController<ArmItem>!
@@ -1248,9 +1411,8 @@ extension TrainRecordHomeVC {
         for x in 0 ..< beforeArmData.count{
             formListArm.append(beforeArmData[x].name!)
             trainArmText.append(beforeArmData[x].def!)
-//            if let trainImage = beforeBLData[x].image {
-//                blImageform.append(UIImage(data: trainImage as Data)!)
-//            }
+            armImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeArmData[x].image!) ) as Data)!)
+           
         }
         // Fetch data from data store Exercise
         var fetchResultControllerex: NSFetchedResultsController<ExerciseItem>!
@@ -1276,9 +1438,8 @@ extension TrainRecordHomeVC {
         for x in 0 ..< beforeExerciseData.count{
             formListEx.append(beforeExerciseData[x].name!)
             trainExText.append(beforeExerciseData[x].def!)
-//            if let trainImage = beforeExerciseData[x].image {
-//                exerciseImageform.append(UIImage(data: trainImage as Data)!)
-//            }
+            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeExerciseData[x].image!) ) as Data)!)
+                        
         }
         
         // Fetch data from data store Info
@@ -1304,9 +1465,166 @@ extension TrainRecordHomeVC {
         }
 
         for x in 0 ..< beforeInfoData.count{
-            beforeinfodatainside?.append(beforeInfoData[x].content!)
+//            infodatainside.append(beforeInfoData[x].content!)
+            beforeinfodatainside.append(beforeInfoData[x].content!)
         }
         
+        // Fetch data from data store Brest
+        var fetchResultControlleruB: NSFetchedResultsController<UBrestItem>
+        let fetchRequestuB: NSFetchRequest<UBrestItem> = UBrestItem.fetchRequest()
+        let sortDescriptoruB = NSSortDescriptor(key: "id", ascending: true)
+        fetchRequestuB.sortDescriptors = [sortDescriptoruB]
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControlleruB = NSFetchedResultsController(fetchRequest: fetchRequestuB, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControlleruB.delegate = self
+            
+            do {
+                try fetchResultControlleruB.performFetch()
+                if let fetchedObjects = fetchResultControlleruB.fetchedObjects {
+                    uBrestDatas = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< uBrestDatas.count {
+            formListBrest.append(uBrestDatas[x].name!)
+            trainBrestText.append(uBrestDatas[x].def!)
+            brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uBrestDatas[x].image!) ) as Data)!)
+        }
+        // Fetch data from data store Back
+        var fetchResultControllerUback: NSFetchedResultsController<UBackItem>!
+        
+        let fetchRequestUback: NSFetchRequest<UBackItem> = UBackItem.fetchRequest()
+        let sortDescriptorUback = NSSortDescriptor(key: "id", ascending: true)
+        fetchRequestUback.sortDescriptors = [sortDescriptorUback]
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerUback = NSFetchedResultsController(fetchRequest: fetchRequestUback, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerUback.delegate = self
+            
+            do {
+                try fetchResultControllerUback.performFetch()
+                if let fetchedObjects = fetchResultControllerUback.fetchedObjects {
+                    uBackDatas = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< uBackDatas.count {
+            formListBack.append(uBackDatas[x].name!)
+            trainBackText.append(uBackDatas[x].def!)
+            backImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uBackDatas[x].image!) ) as Data)!)
+        }
+        // Fetch data from data store Abdomen
+        var fetchResultControllerUabdomen: NSFetchedResultsController<UAbdomenItem>!
+        
+        let fetchRequestUabdomen: NSFetchRequest<UAbdomenItem> = UAbdomenItem.fetchRequest()
+        let sortDescriptorUabdomen = NSSortDescriptor(key: "id", ascending: true)
+        fetchRequestUabdomen.sortDescriptors = [sortDescriptorUabdomen]
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerUabdomen = NSFetchedResultsController(fetchRequest: fetchRequestUabdomen, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerUabdomen.delegate = self
+            
+            do {
+                try fetchResultControllerUabdomen.performFetch()
+                if let fetchedObjects = fetchResultControllerUabdomen.fetchedObjects {
+                    uAbdomenDatas = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< uAbdomenDatas.count {
+            formListAbdomen.append(uAbdomenDatas[x].name!)
+            trainAbdomenText.append(uAbdomenDatas[x].def!)
+            abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uAbdomenDatas[x].image!) ) as Data)!)
+        }
+        // Fetch data from data store Bottom
+        var fetchResultControllerUbl: NSFetchedResultsController<UBLItem>!
+        
+        let fetchRequestUbl: NSFetchRequest<UBLItem> = UBLItem.fetchRequest()
+        let sortDescriptorUbl = NSSortDescriptor(key: "id", ascending: true)
+        fetchRequestUbl.sortDescriptors = [sortDescriptorUbl]
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerUbl = NSFetchedResultsController(fetchRequest: fetchRequestUbl, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerUbl.delegate = self
+            
+            do {
+                try fetchResultControllerUbl.performFetch()
+                if let fetchedObjects = fetchResultControllerUbl.fetchedObjects {
+                    uBLDatas = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< uBLDatas.count {
+            formListBL.append(beforeBLData[x].name!)
+            trainBLText.append(beforeBLData[x].def!)
+            blImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeBLData[x].image!) ) as Data)!)
+                        
+        }
+        // Fetch data from data store Arm
+        var fetchResultControllerUarm: NSFetchedResultsController<UArmItem>!
+        
+        let fetchRequestUarm: NSFetchRequest<UArmItem> = UArmItem.fetchRequest()
+        let sortDescriptorUarm = NSSortDescriptor(key: "id", ascending: true)
+        fetchRequestUarm.sortDescriptors = [sortDescriptorUarm]
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerUarm = NSFetchedResultsController(fetchRequest: fetchRequestUarm, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerUarm.delegate = self
+            
+            do {
+                try fetchResultControllerUarm.performFetch()
+                if let fetchedObjects = fetchResultControllerUarm.fetchedObjects {
+                    uArmDatas = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< uArmDatas.count {
+            formListArm.append(uArmDatas[x].name!)
+            trainArmText.append(uArmDatas[x].def!)
+            armImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uArmDatas[x].image!) ) as Data)!)
+        }
+        // Fetch data from data store Exercise
+        var fetchResultControllerUex: NSFetchedResultsController<UExerciseItem>!
+        
+        let fetchRequestUexercise: NSFetchRequest<UExerciseItem> = UExerciseItem.fetchRequest()
+        let sortDescriptorUexercise = NSSortDescriptor(key: "id", ascending: true)
+        fetchRequestUexercise.sortDescriptors = [sortDescriptorUexercise]
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultControllerUex = NSFetchedResultsController(fetchRequest: fetchRequestUexercise, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultControllerUex.delegate = self
+            
+            do {
+                try fetchResultControllerUex.performFetch()
+                if let fetchedObjects = fetchResultControllerUex.fetchedObjects {
+                    uExDatas = fetchedObjects
+                }
+            } catch {
+                print(error)
+            }
+        }
+        for x in 0 ..< uExDatas.count {
+            formListEx.append(uExDatas[x].name!)
+            trainExText.append(uExDatas[x].def!)
+            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: URL(fileURLWithPath: uExDatas[x].image!)) as Data)!)
+        }
     }
     
 }
@@ -1342,23 +1660,17 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate {
             let locationsort = data[traindate]!.trainLocationSort
             var target : [[Int]] = []
             for x in locationsort {
-                
                 if !target.contains(x) {
                     target.append(x)
                 }
-                
-                
             }
-            
-            
-            
-            
+          
             for trainlocation in target{
-                let recordstringdefault = "第\(1)組 \(data[traindate]!.trainWeight[trainlocation]![0]) 公斤 * \( data[traindate]!.trainTimes[trainlocation]![0]) 下"
+                let recordstringdefault = "第\(1)組 \(data[traindate]!.trainWeight[trainlocation]![0]) \(data[traindate]!.trainUnit[trainlocation]![0]) * \( data[traindate]!.trainTimes[trainlocation]![0]) 下"
                 recordListString = recordstringdefault
                 for itemSetCount in 1 ..< (data[traindate]?.trainSet[trainlocation])! {
                     let y = itemSetCount + 1
-                    recordListString += "\n第\(y)組 \(data[traindate]!.trainWeight[trainlocation]![itemSetCount]) 公斤 * \(data[traindate]!.trainTimes[trainlocation]![itemSetCount]) 下"
+                    recordListString += "\n第\(y)組 \(data[traindate]!.trainWeight[trainlocation]![itemSetCount]) \(data[traindate]!.trainUnit[trainlocation]![itemSetCount]) * \(data[traindate]!.trainTimes[trainlocation]![itemSetCount]) 下"
                     
                 }
                 result.append(recordListString)
