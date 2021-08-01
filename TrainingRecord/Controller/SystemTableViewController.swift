@@ -10,7 +10,7 @@ import UIKit
 class SystemTableViewController: UITableViewController {
     var userTextLabel = "未知使用者"
     var trainingGoals = ["體脂降低10％","肌肉重量增加1公斤","基礎代謝率增加200大卡"]
-    var trainUnitset = true
+    var trainUnitSettoKg = true
     var trainUnit = "Kg"
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +44,7 @@ class SystemTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
+        var cell = UITableViewCell()
         if indexPath.row == 0 && indexPath.section == 0 {
             cell = tableView.dequeueReusableCell(withIdentifier: "MemberCell", for: indexPath)
             cell.textLabel?.text = userTextLabel
@@ -53,11 +53,16 @@ class SystemTableViewController: UITableViewController {
             
         }
         else if  indexPath.section == 1 {
+            cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
             cell.textLabel?.text = "重量單位"
-            cell.detailTextLabel?.text = trainUnitset ? "Kg" : "lb"
+            cell.detailTextLabel?.text = trainUnitSettoKg ? "Kg" : "lb"
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
         }else{
             cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
             cell.textLabel?.text = "清除所有訓練資料"
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+            cell.textLabel?.textColor = .red
         }
         
         
@@ -71,16 +76,45 @@ class SystemTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 && indexPath.section == 1 {
-            trainUnitset = !trainUnitset
-            trainUnit = trainUnitset ? "Kg" : "lb"
-            let notificationName = Notification.Name("GetUpdateNoti")
+            trainUnitSettoKg = !trainUnitSettoKg
+            trainUnit = trainUnitSettoKg ? "Kg" : "lb"
+            let notificationName = Notification.Name("ChangeTrainUnit")
             NotificationCenter.default.post(name: notificationName, object: nil, userInfo: ["trainUnit" : trainUnit])
-            
+        }else if indexPath.row == 0 && indexPath.section == 2 {
+            let homeURL = URL(fileURLWithPath: NSHomeDirectory())
+            let docURL = homeURL.appendingPathComponent("Documents")
+            let fileURL = docURL.appendingPathComponent("RecordDatas.archive")
+            let manager = FileManager.default
+            try? manager.removeItem(at: fileURL)
+            let notificationName = Notification.Name("ClearDatas")
+            NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
+        }
+        
+        
             
             tableView.reloadData()
-        }
+        
     }
    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 1:
+            return "訓練參數調整"
+        case 2:
+            return "訓練資料定"
+        default:
+            return nil
+        }
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if  indexPath.section == 0 {
+            return 200
+        } else if indexPath.section == 1 {
+            return 50
+        } else {
+            return 50
+        }
+    }
     
     /*
     // Override to support conditional editing of the table view.

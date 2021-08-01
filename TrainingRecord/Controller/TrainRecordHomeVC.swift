@@ -554,12 +554,23 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        let notificationName = Notification.Name("GetUpdateNoti")
+        let notificationName = Notification.Name("ChangeTrainUnit")
         NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(clearDatas(noti:)), name: Notification.Name("ClearDatas"), object: nil)
+    }
+    @objc func getUpdateNoti(noti:Notification) {
+        trainUnit = noti.userInfo!["trainUnit"] as! String
+        print(trainUnit)
+    }
+    @objc func clearDatas(noti:Notification){
+        data = [:]
+        writeToFile()
+        RecordListTV.reloadData()
+        print("Already delete the data")
     }
     deinit {
         NotificationCenter.default.removeObserver(self)
-        data.updateValue(todayItem!, forKey: trainToday)
+        
     }
     
     override func viewDidLoad() {
@@ -632,15 +643,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         print(trainToday)
         print(data)
-        RecordListTV.estimatedRowHeight = 40
-        RecordListTV.rowHeight = UITableView.automaticDimension
         
         
     }
-    @objc func getUpdateNoti(noti:Notification) {
-        trainUnit = noti.userInfo!["trainUnit"] as! String
-        print(trainUnit)
-    }
+    
     
     func manageStringArray(_ arraydata: [String]) -> [String]{
         var result : [String] = []
@@ -650,13 +656,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         result.removeFirst()
         return result
     }
-    //    func manageUIImageArray(_ arraydata: [String]) -> [String]{
-    //        var result : [UIImage] = []
-    //        for item in arraydata{
-    //            result.append(item)
-    //        }
-    //        return result
-    //    }
+
     func formlistCoredata (_ locationnumber: Int,_ namearray: [String], _ defarray: [String], _ imagearray: [String]){
         
         let itemname: [String] = manageStringArray(namearray)
@@ -776,7 +776,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         //
         let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
         let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
-        let filePath = doc.appendingPathComponent("notes.archive")
+        let filePath = doc.appendingPathComponent("RecordDatas.archive")
         do {
             //將data陣列，轉成Data型式（二進位資料）
             let data = try NSKeyedArchiver.archivedData(withRootObject: self.data, requiringSecureCoding: false)
@@ -789,7 +789,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     func loadFromFile()  {
         let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
         let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
-        let filePath = doc.appendingPathComponent("notes.archive")
+        let filePath = doc.appendingPathComponent("RecordDatas.archive")
         do {
             //載入成Data（二進位資料)
             let data =  try Data(contentsOf: filePath)
@@ -1215,7 +1215,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                     locationC[0] += 1
                     
                 case 2:
-                    
                     formListBack.append(vc.trainingItem)
                     trainBackText.append(vc.trainingItemDef)
                     backImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
@@ -1274,6 +1273,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     override func viewWillDisappear(_ animated: Bool) {
         print("a")
+        data.updateValue(todayItem!, forKey: trainToday)
         writeToFile()
     }
     
