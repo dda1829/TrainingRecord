@@ -29,25 +29,35 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     @IBOutlet weak var trainWeightTF: UITextField!
 
     @IBOutlet weak var trainWeightSlider: UISlider!
-    @IBOutlet weak var trainWeightMaxTF: UITextField!
+    
     @IBOutlet weak var trainWeightMinTF: UITextField!
+    @IBOutlet weak var trainWeightMaxTF: UITextField!
     @IBOutlet weak var unit: UILabel!
     
   
     @IBOutlet weak var trainTimesTF: UITextField!
     
     @IBOutlet weak var trainTimesSlider: UISlider!
+
     @IBOutlet weak var trainTimesMinTF: UITextField!
     
     @IBOutlet weak var trainTimesMaxTF: UITextField!
     
-    
     @IBOutlet weak var trainSetEachIntervalTF: UITextField!
-    
-    @IBOutlet weak var trainSetEachIntervalMinTF: UITextField!
-    
     @IBOutlet weak var trainSetEachIntervalSlider: UISlider!
+
+    @IBOutlet weak var trainSetEachIntervalMinTF: UITextField!
     @IBOutlet weak var trainSetEachIntervalMaxTF: UITextField!
+    
+    
+    @IBOutlet weak var trainEachSetIntervalTF: UITextField!
+    
+    @IBOutlet weak var trainEachSetIntervalSlider: UISlider!
+    
+    @IBOutlet weak var trainEachSetIntervalMinTF: UITextField!
+    
+    @IBOutlet weak var trainEachSetIntervalMaxTF: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 註冊tab事件，點選瑩幕任一處可關閉瑩幕小鍵盤
@@ -92,6 +102,7 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         if sender.text != nil {
             trainWeightMin = Float(sender.text!)!
             trainWeightSlider.minimumValue = trainWeightMin
+            trainWeightMinTF.text = sender.text!
         }
     }
     
@@ -99,6 +110,7 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         if sender.text != nil {
             trainWeightMax = Float(sender.text!)!
             trainWeightSlider.maximumValue = trainWeightMax
+            trainWeightMaxTF.text = sender.text!
         }
     }
     
@@ -120,13 +132,15 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     @IBAction func trainTimesMinEditTF(_ sender: UITextField) {
         if sender.text != nil {
             trainTimesMin = Float(sender.text!)!
-            trainWeightSlider.minimumValue = trainTimesMin
+            trainTimesSlider.minimumValue = trainTimesMin
+            trainTimesMinTF.text = sender.text!
         }
     }
     @IBAction func trainTimesMaxEditTF(_ sender: UITextField) {
         if sender.text != nil {
             trainTimesMax = Float(sender.text!)!
-            trainWeightSlider.maximumValue = trainTimesMax
+            trainTimesSlider.maximumValue = trainTimesMax
+            trainTimesMaxTF.text = sender.text!
         }
     }
     
@@ -148,16 +162,60 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     @IBAction func trainSetEachIntervalMinEditTF(_ sender: UITextField) {
         if sender.text != nil {
             trainSetEachIntervalMin = Float(sender.text!)!
-            trainWeightSlider.minimumValue = trainSetEachIntervalMin
+            trainSetEachIntervalSlider.minimumValue = trainSetEachIntervalMin
+            trainSetEachIntervalMinTF.text = sender.text!
         }
     }
     
     @IBAction func trainSetEachIntervalMaxEditTF(_ sender: UITextField) {
         if sender.text != nil {
             trainSetEachIntervalMax = Float(sender.text!)!
-            trainWeightSlider.maximumValue = trainSetEachIntervalMax
+            trainSetEachIntervalSlider.maximumValue = trainSetEachIntervalMax
+            trainSetEachIntervalMaxTF.text = sender.text!
         }
     }
+    
+    
+    @IBAction func trainEachSetIntervalEditTF(_ sender: UITextField) {
+        if sender.text != nil {
+            trainEachSetInterval = Int(sender.text!)!
+            trainEachSetIntervalSlider.setValue(Float(trainEachSetInterval), animated: true)
+        }
+    }
+    
+    
+    
+    @IBAction func trainEachSetIntervalEditSlider(_ sender: UISlider) {
+        trainEachSetInterval = Int(sender.value)
+        trainEachSetIntervalTF.text = "\(Int(sender.value))"
+    }
+    
+    var trainEachSetIntervalMax = 120
+    var trainEachSetIntervalMin = 30
+    
+    
+    @IBAction func trainEachSetIntervalMinEditTF(_ sender: UITextField) {
+        if sender.text != nil {
+            trainEachSetIntervalMin = Int(sender.text!)!
+            trainEachSetIntervalSlider.minimumValue = Float(trainEachSetIntervalMin)
+            trainEachSetIntervalMinTF.text = sender.text!
+        }
+    }
+    
+    
+    
+    @IBAction func trainEachSetIntervalMaxEditTF(_ sender: UITextField) {
+        if sender.text != nil {
+            trainEachSetIntervalMax = Int(sender.text!)!
+            trainEachSetIntervalSlider.maximumValue = Float(trainEachSetIntervalMax)
+            trainEachSetIntervalMaxTF.text = sender.text!
+        }
+    }
+    
+    
+    
+    
+    
     //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //       TrainingItemD.resignFirstResponder()
 //        TrainingItemDefD.resignFirstResponder()

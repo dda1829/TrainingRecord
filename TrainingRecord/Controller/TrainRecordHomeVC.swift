@@ -52,7 +52,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var trainWeight : Int = 10
     var trainSet : Int = 2
     var trainTimes : Int = 1
-    var trainEachSetInterval : Int = 1
+    var trainEachSetInterval : Int = 60
     var trainSetEachInterval : Float = 1
     var trainUnit: String = "Kg"
     
@@ -464,14 +464,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         picker.removeFromSuperview()
     }
     
-    @IBAction func BreakCounterBtn(_ sender: Any) {
-        
-        
-        
-        
-        
-    }
-    
+   
     // MARK: firestore load Data
     func loadData(_ location: String) {
         self.db.collection(location).getDocuments() { [self] (querySnapshot, error) in
@@ -1042,6 +1035,25 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
     }
     
+    @IBAction func BreakCounterBtn(_ sender: UIButton) {
+        TimerUse.share.setTimer(1, self, #selector(CountTimeBreak
+                                    ), true, 1)
+        for view in self.view.subviews{
+            view.isHidden = true
+        }
+        countDownCounter = trainEachSetInterval
+        self.view.addSubview(countdownTV)
+        countdownTV.translatesAutoresizingMaskIntoConstraints = false
+        countdownTV.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        countdownTV.heightAnchor.constraint(equalToConstant: 234).isActive = true
+        countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
+        
+        
+        
+    }
+    
+    
     @IBAction func test(_ sender: Any) {
         
         print(data)
@@ -1108,7 +1120,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     @objc func CountTimeBreak (){
         if countDownCounter == 0{
             countdownTV.font = UIFont(name: "Helvetica-Light", size: 150)
-            countdownTV.text = "開始"
+            countdownTV.text = "休息結束"
         }else{
             countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
             countdownTV.text = "\(countDownCounter)"
@@ -1122,10 +1134,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
         
         if countDownCounter == 0 {
-            //            pauseAndplayImageButton.removeFromSuperview()
-            countDownCounter = 0
-            TimerUse.share.stopTimer(1)
-            TimerUse.share.setTimer(trainSetEachInterval,self, #selector(CountTimer), true,1)
+            
+            countDownCounter = 3
+            for view in self.view.subviews{
+                view.isHidden = false
+            }
+            countdownTV.removeFromSuperview()
             return
         }
         countDownCounter -= 1
