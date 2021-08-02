@@ -160,16 +160,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="MIt-0g-KQd">
-                                <rect key="frame" x="243" y="626" width="150" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="EjH-Nd-uQN"/>
-                                    <constraint firstAttribute="width" constant="150" id="xBX-p8-qdj"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="TrainDatePicker:" destination="BYZ-38-t0r" eventType="valueChanged" id="hxf-xi-ziB"/>
-                                </connections>
-                            </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNF-8N-Dkw">
                                 <rect key="frame" x="73" y="634" width="64" height="18"/>
                                 <constraints>
@@ -179,6 +169,13 @@
                                 <state key="normal" image="arrowshape.turn.up.forward" catalog="system"/>
                                 <connections>
                                     <action selector="test:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0xB-e5-96t"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zy-bC-LVe">
+                                <rect key="frame" x="313" y="627" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="showDateBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hpd-kx-vJp"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -197,21 +194,21 @@
                             <constraint firstItem="Nfm-vP-5wa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="KPs-sb-1jq"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="top" secondItem="ARs-7t-36B" secondAttribute="bottom" id="N4A-N3-eGU"/>
                             <constraint firstItem="ARs-7t-36B" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RVJ-8N-3WS"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MIt-0g-KQd" secondAttribute="bottom" constant="6" id="XGc-e7-fKT"/>
                             <constraint firstItem="gxM-L5-SGT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="ZKn-fJ-UkO"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="boJ-Ur-Dsd"/>
                             <constraint firstItem="7jb-3j-wrG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="cjN-Er-H89"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zs6-W4-NQA" secondAttribute="trailing" constant="16" id="eku-Rp-AoT"/>
-                            <constraint firstItem="MIt-0g-KQd" firstAttribute="leading" secondItem="gfq-nh-KtU" secondAttribute="trailing" constant="40" id="gXO-nA-bQH"/>
                             <constraint firstItem="ARs-7t-36B" firstAttribute="top" secondItem="RJB-eR-AVK" secondAttribute="bottom" constant="10" id="k65-TP-VSf"/>
                             <constraint firstItem="Nfm-vP-5wa" firstAttribute="top" secondItem="nIS-gp-DlZ" secondAttribute="bottom" constant="10" id="nP3-Na-8UN"/>
                             <constraint firstItem="gxM-L5-SGT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="nsd-Dr-xuR"/>
                             <constraint firstItem="zs6-W4-NQA" firstAttribute="top" secondItem="7jb-3j-wrG" secondAttribute="bottom" constant="10" id="sdM-pP-hbh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7jb-3j-wrG" secondAttribute="trailing" constant="16" id="tzt-u2-Lfn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1zy-bC-LVe" secondAttribute="trailing" constant="16" id="urD-Hm-ehy"/>
                             <constraint firstItem="5l8-n7-G92" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="vXE-2E-7E9"/>
                             <constraint firstItem="RJB-eR-AVK" firstAttribute="top" secondItem="nIS-gp-DlZ" secondAttribute="bottom" constant="10" id="xfE-qz-vmf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gfq-nh-KtU" secondAttribute="bottom" constant="10" id="xga-NA-UYH"/>
                             <constraint firstItem="nIS-gp-DlZ" firstAttribute="top" secondItem="zs6-W4-NQA" secondAttribute="bottom" constant="10" id="xtg-Wt-g6Y"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1zy-bC-LVe" secondAttribute="bottom" constant="10" id="zSR-wa-KL6"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Training Record" largeTitleDisplayMode="always" id="oDp-Rn-Sg1">
@@ -231,9 +228,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="RecordListTV" destination="ARs-7t-36B" id="Uxh-VZ-Aas"/>
-                        <outlet property="TrainDatePickerView" destination="MIt-0g-KQd" id="tXS-7w-xKM"/>
                         <outlet property="TrainPickerView" destination="nIS-gp-DlZ" id="Iku-k8-UHz"/>
                         <outlet property="definitionTV" destination="7jb-3j-wrG" id="MJn-Zh-3E6"/>
+                        <outlet property="showDateBtn" destination="1zy-bC-LVe" id="gDe-6J-0th"/>
                         <outlet property="trainImageView" destination="gxM-L5-SGT" id="ZAN-tj-Nvv"/>
                         <outlet property="trainParametersTV" destination="zs6-W4-NQA" id="qPd-Bg-Cdj"/>
                     </connections>

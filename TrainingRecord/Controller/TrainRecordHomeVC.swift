@@ -13,6 +13,9 @@ import Firebase
 
 
 class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverPresentationControllerDelegate{
+    // MARK: System parameters
+    var loginTimes = 0
+    
     
     // MARK: CoreData for TrainItem's List
     var brestData : BrestItem!
@@ -58,6 +61,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var homeImageView : UIImageView?
     let noColor = UIImage(named: "nocolor")!
     let homeImage = UIImage(named: "homechicken")
+    var homeImageforms: [UIImage] = [UIImage(named: "nocolor")!,UIImage(named: "BrestTitle")!,UIImage(named: "BackTitle")!,UIImage(named: "AbdomenTitle")!,UIImage(named: "BLTitle")!,UIImage(named: "ExerciseTitle")!]
     var brestImageforms : [UIImage] = [UIImage(named: "nocolor")!]
     var backImageforms : [UIImage] = [UIImage(named: "nocolor")!]
     var blImageforms : [UIImage] =  [UIImage(named: "nocolor")!]
@@ -201,7 +205,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         return nil
     }
-    
+    @objc func rotate() {
+        let oneDegree = CGFloat.pi / 180
+        homeImageView!.transform = CGAffineTransform(rotationAngle: oneDegree * 0 )
+        TimerUse.share.stopTimer(1)
+    }
+    @objc func mirror() {
+        homeImageView?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        TimerUse.share.stopTimer(1)
+    }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
         if component == 0 {
@@ -213,6 +225,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 definitionTV.text = ""
                 trainParametersTV.text = ""
                 trainImageView.image = noColor
+                homeImageView?.image = homeImageforms[row]
+                homeImageView?.transform = CGAffineTransform(scaleX: 1, y: 1)
                 homeImageView!.isHidden = false
                 pickerView.selectRow(0, inComponent: 1, animated: true)
                 pickerView.reloadComponent(1)
@@ -224,6 +238,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 definitionTV.text = ""
                 trainParametersTV.text = ""
                 trainImageView.image = noColor
+                TimerUse.share.setTimer(0.3, self, #selector(mirror), false, 1)
+                
+                homeImageView?.image = homeImageforms[row]
                 homeImageView!.isHidden = false
                 pickerView.selectRow(0, inComponent: 1, animated: true)
                 pickerView.reloadComponent(1)
@@ -233,6 +250,14 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 definitionTV.text = ""
                 trainParametersTV.text = ""
                 trainImageView.image = noColor
+                let oneDegree = CGFloat.pi / 180
+               
+                homeImageView?.image = homeImageforms[row]
+                homeImageView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                homeImageView?.transform = CGAffineTransform.identity.translatedBy(x: 50, y: 600)
+                homeImageView!.transform = CGAffineTransform(rotationAngle: oneDegree * -45 )
+                TimerUse.share.setTimer(0.2, self, #selector(rotate), false, 1)
+                
                 homeImageView!.isHidden = false
                 pickerView.selectRow(0, inComponent: 1, animated: true)
                 pickerView.reloadComponent(1)
@@ -242,6 +267,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 definitionTV.text = ""
                 trainParametersTV.text = ""
                 trainImageView.image = noColor
+                homeImageView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                homeImageView?.image = homeImageforms[row]
                 homeImageView!.isHidden = false
                 pickerView.selectRow(0, inComponent: 1, animated: true)
                 pickerView.reloadComponent(1)
@@ -251,6 +278,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 definitionTV.text = ""
                 trainParametersTV.text = ""
                 trainImageView.image = noColor
+                homeImageView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                homeImageView?.image = homeImageforms[row]
                 homeImageView!.isHidden = false
                 pickerView.selectRow(0, inComponent: 1, animated: true)
                 pickerView.reloadComponent(1)
@@ -260,6 +289,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 definitionTV.text = ""
                 trainParametersTV.text = ""
                 trainImageView.image = noColor
+                homeImageView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+//                homeImageView?.image = homeImageforms[row]
                 homeImageView!.isHidden = false
                 pickerView.selectRow(0, inComponent: 1, animated: true)
                 pickerView.reloadComponent(1)
@@ -270,6 +301,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 definitionTV.text = ""
                 trainParametersTV.text = ""
                 trainImageView.image = noColor
+                homeImageView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                homeImageView?.image = homeImageforms[row]
                 homeImageView!.isHidden = false
                 pickerView.reloadAllComponents()
                 
@@ -384,22 +417,43 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     @IBOutlet weak var TrainPickerView: UIPickerView!
     
+   
+    @IBOutlet weak var showDateBtn: UIButton!
     
     @IBOutlet weak var RecordListTV: UITableView!
     @IBOutlet weak var TrainDatePickerView: UIDatePicker!
     
     
-    
-    
-    
-    @IBAction func TrainDatePicker(_ sender: UIDatePicker) {
+    let picker : UIDatePicker = UIDatePicker()
+    var showDateBtnClick = false
+    @IBAction func showDateBtnPressed(_ sender: UIButton) {
+        if !showDateBtnClick {
+        picker.datePickerMode = UIDatePicker.Mode.date
+        picker.addTarget(self, action:#selector(dueDateChanged(sender:)),for: UIControl.Event.valueChanged)
+        let pickerSize : CGSize = picker.sizeThatFits(CGSize.zero)
+        picker.frame = CGRect(x:50, y:120, width:pickerSize.width - 16, height:400)
+            // you probably don't want to set background color as black
         
+        picker.preferredDatePickerStyle = .inline
+            self.view.addSubview(picker)
+        picker.backgroundColor = .darkGray
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        picker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        picker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            showDateBtnClick = true
+        } else {
+            showDateBtnClick = false
+            picker.removeFromSuperview()
+        }
+    }
+    @objc func dueDateChanged(sender:UIDatePicker){
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
-        
+        showDateBtn.setTitle(dateFormatter.string(from: sender.date), for: .normal)
         dateRecord = dateFormatter.string(from: sender.date)
+        print("DatePicke is used")
         RecordListTV.reloadData()
         print(dateRecord)
         if let recorddata = data[dateRecord] {
@@ -407,10 +461,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }else{
             todayItem = RecordItem(dateRecord, [:], [:],[], [:], [:], [:])
         }
-        
+        picker.removeFromSuperview()
     }
     
     @IBAction func BreakCounterBtn(_ sender: Any) {
+        
+        
+        
+        
+        
     }
     
     // MARK: firestore load Data
@@ -581,10 +640,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         trainParametersTV.text = ""
         TrainPickerView.setValue(UIColor.white, forKey: "textColor")
         self.db = Firestore.firestore()
-        let imageView = UIImageView(image: self.homeImage)
+        let imageView = UIImageView(image: self.homeImageforms[0])
         homeImageView = imageView
         self.view.addSubview(homeImageView!)
-        homeImageView!.frame = CGRect(x: 106, y: 103, width: 163, height: 141)
+        homeImageView!.frame = CGRect(x: 16, y: 54, width: 343, height: 145)
         homeImageView!.contentMode = .scaleAspectFit //把圖片縮在你指定的大小
         homeImageView!.clipsToBounds = true
         homeImageView!.translatesAutoresizingMaskIntoConstraints = false
@@ -595,7 +654,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         if formListBrest.count != 1{
             self.RecordListTV.dataSource = self
             self.RecordListTV.delegate = self
-            setImageFormListFromfirebase()
         }
         
         var isPlay = false
@@ -620,7 +678,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         pauseAndplayImageButton.addAction(pauseTraining, for: .touchUpInside)
         pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
+        let a = UserDefaults.standard.integer(forKey: "LoginTimes")
+        print(a)
+        if a == 0 {
+            // this use to generate a view to introduce the program how to use
+        }
         
+        loginTimes += 1
+        UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
+        UserDefaults.standard.synchronize()
         // MARK: 先把資料抓出來確認是否為今天的資料，若為今天的資料便將資料存回今日，或非則將資料改至明日。
         loadFromFile()
         print(data)
@@ -644,6 +710,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         print(trainToday)
         print(data)
         
+        showDateBtn.setTitle(trainToday, for: .normal)
         
     }
     

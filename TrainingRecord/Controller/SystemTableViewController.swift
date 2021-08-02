@@ -48,7 +48,9 @@ class SystemTableViewController: UITableViewController {
         if indexPath.row == 0 && indexPath.section == 0 {
             cell = tableView.dequeueReusableCell(withIdentifier: "MemberCell", for: indexPath)
             cell.textLabel?.text = userTextLabel
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
             cell.detailTextLabel?.text = "目標：\(trainingGoals.randomElement()!)"
+            cell.detailTextLabel!.font = UIFont.systemFont(ofSize: 18)
             cell.showsReorderControl = true
             
         }
