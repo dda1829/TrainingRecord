@@ -813,8 +813,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             targetTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
             targetTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
             targetTV.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor, constant: 0).isActive = true
-            targetTV.heightAnchor.constraint(equalToConstant: 35).isActive = true
-            targetTV.backgroundColor = .black
+            targetTV.heightAnchor.constraint(equalToConstant: 45).isActive = true
+            targetTV.backgroundColor = .darkGray
             targetTV.textColor = .red
             targetTV.font = UIFont.systemFont(ofSize: 24)
             targetTV.isEditable = false
@@ -1158,7 +1158,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     
     @IBAction func test(_ sender: Any) {
-        
         print(data)
         print(trainUnit)
     }
