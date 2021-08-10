@@ -9,22 +9,10 @@ import UIKit
 
 class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate {
     var trainWeight : Int = 10
-    var trainSet : Int = 3
     var trainTimes : Int = 10
     var trainEachSetInterval : Int = 30
     var trainSetEachInterval : Float = 1
     var trainUnit: String = "kg"
-    var trainLS = 0
-    
-
-    
-    var formWeight : [String] = ["10","20","30","40","50","60","70","80","90","100","110","120","130","140","150","160","170","180","190","200"]
-    var formUnit : [String] = ["kg","lb"]
-    var formSet : [String] = ["3","4","5"]
-    var formSetCount : [String] = ["10","11","12","13","14","15","16","17","18"]
-    var formSetEachInterval : [String] = ["0.9","1","1.1","1.2","1.3","1.4","1.5","1.6","1.7","1.8","1.9","2","2.1","2.2","2.3","2.4","2.5","2.6","2.7","2.8","2.9","3"]
-    var formEachSetInterval : [String] = ["30","40","50","60","70","80","90","100","110","120"]
-   
     
     @IBOutlet weak var trainWeightTF: UITextField!
 
@@ -58,19 +46,87 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     
     @IBOutlet weak var trainEachSetIntervalMaxTF: UITextField!
     
+//    var originalFrame : CGRect?
+//    //畫面顯示時註冊通知
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        //註冊UIKeyboardWillShow通知
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        //註冊UIKeyboardWillHide通知
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
+//    
+//    //畫面消失時取消註冊通知
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        NotificationCenter.default.removeObserver(self)
+//    }
+//   
+//    
+//    @objc func keyboardWillAppear(notification : Notification)  {
+//        let info = notification.userInfo!
+//        let currentKeyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+//        let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
+//        //取得textField的frame（windows座標)
+//        let textFrame = self.view.window!.convert(self.trainEachSetIntervalTF.frame, from: self.view)
+//        let textFrame2 = self.view.window!.convert(self.trainEachSetIntervalMaxTF.frame, from: self.view)
+//        let textFrame3 = self.view.window!.convert(self.trainEachSetIntervalMinTF.frame, from: self.view)
+//        var visibleRect = self.view.frame
+//        if self.originalFrame == nil {
+//            self.originalFrame = visibleRect
+//        }
+//        //如果textField frame（windows座標)的最低點 > keyboard frame minY,將view往上移
+//        if (  textFrame.maxY > currentKeyboardFrame.minY ) || (  textFrame2.maxY > currentKeyboardFrame.minY ) || (  textFrame3.maxY > currentKeyboardFrame.minY ) {
+//            //計算差額
+//            let difference = textFrame3.maxY - currentKeyboardFrame.minY + 20
+//            visibleRect.origin.y = visibleRect.origin.y - difference
+//            //將controller view的 y 往上移
+//            UIView.animate(withDuration: duration) {
+//                self.view.frame = visibleRect
+//            }
+//        }
+//    }
+//    @objc func keyboardWillHide(notification : Notification)  {
+//        let info = notification.userInfo!
+//        //回復原本的位置,注意這裏的duration 要設的跟66行一樣，可以自行調整
+//        UIView.animate(withDuration: 0.5) {
+//            self.view.frame = self.originalFrame!
+//        }
+//    }
+//    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 註冊tab事件，點選瑩幕任一處可關閉瑩幕小鍵盤
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tap)
-        let notificationName = Notification.Name("GetUpdateNoti")
-           NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
-        
+        trainUnit = UserDefaults.standard.string(forKey: "trainUnit") ?? "Kg"
+        unit.text = trainUnit
+        if UserDefaults.standard.float(forKey: "trainWeight") != 0.0{
+            trainWeightSlider.value = UserDefaults.standard.float(forKey: "trainWeight")
+            trainWeightTF.text = "\(UserDefaults.standard.integer(forKey: "trainWeight"))"
+        }
+        trainWeightSlider.value = Float(trainWeight)
+        trainWeightTF.text = "\(trainWeight)"
+        if UserDefaults.standard.float(forKey: "trainTimes") != 0.0{
+            trainTimesTF.text = "\(UserDefaults.standard.integer(forKey: "trainTimes"))"
+            trainTimesSlider.value = UserDefaults.standard.float(forKey: "trainTimes")
+        }
+        trainTimesTF.text = "\(trainTimes)"
+        trainTimesSlider.value = Float(trainTimes)
+        if UserDefaults.standard.integer(forKey: "trainEachSetInterval") != 0 {
+            trainEachSetIntervalTF.text = "\(UserDefaults.standard.integer(forKey: "trainEachSetInterval"))"
+            trainEachSetIntervalSlider.value = UserDefaults.standard.float(forKey: "trainEachSetInterval")
+        }
+        trainEachSetIntervalTF.text = "\(trainEachSetInterval)"
+        trainEachSetIntervalSlider.value = Float(trainEachSetInterval)
+        if UserDefaults.standard.float(forKey: "trainSetEachInterval") != 0.0 {
+            trainSetEachIntervalTF.text = "\(UserDefaults.standard.float(forKey: "trainSetEachInterval"))"
+            trainSetEachIntervalSlider.value = UserDefaults.standard.float(forKey: "trainSetEachInterval")
+        }
+        trainSetEachIntervalTF.text = "\(trainSetEachInterval)"
+        trainSetEachIntervalSlider.value = trainSetEachInterval
     }
-    @objc func getUpdateNoti(noti:Notification) {
-        trainUnit = noti.userInfo!["trainUnit"] as! String
-       
-    }
+   
     // 關閉瑩幕小鍵盤
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
@@ -86,13 +142,16 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
             trainWeightTF.text = "\(Int(sender.value) / 10 * 10)"
             trainWeight = Int(sender.value) / 10 * 10
         }
-        
+        UserDefaults.standard.setValue(trainWeight, forKey: "trainWeight")
+        UserDefaults.standard.synchronize()
     }
 
     @IBAction func trainWeightEditTF(_ sender: UITextField) {
         if sender.text != nil {
             trainWeight = Int(sender.text!)!
             trainWeightSlider.setValue(Float(trainWeight), animated: true)
+            UserDefaults.standard.setValue(trainWeight, forKey: "trainWeight")
+            UserDefaults.standard.synchronize()
         }
     }
     var trainWeightMin: Float = 0
@@ -119,13 +178,16 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
             trainTimes = Int(sender.text!)!
             trainTimesSlider.setValue(Float(trainTimes), animated: true)
         }
-        
+        UserDefaults.standard.setValue(trainTimes, forKey: "trainTimes")
+        UserDefaults.standard.synchronize()
     }
     @IBAction func trainTimesEditSlider(_ sender: UISlider) {
         
         sender.value.round()
         trainTimes = Int(sender.value)
         trainTimesTF.text = "\(Int(sender.value))"
+        UserDefaults.standard.setValue(trainTimes, forKey: "trainTimes")
+        UserDefaults.standard.synchronize()
     }
     var trainTimesMin: Float = 6
     var trainTimesMax: Float = 20
@@ -148,6 +210,8 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         if sender.text != nil {
             trainSetEachInterval = Float(sender.text!)!
             trainSetEachIntervalSlider.setValue(Float(trainSetEachInterval), animated: true)
+            UserDefaults.standard.setValue(trainSetEachInterval, forKey: "trainSetEachInterval")
+            UserDefaults.standard.synchronize()
         }
     }
     
@@ -155,6 +219,8 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     @IBAction func trainSetEachIntervalSlider(_ sender: UISlider) {
         trainSetEachInterval = sender.value
         trainSetEachIntervalTF.text = "\(Float(Int(sender.value * 10))/10 )"
+        UserDefaults.standard.setValue(trainSetEachInterval, forKey: "trainSetEachInterval")
+        UserDefaults.standard.synchronize()
     }
     var trainSetEachIntervalMin: Float = 1
     var trainSetEachIntervalMax: Float = 5
@@ -180,14 +246,20 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         if sender.text != nil {
             trainEachSetInterval = Int(sender.text!)!
             trainEachSetIntervalSlider.setValue(Float(trainEachSetInterval), animated: true)
+            UserDefaults.standard.setValue(trainEachSetInterval, forKey: "trainEachSetInterval")
+            UserDefaults.standard.synchronize()
         }
     }
     
     
     
     @IBAction func trainEachSetIntervalEditSlider(_ sender: UISlider) {
+       
         trainEachSetInterval = Int(sender.value)
         trainEachSetIntervalTF.text = "\(Int(sender.value))"
+        UserDefaults.standard.setValue(trainEachSetInterval, forKey: "trainEachSetInterval")
+        UserDefaults.standard.synchronize()
+        
     }
     
     var trainEachSetIntervalMax = 120

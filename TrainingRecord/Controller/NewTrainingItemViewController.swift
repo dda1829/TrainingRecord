@@ -103,9 +103,8 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         try? manager.removeItem(atPath: imageURL!.absoluteString)
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-      ///關閉ImagePickerController
-      picker.dismiss(animated: true, completion: nil)
-      if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+      
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage, let imagedata = image.jpegData(compressionQuality: 1) {
         let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
         let docUrl = homeUrl.appendingPathComponent("Documents")
         let doc2Url = docUrl.appendingPathComponent(fitRecordLocation(trainLS))
@@ -113,11 +112,18 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         let fileUrl = doc2Url.appendingPathComponent(fileName)
         imageString = "Documents/\(fitRecordLocation(trainLS))/\(fileName)"
         imageURL = fileUrl
-        manager.createFile(atPath: fileUrl.absoluteString, contents: info[UIImagePickerController.InfoKey.originalImage] as? Data, attributes: nil)
+            do{
+           try imagedata.write(to: imageURL!, options: [.atomic])
+            }catch{
+                print("\(error)")
+            }
+            
         ///取得使用者選擇的圖片
         imageView.image = image
-       
+        
       }
+        ///關閉ImagePickerController
+        picker.dismiss(animated: true, completion: nil)
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

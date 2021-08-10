@@ -4,7 +4,7 @@
 //
 //  Created by 邱宣策 on 2021/5/29.
 //
-
+import Firebase
 import Foundation
 class TrainingItem {
     var itemName: String?
@@ -24,5 +24,16 @@ class InfoItemForFireStore {
     var ItemContent: String?
     init(){
         ItemID = UUID().uuidString
+    }
+}
+
+class userData{
+    var userID: String?
+    var userGoal: String?
+    var userTrainingLog: String?
+    var userBodyFat: String?
+    var userBMI: String?
+    init(){
+        
     }
 }

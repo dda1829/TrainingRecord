@@ -8,6 +8,14 @@
 import Foundation
 import Firebase
 
+enum rate: String {
+    case Good = "Good"
+    case Normal = "Normal"
+    case Bad = "Bad"
+    case none = "none"
+}
+
+
 class RecordItem :NSObject ,NSCoding {
     var trainDate : String
 //    var trainDateYesterday: Stringlkl
@@ -17,7 +25,8 @@ class RecordItem :NSObject ,NSCoding {
     var trainLocation: [[Int]:[Int]]
     var trainUnit: [[Int]:[String]]
     var trainLocationSort: [[Int]]
-    init(_ traindate: String,/* _ traindateyesterday: String,*/_ trainset: [[Int]: Int], _ traintimes: [[Int]:[Int]], _ trainlocationsort: [[Int]],_ trainweight: [[Int]:[Int]], _ trainlocation: [[Int]:[Int]], _ trainunit: [[Int]:[String]]){
+    var trainRate: [String]
+    init(_ traindate: String,/* _ traindateyesterday: String,*/_ trainset: [[Int]: Int], _ traintimes: [[Int]:[Int]], _ trainlocationsort: [[Int]],_ trainweight: [[Int]:[Int]], _ trainlocation: [[Int]:[Int]], _ trainunit: [[Int]:[String]],_ trainrate: [String]){
         trainDate = traindate
         trainTimes = traintimes
         trainLocation = trainlocation
@@ -25,6 +34,7 @@ class RecordItem :NSObject ,NSCoding {
         trainWeight = trainweight
         trainLocationSort = trainlocationsort
         trainUnit = trainunit
+        trainRate = trainrate
 //        trainDateYesterday = traindateyesterday
     }
     //Note物件寫到檔案：Dictionary
@@ -36,6 +46,7 @@ class RecordItem :NSObject ,NSCoding {
         coder.encode(self.trainWeight, forKey: "trainWeight")
         coder.encode(self.trainLocationSort, forKey: "trainLocationSort")
         coder.encode(self.trainUnit, forKey: "trainUnit")
+        coder.encode(self.trainRate, forKey: "trainRate")
 //        coder.encode(self.trainDateYesterday, forKey: "trainDateYesterday")
     }
     //檔案->Note物件
@@ -47,6 +58,7 @@ class RecordItem :NSObject ,NSCoding {
         self.trainWeight =  coder.decodeObject(forKey: "trainWeight") as! [[Int]:[Int]]
         self.trainLocationSort = coder.decodeObject(forKey: "trainLocationSort") as! [[Int]]
         self.trainUnit =  coder.decodeObject(forKey: "trainUnit") as! [[Int]:[String]]
+        self.trainRate = coder.decodeObject(forKey: "trainRate") as! [String]
 //        self.trainDateYesterday = coder.decodeObject(forKey: "trainDateYesterday") as! String
     }
     
