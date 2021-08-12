@@ -23,7 +23,7 @@ class MemberUserDataToFirestore {
    
     func checkAge() -> Bool{
         
-        if let userage = memberDatas["userAge"]  {
+        if (memberDatas["userAge"] as! String) != ""  {
             let nowDate = Date()
             let dateFormatter = DateFormatter()
             dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
@@ -125,6 +125,10 @@ class MemberUserDataToFirestore {
     }
     func loadUserdatas(){
         if let currentuser = Auth.auth().currentUser{
+            
+                accountDatas.updateValue(currentuser.email!, forKey: "userEmail")
+                accountDatas.updateValue(currentuser.displayName!, forKey: "userName")
+            
             let docRef = db.collection("users").document("\(currentuser.email!)")
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {

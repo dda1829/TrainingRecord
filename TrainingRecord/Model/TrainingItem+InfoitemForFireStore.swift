@@ -18,9 +18,12 @@ class TrainingItem {
 }
 
 class InfoItemForFireStore {
+    var ItemUserName: String?
+    var ItemEmail : String?
+    
     
     var ItemID: String
-    var ItemNumber: String?
+    var ItemTitle: String?
     var ItemContent: String?
     init(){
         ItemID = UUID().uuidString

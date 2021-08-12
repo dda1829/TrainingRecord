@@ -58,6 +58,7 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate {
                             }
                             DispatchQueue.main.async {
                                 if zz {
+                                    MemberUserDataToFirestore.share.loadUserdatas()
                                 goAlreadylogin()
                                 }
                             }

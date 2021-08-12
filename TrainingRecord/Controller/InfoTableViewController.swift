@@ -7,13 +7,18 @@
 
 import UIKit
 
-class InfoTableViewController: UITableViewController{
+class InfoTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
+    @IBOutlet weak var InfoTextView: UITextView!
     @IBOutlet var InfoTableView: UITableView!
     var infodata: [String] = []
+    var infocontent: [String] = []
+    var infoUserName: [String] = []
+    var infoEmail: [String] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        InfoTableView.delegate = self
+        InfoTableView.dataSource = self
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -23,26 +28,29 @@ class InfoTableViewController: UITableViewController{
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return infodata.count
     }
-
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Infocell", for: indexPath)
         
         // Configure the cell...
         cell.textLabel?.text = infodata[indexPath.row]
+        cell.textLabel?.textColor = .white
         cell.showsReorderControl = true
         return cell
     }
-    
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        InfoTextView.text = infocontent[indexPath.row] + "\n\(infoEmail[indexPath.row])\n\(infoUserName[indexPath.row])"
+    }
 
     /*
     // Override to support conditional editing of the table view.

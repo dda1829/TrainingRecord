@@ -4,8 +4,10 @@
 //
 //  Created by 邱宣策 on 2021/8/3.
 //
-import Firebase
+
 import UIKit
+import Firebase
+
 
 class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
 
@@ -14,52 +16,51 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
     var passwordstrength = 0
     var isMember: Bool = false
     
-//    var originalFrame : CGRect?
-//    //畫面顯示時註冊通知
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        //註冊UIKeyboardWillShow通知
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        //註冊UIKeyboardWillHide通知
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//
-//    //畫面消失時取消註冊通知
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        NotificationCenter.default.removeObserver(self)
-//    }
-//
-//
-//    @objc func keyboardWillAppear(notification : Notification)  {
-//        let info = notification.userInfo!
-//        let currentKeyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-//        let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
-//        //取得textField的frame（windows座標)
-//        let textFrame = self.view.window!.convert(self.passwordDebugLabel.frame, from: self.view)
-//        var visibleRect = self.view.frame
-//        if self.originalFrame == nil {
-//            self.originalFrame = visibleRect
-//        }
-//        //如果textField frame（windows座標)的最低點 > keyboard frame minY,將view往上移
-//        if (  textFrame.maxY > currentKeyboardFrame.minY ) {
-//            //計算差額
-//            let difference = textFrame.maxY - currentKeyboardFrame.minY + 20
-//            visibleRect.origin.y = visibleRect.origin.y - difference
-//            //將controller view的 y 往上移
-//            UIView.animate(withDuration: duration) {
-//                self.view.frame = visibleRect
-//            }
-//        }
-//    }
-//    @objc func keyboardWillHide(notification : Notification)  {
-//        let info = notification.userInfo!
-//        //回復原本的位置,注意這裏的duration 要設的跟66行一樣，可以自行調整
-//        UIView.animate(withDuration: 0.5) {
-//            self.view.frame = self.originalFrame!
-//        }
-//    }
-    
+    var originalFrame : CGRect?
+    //畫面顯示時註冊通知
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //註冊UIKeyboardWillShow通知
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        //註冊UIKeyboardWillHide通知
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    //畫面消失時取消註冊通知
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+
+
+    @objc func keyboardWillAppear(notification : Notification)  {
+        let info = notification.userInfo!
+        let currentKeyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+        let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
+        //取得textField的frame（windows座標)
+        let textFrame = self.view.window!.convert(self.passwordDebugLabel.frame, from: self.view)
+        var visibleRect = self.view.frame
+        if self.originalFrame == nil {
+            self.originalFrame = visibleRect
+        }
+        //如果textField frame（windows座標)的最低點 > keyboard frame minY,將view往上移
+        if (  textFrame.maxY > currentKeyboardFrame.minY ) {
+            //計算差額
+            let difference = textFrame.maxY - currentKeyboardFrame.minY + 20
+            visibleRect.origin.y = visibleRect.origin.y - difference
+            //將controller view的 y 往上移
+            UIView.animate(withDuration: duration) {
+                self.view.frame = visibleRect
+            }
+        }
+    }
+    @objc func keyboardWillHide(notification : Notification)  {
+        let info = notification.userInfo!
+        //回復原本的位置,注意這裏的duration 要設的跟66行一樣，可以自行調整
+        UIView.animate(withDuration: 0.5) {
+            self.view.frame = self.originalFrame!
+        }
+    }
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -70,8 +71,7 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
         userNameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        // Do any additional setup after loading the view.
-
+        // Do any additional setup after loading the view
 
 
     }
@@ -143,6 +143,13 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
             }
     }
     
+    @IBAction func memberLoginBtnPressed(_ sender: Any) {
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MemberLoginPage") as? MemberLoginViewController
+        self.navigationController?.pushViewController(vc!,animated: true)
+        
+        
+    }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         print("textField.text: \(emailTextField.text!)")
         print("range: \(range.location)")
@@ -197,6 +204,7 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
         return true
     }
    
+    
     
     
     /*

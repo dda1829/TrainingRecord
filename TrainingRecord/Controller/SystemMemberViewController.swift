@@ -90,34 +90,35 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         // Do any additional setup after loading the view.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tap)
+        sexualAgePV.setValue(UIColor.white, forKey: "textColor")
         sexualAgePV.delegate = self
         sexualAgePV.dataSource = self
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
         navigationController?.title = "會員資料設定"
-        if let height = MemberUserDataToFirestore.share.getUserdatas("userHeight") {
-            userHeight = height as! [String]
+        if (MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]).count != 0 {
+            userHeight = MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]
             heightTF.placeholder = userHeight.last! + "cm"
         }
-        if let weight = MemberUserDataToFirestore.share.getUserdatas("userWeight") {
-            userWeight = weight as! [String]
+        if (MemberUserDataToFirestore.share.getUserdatas("userWeight") as! [String]).count != 0 {
+            userWeight = MemberUserDataToFirestore.share.getUserdatas("userWeight") as! [String]
             weightTF.placeholder = userWeight.last! + "kg"
         }
-        if let bodyfat = MemberUserDataToFirestore.share.getUserdatas("userBodyFat") {
-            userBodyFat = bodyfat as! [String]
+        if (MemberUserDataToFirestore.share.getUserdatas("userBodyFat") as! [String]).count != 0  {
+            userBodyFat = MemberUserDataToFirestore.share.getUserdatas("userBodyFat") as! [String]
             BodyFatTF.placeholder = userBodyFat.last! + "%"
         }
-        if let goal = MemberUserDataToFirestore.share.getUserdatas("userGoal"){
-            userGoals = goal as! [String]
+        if (MemberUserDataToFirestore.share.getUserdatas("userGoal") as! [String]).count != 0{
+            userGoals = MemberUserDataToFirestore.share.getUserdatas("userGoal") as! [String]
             targetTextField.placeholder = userGoals.last!
         }
-        if let bmi = MemberUserDataToFirestore.share.getUserdatas("userBMI") {
-            userBMI = bmi as! [String]
-        }
-        if let bmr = MemberUserDataToFirestore.share.getUserdatas("userBMR") {
-            userBMR = bmr as! [String]
-        }
-        if let recorddate = MemberUserDataToFirestore.share.getUserdatas("userRecordDate") {
-            userRecordDate = recorddate as! [String]
+//        if (MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]).count != 0{
+//            userBMI = MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]
+//        }
+//        if (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]).count != 0 {
+//            userBMR = MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]
+//        }
+        if (MemberUserDataToFirestore.share.getUserdatas("userRecordDate") as! [String]).count != 0 {
+            userRecordDate = MemberUserDataToFirestore.share.getUserdatas("userRecordDate") as! [String]
         }
         
         
@@ -237,7 +238,8 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         UserDefaults.standard.setValue(conclusionright, forKey: "userReportRight")
         UserDefaults.standard.synchronize()
         isPressedBtn = true
-        
+        MemberUserDataToFirestore.share.updateUserdata("userBMI", BMI)
+        MemberUserDataToFirestore.share.updateUserdata("userBMR", BMR)
         
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

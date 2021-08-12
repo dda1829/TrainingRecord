@@ -20,6 +20,10 @@
 		DC96E66B26BA6F11003AD4CD /* MemberLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96E66A26BA6F11003AD4CD /* MemberLoginViewController.swift */; };
 		DC96E66D26BAC652003AD4CD /* SystemMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96E66C26BAC650003AD4CD /* SystemMemberViewController.swift */; };
 		DCA9913D26BBE71900C08E5D /* MemberUserDataToFirestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9913C26BBE71900C08E5D /* MemberUserDataToFirestore.swift */; };
+		DCC2AF8A26C50D4C00087FA6 /* BeepGo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */; };
+		DCC2AF8B26C50D4C00087FA6 /* Radar.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */; };
+		DCC2AF8C26C50D4C00087FA6 /* BeepPrepare.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */; };
+		DCC2AF8E26C50DD300087FA6 /* AVFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */; };
 		DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13A26529D290040DFA8 /* AppDelegate.swift */; };
 		DCC7D13D26529D290040DFA8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */; };
 		DCC7D13F26529D290040DFA8 /* TrainRecordHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */; };
@@ -49,6 +53,10 @@
 		DC96E66A26BA6F11003AD4CD /* MemberLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberLoginViewController.swift; sourceTree = "<group>"; };
 		DC96E66C26BAC650003AD4CD /* SystemMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMemberViewController.swift; sourceTree = "<group>"; };
 		DCA9913C26BBE71900C08E5D /* MemberUserDataToFirestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberUserDataToFirestore.swift; sourceTree = "<group>"; };
+		DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepGo.m4a; sourceTree = "<group>"; };
+		DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Radar.mp3; sourceTree = "<group>"; };
+		DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepPrepare.m4a; sourceTree = "<group>"; };
+		DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.swift; sourceTree = "<group>"; };
 		DCC7D13726529D290040DFA8 /* TrainingRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCC7D13A26529D290040DFA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				DC00C5DE2685DFAF00161DBA /* Timer.swift */,
+				DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */,
 				DCA9913C26BBE71900C08E5D /* MemberUserDataToFirestore.swift */,
 				DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */,
 				DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */,
@@ -130,6 +139,16 @@
 				DCEC8ED626C00A5F003CC74A /* ShareTableViewCell.xib */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		DCC2AF8626C50D4A00087FA6 /* Ring */ = {
+			isa = PBXGroup;
+			children = (
+				DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */,
+				DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */,
+				DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */,
+			);
+			path = Ring;
 			sourceTree = "<group>";
 		};
 		DCC7D12E26529D290040DFA8 = {
@@ -155,6 +174,7 @@
 			children = (
 				DCC7D13A26529D290040DFA8 /* AppDelegate.swift */,
 				DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */,
+				DCC2AF8626C50D4A00087FA6 /* Ring */,
 				DCA1C0B626635F1400D3A687 /* Controller */,
 				DCA1C0B826635F8600D3A687 /* Model */,
 				DCA1C0B726635F7900D3A687 /* Storyboard */,
@@ -226,7 +246,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCC2AF8A26C50D4C00087FA6 /* BeepGo.m4a in Resources */,
 				DCC7D14A26529D2C0040DFA8 /* LaunchScreen.storyboard in Resources */,
+				DCC2AF8C26C50D4C00087FA6 /* BeepPrepare.m4a in Resources */,
+				DCC2AF8B26C50D4C00087FA6 /* Radar.mp3 in Resources */,
 				DCEC8ED826C00A5F003CC74A /* ShareTableViewCell.xib in Resources */,
 				DC94415126A424E500A4A3ED /* GoogleService-Info.plist in Resources */,
 				DCC7D14726529D2C0040DFA8 /* Assets.xcassets in Resources */,
@@ -307,6 +330,7 @@
 				DC2276A4267F273C00D0EEF6 /* ManageTrainSetVC.swift in Sources */,
 				DCEC8ED726C00A5F003CC74A /* ShareTableViewCell.swift in Sources */,
 				DC7D8870266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift in Sources */,
+				DCC2AF8E26C50DD300087FA6 /* AVFoundation.swift in Sources */,
 				DCC7D13F26529D290040DFA8 /* TrainRecordHomeVC.swift in Sources */,
 				DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */,
 				DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */,

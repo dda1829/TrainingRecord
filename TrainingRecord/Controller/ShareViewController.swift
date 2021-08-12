@@ -25,12 +25,9 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         userReportLeft.text = userreportleft
         userReportRight.text = userreportright
             let border = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-//            border.layer.borderWidth = 2
-//            border.layer.borderColor = UIColor.white.cgColor
             border.backgroundColor = .white
             self.view.addSubview(border)
             border.translatesAutoresizingMaskIntoConstraints = false
-//            border.topAnchor.constraint(equalTo: dateTitleLabel.bottomAnchor, constant: 0).isActive = true
             border.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16 ).isActive = true
             border.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
             border.bottomAnchor.constraint(equalTo: RecodListTV.topAnchor, constant: 0).isActive = true
@@ -127,26 +124,6 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         }
         return cell
     }
-//    func forRecordRating(_ traindate: String) -> [String]{
-//        let locationsort = data[traindate]!.trainLocationSort
-//        var target : [[Int]] = []
-//        var result: [String] = []
-//        for x in locationsort {
-//            if !target.contains(x) {
-//                target.append(x)
-//            }
-//        }
-//        for x in target {
-//            for y in 0 ..< (data[traindate]?.trainSet[x]!)!{
-//                if let z = data[traindate]?.trainRate[x] {
-//                    result.append(z[y])
-//                }else{
-//                    result.append("none")
-//                }
-//            }
-//        }
-//        return result
-//    }
     var recordsort: [[Int]] = []
     func rangeTVCTitle(_ traindate: String) -> [String]{
         var result: [String] = []
@@ -256,12 +233,13 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
             return formListBack[locationdata[1]]
         case 3:
             print(locationdata[1])
-            print(formListBL)
-            return formListBL[locationdata[1]]
-        case 4:
-            print(locationdata[1])
             print(formListAbdomen)
             return formListAbdomen[locationdata[1]]
+            
+        case 4:
+            print(locationdata[1])
+            print(formListBL)
+            return formListBL[locationdata[1]]
         case 5:
             print(locationdata[1])
             print(formListArm)

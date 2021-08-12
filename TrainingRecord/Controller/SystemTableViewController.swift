@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import MessageUI
 import Firebase
-class SystemTableViewController: UITableViewController {
+class SystemTableViewController: UITableViewController,MFMailComposeViewControllerDelegate {
     var userTextLabel = "精壯使用者"
     var trainingGoals: [String] = []
     var trainingGoal: String = ""
@@ -15,6 +16,7 @@ class SystemTableViewController: UITableViewController {
     var trainUnitSettoKg = true
     var trainUnit = "Kg"
     var memberFunctionForm : [String] = ["設定會員資料","設定預備時間"]
+//    var dataForm: [String] = ["清除所有訓練資料","聯繫作者"]
     var trainingParameters: [String] = ["重量單位"]
     var db: Firestore?
     var memberDatas: [String:Any]?
@@ -33,6 +35,12 @@ class SystemTableViewController: UITableViewController {
             print("\(user.uid) login")
             if let usergoal = UserDefaults.standard.string(forKey: "userGoal"){
             trainingGoal = usergoal
+            }else if let usergoal = MemberUserDataToFirestore.share.getUserdatas("userGoal"){
+                if let goal = (usergoal as! [String]).last{
+                    trainingGoal = goal
+                    UserDefaults.standard.setValue(goal, forKey: "userGoal")
+                    UserDefaults.standard.synchronize()
+                }
             }
             if UserDefaults.standard.integer(forKey: "prepareTime") != 0 {
             prepareTime = UserDefaults.standard.integer(forKey: "prepareTime")
@@ -259,7 +267,7 @@ class SystemTableViewController: UITableViewController {
             
         }
     }
-    
+   
     /*
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
