@@ -204,7 +204,7 @@
                                     <action selector="showDateBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hpd-kx-vJp"/>
                                 </connections>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xlg-l6-e9b">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" directionalLockEnabled="YES" bounces="NO" pagingEnabled="YES" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlg-l6-e9b">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="638"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="526-R8-ls2"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="PhK-LU-lOL"/>
@@ -232,7 +232,7 @@
                             <constraint firstAttribute="bottom" secondItem="wFT-16-Q1k" secondAttribute="bottom" id="Fmq-DX-3Lf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nIS-gp-DlZ" secondAttribute="trailing" constant="16" id="FoO-W7-A8L"/>
                             <constraint firstItem="Nfm-vP-5wa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="KPs-sb-1jq"/>
-                            <constraint firstItem="xlg-l6-e9b" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="YAw-dW-mOi"/>
+                            <constraint firstItem="xlg-l6-e9b" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="YAw-dW-mOi"/>
                             <constraint firstItem="gxM-L5-SGT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="ZKn-fJ-UkO"/>
                             <constraint firstItem="gfq-nh-KtU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="boJ-Ur-Dsd"/>
                             <constraint firstItem="7jb-3j-wrG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="cjN-Er-H89"/>

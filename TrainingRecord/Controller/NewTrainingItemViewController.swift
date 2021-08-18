@@ -18,7 +18,7 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     var imageURL : URL?
     var imageString : String?
 
-    
+    let imagePickerVC = UIImagePickerController()
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
             return 1
     }
@@ -85,7 +85,7 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     
     var imagenumber : Bool = true
     @IBAction func imageAdder(_ sender: UIButton) {
-        let imagePickerVC = UIImagePickerController()
+        
         imagePickerVC.sourceType = .photoLibrary
         imagePickerVC.delegate = self
         

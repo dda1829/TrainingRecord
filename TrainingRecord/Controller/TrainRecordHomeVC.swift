@@ -15,6 +15,11 @@ import AdSupport
 
 
 class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate, GADBannerViewDelegate{
+    // Force to make the screen in landscape
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+            .landscape
+        }
+    
     // MARK: For Introduce Picture
     let fullScreenSize = UIScreen.main.bounds.size
     var imageArray = [UIImage(named: "IntroHome0"),UIImage(named: "introHome1"),UIImage(named: "IntroHome2"),UIImage(named: "IntroHome3")]
@@ -482,7 +487,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             picker.translatesAutoresizingMaskIntoConstraints = false
             picker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             picker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            picker.widthAnchor.constraint(equalToConstant: self.view.sizeThatFits(CGSize.zero).width-40).isActive = true
+            picker.widthAnchor.constraint(equalToConstant: self.view.sizeThatFits(CGSize.zero).width - 40).isActive = true
             picker.heightAnchor.constraint(equalToConstant: self.view.sizeThatFits(CGSize.zero).width + 50).isActive = true
             showDateBtnClick = true
         } else {
@@ -540,7 +545,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 }
             }else{
                 for document in data.documents{
-                    let item = TrainingItem()
+                    let item = TrainingItemForFireStore()
                     item.itemName = document.data()["itemName"] as? String
                     item.itemDef = document.data()["itemDef"] as? String
                     item.itemImage = document.data()["itemImage"] as? String
@@ -763,7 +768,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         pauseAndplayImageButton.addAction(pauseTraining, for: .touchUpInside)
         pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
-        let a = 0//UserDefaults.standard.integer(forKey: "LoginTimes")
+        let a = UserDefaults.standard.integer(forKey: "LoginTimes")
         print(a)
         if a == 0 {
             for view in self.view.subviews{
@@ -774,12 +779,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
 
             IntroduceSV.delegate = self
             IntroduceSV.contentSize.width = (fullScreenSize.width) * CGFloat(imageArray.count + 1)
-            IntroduceSV.contentSize.height = fullScreenSize.height
+            IntroduceSV.contentSize.height = IntroduceSV.frame.height
             IntroduceSV.showsVerticalScrollIndicator = false
             IntroduceSV.showsHorizontalScrollIndicator = false
             IntroduceSV.bounces = false
             IntroduceSV.isPagingEnabled = true
-            
+            IntroduceSV.isDirectionalLockEnabled = true
             IntroducePCol.numberOfPages = imageArray.count
             IntroducePCol.currentPage = 0
             IntroducePCol.currentPageIndicatorTintColor = .blue
@@ -789,7 +794,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             
             for i in 0 ..< imageArray.count{
                 myScrollImageView = UIImageView()
-                myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 0, width: fullScreenSize.width, height: fullScreenSize.height - CGFloat(59))
+                myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 0, width: fullScreenSize.width, height: IntroduceSV.frame.height - CGFloat(50))
                 myScrollImageView.image = imageArray[i]
                 self.IntroduceSV.addSubview(myScrollImageView)
 
@@ -856,7 +861,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.countDownCounter = self.prepareTime
             
             // MARK: build an alert activity to check the data if you want to record
-            if self.recordTimesCount[self.trainLS] != 0 {
+            if self.recordIsStart {
                 let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值", message: "", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                     print("OK")
@@ -899,7 +904,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         stopTrainingButton.addAction(stopTrainBegin, for: .touchUpInside)
         stopTrainingButton.setImage(UIImage(named: "stop"), for: .normal)
         
-
+        TimerUse.share.setTimer(1, self, #selector(startTimer), false, 1)
+        TimerUse.share.stopTimer(1)
         
  
         
@@ -918,6 +924,11 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         //        }
         
     }
+    
+    
+    @objc func startTimer(){ }
+    
+    
     var myScrollImageView: UIImageView!
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -1115,14 +1126,28 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         navigationController?.setNavigationBarHidden(true, animated: true)
         countDownCounter = prepareTime
         TimerUse.share.setTimer(1,self, #selector(CountDown), true,1)
-        
+                TimerUse.share.fire(1)
+        countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
+//        countdownTV.text = "\(countDownCounter)"
+        countdownTV.backgroundColor = .black
+        countdownTV.textAlignment = .center
+        countdownTV.textColor = .green
+        countdownTV.isEditable = false
+        countdownTV.isSelectable = false
+        self.view.addSubview(countdownTV)
+        countdownTV.translatesAutoresizingMaskIntoConstraints = false
+        countdownTV.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        countdownTV.heightAnchor.constraint(equalToConstant: 234).isActive = true
+        countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
         
         self.view.addSubview(stopTrainingButton)
         stopTrainingButton.translatesAutoresizingMaskIntoConstraints = false
         stopTrainingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         NSLayoutConstraint(item: stopTrainingButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.7, constant: 1).isActive = true
-        
+       
+
     }
     
     
@@ -1149,72 +1174,14 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             countdownTV.font = UIFont(name: "Helvetica-Light", size: 150)
             countdownTV.text = "開始"
         }else{
-            countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
             countdownTV.text = "\(countDownCounter)"
         }
-        countdownTV.backgroundColor = .black
-        countdownTV.textAlignment = .center
-        countdownTV.textColor = .green
-        countdownTV.isEditable = false
-        countdownTV.isSelectable = false
-        countdownTV.alwaysBounceHorizontal = true
-        self.view.addSubview(countdownTV)
-        countdownTV.translatesAutoresizingMaskIntoConstraints = false
-        countdownTV.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        countdownTV.heightAnchor.constraint(equalToConstant: 234).isActive = true
-        countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
-        
-        
-        
         if countDownCounter == 0 {
             countDownCounter = 0
             TimerUse.share.stopTimer(1)
-            if !recordIsStart {
-                recordIsStart = true
-                todayItem!.trainLocationSort.append(trainLS)
-                todayItem!.trainLocation.updateValue(trainLS, forKey: trainLS)
-                todayItem!.trainRate.append("none")
-                if let value = todayItem!.trainSet[trainLS] {
-                    todayItem!.trainSet[trainLS]! += 1
-                    print("add new value \(value)")
-                }else {
-                    todayItem!.trainSet.updateValue(1, forKey: trainLS)
-                    print(todayItem!.trainSet)
-                }
-                if let value = todayItem!.trainTimes[trainLS] {
-                    todayItem!.trainTimes[trainLS]!.append(0)
-                    print("add new value \(value)")
-                }else {
-                    todayItem!.trainTimes.updateValue([0], forKey: trainLS)
-                    print(todayItem!.trainTimes)
-                }
-                if let value = todayItem!.trainWeight[trainLS] {
-                    todayItem!.trainWeight[trainLS]!.append(trainWeight)
-                    print("add new value \(value)")
-                }else {
-                    todayItem!.trainWeight.updateValue([trainWeight], forKey: trainLS)
-                    print(todayItem!.trainWeight)
-                }
-                if let value = todayItem!.trainUnit[trainLS] {
-                    todayItem!.trainUnit[trainLS]!.append(trainUnit)
-                    print("add new value \(value)")
-                }else {
-                    todayItem!.trainUnit.updateValue([trainUnit], forKey: trainLS)
-                    print(todayItem!.trainWeight)
-                }
-                if let value = recordTimesCount[trainLS]{
-                    recordTimesCount[trainLS]! += 1
-                    print("add RecordTimesCount \(value)")
-                }else {
-                    recordTimesCount.updateValue(1, forKey: trainLS)
-                    print(recordTimesCount[trainLS]!)
-                }
-            }
             if let url = Bundle.main.url(forResource: "BeepGo", withExtension: "m4a"){
                 AVFoundationUse.share.playTheSound(url)
             }
-            CountTimeStart()
             TimerUse.share.setTimer(trainSetEachInterval, self, #selector(CountTimer),true,1)
         }else{
             if let url = Bundle.main.url(forResource: "BeepPrepare", withExtension: "m4a"){
@@ -1223,9 +1190,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             countDownCounter -= 1
         }
     }
-    
     @IBAction func BreakCounterBtn(_ sender: UIButton) {
-        TimerUse.share.setTimer(1, self, #selector(CountTimeBreak), true, 1)
         
         for view in self.view.subviews{
             view.isHidden = true
@@ -1233,26 +1198,79 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         navigationController?.setNavigationBarHidden(true, animated: true)
         countDownCounter = trainEachSetInterval
         self.view.addSubview(countdownTV)
+      
         countdownTV.text = "\(countDownCounter)"
+        countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
         countdownTV.translatesAutoresizingMaskIntoConstraints = false
         countdownTV.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         countdownTV.heightAnchor.constraint(equalToConstant: 234).isActive = true
         countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
         countdownTV.textColor = .green
+        countdownTV.textAlignment = .center
+        countdownTV.isEditable = false
+        countdownTV.isSelectable = false
+        countdownTV.bounces = false
         self.view.addSubview(stopRestingButton)
         stopRestingButton.translatesAutoresizingMaskIntoConstraints = false
         stopRestingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         NSLayoutConstraint(item: stopRestingButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.7, constant: 1).isActive = true
-        
+        TimerUse.share.setTimer(1, self, #selector(CountTimeBreak), true, 1)
+        TimerUse.share.fire(1)
     }
-    
+    @objc func fitCountDownBreak(){
+        TimerUse.share.stopTimer(1)
+        TimerUse.share.stopTimer(2)
+        TimerUse.share.setTimer(1, self, #selector(CountTimeBreak), true, 1)
+    }
     
     @IBAction func test(_ sender: Any) {
         print(data)
         print(trainUnit)
     }
     @objc func CountTimer(){
+        if !recordIsStart {
+            CountTimeStart()
+            recordIsStart = true
+            todayItem!.trainLocationSort.append(trainLS)
+            todayItem!.trainLocation.updateValue(trainLS, forKey: trainLS)
+            todayItem!.trainRate.append("none")
+            if let value = todayItem!.trainSet[trainLS] {
+                todayItem!.trainSet[trainLS]! += 1
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainSet.updateValue(1, forKey: trainLS)
+                print(todayItem!.trainSet)
+            }
+            if let value = todayItem!.trainTimes[trainLS] {
+                todayItem!.trainTimes[trainLS]!.append(0)
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainTimes.updateValue([0], forKey: trainLS)
+                print(todayItem!.trainTimes)
+            }
+            if let value = todayItem!.trainWeight[trainLS] {
+                todayItem!.trainWeight[trainLS]!.append(trainWeight)
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainWeight.updateValue([trainWeight], forKey: trainLS)
+                print(todayItem!.trainWeight)
+            }
+            if let value = todayItem!.trainUnit[trainLS] {
+                todayItem!.trainUnit[trainLS]!.append(trainUnit)
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainUnit.updateValue([trainUnit], forKey: trainLS)
+                print(todayItem!.trainWeight)
+            }
+            if let value = recordTimesCount[trainLS]{
+                recordTimesCount[trainLS]! += 1
+                print("add RecordTimesCount \(value)")
+            }else {
+                recordTimesCount.updateValue(1, forKey: trainLS)
+                print(recordTimesCount[trainLS]!)
+            }
+        }
         countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
         
         countdownTV.textAlignment = .center
@@ -1260,10 +1278,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         countdownTV.isEditable = false
         countdownTV.isSelectable = false
         countdownTV.alwaysBounceHorizontal = true
-        
-        print("sum = \(trainTimes)")
-        print(countDownCounter)
-        print(todayItem!.trainTimes[trainLS])
+       
         
         if countDownCounter == trainTimes {
             
@@ -1322,6 +1337,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     @objc func stopAlarmRadar() {
         TimerUse.share.stopTimer(2)
+        AVFoundationUse.share.stopTheSound()
     }
     
     @objc func CountTimeBreak (){
@@ -1332,22 +1348,14 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             TimerUse.share.setTimer(3, self, #selector(alarmRadar), true, 2)
             TimerUse.share.setTimer(18, self, #selector(stopAlarmRadar), false, 3)
         }else{
-            countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
             countdownTV.text = "\(countDownCounter)"
         }
-        
-        countdownTV.textAlignment = .center
-        countdownTV.textColor = .green
-        countdownTV.isEditable = false
-        countdownTV.isSelectable = false
-        countdownTV.alwaysBounceHorizontal = true
-        
-        
         if countDownCounter == 0 {
             let alertController = UIAlertController(title: "休息時間結束，請點OK關閉鬧鐘。", message: "", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                 print("OK")
                 TimerUse.share.stopTimer(2)
+                AVFoundationUse.share.stopTheSound()
             }
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)

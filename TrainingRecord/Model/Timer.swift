@@ -25,7 +25,18 @@ class TimerUse {
             print("Something wrong")
         }
     }
-    
+    func fire(_ number: Int){
+        switch number{
+        case 1:
+            timer.fire()
+        case 2:
+            timer2.fire()
+        case 3:
+            timer3.fire()
+        default:
+            print("TimerUse.fire error")
+        }
+    }
     func stopTimer(_ number: Int){
         switch number {
         case 1:

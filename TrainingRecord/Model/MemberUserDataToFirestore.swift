@@ -15,10 +15,7 @@ class MemberUserDataToFirestore {
     private var accountDatas: [String:String] = [:]
     init() {
         memberDatas = memberDatasDefault
-        if let user = Auth.auth().currentUser {
-            accountDatas.updateValue(user.email!, forKey: "userEmail")
-            accountDatas.updateValue(user.displayName!, forKey: "userName")
-        }
+        loadUserdatas()
            }
    
     func checkAge() -> Bool{

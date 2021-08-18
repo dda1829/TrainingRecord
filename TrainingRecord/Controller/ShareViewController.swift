@@ -43,6 +43,8 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
             warningWord.text = "請幫我完成會員資料，以此作為完整運動報表，感謝。"
             warningWord.textColor = .red
             warningWord.font = UIFont.systemFont(ofSize: 14)
+            warningWord.isEditable = false
+            warningWord.isSelectable = false
         }
         RecodListTV.delegate = self
         RecodListTV.dataSource = self

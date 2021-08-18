@@ -21,5 +21,8 @@ class AVFoundationUse {
             print("Error")
         }
     }
+    func stopTheSound() {
+        audioPlayer?.stop()
+    }
     
 }
