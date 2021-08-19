@@ -5,6 +5,16 @@
         <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="RecordItemC" representedClassName=".RecordItemC" syncable="YES">
+        <attribute name="trainDate" optional="YES" attributeType="String"/>
+        <attribute name="trainID" attributeType="String" defaultValueString=""/>
+        <attribute name="trainLocation" optional="YES" attributeType="String"/>
+        <attribute name="trainRate" optional="YES" attributeType="String"/>
+        <attribute name="trainSet" optional="YES" attributeType="String"/>
+        <attribute name="trainTimes" optional="YES" attributeType="String"/>
+        <attribute name="trainUnit" optional="YES" attributeType="String"/>
+        <attribute name="trainWeight" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="ShowTrainingitemAbdomen" representedClassName="SAbdomenItem" syncable="YES" codeGenerationType="class">
         <attribute name="def" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -133,5 +143,6 @@
         <element name="UserTIBL" positionX="27" positionY="135" width="128" height="89"/>
         <element name="UserTIBrest" positionX="36" positionY="144" width="128" height="89"/>
         <element name="UserTIExercise" positionX="45" positionY="153" width="128" height="89"/>
+        <element name="RecordItemC" positionX="0" positionY="99" width="128" height="149"/>
     </elements>
 </model>

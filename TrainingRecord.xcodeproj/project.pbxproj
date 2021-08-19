@@ -130,6 +130,7 @@
 		DCA1C0B826635F8600D3A687 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DCC7D14326529D290040DFA8 /* TrainingRecord.xcdatamodeld */,
 				DC00C5DE2685DFAF00161DBA /* Timer.swift */,
 				DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */,
 				DCA9913C26BBE71900C08E5D /* MemberUserDataToFirestore.swift */,
@@ -181,7 +182,6 @@
 				DCC7D14626529D2C0040DFA8 /* Assets.xcassets */,
 				DCC7D14B26529D2C0040DFA8 /* Info.plist */,
 				DC94415026A424E500A4A3ED /* GoogleService-Info.plist */,
-				DCC7D14326529D290040DFA8 /* TrainingRecord.xcdatamodeld */,
 			);
 			path = TrainingRecord;
 			sourceTree = "<group>";

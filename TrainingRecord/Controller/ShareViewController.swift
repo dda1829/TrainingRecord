@@ -10,8 +10,8 @@ import UIKit
 class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITableViewDataSource, UITableViewDelegate {
     
     
-    
-    var data : [String: RecordItem] = [:]
+    var trainItem: RecordItem?
+//    var data : [String: RecordItem] = [:]
     var dateRecord : String = ""
     @IBOutlet weak var dateRecordTitleBtn: UIButton!
     @IBOutlet weak var userReportLeft: UITextView!
@@ -50,8 +50,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         RecodListTV.dataSource = self
         RecodListTV.register(ShareTableViewCell.nib(), forCellReuseIdentifier: ShareTableViewCell.identifier)
         loadFromFile()
-        
-        print(data)
+
         
         dateRecordTitleBtn.setTitle(dateRecord, for: .normal)
     }
@@ -60,8 +59,8 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         loadFromFile()
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if data[dateRecord] != nil {
-            return (data[dateRecord]?.trainLocationSort.count)!
+        if trainItem != nil {
+            return (trainItem?.trainLocationSort.count)!
         }
         return 0
     }
@@ -98,6 +97,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         dateRecordTitleBtn.setTitle(dateFormatter.string(from: sender.date), for: .normal)
         dateRecord = dateFormatter.string(from: sender.date)
         showDateBtnClick = !showDateBtnClick
+        loadFromFile()
         print("DatePicke is used")
         RecodListTV.reloadData()
         print(dateRecord)
@@ -105,11 +105,11 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShareTableViewCell", for: indexPath) as! ShareTableViewCell
-        if data[dateRecord] != nil{
+        if trainItem != nil{
             let subtitle = recordStringGen(dateRecord)[indexPath.row]
        let title = rangeTVCTitle(dateRecord)[indexPath.row]
 
-            switch data[dateRecord]!.trainRate[indexPath.row]{
+            switch trainItem!.trainRate[indexPath.row]{
             case "Good":
                 cell.ratingBtnRecord("Good")
             case "Normal":
@@ -144,9 +144,9 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         var result: [String] = []
         
         
-        if data[traindate] != nil {
+        if trainItem != nil {
             
-            let locationsort = data[traindate]!.trainLocationSort
+            let locationsort = trainItem!.trainLocationSort
             var target : [[Int]] = []
             for x in locationsort {
                 if !target.contains(x) {
@@ -156,28 +156,28 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
             
             for trainlocation in target{
                 if trainlocation[0] == 6{
-                    let recordstringdefault = "第\(1)組  \( data[traindate]!.trainTimes[trainlocation]![0]) Times"
+                    let recordstringdefault = "第\(1)組  \( trainItem!.trainTimes[trainlocation]![0]) Times"
                     recordListString = recordstringdefault
                     
                 }else{
-                    let recordstringdefault = "第\(1)組  \(data[traindate]!.trainWeight[trainlocation]![0]) \(data[traindate]!.trainUnit[trainlocation]![0]) * \( data[traindate]!.trainTimes[trainlocation]![0]) Times"
+                    let recordstringdefault = "第\(1)組  \(trainItem!.trainWeight[trainlocation]![0]) \(trainItem!.trainUnit[trainlocation]![0]) * \( trainItem!.trainTimes[trainlocation]![0]) Times"
                     recordListString = recordstringdefault
                     
                 }
                 result.append(recordListString)
                 recordsort.append(trainlocation)
                 if trainlocation[0] == 6{
-                for itemSetCount in 1 ..< (data[traindate]?.trainSet[trainlocation])! {
+                for itemSetCount in 1 ..< (trainItem?.trainSet[trainlocation])! {
                     let y = itemSetCount + 1
-                    recordListString = "\n第\(y)組  \(data[traindate]!.trainTimes[trainlocation]![itemSetCount]) Times"
+                    recordListString = "\n第\(y)組  \(trainItem!.trainTimes[trainlocation]![itemSetCount]) Times"
                     result.append(recordListString)
                     recordsort.append(trainlocation)
                 }
                     
                 }else{
-                for itemSetCount in 1 ..< (data[traindate]?.trainSet[trainlocation])! {
+                for itemSetCount in 1 ..< (trainItem?.trainSet[trainlocation])! {
                     let y = itemSetCount + 1
-                    recordListString = "\n第\(y)組  \(data[traindate]!.trainWeight[trainlocation]![itemSetCount]) \(data[traindate]!.trainUnit[trainlocation]![itemSetCount]) * \(data[traindate]!.trainTimes[trainlocation]![itemSetCount]) Times"
+                    recordListString = "\n第\(y)組  \(trainItem!.trainWeight[trainlocation]![itemSetCount]) \(trainItem!.trainUnit[trainlocation]![itemSetCount]) * \(trainItem!.trainTimes[trainlocation]![itemSetCount]) Times"
                     result.append(recordListString)
                     recordsort.append(trainlocation)
                 }
@@ -256,33 +256,39 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
             return ""
         }
     }
+    //MARK: Archiving
     func writeToFile()  {
         //
         let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
         let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
-        let filePath = doc.appendingPathComponent("RecordDatas.archive")
+        let file = doc.appendingPathComponent("RecordDatas")
+        let file2 = file.appendingPathComponent("\(dateRecord)")
+        let filePath = file2.appendingPathComponent("RecordDatas.archive")
         do {
             //將data陣列，轉成Data型式（二進位資料）
-            let data = try NSKeyedArchiver.archivedData(withRootObject: self.data, requiringSecureCoding: false)
+            let data = try NSKeyedArchiver.archivedData(withRootObject: self.trainItem as Any, requiringSecureCoding: false)
             try data.write(to: filePath, options: .atomic)
         } catch  {
             print("error while saving to file \(error)")
         }
     }
+    
     func loadFromFile()  {
         let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
         let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
-        let filePath = doc.appendingPathComponent("RecordDatas.archive")
+        let file = doc.appendingPathComponent("RecordDatas")
+        let file2 = file.appendingPathComponent("\(dateRecord)")
+        let filePath = file2.appendingPathComponent("RecordDatas.archive")
         do {
             //載入成Data（二進位資料)
             let data =  try Data(contentsOf: filePath)
             //把資料轉成[Note]
-            if let arrayData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String:RecordItem]{
-                self.data = arrayData//轉成功就放到self.data裏
+            if let arrayData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? RecordItem{
+                self.trainItem = arrayData//轉成功就放到self.data裏
             }
         } catch  {
             print("error while fetching data array \(error)")
-            self.data = [:]//有任何錯誤,空陣列
+            self.trainItem = RecordItem(dateRecord, [:], [:], [], [:], [:], [:], [])//有任何錯誤,空陣列
         }
     }
     @IBAction func shareBtnPressed(_ sender: Any) {
@@ -296,7 +302,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         print("good")
         print(tappedIndexPath.row)
         
-        data[dateRecord]!.trainRate[tappedIndexPath.row]="Good"
+        trainItem!.trainRate[tappedIndexPath.row]="Good"
         
         writeToFile()
         RecodListTV.reloadData()
@@ -306,8 +312,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         guard let tappedIndexPath = RecodListTV.indexPath(for: sender) else {return}
         print(tappedIndexPath)
         print("normal")
-        let key = data[dateRecord]?.trainLocationSort[tappedIndexPath.row]
-        data[dateRecord]!.trainRate[tappedIndexPath.row] = "Normal"
+        trainItem!.trainRate[tappedIndexPath.row] = "Normal"
         writeToFile()
         RecodListTV.reloadData()
     }
@@ -316,8 +321,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         guard let tappedIndexPath = RecodListTV.indexPath(for: sender) else {return}
         print(tappedIndexPath)
         print("bad")
-        let key = data[dateRecord]?.trainLocationSort[tappedIndexPath.row]
-        data[dateRecord]!.trainRate[tappedIndexPath.row] = "Bad"
+        trainItem!.trainRate[tappedIndexPath.row] = "Bad"
         writeToFile()
         RecodListTV.reloadData()
     }

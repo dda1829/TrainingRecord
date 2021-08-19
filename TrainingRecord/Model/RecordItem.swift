@@ -7,7 +7,7 @@
 
 import Foundation
 import Firebase
-
+import CoreData
 enum rate: String {
     case Good = "Good"
     case Normal = "Normal"
@@ -16,7 +16,7 @@ enum rate: String {
 }
 
 
-class RecordItem :NSObject ,NSCoding {
+class RecordItem:NSObject ,NSCoding {
     var trainDate : String
 //    var trainDateYesterday: Stringlkl
     var trainSet : [[Int]:Int]
@@ -64,3 +64,19 @@ class RecordItem :NSObject ,NSCoding {
     
     
 }
+
+//class RecordItemC:NSManagedObject {
+//   @NSManaged var trainDate : String?
+//   @NSManaged var trainSet : String?
+//    @NSManaged var trainTimes : String?
+//   @NSManaged var trainWeight : String?
+//   @NSManaged var trainLocation: String?
+//   @NSManaged var trainUnit: String?
+//   @NSManaged var trainRate: String?
+//    @NSManaged var trainID: String
+//    
+//    override func awakeFromInsert() {
+//        self.trainID = UUID().uuidString
+//    }
+//    
+//}
