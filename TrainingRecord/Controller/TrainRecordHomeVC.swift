@@ -1,8 +1,6 @@
 //
 //  ViewController.swift
 //  Training Record
-//  5/12  利用UIPickViewControl來做運動選單，此運動選單以變數來分類，此變數用來調整運動的部位，根據運動部位不同訓練項目也不同，目前想增加能夠手動增加運動項目的功能。
-//  5/29 利用coredata存新元件資訊，然後原先設定的元件資訊以預設的陣列達成，並且在開啟app時，將coredata的元件導入現有陣列。
 //  Created by 邱宣策 on 2021/5/7.
 //
 
@@ -686,6 +684,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             print("removeFail")
         }
         todayItem = RecordItem(trainToday, [:], [:], [], [:], [:], [:], [])
+        dateRecord = trainToday
         RecordListTV.reloadData()
         print("Already delete the data")
     }

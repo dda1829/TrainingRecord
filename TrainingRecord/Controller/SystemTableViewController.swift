@@ -220,11 +220,6 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
                     UserDefaults.standard.synchronize()
                 }else if indexPath.row == 0 && indexPath.section == 3 {
-                    let homeURL = URL(fileURLWithPath: NSHomeDirectory())
-                    let docURL = homeURL.appendingPathComponent("Documents")
-                    let fileURL = docURL.appendingPathComponent("RecordDatas.archive")
-                    let manager = FileManager.default
-                    try? manager.removeItem(at: fileURL)
                     let notificationName = Notification.Name("ClearDatas")
                     NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
                 }
