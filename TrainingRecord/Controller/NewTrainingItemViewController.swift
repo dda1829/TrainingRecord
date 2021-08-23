@@ -71,15 +71,15 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         super.viewDidLoad()
         addTrainingItemPV.delegate = self
         addTrainingItemPV.setValue(UIColor.white, forKey: "textColor")
-        TrainingItemD.delegate = self
-        TrainingItemDefD.delegate = self
+        trainingItemTF.delegate = self
+        trainingItemDefTF.delegate = self
         
         
     }
     
 
-    @IBOutlet weak var TrainingItemD: UITextField!
-    @IBOutlet weak var TrainingItemDefD: UITextField!
+    @IBOutlet weak var trainingItemTF: UITextField!
+    @IBOutlet weak var trainingItemDefTF: UITextField!
     
     @IBOutlet weak var imageView: UIImageView!
     
@@ -99,8 +99,27 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         show(imagePickerVC,sender :self)
     }
     
+    @IBAction func submitBtnPressed(_ sender: Any) {
+        guard trainingItemTF.text != "" && trainingItemDefTF.text != "" && imageView.image != nil && trainLS != 0 else {
+            let alertController = UIAlertController(title: "請完成填入未完成的資料，並且加入圖片，謝謝！", message: "", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                print("OK")
+            }
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+            return
+        }
+        UserDefaults.standard.setValue(trainingItemTF.text, forKey: "newTrainingItemName")
+        UserDefaults.standard.setValue(trainingItemDefTF.text, forKey: "newTrainingItemDef")
+        UserDefaults.standard.setValue(trainLS, forKey: "newTrainingLS")
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
+        self.navigationController?.pushViewController(vc!,animated: true)
+        
+    }
     @IBAction func backBtn(_ sender: UIBarButtonItem) {
         try? manager.removeItem(atPath: imageURL!.absoluteString)
+        UserDefaults.standard.removeObject(forKey: "newTrainingItemURLString")
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
       
@@ -114,6 +133,7 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         imageURL = fileUrl
             do{
            try imagedata.write(to: imageURL!, options: [.atomic])
+                UserDefaults.standard.setValue(imageString, forKey: "newTrainingItemURLString")
             }catch{
                 print("\(error)")
             }

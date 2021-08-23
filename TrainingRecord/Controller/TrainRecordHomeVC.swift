@@ -507,12 +507,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         print("DatePicke is used")
         
         print(dateRecord)
-        
-//        if let recorddata = data[dateRecord] {
-//            todayItem = RecordItem(dateRecord, recorddata.trainSet, recorddata.trainTimes, recorddata.trainLocationSort, recorddata.trainWeight, recorddata.trainLocation,recorddata.trainUnit,recorddata.trainRate)
-//        }else{
-//            todayItem = RecordItem(dateRecord, [:], [:],[], [:], [:], [:],[])
-//        }
+
         loadFromFile()
         RecordListTV.reloadData()
         picker.removeFromSuperview()
@@ -694,9 +689,11 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkNewTrainingItem()
         // Do any additional setup after loading the view.
         if UserDefaults.standard.integer(forKey: "prepareTime") != 0 {
             prepareTime = UserDefaults.standard.integer(forKey: "prepareTime")
+            UserDefaults.standard.removeObject(forKey: "prepareTime")
         }
         TrainPickerView.delegate = self
         definitionTV.text = ""
@@ -841,12 +838,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         print(trainToday)
         dateRecord = trainToday
         loadFromFile()
-        // MARK: Build a new todayItem, to check if it isn't a new today's item
-//        if let recorddata = data[dateRecord] {
-//            todayItem = RecordItem(dateRecord, recorddata.trainSet, recorddata.trainTimes, recorddata.trainLocationSort, recorddata.trainWeight, recorddata.trainLocation,recorddata.trainUnit,recorddata.trainRate)
-//        }else{
-//            todayItem = RecordItem(dateRecord,[:],[:],[],[:],[:],[:],[])
-//        }
         print(trainToday)
         
         showDateBtn.setTitle(trainToday, for: .normal)
@@ -881,7 +872,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                     let alertController = UIAlertController(title: "您完成了\(self.fitRecordLocation(self.trainLS))中的\(self.fitRecordLocationItem(self.trainLS))的項目\(self.todayItem!.trainTimes[self.trainLS]![self.todayItem!.trainSet[self.trainLS]!-1])次了！請問您是否要紀錄，若要紀錄請選ＯＫ，不紀錄請Cancel，謝謝！", message: "", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                         print("OK")
-//                        self.data.updateValue(self.todayItem!, forKey: self.dateRecord)
                         self.writeToFile()
                         self.RecordListTV.reloadData()
                     }
@@ -936,7 +926,60 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     
     
+    func checkNewTrainingItem(){
+        let tranLSnew = UserDefaults.standard.integer(forKey: "newTrainingLS")
+        guard let trainingItemName = UserDefaults.standard.string(forKey: "newTrainingItemName") , let trainingItemDef = UserDefaults.standard.string(forKey: "newTrainingItemDef") , let trainingItemImageString = UserDefaults.standard.string(forKey: "newTrainingItemURLString") else {
+            return
+        }
+        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
+        let imageUrl = homeUrl.appendingPathComponent(trainingItemImageString)
+        UserDefaults.standard.removeObject(forKey: "newTrainingLS")
+        UserDefaults.standard.removeObject(forKey:"newTrainingItemName")
+        UserDefaults.standard.removeObject(forKey:"newTrainingItemDef")
+        UserDefaults.standard.removeObject(forKey:"newTrainingItemURLString")
+        switch tranLSnew{
+        case 1:
+            formListBrest.append(trainingItemName)
+            trainBrestText.append(trainingItemDef)
+            brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
+            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListBrest.count)
+            
+        case 2:
+            formListBack.append(trainingItemName)
+            trainBackText.append(trainingItemDef)
+            backImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
+            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListBack.count)
+        case 3:
+            formListBL.append(trainingItemName)
+            trainBLText.append(trainingItemDef)
+            blImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
+            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListBL.count)
+        case 4:
+            formListAbdomen.append(trainingItemName)
+            trainAbdomenText.append(trainingItemDef)
+            abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
+            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, locationC[0])
+        case 5:
+            
+            formListArm.append(trainingItemName)
+            trainArmText.append(trainingItemDef)
+            armImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
+            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListArm.count)
+        case 6:
+            formListEx.append(trainingItemName)
+            trainExText.append(trainingItemDef)
+            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
+            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListEx.count)
+        default:
+            print("nothing added")
+        }
+    }
     
+    
+    
+    
+    
+    // MARK: Use for Introduce the App
     var myScrollImageView: UIImageView!
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -1253,11 +1296,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             recordIsStart = true
             
             recordTimes += 1
-            
-            
-            
-            
-            
+           
             todayItem!.trainLocationSort.append(trainLS)
             todayItem!.trainLocation.updateValue(trainLS, forKey: trainLS)
             todayItem!.trainRate.append("none")
@@ -1543,55 +1582,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var locationC : [Int] = [0,0,0,0,0,0]
     var formCounter = 0
     @IBAction func unwind(for segue: UIStoryboardSegue){
-        if segue.identifier == "unwind_NewTrainItemVC_to_vc"{
-            let vc = segue.source as! NewTrainingItemViewController
-            
-            if vc.trainingItem != "" {
-                switch vc.trainLS{
-                case 1:
-                    formListBrest.append(vc.trainingItem)
-                    trainBrestText.append(vc.trainingItemDef)
-                    brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
-                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
-                    locationC[0] += 1
-                    
-                case 2:
-                    formListBack.append(vc.trainingItem)
-                    trainBackText.append(vc.trainingItemDef)
-                    backImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
-                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
-                    locationC[1] += 1
-                case 3:
-                    formListBL.append(vc.trainingItem)
-                    trainBLText.append(vc.trainingItemDef)
-                    blImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
-                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
-                    locationC[2] += 1
-                case 4:
-                    formListAbdomen.append(vc.trainingItem)
-                    trainAbdomenText.append(vc.trainingItemDef)
-                    abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
-                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
-                    locationC[3] += 1
-                case 5:
-                    
-                    formListArm.append(vc.trainingItem)
-                    trainArmText.append(vc.trainingItemDef)
-                    armImageforms.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
-                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
-                    locationC[4] += 1
-                case 6:
-                    formListEx.append(vc.trainingItem)
-                    trainExText.append(vc.trainingItemDef)
-                    exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: vc.imageURL!) as Data)!)
-                    userTrainingItemCoreDataStore(vc.trainLS, vc.imageString!, vc.trainingItem, vc.trainingItemDef, locationC[0])
-                    locationC[5] += 1
-                default:
-                    print("nothing added")
-                }
-            }
-            
-        }
+
         if segue.identifier == "unwind_ManageTrainSetVC_to_vc" {
             let vc = segue.source as! ManageTrainSetVC
             trainWeight = vc.trainWeight

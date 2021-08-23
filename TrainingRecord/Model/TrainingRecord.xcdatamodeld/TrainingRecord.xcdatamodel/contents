@@ -15,42 +15,6 @@
         <attribute name="trainUnit" optional="YES" attributeType="String"/>
         <attribute name="trainWeight" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="ShowTrainingitemAbdomen" representedClassName="SAbdomenItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="ShowTrainingitemArm" representedClassName="SArmItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="ShowTrainingitemBack" representedClassName="SBackItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="ShowTrainingitemBL" representedClassName="SBLItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="ShowTrainingItemBrest" representedClassName="SBrestItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="ShowTrainingitemExercise" representedClassName="SExerciseItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
     <entity name="TrainingitemAbdomen" representedClassName="AbdomenItem" syncable="YES" codeGenerationType="class">
         <attribute name="def" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -125,12 +89,7 @@
     </entity>
     <elements>
         <element name="InfoItem" positionX="0" positionY="117" width="128" height="74"/>
-        <element name="ShowTrainingitemAbdomen" positionX="45" positionY="144" width="128" height="89"/>
-        <element name="ShowTrainingitemArm" positionX="0" positionY="99" width="128" height="89"/>
-        <element name="ShowTrainingitemBack" positionX="9" positionY="108" width="128" height="89"/>
-        <element name="ShowTrainingitemBL" positionX="18" positionY="117" width="128" height="89"/>
-        <element name="ShowTrainingItemBrest" positionX="27" positionY="126" width="128" height="89"/>
-        <element name="ShowTrainingitemExercise" positionX="36" positionY="135" width="128" height="89"/>
+        <element name="RecordItemC" positionX="0" positionY="99" width="128" height="149"/>
         <element name="TrainingitemAbdomen" positionX="-9" positionY="126" width="128" height="89"/>
         <element name="TrainingitemArm" positionX="-27" positionY="117" width="128" height="89"/>
         <element name="TrainingitemBack" positionX="-54" positionY="153" width="128" height="89"/>
@@ -143,6 +102,5 @@
         <element name="UserTIBL" positionX="27" positionY="135" width="128" height="89"/>
         <element name="UserTIBrest" positionX="36" positionY="144" width="128" height="89"/>
         <element name="UserTIExercise" positionX="45" positionY="153" width="128" height="89"/>
-        <element name="RecordItemC" positionX="0" positionY="99" width="128" height="149"/>
     </elements>
 </model>

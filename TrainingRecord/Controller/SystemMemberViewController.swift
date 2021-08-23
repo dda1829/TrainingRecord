@@ -251,6 +251,12 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         if range.location >= 11 {
             return false
         }
+        guard textField != targetTextField else {
+            return false
+        }
+        if !string.isNumberOnly() {
+            return false
+        }
         return true
     }
     var isPressedBtn = false

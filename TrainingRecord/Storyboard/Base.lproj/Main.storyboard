@@ -812,7 +812,7 @@
                                 <rect key="frame" x="172" y="585" width="31" height="30"/>
                                 <state key="normal" title="提交"/>
                                 <connections>
-                                    <segue destination="GRY-cx-jVG" kind="unwind" identifier="unwind_NewTrainItemVC_to_vc" unwindAction="unwindFor:" id="Kdf-vp-3nf"/>
+                                    <action selector="submitBtnPressed:" destination="ENA-xP-OEK" eventType="touchUpInside" id="FC5-Rg-5Ea"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -849,14 +849,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="TrainingItemD" destination="jPS-zO-waj" id="bES-uF-zPh"/>
-                        <outlet property="TrainingItemDefD" destination="7sB-Wx-5Xv" id="g8M-xZ-f43"/>
                         <outlet property="addTrainingItemPV" destination="ZWY-25-6Ji" id="3Dk-YW-0V0"/>
                         <outlet property="imageView" destination="vyK-tv-v7V" id="x2x-J6-NfN"/>
+                        <outlet property="trainingItemDefTF" destination="7sB-Wx-5Xv" id="g8M-xZ-f43"/>
+                        <outlet property="trainingItemTF" destination="jPS-zO-waj" id="bES-uF-zPh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6iU-4u-l8e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="GRY-cx-jVG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2294" y="-68"/>
         </scene>
@@ -1052,13 +1051,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1IK-Qq-0Wv">
-                                <rect key="frame" x="30" y="314" width="315" height="233"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QfK-k2-3cM">
                                 <rect key="frame" x="62.5" y="154" width="250" height="45"/>
                                 <constraints>
@@ -1111,13 +1103,10 @@
                         <constraints>
                             <constraint firstItem="Mdp-7S-3Zq" firstAttribute="centerX" secondItem="D2R-gV-lf1" secondAttribute="centerX" constant="-90" id="03c-Fx-nD1"/>
                             <constraint firstItem="X2B-9y-w4k" firstAttribute="top" secondItem="Fqk-qb-nFr" secondAttribute="bottom" constant="15" id="1Fk-OO-LC6"/>
-                            <constraint firstItem="bjE-Qe-83a" firstAttribute="top" secondItem="1IK-Qq-0Wv" secondAttribute="bottom" constant="50" id="23f-zU-fsq"/>
                             <constraint firstItem="YbH-f7-eHF" firstAttribute="bottom" secondItem="bjE-Qe-83a" secondAttribute="bottom" constant="40" id="4UR-rF-Gtz"/>
                             <constraint firstItem="bjE-Qe-83a" firstAttribute="centerX" secondItem="D2R-gV-lf1" secondAttribute="centerX" id="7bO-4u-QvN"/>
                             <constraint firstItem="bjE-Qe-83a" firstAttribute="centerX" secondItem="D2R-gV-lf1" secondAttribute="centerX" id="7m9-fP-Hr1"/>
                             <constraint firstItem="YbH-f7-eHF" firstAttribute="trailing" secondItem="Pze-nE-Bz9" secondAttribute="trailing" constant="30" id="8Wa-Eu-g87"/>
-                            <constraint firstItem="YbH-f7-eHF" firstAttribute="trailing" secondItem="1IK-Qq-0Wv" secondAttribute="trailing" constant="30" id="8sm-gz-WT0"/>
-                            <constraint firstItem="1IK-Qq-0Wv" firstAttribute="leading" secondItem="YbH-f7-eHF" secondAttribute="leading" constant="30" id="8za-6A-ptY"/>
                             <constraint firstItem="LTl-IE-s4e" firstAttribute="top" secondItem="t58-GF-73K" secondAttribute="bottom" constant="15" id="9Rg-G8-O6e"/>
                             <constraint firstItem="X2B-9y-w4k" firstAttribute="centerX" secondItem="D2R-gV-lf1" secondAttribute="centerX" id="Cgy-5g-lJu"/>
                             <constraint firstItem="fdi-BJ-yid" firstAttribute="centerX" secondItem="D2R-gV-lf1" secondAttribute="centerX" constant="90" id="D2D-Ns-yty"/>
@@ -1138,7 +1127,6 @@
                             <constraint firstItem="QfK-k2-3cM" firstAttribute="top" secondItem="LTl-IE-s4e" secondAttribute="bottom" constant="20" id="ebp-DO-mbX"/>
                             <constraint firstItem="Mdp-7S-3Zq" firstAttribute="top" secondItem="QfK-k2-3cM" secondAttribute="bottom" constant="15" id="gar-GA-cWd"/>
                             <constraint firstItem="WW1-jV-QQJ" firstAttribute="top" secondItem="THy-UC-x5U" secondAttribute="bottom" constant="25" id="krW-rl-uKR"/>
-                            <constraint firstItem="1IK-Qq-0Wv" firstAttribute="top" secondItem="THy-UC-x5U" secondAttribute="bottom" constant="25" id="qlp-36-VHZ"/>
                             <constraint firstItem="6pM-HJ-kia" firstAttribute="top" secondItem="fdi-BJ-yid" secondAttribute="bottom" constant="15" id="sdE-wB-GVK"/>
                             <constraint firstItem="t58-GF-73K" firstAttribute="top" secondItem="GaV-hj-SnT" secondAttribute="bottom" constant="15" id="vft-Gv-YMr"/>
                             <constraint firstItem="t58-GF-73K" firstAttribute="centerX" secondItem="D2R-gV-lf1" secondAttribute="centerX" id="voK-1U-Qyc"/>
@@ -1148,7 +1136,6 @@
                     <connections>
                         <outlet property="BodyFatTF" destination="6pM-HJ-kia" id="cfS-FA-Spt"/>
                         <outlet property="heightTF" destination="THy-UC-x5U" id="QIS-f8-23V"/>
-                        <outlet property="parameterTV" destination="1IK-Qq-0Wv" id="r3z-YI-eUY"/>
                         <outlet property="parametersTVLeft" destination="WW1-jV-QQJ" id="fc1-gf-tec"/>
                         <outlet property="parametersTVRight" destination="Pze-nE-Bz9" id="ocw-56-36O"/>
                         <outlet property="sendBtn" destination="bjE-Qe-83a" id="Dcw-99-ReT"/>
@@ -1159,7 +1146,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hUV-Tz-zAY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1004" y="-1639"/>
+            <point key="canvasLocation" x="1004" y="-1639.4302848575715"/>
         </scene>
         <!--Member Sign Up View Controller-->
         <scene sceneID="TJF-wJ-2fg">
@@ -1489,14 +1476,8 @@
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="separatorColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

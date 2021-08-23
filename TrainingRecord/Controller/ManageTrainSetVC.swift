@@ -285,22 +285,20 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     }
     
     
-    
-    
-    
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//       TrainingItemD.resignFirstResponder()
-//        TrainingItemDefD.resignFirstResponder()
-//    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+       
+        
+        // 不能輸入空白
+        if !string.isNumberOnly() {
+            return false
+        }
+        
+        
+        
+        
+        
+        return true
     }
-    */
 
 }
 
