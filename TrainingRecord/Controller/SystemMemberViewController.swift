@@ -13,7 +13,6 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
     @IBOutlet weak var targetTextField: UITextField!
     @IBOutlet weak var heightTF: UITextField!
     @IBOutlet weak var weightTF: UITextField!
-    @IBOutlet weak var parameterTV: UITextView!
     @IBOutlet weak var BodyFatTF: UITextField!
     @IBOutlet weak var parametersTVLeft: UITextView!
     @IBOutlet weak var parametersTVRight: UITextView!
@@ -179,8 +178,6 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
         MemberUserDataToFirestore.share.updateUserdata("userBodyFat", userBodyFat)
         
-        parameterTV.layer.borderWidth = 2
-        parameterTV.layer.borderColor = UIColor.white.cgColor
         var conclusionleft = ""
         var conclusionright = ""
         var BMI = 0.0
@@ -218,7 +215,6 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
         conclusionleft += "^ 身體質量指數"
         conclusionright += "^ 基礎代謝率"
-        parameterTV.text = "\n"
         let a = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         a.layer.borderWidth = 2
 //        a.layer.borderColor = UIColor.white.cgColor
@@ -230,8 +226,6 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         a.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
 //        a.bottomAnchor.constraint(equalTo: self.sendBtn.topAnchor, constant: -50).isActive = true
         a.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        parameterTV.inputView?.bringSubviewToFront(parametersTVRight.textInputView)
-        parameterTV.backgroundColor = .white.withAlphaComponent(100)
         parametersTVLeft.text = conclusionleft
         parametersTVRight.text = conclusionright
         UserDefaults.standard.setValue(conclusionleft, forKey: "userReportLeft")

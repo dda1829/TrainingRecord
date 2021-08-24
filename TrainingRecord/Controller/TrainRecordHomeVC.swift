@@ -154,7 +154,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var recordLocationItem = ""
     var recordListString = ""
     var recordsort: [[Int]] = []
-    
+    var preventGoodBtnPressed: [IndexPath] = []
+    var preventNormalBtnPressed: [IndexPath] = []
+    var preventBadBtnPressed: [IndexPath] = []
     //MARK:  Storage properties for new info
     var infodatainside: [String] = []
     var infodatacontent: [String] = []
@@ -753,6 +755,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         MemberUserDataToFirestore.share.loadUserdatas()
         RecordListTV.translatesAutoresizingMaskIntoConstraints = false
+        
+        ToolBarManage()
         if Auth.auth().currentUser != nil {
             if let usergoal = UserDefaults.standard.string(forKey: "userGoal"){
                 trainingGoal = usergoal
@@ -765,7 +769,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 }
             }
             
-            ToolBarManage()
             self.view.addSubview(targetTV)
             targetTV.translatesAutoresizingMaskIntoConstraints = false
             targetTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
@@ -852,6 +855,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             IntroducePCol.isHidden = false
             
         }else{
+            IntroduceSV.delegate = .none
             IntroduceSV.removeFromSuperview()
             IntroducePCol.removeFromSuperview()
         }
@@ -944,6 +948,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             TrainPickerView.selectRow(trainLS[0], inComponent: 0, animated: false)
             pickerView(TrainPickerView, didSelectRow: trainLS[0], inComponent: 0)
         }
+        RecordListTV.register(ShareTableViewCell.nib(), forCellReuseIdentifier: ShareTableViewCell.identifier)
         
         //        ATTrackingManager.requestTrackingAuthorization { status in
         //
@@ -963,11 +968,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     func ToolBarManage(){
         
         let restbarbtn = UIBarButtonItem(image: UIImage(systemName: "bed.double.fill"), style: .plain, target: self, action: #selector(breakCounterBtnPressed))
-        let fixed = UIBarButtonItem.fixedSpace(CGFloat(30))
         let adjusttrainingparameters = UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3"), style: .plain, target: self, action: #selector(trainingParametersChange))
-        let fixed2 = UIBarButtonItem.fixedSpace(CGFloat(30))
         let trainstartbarbtn = UIBarButtonItem(image: UIImage(named: "start")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(trainStartBtnPressed))
-        let fixed3 = UIBarButtonItem.fixedSpace(CGFloat(30))
         let trainreportbarbtn = UIBarButtonItem(image: UIImage(systemName: "arrowshape.turn.up.right"), style: .plain, target: self, action: #selector(trainreportgo))
         let flexible = UIBarButtonItem.flexibleSpace()
         let traindatebarbtn = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .plain, target: self, action: #selector(showDateBarBtnPressed))
@@ -983,7 +985,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     @objc func trainreportgo() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SharePage") as? ShareViewController
+        vc?.formListBL = formListBL
+        vc?.formListBrest = formListBrest
+        vc?.formListEx = formListEx
+        vc?.formListArm = formListArm
+        vc?.formListBack = formListBack
+        vc?.formListAbdomen = formListAbdomen
+        vc?.dateRecord = dateRecord
         self.navigationController?.pushViewController(vc!,animated: true)
+        
     }
     
     
@@ -1046,7 +1056,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (IntroduceSV != nil){
             let currentPage = Int(IntroduceSV.contentOffset.x / IntroduceSV.frame.size.width)
-            IntroducePCol.currentPage = currentPage
+            if let a = IntroducePCol {
+                a.currentPage = currentPage
+            }
             if currentPage == 4 {
                 navigationController?.setNavigationBarHidden(false, animated: true)
                 IntroduceSV.delegate = .none
@@ -1317,7 +1329,16 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
     }
     @objc func breakCounterBtnPressed(_ sender: Any) {
-        
+        guard Auth.auth().currentUser != nil else {
+            let alertController = UIAlertController(title: "請您註冊會員，方能使用休息計時器之功能，感謝！", message: "", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                print("OK")
+                }
+                alertController.addAction(okAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            return
+        }
         for view in self.view.subviews{
             view.isHidden = true
         }
@@ -1518,13 +1539,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }else if segue.identifier == "segue_Home_SystemVC"{
         }else if segue.identifier == "report_share_segue"{
             let vc = segue.destination as! ShareViewController
-            vc.formListBL = formListBL
-            vc.formListBrest = formListBrest
-            vc.formListEx = formListEx
-            vc.formListArm = formListArm
-            vc.formListBack = formListBack
-            vc.formListAbdomen = formListAbdomen
-            vc.dateRecord = dateRecord
+            
             
         }
         
@@ -2014,7 +2029,38 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
 }
 
 
-extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate {
+extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTableViewCellDelegate {
+    
+    func shareTableViewCellDidTapGood(_ sender: ShareTableViewCell) {
+        guard let tappedIndexPath = RecordListTV.indexPath(for: sender) else {return}
+        print(tappedIndexPath)
+        print("good")
+        print(tappedIndexPath.row)
+        
+        todayItem!.trainRate[tappedIndexPath.row]="Good"
+        
+        writeToFile()
+        RecordListTV.reloadData()
+    }
+    
+    func shareTableViewCellDidTapNormal(_ sender: ShareTableViewCell) {
+        guard let tappedIndexPath = RecordListTV.indexPath(for: sender) else {return}
+        print(tappedIndexPath)
+        print("normal")
+        todayItem!.trainRate[tappedIndexPath.row] = "Normal"
+        writeToFile()
+        RecordListTV.reloadData()
+    }
+    
+    func shareTableViewCellDidTapBad(_ sender: ShareTableViewCell) {
+        guard let tappedIndexPath = RecordListTV.indexPath(for: sender) else {return}
+        print(tappedIndexPath)
+        print("bad")
+        todayItem!.trainRate[tappedIndexPath.row] = "Bad"
+        writeToFile()
+        RecordListTV.reloadData()
+    }
+    
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -2024,12 +2070,45 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if todayItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
-            return (todayItem?.trainLocation.count)!
+            return (todayItem?.trainLocationSort.count)!
         }
         return 0
     }
-    
-    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ShareTableViewCell", for: indexPath) as! ShareTableViewCell
+        if todayItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []){
+            let subtitle = recordStringGen(dateRecord)[indexPath.row]
+            let title = rangeTVCTitle(dateRecord)[indexPath.row]
+
+            switch todayItem!.trainRate[indexPath.row]{
+            case "Good":
+                cell.ratingBtnRecord("Good")
+            case "Normal":
+                cell.ratingBtnRecord("Normal")
+            case "Bad":
+                cell.ratingBtnRecord("Bad")
+            default:
+                cell.ratingBtnRecord("None")
+            }
+        cell.Title.text = title
+        cell.subTitle.text = subtitle
+            
+        cell.delegate = self
+        }
+        return cell
+    }
+    func rangeTVCTitle(_ traindate: String) -> [String]{
+        var result: [String] = []
+        var locationString = ""
+        
+        for x in recordsort {
+            locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
+            result.append(locationString)
+            }
+        recordsort = []
+        print("record location result = \(result)")
+        return result
+    }
     func recordStringGen (_ traindate : String) -> [String]{
         var result: [String] = []
         
@@ -2048,22 +2127,32 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate {
                 if trainlocation[0] == 6{
                     let recordstringdefault = "第\(1)組  \( todayItem!.trainTimes[trainlocation]![0]) Times"
                     recordListString = recordstringdefault
-                    for itemSetCount in 1 ..< (todayItem?.trainSet[trainlocation])! {
-                        let y = itemSetCount + 1
-                        recordListString += "\n第\(y)組  \(todayItem!.trainTimes[trainlocation]![itemSetCount]) Times"
-                        
-                    }
+                    
                 }else{
                     let recordstringdefault = "第\(1)組  \(todayItem!.trainWeight[trainlocation]![0]) \(todayItem!.trainUnit[trainlocation]![0]) * \( todayItem!.trainTimes[trainlocation]![0]) Times"
                     recordListString = recordstringdefault
-                    for itemSetCount in 1 ..< (todayItem?.trainSet[trainlocation])! {
-                        let y = itemSetCount + 1
-                        recordListString += "\n第\(y)組  \(todayItem!.trainWeight[trainlocation]![itemSetCount]) \(todayItem!.trainUnit[trainlocation]![itemSetCount]) * \(todayItem!.trainTimes[trainlocation]![itemSetCount]) Times"
-                        
-                    }
+                    
                 }
                 result.append(recordListString)
                 recordsort.append(trainlocation)
+                if trainlocation[0] == 6{
+                for itemSetCount in 1 ..< (todayItem?.trainSet[trainlocation])! {
+                    let y = itemSetCount + 1
+                    recordListString = "\n第\(y)組  \(todayItem!.trainTimes[trainlocation]![itemSetCount]) Times"
+                    result.append(recordListString)
+                    recordsort.append(trainlocation)
+                }
+                    
+                }else{
+                for itemSetCount in 1 ..< (todayItem?.trainSet[trainlocation])! {
+                    let y = itemSetCount + 1
+                    recordListString = "\n第\(y)組  \(todayItem!.trainWeight[trainlocation]![itemSetCount]) \(todayItem!.trainUnit[trainlocation]![itemSetCount]) * \(todayItem!.trainTimes[trainlocation]![itemSetCount]) Times"
+                    result.append(recordListString)
+                    recordsort.append(trainlocation)
+                }
+                    
+                }
+                
                 
                 
             }
@@ -2076,58 +2165,6 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate {
         
         
         
-    }
-    
-    
-    
-    func recordLocationStringGen (_ traindate: String) -> [String] {
-        var result: [String] = []
-        var locationString = ""
-        for x in recordsort {
-            if (todayItem?.trainSet[x])! <= 2 {
-                locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
-            }else{
-                locationString = ""
-                for _ in 0 ..< (todayItem?.trainSet[x])!/3 {
-                    locationString += "\n"
-                }
-                locationString += "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
-                for _ in 0 ..< (todayItem?.trainSet[x])!/3 {
-                    locationString += "\n"
-                }
-            }
-            result.append(locationString)
-        }
-        recordsort = []
-        print("record location result = \(result)")
-        return result
-    }
-    
-    
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TrainRecordCell" ,for: indexPath)
-        print("tableview dateRecord = \(dateRecord)")
-        if todayItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
-            
-            print("data is not nil")
-            let detailLabelText = recordStringGen(dateRecord)[indexPath.row]
-            let labelText = recordLocationStringGen(dateRecord)[indexPath.row]
-            print(detailLabelText)
-            print(labelText)
-            
-            
-            
-            
-            cell.textLabel?.text =  labelText
-            cell.detailTextLabel?.text = detailLabelText
-            cell.showsReorderControl = true
-            
-        }
-        
-        
-        return cell
     }
     
     

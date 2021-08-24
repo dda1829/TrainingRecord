@@ -274,11 +274,6 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         if !string.isNumberOnly() {
             return false
         }
-        
-        
-        
-        
-        
         return true
     }
 

@@ -7,11 +7,12 @@
 
 import UIKit
 
-class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITableViewDataSource, UITableViewDelegate {
+class ShareViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
+    var recordListString = ""
+    var recordsort: [[Int]] = []
     var trainItem: RecordItem?
-//    var data : [String: RecordItem] = [:]
     var dateRecord : String = ""
     @IBOutlet weak var dateRecordTitleBtn: UIButton!
     @IBOutlet weak var userReportLeft: UITextView!
@@ -40,7 +41,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         warningWord.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16 ).isActive = true
         warningWord.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
         warningWord.heightAnchor.constraint(equalToConstant: 50).isActive = true
-            warningWord.text = "請幫我完成會員資料，以此作為完整運動報表，感謝。"
+            warningWord.text = "請先完成會員資料，以此作為完整運動報表，感謝。"
             warningWord.textColor = .red
             warningWord.font = UIFont.systemFont(ofSize: 14)
             warningWord.isEditable = false
@@ -48,7 +49,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         }
         RecodListTV.delegate = self
         RecodListTV.dataSource = self
-        RecodListTV.register(ShareTableViewCell.nib(), forCellReuseIdentifier: ShareTableViewCell.identifier)
+        
         loadFromFile()
 
         
@@ -58,12 +59,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         super.viewWillAppear(true)
         loadFromFile()
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if trainItem != nil {
-            return (trainItem?.trainLocationSort.count)!
-        }
-        return 0
-    }
+    
     var showDateBtnClick = false
     var picker = UIDatePicker()
     
@@ -103,48 +99,25 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         print(dateRecord)
         picker.removeFromSuperview()
     }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ShareTableViewCell", for: indexPath) as! ShareTableViewCell
-        if trainItem != nil{
-            let subtitle = recordStringGen(dateRecord)[indexPath.row]
-       let title = rangeTVCTitle(dateRecord)[indexPath.row]
-
-            switch trainItem!.trainRate[indexPath.row]{
-            case "Good":
-                cell.ratingBtnRecord("Good")
-            case "Normal":
-                cell.ratingBtnRecord("Normal")
-            case "Bad":
-                cell.ratingBtnRecord("Bad")
-            default:
-                cell.ratingBtnRecord("None")
-            }
-        cell.Title.text = title
-        cell.subTitle.text = subtitle
-            
-        cell.delegate = self
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "\(dateRecord)"
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if trainItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
+            return (trainItem?.trainLocation.count)!
         }
-        return cell
+        return 0
     }
-    var recordsort: [[Int]] = []
-    func rangeTVCTitle(_ traindate: String) -> [String]{
-        var result: [String] = []
-        var locationString = ""
-        
-        for x in recordsort {
-            locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
-            result.append(locationString)
-            }
-        recordsort = []
-        print("record location result = \(result)")
-        return result
-    }
-    var recordListString = ""
+    
+    
     func recordStringGen (_ traindate : String) -> [String]{
         var result: [String] = []
         
         
-        if trainItem != nil {
+        if trainItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
             
             let locationsort = trainItem!.trainLocationSort
             var target : [[Int]] = []
@@ -158,32 +131,22 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
                 if trainlocation[0] == 6{
                     let recordstringdefault = "第\(1)組  \( trainItem!.trainTimes[trainlocation]![0]) Times"
                     recordListString = recordstringdefault
-                    
+                    for itemSetCount in 1 ..< (trainItem?.trainSet[trainlocation])! {
+                        let y = itemSetCount + 1
+                        recordListString += "\n第\(y)組  \(trainItem!.trainTimes[trainlocation]![itemSetCount]) Times"
+                        
+                    }
                 }else{
                     let recordstringdefault = "第\(1)組  \(trainItem!.trainWeight[trainlocation]![0]) \(trainItem!.trainUnit[trainlocation]![0]) * \( trainItem!.trainTimes[trainlocation]![0]) Times"
                     recordListString = recordstringdefault
-                    
+                    for itemSetCount in 1 ..< (trainItem?.trainSet[trainlocation])! {
+                        let y = itemSetCount + 1
+                        recordListString += "\n第\(y)組  \(trainItem!.trainWeight[trainlocation]![itemSetCount]) \(trainItem!.trainUnit[trainlocation]![itemSetCount]) * \(trainItem!.trainTimes[trainlocation]![itemSetCount]) Times"
+                        
+                    }
                 }
                 result.append(recordListString)
                 recordsort.append(trainlocation)
-                if trainlocation[0] == 6{
-                for itemSetCount in 1 ..< (trainItem?.trainSet[trainlocation])! {
-                    let y = itemSetCount + 1
-                    recordListString = "\n第\(y)組  \(trainItem!.trainTimes[trainlocation]![itemSetCount]) Times"
-                    result.append(recordListString)
-                    recordsort.append(trainlocation)
-                }
-                    
-                }else{
-                for itemSetCount in 1 ..< (trainItem?.trainSet[trainlocation])! {
-                    let y = itemSetCount + 1
-                    recordListString = "\n第\(y)組  \(trainItem!.trainWeight[trainlocation]![itemSetCount]) \(trainItem!.trainUnit[trainlocation]![itemSetCount]) * \(trainItem!.trainTimes[trainlocation]![itemSetCount]) Times"
-                    result.append(recordListString)
-                    recordsort.append(trainlocation)
-                }
-                    
-                }
-                
                 
                 
             }
@@ -198,13 +161,59 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
         
     }
     
-    var formListLocation: [String] = ["運動部位", "肩胸部","背部", "核心","臀腿部",  "手臂","有氧運動"]
-    var formListBrest : [String] = [ "訓練項目"]
-    var formListBL : [String] = [ "訓練項目"]
-    var formListAbdomen : [String] = [ "訓練項目"]
-    var formListArm : [String] = [ "訓練項目"]
-    var formListEx : [String] = [ "訓練項目"]
-    var formListBack : [String] = [ "訓練項目"]
+    
+    
+    func recordLocationStringGen (_ traindate: String) -> [String] {
+        var result: [String] = []
+        var locationString = ""
+        for x in recordsort {
+            if (trainItem?.trainSet[x])! <= 2 {
+                locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
+            }else{
+                locationString = ""
+                for _ in 0 ..< (trainItem?.trainSet[x])!/3 {
+                    locationString += "\n"
+                }
+                locationString += "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
+                for _ in 0 ..< (trainItem?.trainSet[x])!/3 {
+                    locationString += "\n"
+                }
+            }
+            result.append(locationString)
+        }
+        recordsort = []
+        print("record location result = \(result)")
+        return result
+    }
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TrainRecordCell" ,for: indexPath)
+        print("tableview dateRecord = \(dateRecord)")
+        if trainItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
+            
+            print("data is not nil")
+            let detailLabelText = recordStringGen(dateRecord)[indexPath.row]
+            let labelText = recordLocationStringGen(dateRecord)[indexPath.row]
+            print(detailLabelText)
+            print(labelText)
+            
+            
+            
+            
+            cell.textLabel?.text =  labelText
+            cell.detailTextLabel?.text = detailLabelText
+            cell.showsReorderControl = true
+            
+        }
+        
+        
+        return cell
+    }
+    
+    
     func fitRecordLocation(_ locationdata: [Int]) -> String{
         switch locationdata[0] {
         case 1:
@@ -237,11 +246,11 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
             print(locationdata[1])
             print(formListAbdomen)
             return formListAbdomen[locationdata[1]]
-            
         case 4:
             print(locationdata[1])
             print(formListBL)
             return formListBL[locationdata[1]]
+            
         case 5:
             print(locationdata[1])
             print(formListArm)
@@ -256,6 +265,18 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
             return ""
         }
     }
+    
+    
+    
+    
+    var formListLocation: [String] = ["運動部位", "肩胸部","背部", "核心","臀腿部",  "手臂","有氧運動"]
+    var formListBrest : [String] = [ "訓練項目"]
+    var formListBL : [String] = [ "訓練項目"]
+    var formListAbdomen : [String] = [ "訓練項目"]
+    var formListArm : [String] = [ "訓練項目"]
+    var formListEx : [String] = [ "訓練項目"]
+    var formListBack : [String] = [ "訓練項目"]
+    
     //MARK: Archiving
     func writeToFile()  {
         //
@@ -293,38 +314,7 @@ class ShareViewController: UIViewController, ShareTableViewCellDelegate, UITable
     }
     @IBAction func shareBtnPressed(_ sender: Any) {
     }
-    var preventGoodBtnPressed: [IndexPath] = []
-    var preventNormalBtnPressed: [IndexPath] = []
-    var preventBadBtnPressed: [IndexPath] = []
-    func shareTableViewCellDidTapGood(_ sender: ShareTableViewCell) {
-        guard let tappedIndexPath = RecodListTV.indexPath(for: sender) else {return}
-        print(tappedIndexPath)
-        print("good")
-        print(tappedIndexPath.row)
-        
-        trainItem!.trainRate[tappedIndexPath.row]="Good"
-        
-        writeToFile()
-        RecodListTV.reloadData()
-    }
     
-    func shareTableViewCellDidTapNormal(_ sender: ShareTableViewCell) {
-        guard let tappedIndexPath = RecodListTV.indexPath(for: sender) else {return}
-        print(tappedIndexPath)
-        print("normal")
-        trainItem!.trainRate[tappedIndexPath.row] = "Normal"
-        writeToFile()
-        RecodListTV.reloadData()
-    }
-    
-    func shareTableViewCellDidTapBad(_ sender: ShareTableViewCell) {
-        guard let tappedIndexPath = RecodListTV.indexPath(for: sender) else {return}
-        print(tappedIndexPath)
-        print("bad")
-        trainItem!.trainRate[tappedIndexPath.row] = "Bad"
-        writeToFile()
-        RecodListTV.reloadData()
-    }
     /*
     // MARK: - Navigation
 
