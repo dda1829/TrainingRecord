@@ -21,12 +21,12 @@ class RecordItem:NSObject ,NSCoding {
 //    var trainDateYesterday: Stringlkl
     var trainSet : [[Int]:Int]
     var trainTimes : [[Int]:[Int]]
-    var trainWeight : [[Int]:[Int]]
+    var trainWeight : [[Int]:[Float]]
     var trainLocation: [[Int]:[Int]]
     var trainUnit: [[Int]:[String]]
     var trainLocationSort: [[Int]]
     var trainRate: [String]
-    init(_ traindate: String,/* _ traindateyesterday: String,*/_ trainset: [[Int]: Int], _ traintimes: [[Int]:[Int]], _ trainlocationsort: [[Int]],_ trainweight: [[Int]:[Int]], _ trainlocation: [[Int]:[Int]], _ trainunit: [[Int]:[String]],_ trainrate: [String]){
+    init(_ traindate: String,/* _ traindateyesterday: String,*/_ trainset: [[Int]: Int], _ traintimes: [[Int]:[Int]], _ trainlocationsort: [[Int]],_ trainweight: [[Int]:[Float]], _ trainlocation: [[Int]:[Int]], _ trainunit: [[Int]:[String]],_ trainrate: [String]){
         trainDate = traindate
         trainTimes = traintimes
         trainLocation = trainlocation
@@ -55,7 +55,7 @@ class RecordItem:NSObject ,NSCoding {
         self.trainLocation = coder.decodeObject(forKey: "trainLocation") as! [[Int]:[Int]]
         self.trainDate = coder.decodeObject(forKey: "trainDate") as! String
         self.trainSet = coder.decodeObject(forKey: "trainSet") as! [[Int]: Int]
-        self.trainWeight =  coder.decodeObject(forKey: "trainWeight") as! [[Int]:[Int]]
+        self.trainWeight =  coder.decodeObject(forKey: "trainWeight") as! [[Int]:[Float]]
         self.trainLocationSort = coder.decodeObject(forKey: "trainLocationSort") as! [[Int]]
         self.trainUnit =  coder.decodeObject(forKey: "trainUnit") as! [[Int]:[String]]
         self.trainRate = coder.decodeObject(forKey: "trainRate") as! [String]

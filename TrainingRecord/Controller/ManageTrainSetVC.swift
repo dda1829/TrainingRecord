@@ -8,12 +8,12 @@
 import UIKit
 
 class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate {
-    var trainWeight : Int = 10
+    var trainWeight : Float = 10
     var trainTimes : Int = 10
     var trainEachSetInterval : Int = 30
     var trainSetEachInterval : Float = 1
     var trainUnit: String = "kg"
-    
+    var trainLS: [Int] = []
     @IBOutlet weak var trainWeightTF: UITextField!
 
     @IBOutlet weak var trainWeightSlider: UISlider!
@@ -102,29 +102,26 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         trainUnit = UserDefaults.standard.string(forKey: "trainUnit") ?? "Kg"
         unit.text = trainUnit
         if UserDefaults.standard.float(forKey: "trainWeight") != 0.0{
-            trainWeightSlider.value = UserDefaults.standard.float(forKey: "trainWeight")
-            trainWeightTF.text = "\(UserDefaults.standard.integer(forKey: "trainWeight"))"
+            trainWeight = UserDefaults.standard.float(forKey: "trainWeight")
+            trainWeightSlider.setValue(trainWeight, animated: false)
+            trainWeightTF.text = "\(trainWeight)"
         }
-        trainWeightSlider.value = Float(trainWeight)
-        trainWeightTF.text = "\(trainWeight)"
         if UserDefaults.standard.float(forKey: "trainTimes") != 0.0{
-            trainTimesTF.text = "\(UserDefaults.standard.integer(forKey: "trainTimes"))"
-            trainTimesSlider.value = UserDefaults.standard.float(forKey: "trainTimes")
+            trainTimes = UserDefaults.standard.integer(forKey: "trainTimes")
+            trainTimesSlider.setValue(Float(trainTimes), animated: false)
+            trainTimesTF.text = "\(trainTimes)"
         }
-        trainTimesTF.text = "\(trainTimes)"
-        trainTimesSlider.value = Float(trainTimes)
-        if UserDefaults.standard.integer(forKey: "trainEachSetInterval") != 0 {
-            trainEachSetIntervalTF.text = "\(UserDefaults.standard.integer(forKey: "trainEachSetInterval"))"
-            trainEachSetIntervalSlider.value = UserDefaults.standard.float(forKey: "trainEachSetInterval")
-        }
-        trainEachSetIntervalTF.text = "\(trainEachSetInterval)"
-        trainEachSetIntervalSlider.value = Float(trainEachSetInterval)
         if UserDefaults.standard.float(forKey: "trainSetEachInterval") != 0.0 {
-            trainSetEachIntervalTF.text = "\(UserDefaults.standard.float(forKey: "trainSetEachInterval"))"
-            trainSetEachIntervalSlider.value = UserDefaults.standard.float(forKey: "trainSetEachInterval")
+            trainSetEachInterval = UserDefaults.standard.float(forKey: "trainSetEachInterval")
+            trainSetEachIntervalSlider.setValue(trainSetEachInterval, animated: false)
+            trainSetEachIntervalTF.text = "\(trainSetEachInterval)"
         }
-        trainSetEachIntervalTF.text = "\(trainSetEachInterval)"
-        trainSetEachIntervalSlider.value = trainSetEachInterval
+        if UserDefaults.standard.integer(forKey: "trainEachSetInterval") != 0 {
+            trainEachSetInterval = UserDefaults.standard.integer(forKey: "trainEachSetInterval")
+            trainEachSetIntervalSlider.setValue(Float(trainEachSetInterval), animated: false)
+            trainEachSetIntervalTF.text = "\(trainEachSetInterval)"
+        }
+        
     }
    
     // 關閉瑩幕小鍵盤
@@ -134,24 +131,20 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
 
     
     @IBAction func trainWeightEditSlider(_ sender: UISlider) {
-        sender.value.round()
+//        sender.value.round()
         if sender.value <= 10 {
-            trainWeightTF.text = "\(Int(sender.value))"
-            trainWeight = Int(sender.value)
+            trainWeightTF.text = "\(Float(Int(sender.value * 10))/10)"
+            trainWeight = Float(Int(sender.value * 10))/10
         }else {
-            trainWeightTF.text = "\(Int(sender.value) / 10 * 10)"
-            trainWeight = Int(sender.value) / 10 * 10
+            trainWeightTF.text = "\(Float(Int(sender.value * 10))/10)"
+            trainWeight = Float(Int(sender.value * 10))/10
         }
-        UserDefaults.standard.setValue(trainWeight, forKey: "trainWeight")
-        UserDefaults.standard.synchronize()
     }
 
     @IBAction func trainWeightEditTF(_ sender: UITextField) {
         if sender.text != nil {
-            trainWeight = Int(sender.text!)!
+            trainWeight = Float(sender.text!)!
             trainWeightSlider.setValue(Float(trainWeight), animated: true)
-            UserDefaults.standard.setValue(trainWeight, forKey: "trainWeight")
-            UserDefaults.standard.synchronize()
         }
     }
     var trainWeightMin: Float = 0
@@ -178,16 +171,12 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
             trainTimes = Int(sender.text!)!
             trainTimesSlider.setValue(Float(trainTimes), animated: true)
         }
-        UserDefaults.standard.setValue(trainTimes, forKey: "trainTimes")
-        UserDefaults.standard.synchronize()
     }
     @IBAction func trainTimesEditSlider(_ sender: UISlider) {
         
         sender.value.round()
         trainTimes = Int(sender.value)
         trainTimesTF.text = "\(Int(sender.value))"
-        UserDefaults.standard.setValue(trainTimes, forKey: "trainTimes")
-        UserDefaults.standard.synchronize()
     }
     var trainTimesMin: Float = 6
     var trainTimesMax: Float = 20
@@ -210,17 +199,14 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         if sender.text != nil {
             trainSetEachInterval = Float(sender.text!)!
             trainSetEachIntervalSlider.setValue(Float(trainSetEachInterval), animated: true)
-            UserDefaults.standard.setValue(trainSetEachInterval, forKey: "trainSetEachInterval")
-            UserDefaults.standard.synchronize()
+            
         }
     }
     
     
     @IBAction func trainSetEachIntervalSlider(_ sender: UISlider) {
-        trainSetEachInterval = sender.value
-        trainSetEachIntervalTF.text = "\(Float(Int(sender.value * 10))/10 )"
-        UserDefaults.standard.setValue(trainSetEachInterval, forKey: "trainSetEachInterval")
-        UserDefaults.standard.synchronize()
+        trainSetEachInterval = Float(Int(sender.value * 100))/100
+        trainSetEachIntervalTF.text = "\(Float(Int(sender.value * 100))/100 )"
     }
     var trainSetEachIntervalMin: Float = 1
     var trainSetEachIntervalMax: Float = 5
@@ -246,8 +232,6 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         if sender.text != nil {
             trainEachSetInterval = Int(sender.text!)!
             trainEachSetIntervalSlider.setValue(Float(trainEachSetInterval), animated: true)
-            UserDefaults.standard.setValue(trainEachSetInterval, forKey: "trainEachSetInterval")
-            UserDefaults.standard.synchronize()
         }
     }
     
@@ -257,8 +241,6 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
        
         trainEachSetInterval = Int(sender.value)
         trainEachSetIntervalTF.text = "\(Int(sender.value))"
-        UserDefaults.standard.setValue(trainEachSetInterval, forKey: "trainEachSetInterval")
-        UserDefaults.standard.synchronize()
         
     }
     
@@ -300,5 +282,15 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         return true
     }
 
+    @IBAction func doneBtnPressed(_ sender: Any) {
+        UserDefaults.standard.setValue(trainWeight, forKey: "trainWeight")
+        UserDefaults.standard.setValue(trainTimes, forKey: "trainTimes")
+        UserDefaults.standard.setValue(trainEachSetInterval, forKey: "trainEachSetInterval")
+        UserDefaults.standard.setValue(trainSetEachInterval, forKey: "trainSetEachInterval")
+        UserDefaults.standard.synchronize()
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
+        vc?.trainLS = trainLS
+        self.navigationController?.pushViewController(vc!,animated: true)
+    }
 }
 
