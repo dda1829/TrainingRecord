@@ -817,52 +817,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         pauseAndplayImageButton.addAction(pauseTraining, for: .touchUpInside)
         pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
-        let a = UserDefaults.standard.integer(forKey: "LoginTimes")
-        print(a)
-        if a == 0 {
-            for view in self.view.subviews{
-                view.isHidden = true
-            }
-            navigationController?.setNavigationBarHidden(true, animated: true)
-            // this use to generate a view to introduce the program how to use
 
-            IntroduceSV.delegate = self
-            IntroduceSV.contentSize.width = (fullScreenSize.width) * CGFloat(imageArray.count + 1)
-            IntroduceSV.contentSize.height = IntroduceSV.frame.height
-            IntroduceSV.showsVerticalScrollIndicator = false
-            IntroduceSV.showsHorizontalScrollIndicator = false
-            IntroduceSV.bounces = false
-            IntroduceSV.isPagingEnabled = true
-            IntroduceSV.isDirectionalLockEnabled = true
-            IntroducePCol.numberOfPages = imageArray.count
-            IntroducePCol.currentPage = 0
-            IntroducePCol.currentPageIndicatorTintColor = .blue
-            IntroducePCol.pageIndicatorTintColor = .brown
-
-            
-            
-            for i in 0 ..< imageArray.count{
-                myScrollImageView = UIImageView()
-                myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 0, width: fullScreenSize.width, height: IntroduceSV.frame.height - CGFloat(50))
-                myScrollImageView.image = imageArray[i]
-                self.IntroduceSV.addSubview(myScrollImageView)
-
-              
-            }
-
-            
-            IntroduceSV.isHidden = false
-            IntroducePCol.isHidden = false
-            
-        }else{
-            IntroduceSV.delegate = .none
-            IntroduceSV.removeFromSuperview()
-            IntroducePCol.removeFromSuperview()
-        }
-        
-        loginTimes += 1
-        UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
-        UserDefaults.standard.synchronize()
         // MARK: 先把資料抓出來確認是否為今天的資料，若為今天的資料便將資料存回今日，或非則將資料改至明日。
         
         
@@ -949,7 +904,52 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             pickerView(TrainPickerView, didSelectRow: trainLS[0], inComponent: 0)
         }
         RecordListTV.register(ShareTableViewCell.nib(), forCellReuseIdentifier: ShareTableViewCell.identifier)
+        let a =  UserDefaults.standard.integer(forKey: "LoginTimes")
+        print(a)
+        if a == 0 {
+            for view in self.view.subviews{
+                view.isHidden = true
+            }
+            navigationController?.setNavigationBarHidden(true, animated: true)
+            // this use to generate a view to introduce the program how to use
+
+            IntroduceSV.delegate = self
+            IntroduceSV.contentSize.width = (fullScreenSize.width) * CGFloat(imageArray.count + 1)
+            IntroduceSV.contentSize.height = IntroduceSV.frame.height
+            IntroduceSV.showsVerticalScrollIndicator = false
+            IntroduceSV.showsHorizontalScrollIndicator = false
+            IntroduceSV.bounces = false
+            IntroduceSV.isPagingEnabled = true
+            IntroduceSV.isDirectionalLockEnabled = true
+            IntroducePCol.numberOfPages = imageArray.count
+            IntroducePCol.currentPage = 0
+            IntroducePCol.currentPageIndicatorTintColor = .blue
+            IntroducePCol.pageIndicatorTintColor = .brown
+
+            
+            
+            for i in 0 ..< imageArray.count{
+                myScrollImageView = UIImageView()
+                myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 0, width: fullScreenSize.width, height: IntroduceSV.frame.height - CGFloat(50))
+                myScrollImageView.image = imageArray[i]
+                self.IntroduceSV.addSubview(myScrollImageView)
+
+              
+            }
+
+            
+            IntroduceSV.isHidden = false
+            IntroducePCol.isHidden = false
+            
+        }else{
+            IntroduceSV.delegate = .none
+            IntroduceSV.removeFromSuperview()
+            IntroducePCol.removeFromSuperview()
+        }
         
+        loginTimes += 1
+        UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
+        UserDefaults.standard.synchronize()
         //        ATTrackingManager.requestTrackingAuthorization { status in
         //
         //            DispatchQueue.main.async {
@@ -1370,9 +1370,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         TimerUse.share.stopTimer(2)
         TimerUse.share.setTimer(1, self, #selector(CountTimeBreak), true, 1)
     }
-    @IBAction func test(_ sender: Any) {
-        print(trainUnit)
-    }
     @objc func CountTimer(){
         if !recordIsStart {
             CountTimeStart()
@@ -1538,7 +1535,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             vc.infoUserName = infodataUserName
         }else if segue.identifier == "segue_Home_SystemVC"{
         }else if segue.identifier == "report_share_segue"{
-            let vc = segue.destination as! ShareViewController
+//            let vc = segue.destination as! ShareViewController
             
             
         }
@@ -1846,162 +1843,162 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             beforeinfodatainside.append(beforeInfoData[x].content!)
         }
         
-        // Fetch data from data store Brest
-        var fetchResultControlleruB: NSFetchedResultsController<UBrestItem>
-        let fetchRequestuB: NSFetchRequest<UBrestItem> = UBrestItem.fetchRequest()
-        let sortDescriptoruB = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestuB.sortDescriptors = [sortDescriptoruB]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControlleruB = NSFetchedResultsController(fetchRequest: fetchRequestuB, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControlleruB.delegate = self
-            
-            do {
-                try fetchResultControlleruB.performFetch()
-                if let fetchedObjects = fetchResultControlleruB.fetchedObjects {
-                    uBrestDatas = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< uBrestDatas.count {
-            formListBrest.append(uBrestDatas[x].name!)
-            trainBrestText.append(uBrestDatas[x].def!)
-            brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uBrestDatas[x].image!) ) as Data)!)
-        }
-        // Fetch data from data store Back
-        var fetchResultControllerUback: NSFetchedResultsController<UBackItem>!
-        
-        let fetchRequestUback: NSFetchRequest<UBackItem> = UBackItem.fetchRequest()
-        let sortDescriptorUback = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestUback.sortDescriptors = [sortDescriptorUback]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerUback = NSFetchedResultsController(fetchRequest: fetchRequestUback, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerUback.delegate = self
-            
-            do {
-                try fetchResultControllerUback.performFetch()
-                if let fetchedObjects = fetchResultControllerUback.fetchedObjects {
-                    uBackDatas = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< uBackDatas.count {
-            formListBack.append(uBackDatas[x].name!)
-            trainBackText.append(uBackDatas[x].def!)
-            backImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uBackDatas[x].image!) ) as Data)!)
-        }
-        // Fetch data from data store Abdomen
-        var fetchResultControllerUabdomen: NSFetchedResultsController<UAbdomenItem>!
-        
-        let fetchRequestUabdomen: NSFetchRequest<UAbdomenItem> = UAbdomenItem.fetchRequest()
-        let sortDescriptorUabdomen = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestUabdomen.sortDescriptors = [sortDescriptorUabdomen]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerUabdomen = NSFetchedResultsController(fetchRequest: fetchRequestUabdomen, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerUabdomen.delegate = self
-            
-            do {
-                try fetchResultControllerUabdomen.performFetch()
-                if let fetchedObjects = fetchResultControllerUabdomen.fetchedObjects {
-                    uAbdomenDatas = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< uAbdomenDatas.count {
-            formListAbdomen.append(uAbdomenDatas[x].name!)
-            trainAbdomenText.append(uAbdomenDatas[x].def!)
-            abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uAbdomenDatas[x].image!) ) as Data)!)
-        }
-        // Fetch data from data store Bottom
-        var fetchResultControllerUbl: NSFetchedResultsController<UBLItem>!
-        
-        let fetchRequestUbl: NSFetchRequest<UBLItem> = UBLItem.fetchRequest()
-        let sortDescriptorUbl = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestUbl.sortDescriptors = [sortDescriptorUbl]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerUbl = NSFetchedResultsController(fetchRequest: fetchRequestUbl, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerUbl.delegate = self
-            
-            do {
-                try fetchResultControllerUbl.performFetch()
-                if let fetchedObjects = fetchResultControllerUbl.fetchedObjects {
-                    uBLDatas = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< uBLDatas.count {
-            formListBL.append(beforeBLData[x].name!)
-            trainBLText.append(beforeBLData[x].def!)
-            blImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeBLData[x].image!) ) as Data)!)
-            
-        }
-        // Fetch data from data store Arm
-        var fetchResultControllerUarm: NSFetchedResultsController<UArmItem>!
-        
-        let fetchRequestUarm: NSFetchRequest<UArmItem> = UArmItem.fetchRequest()
-        let sortDescriptorUarm = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestUarm.sortDescriptors = [sortDescriptorUarm]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerUarm = NSFetchedResultsController(fetchRequest: fetchRequestUarm, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerUarm.delegate = self
-            
-            do {
-                try fetchResultControllerUarm.performFetch()
-                if let fetchedObjects = fetchResultControllerUarm.fetchedObjects {
-                    uArmDatas = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< uArmDatas.count {
-            formListArm.append(uArmDatas[x].name!)
-            trainArmText.append(uArmDatas[x].def!)
-            armImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uArmDatas[x].image!) ) as Data)!)
-        }
-        // Fetch data from data store Exercise
-        var fetchResultControllerUex: NSFetchedResultsController<UExerciseItem>!
-        
-        let fetchRequestUexercise: NSFetchRequest<UExerciseItem> = UExerciseItem.fetchRequest()
-        let sortDescriptorUexercise = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestUexercise.sortDescriptors = [sortDescriptorUexercise]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerUex = NSFetchedResultsController(fetchRequest: fetchRequestUexercise, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerUex.delegate = self
-            
-            do {
-                try fetchResultControllerUex.performFetch()
-                if let fetchedObjects = fetchResultControllerUex.fetchedObjects {
-                    uExDatas = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< uExDatas.count {
-            formListEx.append(uExDatas[x].name!)
-            trainExText.append(uExDatas[x].def!)
-            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: URL(fileURLWithPath: uExDatas[x].image!)) as Data)!)
-        }
+//        // Fetch data from data store Brest
+//        var fetchResultControlleruB: NSFetchedResultsController<UBrestItem>
+//        let fetchRequestuB: NSFetchRequest<UBrestItem> = UBrestItem.fetchRequest()
+//        let sortDescriptoruB = NSSortDescriptor(key: "id", ascending: true)
+//        fetchRequestuB.sortDescriptors = [sortDescriptoruB]
+//        
+//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+//            let context = appDelegate.persistentContainer.viewContext
+//            fetchResultControlleruB = NSFetchedResultsController(fetchRequest: fetchRequestuB, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+//            fetchResultControlleruB.delegate = self
+//            
+//            do {
+//                try fetchResultControlleruB.performFetch()
+//                if let fetchedObjects = fetchResultControlleruB.fetchedObjects {
+//                    uBrestDatas = fetchedObjects
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//        for x in 0 ..< uBrestDatas.count {
+//            formListBrest.append(uBrestDatas[x].name!)
+//            trainBrestText.append(uBrestDatas[x].def!)
+//            brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uBrestDatas[x].image!) ) as Data)!)
+//        }
+//        // Fetch data from data store Back
+//        var fetchResultControllerUback: NSFetchedResultsController<UBackItem>!
+//        
+//        let fetchRequestUback: NSFetchRequest<UBackItem> = UBackItem.fetchRequest()
+//        let sortDescriptorUback = NSSortDescriptor(key: "id", ascending: true)
+//        fetchRequestUback.sortDescriptors = [sortDescriptorUback]
+//        
+//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+//            let context = appDelegate.persistentContainer.viewContext
+//            fetchResultControllerUback = NSFetchedResultsController(fetchRequest: fetchRequestUback, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+//            fetchResultControllerUback.delegate = self
+//            
+//            do {
+//                try fetchResultControllerUback.performFetch()
+//                if let fetchedObjects = fetchResultControllerUback.fetchedObjects {
+//                    uBackDatas = fetchedObjects
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//        for x in 0 ..< uBackDatas.count {
+//            formListBack.append(uBackDatas[x].name!)
+//            trainBackText.append(uBackDatas[x].def!)
+//            backImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uBackDatas[x].image!) ) as Data)!)
+//        }
+//        // Fetch data from data store Abdomen
+//        var fetchResultControllerUabdomen: NSFetchedResultsController<UAbdomenItem>!
+//        
+//        let fetchRequestUabdomen: NSFetchRequest<UAbdomenItem> = UAbdomenItem.fetchRequest()
+//        let sortDescriptorUabdomen = NSSortDescriptor(key: "id", ascending: true)
+//        fetchRequestUabdomen.sortDescriptors = [sortDescriptorUabdomen]
+//        
+//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+//            let context = appDelegate.persistentContainer.viewContext
+//            fetchResultControllerUabdomen = NSFetchedResultsController(fetchRequest: fetchRequestUabdomen, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+//            fetchResultControllerUabdomen.delegate = self
+//            
+//            do {
+//                try fetchResultControllerUabdomen.performFetch()
+//                if let fetchedObjects = fetchResultControllerUabdomen.fetchedObjects {
+//                    uAbdomenDatas = fetchedObjects
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//        for x in 0 ..< uAbdomenDatas.count {
+//            formListAbdomen.append(uAbdomenDatas[x].name!)
+//            trainAbdomenText.append(uAbdomenDatas[x].def!)
+//            abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uAbdomenDatas[x].image!) ) as Data)!)
+//        }
+//        // Fetch data from data store Bottom
+//        var fetchResultControllerUbl: NSFetchedResultsController<UBLItem>!
+//        
+//        let fetchRequestUbl: NSFetchRequest<UBLItem> = UBLItem.fetchRequest()
+//        let sortDescriptorUbl = NSSortDescriptor(key: "id", ascending: true)
+//        fetchRequestUbl.sortDescriptors = [sortDescriptorUbl]
+//        
+//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+//            let context = appDelegate.persistentContainer.viewContext
+//            fetchResultControllerUbl = NSFetchedResultsController(fetchRequest: fetchRequestUbl, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+//            fetchResultControllerUbl.delegate = self
+//            
+//            do {
+//                try fetchResultControllerUbl.performFetch()
+//                if let fetchedObjects = fetchResultControllerUbl.fetchedObjects {
+//                    uBLDatas = fetchedObjects
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//        for x in 0 ..< uBLDatas.count {
+//            formListBL.append(beforeBLData[x].name!)
+//            trainBLText.append(beforeBLData[x].def!)
+//            blImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeBLData[x].image!) ) as Data)!)
+//            
+//        }
+//        // Fetch data from data store Arm
+//        var fetchResultControllerUarm: NSFetchedResultsController<UArmItem>!
+//        
+//        let fetchRequestUarm: NSFetchRequest<UArmItem> = UArmItem.fetchRequest()
+//        let sortDescriptorUarm = NSSortDescriptor(key: "id", ascending: true)
+//        fetchRequestUarm.sortDescriptors = [sortDescriptorUarm]
+//        
+//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+//            let context = appDelegate.persistentContainer.viewContext
+//            fetchResultControllerUarm = NSFetchedResultsController(fetchRequest: fetchRequestUarm, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+//            fetchResultControllerUarm.delegate = self
+//            
+//            do {
+//                try fetchResultControllerUarm.performFetch()
+//                if let fetchedObjects = fetchResultControllerUarm.fetchedObjects {
+//                    uArmDatas = fetchedObjects
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//        for x in 0 ..< uArmDatas.count {
+//            formListArm.append(uArmDatas[x].name!)
+//            trainArmText.append(uArmDatas[x].def!)
+//            armImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uArmDatas[x].image!) ) as Data)!)
+//        }
+//        // Fetch data from data store Exercise
+//        var fetchResultControllerUex: NSFetchedResultsController<UExerciseItem>!
+//        
+//        let fetchRequestUexercise: NSFetchRequest<UExerciseItem> = UExerciseItem.fetchRequest()
+//        let sortDescriptorUexercise = NSSortDescriptor(key: "id", ascending: true)
+//        fetchRequestUexercise.sortDescriptors = [sortDescriptorUexercise]
+//        
+//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+//            let context = appDelegate.persistentContainer.viewContext
+//            fetchResultControllerUex = NSFetchedResultsController(fetchRequest: fetchRequestUexercise, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+//            fetchResultControllerUex.delegate = self
+//            
+//            do {
+//                try fetchResultControllerUex.performFetch()
+//                if let fetchedObjects = fetchResultControllerUex.fetchedObjects {
+//                    uExDatas = fetchedObjects
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//        for x in 0 ..< uExDatas.count {
+//            formListEx.append(uExDatas[x].name!)
+//            trainExText.append(uExDatas[x].def!)
+//            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: URL(fileURLWithPath: uExDatas[x].image!)) as Data)!)
+//        }
     }
     //MARK:GADBannerViewDelegate
 //    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {

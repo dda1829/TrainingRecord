@@ -122,8 +122,8 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         
         
         if MemberUserDataToFirestore.share.checkAge(){
-            userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as! String
-            userGender = MemberUserDataToFirestore.share.getUserdatas("userGender") as! String
+            userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as? String
+            userGender = MemberUserDataToFirestore.share.getUserdatas("userGender") as? String
             if userGender == "male"{
                 sexualAgePV.selectRow(1, inComponent: 0, animated: true)
             } else if userGender == "female"{

@@ -15,26 +15,31 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     var userPhoto: UIImage?
     var trainUnitSettoKg = true
     var trainUnit = "Kg"
-    var memberFunctionForm : [String] = ["設定會員資料","設定預備時間"]
-//    var dataForm: [String] = ["清除所有訓練資料","聯繫作者"]
+    var memberFunctionForm : [String] = ["設定會員資料","編輯器材資訊","設定預備時間"]
+    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","修改訓練項目位置"]
     var trainingParameters: [String] = ["重量單位"]
     var db: Firestore?
     var memberDatas: [String:Any]?
     var prepareTime: Int = 3
+    
+    var isEditTrainItem = false
+    
+    
+    
     @objc func getmemberdatas(noti:Notification){
         memberDatas = noti.userInfo as? [String:Any]
         print(memberDatas!)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
         trainUnitSettoKg = UserDefaults.standard.bool(forKey: "trainUnitSet")
         trainingGoals = ["體脂降低10％","肌肉重量增加\(trainUnitSettoKg ? "1 Kg" : "2.2 lb")","基礎代謝率增加200大卡"]
         if let user = Auth.auth().currentUser{
             print("\(user.uid) login")
             if let usergoal = UserDefaults.standard.string(forKey: "userGoal"){
-            trainingGoal = usergoal
+                trainingGoal = usergoal
             }else if let usergoal = MemberUserDataToFirestore.share.getUserdatas("userGoal"){
                 if let goal = (usergoal as! [String]).last{
                     trainingGoal = goal
@@ -43,7 +48,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                 }
             }
             if UserDefaults.standard.integer(forKey: "prepareTime") != 0 {
-            prepareTime = UserDefaults.standard.integer(forKey: "prepareTime")
+                prepareTime = UserDefaults.standard.integer(forKey: "prepareTime")
             }
             userTextLabel = user.displayName ?? "精壯使用者"
             if let userphotoinFB = user.photoURL {
@@ -90,7 +95,11 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             return trainingParameters.count
         case 2:
             if Auth.auth().currentUser != nil {
-                return memberFunctionForm.count
+                if isEditTrainItem{
+                    return memberFunctionForm.count + trainListEditForm.count
+                }else{
+                    return memberFunctionForm.count
+                }
             }else {
                 return 1
             }
@@ -146,17 +155,64 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                 cell.textLabel?.textColor = .red
             }else{
                 if indexPath.row == 0 {
-                cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
-                cell.textLabel?.text = memberFunctionForm[indexPath.row]
-                cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-                cell.textLabel?.textColor = .white
-                }else if indexPath.row == 1 {
-                    cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
+                    cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
                     cell.textLabel?.text = memberFunctionForm[indexPath.row]
-                    cell.detailTextLabel?.text = "\(prepareTime)"
                     cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-                    cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
                     cell.textLabel?.textColor = .white
+                    
+                }
+                if isEditTrainItem == false {
+                    if indexPath.row == 1 {
+                        cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row]
+                        cell.detailTextLabel!.text = "▽"
+                        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.detailTextLabel?.textColor = .systemGray
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                    }else if indexPath.row == 2 {
+                        cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row]
+                        cell.detailTextLabel?.text = "\(prepareTime)"
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                    }
+                }else {
+                    if indexPath.row == 1 {
+                        cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row]
+                        cell.detailTextLabel!.text = "△"
+                        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.detailTextLabel?.textColor = .systemGray
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                    }else if indexPath.row == 2{
+                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
+                        cell.textLabel?.text = "    -" + trainListEditForm[indexPath.row - 2]
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                        cell.backgroundColor = .darkGray
+                    }else if indexPath.row == 3{
+                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
+                        cell.textLabel?.text = "    -" + trainListEditForm[indexPath.row - 2]
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                        cell.backgroundColor = .darkGray
+                    }else if indexPath.row == 4 {
+                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
+                        cell.textLabel?.text = "    -" + trainListEditForm[indexPath.row - 2]
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                        cell.backgroundColor = .darkGray
+                    }else if indexPath.row == 5 {
+                        cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 3]
+                        cell.detailTextLabel?.text = "\(prepareTime)"
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                    }
                 }
             }
         }else   if indexPath.section == 3 {
@@ -213,15 +269,30 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }else if indexPath.section == 2 && indexPath.row == 1{
-                    prepareTime += 1
-                    if prepareTime == 6 {
-                        prepareTime = 1
-                    }
-                    UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
-                    UserDefaults.standard.synchronize()
+                    isEditTrainItem = !isEditTrainItem
                 }else if indexPath.row == 0 && indexPath.section == 3 {
                     let notificationName = Notification.Name("ClearDatas")
                     NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
+                }
+                if isEditTrainItem {
+                    if indexPath.section == 2 && indexPath.row == 2{
+                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "NewTrainingItemPage") as? NewTrainingItemViewController{
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }else if indexPath.section == 2 && indexPath.row == 3{
+                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "RemoveTrainingItemPage") as? RemoveTrainingItemViewController{
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }
+                }else{
+                    if indexPath.section == 2 && indexPath.row == 2{
+                        prepareTime += 1
+                        if prepareTime == 6 {
+                            prepareTime = 1
+                        }
+                        UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
+                        UserDefaults.standard.synchronize()
+                    }
                 }
             }
         }
@@ -262,51 +333,6 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             
         }
     }
-   
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
 

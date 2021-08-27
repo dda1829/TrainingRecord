@@ -28,7 +28,7 @@ class MemberAlreadyLoginViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         if let user = Auth.auth().currentUser {
-            print(user.displayName)
+//            print(user.displayName)
             if let username = user.displayName {
                 LogedinTV.text = "\(username)您好\n您已經登入了！"
             }

@@ -49,7 +49,7 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate {
                     var zz = false
                     let user = Auth.auth().currentUser
                     if let user = user {
-                        print(user.displayName)
+//                        print(user.displayName)
                         DispatchQueue.global().sync {
                             
                             self.userName = user.displayName!

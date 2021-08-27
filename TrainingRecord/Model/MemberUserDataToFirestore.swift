@@ -47,7 +47,7 @@ class MemberUserDataToFirestore {
                         recordaday += x
                     }
                     dayDifference = Int(nowaday)!-Int(recordaday)!
-                    print(dayDifference)
+//                    print(dayDifference)
                 }
             }
             var nowAge = Int(memberDatas["userAge"] as! String)
