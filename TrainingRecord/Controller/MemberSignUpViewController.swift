@@ -72,6 +72,10 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
         emailTextField.delegate = self
         passwordTextField.delegate = self
         // Do any additional setup after loading the view
+        
+        if UserDefaults.standard.string(forKey: "userName") != nil {
+            userNameTextField.text = UserDefaults.standard.string(forKey: "userName")
+        }
 
 
     }

@@ -38,13 +38,13 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         trainingGoals = ["體脂降低10％","肌肉重量增加\(trainUnitSettoKg ? "1 Kg" : "2.2 lb")","基礎代謝率增加200大卡"]
         if let user = Auth.auth().currentUser{
             print("\(user.uid) login")
-            if let usergoal = UserDefaults.standard.string(forKey: "userGoal"){
-                trainingGoal = usergoal
-            }else if let usergoal = MemberUserDataToFirestore.share.getUserdatas("userGoal"){
+            if let usergoal = MemberUserDataToFirestore.share.getUserdatas("userGoal"){
                 if let goal = (usergoal as! [String]).last{
                     trainingGoal = goal
                     UserDefaults.standard.setValue(goal, forKey: "userGoal")
                     UserDefaults.standard.synchronize()
+                }else{
+                    trainingGoal = "請設定會員資料用以設定目標！"
                 }
             }
             if UserDefaults.standard.integer(forKey: "prepareTime") != 0 {

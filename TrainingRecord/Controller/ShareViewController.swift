@@ -8,7 +8,9 @@
 import UIKit
 
 class ShareViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+    var ratingForm: [String] = []
+    var titleForm: [String] = []
+    var subtitleForm: [String] = []
     
     var recordListString = ""
     var recordsort: [[Int]] = []
@@ -18,6 +20,14 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var userReportLeft: UITextView!
     @IBOutlet weak var userReportRight: UITextView!
     @IBOutlet weak var RecodListTV: UITableView!
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+       
+        
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.title = "訓練紀錄報表"
@@ -49,8 +59,11 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         RecodListTV.delegate = self
         RecodListTV.dataSource = self
-        
+        RecodListTV.register(SharedTableViewCell.nib(), forCellReuseIdentifier: SharedTableViewCell.identifier)
         loadFromFile()
+        subtitleForm = recordStringGen()
+        titleForm = recordLocationStringGen()
+        ratingForm = averageRateGen()
 
         
         dateRecordTitleBtn.setTitle(dateRecord, for: .normal)
@@ -113,7 +126,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     
-    func recordStringGen (_ traindate : String) -> [String]{
+    func recordStringGen () -> [String]{
         var result: [String] = []
         
         
@@ -163,7 +176,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     
-    func recordLocationStringGen (_ traindate: String) -> [String] {
+    func recordLocationStringGen () -> [String] {
         var result: [String] = []
         var locationString = ""
         for x in recordsort {
@@ -171,40 +184,99 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                 locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
             }else{
                 locationString = ""
-                for _ in 0 ..< (trainItem?.trainSet[x])!/3 {
+                for _ in 0 ..< (trainItem?.trainSet[x])!/2 {
                     locationString += "\n"
                 }
                 locationString += "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
-                for _ in 0 ..< (trainItem?.trainSet[x])!/3 {
-                    locationString += "\n"
-                }
+//                for _ in 0 ..< (trainItem?.trainSet[x])!/3 {
+//                    locationString += "\n"
+//                }
             }
             result.append(locationString)
         }
-        recordsort = []
         print("record location result = \(result)")
         return result
     }
     
-    
+    func averageRateGen () -> [String] {
+        var result : [String] = []
+        
+        var trainRateSeperate : [[Int]:[String]] = [:]
+        var traincount = 0
+        for x in trainItem!.trainLocationSort {
+            if trainRateSeperate[x] == nil {
+                trainRateSeperate.updateValue(([trainItem!.trainRate[traincount]]), forKey: x)
+            }else{
+                trainRateSeperate[x]?.append(trainItem!.trainRate[traincount])
+            }
+            traincount += 1
+        }
+        var ratingScore: [[Int]:[Double]] = [:]
+        var rating = 0.0
+        for x in recordsort{
+            
+            for y in 0 ..< trainRateSeperate[x]!.count{
+                switch trainRateSeperate[x]![y] {
+                case "Good":
+                    if ratingScore[x] == nil {
+                        ratingScore.updateValue([3], forKey: x)
+                    }else{
+                        ratingScore[x]?.append(3)
+                    }
+                case "Normal":
+                    if ratingScore[x] == nil {
+                        ratingScore.updateValue([1.5], forKey: x)
+                    }else{
+                        ratingScore[x]?.append(1.5)
+                    }
+                case "Bad":
+                    if ratingScore[x] == nil {
+                        ratingScore.updateValue([0.5], forKey: x)
+                    }else{
+                        ratingScore[x]?.append(0.5)
+                    }
+                default:
+                    if ratingScore[x] == nil {
+                        ratingScore.updateValue([0], forKey: x)
+                    }else{
+                        ratingScore[x]?.append(0)
+                    }
+                }
+                if y == trainRateSeperate[x]!.count - 1 {
+                    for z in ratingScore[x]!{
+                         rating += z
+                    }
+                    switch rating/Double(y + 1) {
+                    case 2.5 ... 3:
+                        result.append("😃，感覺良好。")
+                    case 1.5 ..< 2.5:
+                        result.append("😐，感覺普通。")
+                    case 0 ..< 1.5:
+                        result.append("😮‍💨，感覺很糟。")
+                    default:
+                        result.append("資訊不足")
+                    }
+                }
+                rating = 0
+            }
+        }
+        recordsort = []
+        return result
+    }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TrainRecordCell" ,for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SharedTableViewCell", for: indexPath) as! SharedTableViewCell
         print("tableview dateRecord = \(dateRecord)")
         if trainItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
             
             print("data is not nil")
-            let detailLabelText = recordStringGen(dateRecord)[indexPath.row]
-            let labelText = recordLocationStringGen(dateRecord)[indexPath.row]
-            print(detailLabelText)
-            print(labelText)
+           
             
+            cell.titleLabel.text = titleForm[indexPath.row]
+            cell.subTitleLabel.text = subtitleForm[indexPath.row]
+            cell.rateLabel.text = ratingForm[indexPath.row] ?? "未有足夠的資訊"
             
-            
-            
-            cell.textLabel?.text =  labelText
-            cell.detailTextLabel?.text = detailLabelText
             cell.showsReorderControl = true
             
         }
@@ -298,7 +370,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
         let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
         let file = doc.appendingPathComponent("RecordDatas")
-        let file2 = file.appendingPathComponent("\(dateRecord)")
+        let file2 = file.appendingPathComponent(dateRecord)
         let filePath = file2.appendingPathComponent("RecordDatas.archive")
         do {
             //載入成Data（二進位資料)

@@ -54,6 +54,9 @@ class MemberAlreadyLoginViewController: UIViewController {
                 print(error)
             }
             MemberUserDataToFirestore.share.removeUserdata(deleteUserDatas)
+            MemberUserDataToFirestore.share.initialUserdata()
+            UserDefaults.standard.removeObject(forKey: "userName")
+            UserDefaults.standard.removeObject(forKey: "userGoal")
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemPage") as? SystemTableViewController
             self.navigationController?.pushViewController(vc!,animated: true)
           }

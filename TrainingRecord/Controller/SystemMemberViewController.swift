@@ -246,7 +246,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
             return false
         }
         guard textField != targetTextField else {
-            return false
+            return true
         }
         if !string.isNumberOnly() {
             return false

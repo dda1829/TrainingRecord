@@ -163,7 +163,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var infodataUserName: [String] = []
     var infodataEmail: [String] = []
     var beforeinfodatainside : [String] = []
-    
     var bannerView: GADBannerView!
     
     //MARK: Member parameters
@@ -535,9 +534,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         RecordListTV.reloadData()
         picker.removeFromSuperview()
     }
-    @objc func barButtonDo () {
-        
-    }
     
     // MARK: firestore load Training Data
     func loadData(_ location: String) {
@@ -759,34 +755,35 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         ToolBarManage()
         if Auth.auth().currentUser != nil {
             if let usergoal = UserDefaults.standard.string(forKey: "userGoal"){
-                trainingGoal = usergoal
-            }
-            else if let usergoal = MemberUserDataToFirestore.share.getUserdatas("userGoal"){
-                if let goal = (usergoal as! [String]).last{
-                    trainingGoal = goal
-                    UserDefaults.standard.setValue(goal, forKey: "userGoal")
-                    UserDefaults.standard.synchronize()
+               trainingGoal = usergoal
+
+                    self.view.addSubview(targetTV)
+                    targetTV.translatesAutoresizingMaskIntoConstraints = false
+                    targetTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
+                    targetTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+                    targetTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+                    targetTV.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor, constant: 0).isActive = true
+                    targetTV.heightAnchor.constraint(equalToConstant: 45).isActive = true
+                    targetTV.backgroundColor = .darkGray
+                    targetTV.textColor = .red
+                    targetTV.font = UIFont.systemFont(ofSize: 20)
+                    targetTV.isEditable = false
+                    targetTV.adjustsFontForContentSizeCategory = true
+                    targetTV.textAlignment = .center
+                    targetTV.text = "目標：" + (trainingGoal ?? "讀取中，請於系統設定確認。")
+                    RecordListTV.topAnchor.constraint(equalTo: targetTV.bottomAnchor, constant: 0).isActive = true
+                    RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+                    RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+                    RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
+                }else{
+                    RecordListTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
+                    RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+                    RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+                    RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
                 }
-            }
             
-            self.view.addSubview(targetTV)
-            targetTV.translatesAutoresizingMaskIntoConstraints = false
-            targetTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
-            targetTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-            targetTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-            targetTV.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor, constant: 0).isActive = true
-            targetTV.heightAnchor.constraint(equalToConstant: 45).isActive = true
-            targetTV.backgroundColor = .darkGray
-            targetTV.textColor = .red
-            targetTV.font = UIFont.systemFont(ofSize: 20)
-            targetTV.isEditable = false
-            targetTV.adjustsFontForContentSizeCategory = true
-            targetTV.textAlignment = .center
-            targetTV.text = "目標：" + (trainingGoal ?? "讀取中，請於系統設定確認。")
-            RecordListTV.topAnchor.constraint(equalTo: targetTV.bottomAnchor, constant: 0).isActive = true
-            RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-            RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-            RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
+            
+            
         }else{
             RecordListTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
             RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
@@ -965,9 +962,25 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         //        }
         
     }
+    @objc func registerTheMember(){
+        let alertController = UIAlertController(title: "註冊會員後便開放此功能！", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            print("OK")
+            
+            }
+            alertController.addAction(okAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+    }
+    
     func ToolBarManage(){
+        var restbarbtn = UIBarButtonItem()
+        if Auth.auth().currentUser != nil{
+            restbarbtn = UIBarButtonItem(image: UIImage(systemName: "bed.double.fill"), style: .plain, target: self, action: #selector(breakCounterBtnPressed))
+        }else{
+            restbarbtn = UIBarButtonItem(image: UIImage(systemName: "bed.double.fill")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(registerTheMember))
+        }
         
-        let restbarbtn = UIBarButtonItem(image: UIImage(systemName: "bed.double.fill"), style: .plain, target: self, action: #selector(breakCounterBtnPressed))
         let adjusttrainingparameters = UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3"), style: .plain, target: self, action: #selector(trainingParametersChange))
         let trainstartbarbtn = UIBarButtonItem(image: UIImage(named: "start")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(trainStartBtnPressed))
         let trainreportbarbtn = UIBarButtonItem(image: UIImage(systemName: "arrowshape.turn.up.right"), style: .plain, target: self, action: #selector(trainreportgo))
@@ -1068,6 +1081,19 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 for view in self.view.subviews{
                     view.isHidden = false
                 }
+                let alertController = UIAlertController(title: nil, message: "歡迎您使用此應用！", preferredStyle: .alert)
+                alertController.addTextField { textfield in
+                    textfield.placeholder = "請問大名"
+                }
+                let action = UIAlertAction(title: "Save", style: .default) { action in
+                    //取得textfield中的值
+                    if let input =  alertController.textFields?[0].text{
+                        UserDefaults.standard.set(input, forKey: "userName")
+                        UserDefaults.standard.synchronize()
+                    }
+                }
+                alertController.addAction(action)
+                self.present(alertController, animated: true, completion: nil)
             }
         }
         
@@ -2098,60 +2124,53 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
         var result: [String] = []
         var locationString = ""
         
-        for x in recordsort {
+        for x in todayItem!.trainLocationSort {
             locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
             result.append(locationString)
             }
-        recordsort = []
         print("record location result = \(result)")
         return result
     }
     func recordStringGen (_ traindate : String) -> [String]{
         var result: [String] = []
         
+        var locationcounter: [[Int]:Int] = [:]
         
         if todayItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
             
             let locationsort = todayItem!.trainLocationSort
-            var target : [[Int]] = []
-            for x in locationsort {
-                if !target.contains(x) {
-                    target.append(x)
-                }
-            }
+            var locationmax = todayItem?.trainSet
             
-            for trainlocation in target{
+            for trainlocation in locationsort{
+                if locationcounter[trainlocation] == nil {
+                    locationcounter.updateValue(0, forKey: trainlocation)
+                }
+                
+                
+                if locationcounter[trainlocation] == 0 {
                 if trainlocation[0] == 6{
                     let recordstringdefault = "第\(1)組  \( todayItem!.trainTimes[trainlocation]![0]) Times"
                     recordListString = recordstringdefault
-                    
+                    result.append(recordListString)
                 }else{
                     let recordstringdefault = "第\(1)組  \(todayItem!.trainWeight[trainlocation]![0]) \(todayItem!.trainUnit[trainlocation]![0]) * \( todayItem!.trainTimes[trainlocation]![0]) Times"
                     recordListString = recordstringdefault
-                    
-                }
-                result.append(recordListString)
-                recordsort.append(trainlocation)
-                if trainlocation[0] == 6{
-                for itemSetCount in 1 ..< (todayItem?.trainSet[trainlocation])! {
-                    let y = itemSetCount + 1
-                    recordListString = "\n第\(y)組  \(todayItem!.trainTimes[trainlocation]![itemSetCount]) Times"
                     result.append(recordListString)
-                    recordsort.append(trainlocation)
                 }
                     
                 }else{
-                for itemSetCount in 1 ..< (todayItem?.trainSet[trainlocation])! {
-                    let y = itemSetCount + 1
-                    recordListString = "\n第\(y)組  \(todayItem!.trainWeight[trainlocation]![itemSetCount]) \(todayItem!.trainUnit[trainlocation]![itemSetCount]) * \(todayItem!.trainTimes[trainlocation]![itemSetCount]) Times"
+                    if trainlocation[0] == 6 {
+                        recordListString = "\n第\(locationcounter[trainlocation]! + 1)組  \(todayItem!.trainTimes[trainlocation]![locationcounter[trainlocation]!]) Times"
                     result.append(recordListString)
-                    recordsort.append(trainlocation)
+                    }else{
+                                        
+                          recordListString = "\n第\(locationcounter[trainlocation]! + 1)組  \(todayItem!.trainWeight[trainlocation]![locationcounter[trainlocation]!]) \(todayItem!.trainUnit[trainlocation]![locationcounter[trainlocation]!]) * \(todayItem!.trainTimes[trainlocation]![locationcounter[trainlocation]!]) Times"
+                           result.append(recordListString)
+                    }
+                                       
                 }
-                    
-                }
-                
-                
-                
+                locationcounter[trainlocation]! += 1
+              
             }
         }
         
