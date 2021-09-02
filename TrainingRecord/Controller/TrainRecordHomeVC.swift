@@ -7,16 +7,13 @@
 import UIKit
 import CoreData
 import Firebase
-import GoogleMobileAds
+//import GoogleMobileAds
 import AppTrackingTransparency
-import AdSupport
+//import AdSupport
 
 
-class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate, GADBannerViewDelegate{
-    // Force to make the screen in landscape
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-            .landscape
-        }
+//class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate, GADBannerViewDelegate{
+class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate{
     
     // MARK: For Introduce Picture
     let fullScreenSize = UIScreen.main.bounds.size
@@ -83,28 +80,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var blImageURLs: [String] = []
     var armImageURLs: [String] = []
     var exImageURLs: [String] = []
-    
-    
-    
-    
-    
-    //MARK: Manage the TrainingItems
-    var preBrestItems : [TrainingItem] = []
-    var preBackItems : [TrainingItem] = []
-    var preAbdomenItems : [TrainingItem] = []
-    var preBLItems : [TrainingItem] = []
-    var preArmItems : [TrainingItem] = []
-    var preExItems : [TrainingItem] = []
-    
-    
-    
-    //MARK: User's adding TrainingItem
-    var usersBrestItems : [TrainingItem] = []
-    var usersBackItems : [TrainingItem] = []
-    var usersAbdomenItems : [TrainingItem] = []
-    var usersBLItems : [TrainingItem] = []
-    var userArmItems : [TrainingItem] = []
-    var userExItems : [TrainingItem] = []
+   
     
     
     
@@ -163,13 +139,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var infodataUserName: [String] = []
     var infodataEmail: [String] = []
     var beforeinfodatainside : [String] = []
-    var bannerView: GADBannerView!
+//    var bannerView: GADBannerView!
     
     //MARK: Member parameters
     var trainingGoal : String?
     let targetTV = UITextView(frame: CGRect(x: 0, y: 0, width: 343, height: 38))
-    
-    
+
     
     // MARK: PickerView Delegate
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -535,6 +510,11 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         picker.removeFromSuperview()
     }
     
+   
+    
+    
+    
+    var lastData: [String:Int] = [:]
     // MARK: firestore load Training Data
     func loadData(_ location: String) {
         self.db.collection(location).getDocuments() { [self] (querySnapshot, error) in
@@ -549,6 +529,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                     item.ItemTitle = document.data()["itemTitle"] as? String
                     item.ItemEmail = document.data()["itemEmail"] as? String
                     item.ItemUserName = document.data()["itemUserName"] as? String
+                    item.abdomenLast = document.data()["abdomenLast"] as? String
+                    item.armLast = document.data()["armLast"] as? String
+                    item.backLast = document.data()["backLast"] as? String
+                    item.bottomLapLast = document.data()["bottomLapLast"] as? String
+                    item.brestShoulderLast = document.data()["brestShoulderLast"] as? String
+                    item.exerciseLast = document.data()["exerciseLast"] as? String
                     item.ItemID = document.documentID
                     if !(self.infodatainside.contains(item.ItemTitle!)){
                         self.infodatainside.append(item.ItemTitle!)
@@ -557,7 +543,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                         self.infodataUserName.append(item.ItemUserName!)
                         print(infodatainside)
                     }
+                    self.lastData.updateValue(Int(item.brestShoulderLast!)!, forKey: "BrestShoulder")
+                    self.lastData.updateValue(Int(item.backLast!)!, forKey: "Back")
+                    self.lastData.updateValue(Int(item.abdomenLast!)!, forKey: "Abdomen")
+                    self.lastData.updateValue(Int(item.bottomLapLast!)!, forKey: "BottomLap")
+                    self.lastData.updateValue(Int(item.armLast!)!, forKey: "Arm")
+                    self.lastData.updateValue(Int(item.exerciseLast!)!, forKey: "Exercise")
+                    
                     if beforeinfodatainside.count != infodatainside.count {
+                        mbProgress(true)
                         let trainLocationLoading : [String] = ["BrestShoulder","Back","Abdomen","Arm","BottomLap","Exercise"]
                         for x in trainLocationLoading{
                             loadData(x)
@@ -602,6 +596,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                         if !self.formListEx.contains(item.itemName!){
                             self.formListEx.append(item.itemName!)
                             self.trainExText.append(item.itemDef!)
+                            self.RecordListTV.dataSource = self
+                            self.RecordListTV.delegate = self
                         }
                     default:
                         print("type wrong")
@@ -627,7 +623,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let textDefault : String = "訓練重量：\(trainWeight)\(trainUnit)。\n此組次數：\(trainTimes)下。\n每下間隔：\(Float(Int(trainSetEachInterval*10))/10 )秒。\n休息時間：\(trainEachSetInterval)秒"
         trainParametersTV.text = textDefault
     }
-    
+    var lastImageDataCheck: [String:Int] = [:]
     func DownLoadTrainingItemImage(_ documentname: String, _ filename: String) {
         let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
         let docUrl = homeUrl.appendingPathComponent("Documents")
@@ -635,24 +631,42 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let fileUrl = doc2Url.appendingPathComponent(filename)
         
         let storageRef = Storage.storage(url: "gs://trainingrecord-ad7d7.appspot.com/").reference()
-        let imageRef = storageRef.child("\(documentname)/\(filename)")
-        imageRef.write(toFile: fileUrl) { (url,error) in
-            if let e = error {
-                print( "error \(e)")
-            } else {
-                
-            }
+        let imageRef = storageRef.child("\(documentname)/\(filename)").write(toFile: fileUrl)
+        
+//        imageRef.write(toFile: fileUrl) { (url,error) in
+//            if let e = error {
+//                print( "error \(e)")
+//            } else {
+//
+//            }
+//        }
+            imageRef.observe(.success) { [self] snapshot in
+                if lastImageDataCheck[documentname] == nil {
+                lastImageDataCheck.updateValue(1, forKey: documentname)
+                }else{
+                    lastImageDataCheck[documentname]! += 1
+                }
+        
+            
         }
     }
-    
+    func mbProgress(_ onoff: Bool){
+        if onoff{
+            MBProgressHUD.showAdded(to: self.view, animated: true)
+        }else{
+        MBProgressHUD.hide(for: self.view, animated: true)
+        }
+        }
     
     func trainingItemImageAppend(_ documentname: String, _ filename: String) {
         let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
         let docUrl = homeUrl.appendingPathComponent("Documents")
         let doc2Url = docUrl.appendingPathComponent(documentname)
         let fileUrl = doc2Url.appendingPathComponent(filename)
-        let a : NSData = try! NSData.init(contentsOf: fileUrl)
-        let b = UIImage(data: a as Data)!
+        var c = 0
+        while c == 0 {
+        if let a = try! NSData.init(contentsOf: fileUrl){
+            let b = UIImage(data: a as Data)!
         switch documentname {
         case "BrestShoulder":
             self.brestImageforms.append(b)
@@ -660,23 +674,35 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.brestImageURLs.append("Documents/\(documentname)/\(filename)")
             print(homeUrl.absoluteString)
             print("Documents/\(documentname)/\(filename)")
+            c += 1
         case "Back":
             self.backImageforms.append(b)
             self.backImageURLs.append("Documents/\(documentname)/\(filename)")
+            c += 1
         case "Abdomen":
             self.abdomenImageforms.append(b)
             self.abdomenImageURLs.append("Documents/\(documentname)/\(filename)")
+            c += 1
         case "Arm":
             self.armImageforms.append(b)
             self.armImageURLs.append("Documents/\(documentname)/\(filename)")
+            c += 1
         case "BottomLap":
             self.blImageforms.append(b)
             self.blImageURLs.append("Documents/\(documentname)/\(filename)")
+            c += 1
         case "Exercise":
             self.exerciseImageform.append(b)
             self.exImageURLs.append("Documents/\(documentname)/\(filename)")
+            c += 1
         default:
             print("wrong type")
+        }
+        }
+        }
+        if documentname == "Exercise" && filename == String(lastData["Exercise"]!) + ".png" {
+            setCoreDataStore()
+           mbProgress(false)
         }
     }
     
@@ -697,6 +723,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let notificationName = Notification.Name("ChangeTrainUnit")
         NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(clearDatas(noti:)), name: Notification.Name("ClearDatas"), object: nil)
+        NotificationCenter.default.addObserver(forName: Notification.Name("dataDownloadDone"), object: nil, queue: OperationQueue.main) { notification in
+            self.downloadImageFormListFromfirebase()
+        }
+        NotificationCenter.default.addObserver(forName: Notification.Name("imageDownloadDone"), object: nil, queue: OperationQueue.main) { notification in
+            self.setImageFormListFromfirebase()
+        }
+        
     }
     @objc func getUpdateNoti(noti:Notification) {
         trainUnit = noti.userInfo!["trainUnit"] as! String
@@ -745,7 +778,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         homeImageView!.bottomAnchor.constraint(equalTo: self.TrainPickerView.topAnchor, constant: -10).isActive = true
         loadTheTrainList()
         DefaultFormEditor()
-        if formListBrest.count != 1{
+        if lastData != [:]{
             self.RecordListTV.dataSource = self
             self.RecordListTV.delegate = self
         }
@@ -840,7 +873,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             for view in self.view.subviews{
                 view.isHidden = false
             }
-            
+            if self.trainLS != [0,0]  && self.trainLS != [1,0] && self.trainLS != [2,0] && self.trainLS != [3,0] && self.trainLS != [4,0] && self.trainLS != [5,0] && self.trainLS != [6,0]{
+            self.homeImageView?.isHidden = true
+            }
         }
         stopRestingButton.addAction(stopRestBtnAction, for: .touchUpInside)
         stopRestingButton.setImage(UIImage(named: "stop"), for: .normal)
@@ -947,19 +982,19 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         loginTimes += 1
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
-        //        ATTrackingManager.requestTrackingAuthorization { status in
-        //
-        //            DispatchQueue.main.async {
-        //                self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        //                self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
-        //                self.bannerView?.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
-        //                //ca-app-pub-3940256099942544/2934735716
-        //                self.bannerView?.rootViewController = self
-        //                self.bannerView?.delegate = self
-        //                self.bannerView?.load(GADRequest())
-        //
-        //            }
-        //        }
+                ATTrackingManager.requestTrackingAuthorization { status in
+//
+//                    DispatchQueue.main.async {
+//                        self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+//                        self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
+//                        self.bannerView?.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
+//                        //ca-app-pub-3940256099942544/2934735716
+//                        self.bannerView?.rootViewController = self
+//                        self.bannerView?.delegate = self
+//                        self.bannerView?.load(GADRequest())
+//
+//                    }
+                }
         
     }
     @objc func registerTheMember(){
@@ -1123,19 +1158,36 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DefaultFormEditor()
-        if formListBrest.count == 1{
-            TimerUse.share.setTimer(30, self, #selector(setCoreDataStore), false, 1)
-            TimerUse.share.setTimer(5, self, #selector(downloadImageFormListFromfirebase), false, 2)
-            TimerUse.share.setTimer(20, self, #selector(setImageFormListFromfirebase), false, 3)
-            self.RecordListTV.dataSource = self
-            self.RecordListTV.delegate = self
+        if lastData == [:]{
+//            TimerUse.share.setTimer(30, self, #selector(setCoreDataStore), false, 1)
+            TimerUse.share.setTimer(1, self, #selector(checkFormListCount), true, 2)
+//            MDProgress = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            TimerUse.share.setTimer(20, self, #selector(setImageFormListFromfirebase), false, 3)
+            
         }
         
         
     }
     
+    @objc func checkImageDownloaded() {
+        if lastData["BrestShoulder"] == lastImageDataCheck["BrestShoulder"] && lastData["Back"] == lastImageDataCheck["Back"] && lastData["Abdomen"] ==  lastImageDataCheck["Abdomen"] && lastData["BottomLap"] == lastImageDataCheck["BottomLap"] && lastData["Arm"] == lastImageDataCheck["Arm"] && lastData["Exercise"] == lastImageDataCheck["Exercise"]{
+            TimerUse.share.stopTimer(3)
+            NotificationCenter.default.post(name: Notification.Name("imageDownloadDone"), object: nil)
+            
+        }
+    }
+    
+    @objc func checkFormListCount() {
+        
+            if (formListBrest.count - 1) == lastData["BrestShoulder"] && (formListBack.count - 1) == lastData["Back"] && (formListAbdomen.count - 1) == lastData["Abdomen"] && (formListBL.count - 1) == lastData["BottomLap"] && (formListArm.count - 1) == lastData["Arm"] && (formListEx.count - 1) == lastData["Exercise"]  {
+                NotificationCenter.default.post(name: Notification.Name("dataDownloadDone"), object: nil)
+                TimerUse.share.stopTimer(2)
+                TimerUse.share.setTimer(1, self,#selector(checkImageDownloaded),true,3)
+            }
+        
+    }
     @objc func setImageFormListFromfirebase() {
+        
         let trainLocationLoading : [String] = ["BrestShoulder","Back","Abdomen","Arm","BottomLap","Exercise"]
         for x in trainLocationLoading{
             switch x {
@@ -1170,6 +1222,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
     }
     @objc func downloadImageFormListFromfirebase() {
+        
         let trainLocationLoading : [String] = ["BrestShoulder","Back","Abdomen","Arm","BottomLap","Exercise"]
         for x in trainLocationLoading{
             switch x {
@@ -1208,7 +1261,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     @objc func setCoreDataStore() {
         print(formListBrest)
-        if beforeInfoData == [] || infodatainside.count != beforeinfodatainside.count{
             formlistCoredata(1,formListBrest, trainBrestText, brestImageURLs)
             formlistCoredata(2,formListBack, trainBackText, backImageURLs)
             formlistCoredata(3, formListBL, trainBLText, blImageURLs)
@@ -1218,7 +1270,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             for x in 0 ..< infodatainside.count {
                 trainingItemCoreDataStore(7, infodatainside[x], infodatainside[x], infodatainside[x], x)
             }
-        }
     }
 
     
@@ -1617,6 +1668,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 infoData = InfoItem(context: appDelegate.persistentContainer.viewContext)
                 infoData.content = itemname
                 infoData.id = Int16(itemid)
+                infoData.brestLast = "\(lastData["BrestShoulder"]!)"
+                infoData.backLast = "\(lastData["Back"]!)"
+                infoData.abdomenLast = "\(lastData["Abdomen"]!)"
+                infoData.blLast = "\(lastData["BottomLap"]!)"
+                infoData.armLast = "\(lastData["Arm"]!)"
+                infoData.exLast = "\(lastData["Exercise"]!)"
             default:
                 print("CoreData store select is wrong")
             }
@@ -1865,8 +1922,14 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         
         for x in 0 ..< beforeInfoData.count{
-            //            infodatainside.append(beforeInfoData[x].content!)
             beforeinfodatainside.append(beforeInfoData[x].content!)
+            lastData.updateValue(Int(beforeInfoData[x].brestLast!)!, forKey: "BrestShoulder")
+            lastData.updateValue(Int(beforeInfoData[x].backLast!)!, forKey: "Back")
+            lastData.updateValue(Int(beforeInfoData[x].abdomenLast!)!, forKey: "Abdomen")
+            lastData.updateValue(Int(beforeInfoData[x].blLast!)!, forKey: "BottomLap")
+            lastData.updateValue(Int(beforeInfoData[x].armLast!)!, forKey: "Arm")
+            lastData.updateValue(Int(beforeInfoData[x].exLast!)!, forKey: "Exercise")
+            
         }
         
 //        // Fetch data from data store Brest
@@ -2026,9 +2089,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
 //            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: URL(fileURLWithPath: uExDatas[x].image!)) as Data)!)
 //        }
     }
-    //MARK:GADBannerViewDelegate
+    // MARK:GADBannerViewDelegate
 //    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-//        
+//
 //        self.RecordListTV.tableHeaderView = bannerView
 //        //        if bannerView.superview == nil {
 //        //            //第一次廣告進來
@@ -2043,7 +2106,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
 //        //            bannerView.leftAnchor.constraint(equalTo: self.RecordListTV.leftAnchor).isActive = true
 //        //
 //        //        }
-//        
+//
 //    }
 //    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
 //        print(error)

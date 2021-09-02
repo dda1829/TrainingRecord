@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="InfoItem" representedClassName="InfoItem" syncable="YES" codeGenerationType="class">
+        <attribute name="abdomenLast" optional="YES" attributeType="String"/>
+        <attribute name="armLast" optional="YES" attributeType="String"/>
+        <attribute name="backLast" optional="YES" attributeType="String"/>
+        <attribute name="blLast" optional="YES" attributeType="String"/>
+        <attribute name="brestLast" optional="YES" attributeType="String"/>
         <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="exLast" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
@@ -88,7 +94,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="InfoItem" positionX="0" positionY="117" width="128" height="74"/>
+        <element name="InfoItem" positionX="0" positionY="117" width="128" height="164"/>
         <element name="RecordItemC" positionX="0" positionY="99" width="128" height="149"/>
         <element name="TrainingitemAbdomen" positionX="-9" positionY="126" width="128" height="89"/>
         <element name="TrainingitemArm" positionX="-27" positionY="117" width="128" height="89"/>

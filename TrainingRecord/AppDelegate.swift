@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 import Firebase
-import GoogleMobileAds
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate{
 
@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Override point for customization after application launch.
 
         FirebaseApp.configure()
+        
         return true
     }
 
@@ -35,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+    
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentCloudKitContainer = {

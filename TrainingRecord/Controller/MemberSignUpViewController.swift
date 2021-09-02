@@ -102,6 +102,58 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
     
  
     @IBOutlet weak var passwordStrenthL: UILabel!
+//    @IBAction func googleSignInBtnPressed(_ sender: Any) {guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+//
+//        // Create Google Sign In configuration object.
+//        let config = GIDConfiguration(clientID: clientID)
+//
+//        // Start the sign in flow!
+//        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [unowned self] user, error in
+//
+//          if let error = error {
+//            // ...
+//            return
+//          }
+//
+//          guard
+//            let authentication = user?.authentication,
+//            let idToken = authentication.idToken
+//          else {
+//            return
+//          }
+//
+//          let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+//                                                         accessToken: authentication.accessToken)
+//            Auth.auth().signIn(with: credential) { authResult, error in
+//                if let error = error {
+//                  let authError = error as NSError
+//                  if authError.code == AuthErrorCode.secondFactorRequired.rawValue {
+//                    // The user is a multi-factor user. Second factor challenge is required.
+//                    let resolver = authError
+//                      .userInfo[AuthErrorUserInfoMultiFactorResolverKey] as! MultiFactorResolver
+//                    var displayNameString = ""
+//                    for tmpFactorInfo in resolver.hints {
+//                      displayNameString += tmpFactorInfo.displayName ?? ""
+//                      displayNameString += " "
+//                    }
+//                  } else {
+////                    self.showMessagePrompt(error.localizedDescription)
+//                    return
+//                  }
+//                  // ...
+//                  return
+//                }
+//                // User is signed in
+//                // ...
+//                self.isMember = true
+//                UserDefaults.standard.set(self.isMember, forKey: "isMember")
+//                UserDefaults.standard.synchronize()
+//                MemberUserDataToFirestore.share.createUserDocument()
+//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoggedIn") as? MemberAlreadyLoginViewController
+//                vc?.userName = self.userNameTextField.text
+//                self.navigationController?.pushViewController(vc!,animated: true)
+//            }        }
+//    }
     
     @IBAction func signUpBtnPressed(_ sender: Any) {
         if emailTextField.text == "" || passwordTextField.text == "" || userNameTextField.text == "" {
@@ -167,24 +219,33 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
                 passwordstrength = 0
             }else{
                 passwordDebugLabel.text = "密碼強度："
+                print("password \(passwordTextField.text)")
                 // Upper case, Lower case, Number & Symbols
-                let password = NSPredicate(format: "SELF MATCHES %@ ", "^(?=.*[a-z])(?=.*[$@$#!%*?&])")
+                let password = NSPredicate(format: "SELF MATCHES %@ ", "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$#!%*?&]).{0,}$")
                 
-                    password.evaluate(with: string)
-                    passwordstrength += 1
-                        
-                        
-                switch passwordstrength {
-                case 0,1,2:
-                    passwordStrenthL.text = "weak"
-                    passwordStrenthL.textColor = .red
-                case 3,4:
-                    passwordStrenthL.text = "middle"
-                    passwordStrenthL.textColor = .yellow
-                default:
+                let passwordmiddle1 = NSPredicate(format: "SELF MATCHES %@ ", "^(?=.*[a-z])(?=.*[0-9]).{0,}$")
+                let passwordmiddle2 = NSPredicate(format: "SELF MATCHES %@ ", "^(?=.*[a-z])(?=.*[$@$#!%*?&]).{0,}$")
+                let passwordmiddle3 = NSPredicate(format: "SELF MATCHES %@ ", "^(?=.*[a-z])(?=.*[0-9])(?=.*[$@$#!%*?&]).{0,}$")
+                
+                if  password.evaluate(with: passwordTextField.text) {
                     passwordStrenthL.text = "strong"
                     passwordStrenthL.textColor = .green
+                }else{
+                    if passwordmiddle1.evaluate(with: passwordTextField.text) || passwordmiddle2.evaluate(with: passwordTextField.text) || passwordmiddle3.evaluate(with: passwordTextField.text) {
+                        passwordStrenthL.text = "middle"
+                        passwordStrenthL.textColor = .yellow
+                        
+                    } else{
+                        passwordStrenthL.text = "weak"
+                        passwordStrenthL.textColor = .red
+                    }
                 }
+                
+                
+                
+               
+                    
+                
             }
             
             

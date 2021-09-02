@@ -16,8 +16,10 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     var trainUnitSettoKg = true
     var trainUnit = "Kg"
     var memberFunctionForm : [String] = ["設定會員資料","編輯器材資訊","設定預備時間"]
-    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","修改訓練項目位置"]
+    //    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","修改訓練項目位置"]
+    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目"]
     var trainingParameters: [String] = ["重量單位"]
+    var editorFormList: [String] = ["評價此ＡＰＰ","聯繫作者"]
     var db: Firestore?
     var memberDatas: [String:Any]?
     var prepareTime: Int = 3
@@ -51,11 +53,8 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                 prepareTime = UserDefaults.standard.integer(forKey: "prepareTime")
             }
             userTextLabel = user.displayName ?? "精壯使用者"
-            if let userphotoinFB = user.photoURL {
-                userPhoto = UIImage(contentsOfFile: userphotoinFB.absoluteString)
-            }else{
-                userPhoto = UIImage(systemName: "person.circle.fill")
-            }
+            userPhoto = UIImage(systemName: "person.circle.fill")
+            
             
         }else {
             print("not login")
@@ -80,9 +79,9 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         if Auth.auth().currentUser != nil {
-            return 4
+            return 5
         }else{
-            return 3
+            return 4
         }
     }
     
@@ -94,19 +93,27 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         case 1:
             return trainingParameters.count
         case 2:
-            if Auth.auth().currentUser != nil {
+            if Auth.auth().currentUser == nil {
+                return editorFormList.count
+            }else {
                 if isEditTrainItem{
                     return memberFunctionForm.count + trainListEditForm.count
                 }else{
                     return memberFunctionForm.count
                 }
-            }else {
-                return 1
             }
         case 3:
+            if Auth.auth().currentUser == nil{
+                return 1
+            }
+            return editorFormList.count
+        case 4:
+            if Auth.auth().currentUser == nil{
+                return 0
+            }
             return 1
         default:
-            return 1
+            return 0
         }
         
     }
@@ -134,11 +141,6 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             cell.imageView?.image?.draw(in: imageRect)
             cell.imageView?.image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
-            cell.imageView?.translatesAutoresizingMaskIntoConstraints = false
-            cell.imageView?.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
-            cell.imageView?.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: 20).isActive = true
-            cell.imageView?.widthAnchor.constraint(equalToConstant: 70).isActive = true
-            cell.imageView?.heightAnchor.constraint(equalToConstant: 70).isActive = true
             cell.imageView?.setImageColor(color: .systemBlue)
         }
         else if  indexPath.section == 1  {
@@ -150,9 +152,9 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         }else if indexPath.section == 2 {
             if Auth.auth().currentUser == nil {
                 cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
-                cell.textLabel?.text = "清除所有訓練資料"
+                cell.textLabel?.text = editorFormList[indexPath.row]
                 cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-                cell.textLabel?.textColor = .red
+                cell.textLabel?.textColor = .white
             }else{
                 if indexPath.row == 0 {
                     cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
@@ -199,13 +201,13 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.textLabel?.textColor = .white
                         cell.backgroundColor = .darkGray
+                        //                    }else if indexPath.row == 4 {
+                        //                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
+                        //                        cell.textLabel?.text = "    -" + trainListEditForm[indexPath.row - 2]
+                        //                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        //                        cell.textLabel?.textColor = .white
+                        //                        cell.backgroundColor = .darkGray
                     }else if indexPath.row == 4 {
-                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
-                        cell.textLabel?.text = "    -" + trainListEditForm[indexPath.row - 2]
-                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-                        cell.textLabel?.textColor = .white
-                        cell.backgroundColor = .darkGray
-                    }else if indexPath.row == 5 {
                         cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
                         cell.textLabel?.text = memberFunctionForm[indexPath.row - 3]
                         cell.detailTextLabel?.text = "\(prepareTime)"
@@ -216,6 +218,19 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                 }
             }
         }else   if indexPath.section == 3 {
+            if Auth.auth().currentUser == nil {
+                cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                cell.textLabel?.text = "清除所有訓練資料"
+                cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                cell.textLabel?.textColor = .red
+                
+            }else{
+                cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                cell.textLabel?.text = editorFormList[indexPath.row]
+                cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                cell.textLabel?.textColor = .white
+            }
+        }else if indexPath.section == 4 {
             cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
             cell.textLabel?.text = "清除所有訓練資料"
             cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
@@ -252,16 +267,50 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             trainUnit = trainUnitSettoKg ? "Kg" : "lb"
             UserDefaults.standard.set(trainUnit, forKey: "trainUnit")
             UserDefaults.standard.synchronize()
-        }else{
+        }else if indexPath.section == 2{
             if Auth.auth().currentUser == nil {
-                if indexPath.row == 0 && indexPath.section == 2 {
-                    let homeURL = URL(fileURLWithPath: NSHomeDirectory())
-                    let docURL = homeURL.appendingPathComponent("Documents")
-                    let fileURL = docURL.appendingPathComponent("RecordDatas.archive")
-                    let manager = FileManager.default
-                    try? manager.removeItem(at: fileURL)
-                    let notificationName = Notification.Name("ClearDatas")
-                    NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
+                if indexPath.row == 0 {
+                    let askController = UIAlertController(title: "Hello, APP User", message: "If you prefer this APP, please rate for 5 stars in APP store. Special thanks.", preferredStyle: .alert)
+                    let laterAction = UIAlertAction(title: "稍後再評", style: .default, handler: nil)
+                    let okAction = UIAlertAction(title: "我要評分", style: .default){
+                        (action) -> Void in
+                        let appID = ""
+                        let appURL = URL(string: "https://itunes.apple.com/us/app/itunes-u/id\(appID)?action=write-review")!
+                        UIApplication.shared.open(appURL, options: [:]) { (success) in
+                            //
+                        }
+                    }
+                    askController.addAction(laterAction)
+                    askController.addAction(okAction)
+                    self.present(askController,animated: true, completion: nil)
+                }else if indexPath.row == 1{
+                    if (MFMailComposeViewController.canSendMail()){
+                        let alert = UIAlertController(title: "", message: "我希望能夠聆聽你的反應，感謝！", preferredStyle: .alert)
+                        let email = UIAlertAction(title: "email", style: .default) { (action) -> Void in
+                            let mailController = MFMailComposeViewController()
+                            mailController.mailComposeDelegate = self
+                            mailController.title = "I have question"
+                            mailController.setSubject("I have question")
+                            let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+                            let product = Bundle.main.object(forInfoDictionaryKey: "CFBundleName" )
+                            let messageBody = "<br/><br/><br/>Product:\(product!)(\(version!))"
+                            mailController.setMessageBody(messageBody, isHTML: true)
+                            mailController.setToRecipients(["sssumusic@gmail.com"])
+                            self.present(mailController,animated: true,completion: nil)
+                        }
+                        let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+                        alert.addAction(cancel)
+                        alert.addAction(email)
+                        self.present(alert, animated: true, completion: nil)
+                    }else{
+                        print("can't not send email")
+                        let alert = UIAlertController(title: "", message: "請檢查是否能夠寄出郵件，感謝！", preferredStyle: .alert)
+                        let email = UIAlertAction(title: "email", style: .default) { (action) -> Void in
+                            
+                        }
+                        alert.addAction(email)
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }else{
                 if indexPath.section == 2 && indexPath.row == 0{
@@ -270,9 +319,6 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     }
                 }else if indexPath.section == 2 && indexPath.row == 1{
                     isEditTrainItem = !isEditTrainItem
-                }else if indexPath.row == 0 && indexPath.section == 3 {
-                    let notificationName = Notification.Name("ClearDatas")
-                    NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
                 }
                 if isEditTrainItem {
                     if indexPath.section == 2 && indexPath.row == 2{
@@ -295,6 +341,77 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     }
                 }
             }
+        }else if indexPath.section == 3{
+            if Auth.auth().currentUser == nil {
+                if indexPath.row == 0 {
+                    let homeURL = URL(fileURLWithPath: NSHomeDirectory())
+                    let docURL = homeURL.appendingPathComponent("Documents")
+                    let fileURL = docURL.appendingPathComponent("RecordDatas.archive")
+                    let manager = FileManager.default
+                    try? manager.removeItem(at: fileURL)
+                    let notificationName = Notification.Name("ClearDatas")
+                    NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
+                    print("Training Data already Clear")
+                }
+            }else{
+                if indexPath.row == 0 {
+                    let askController = UIAlertController(title: "Hello, APP User", message: "If you prefer this APP, please rate for 5 stars in APP store. Special thanks.", preferredStyle: .alert)
+                    let laterAction = UIAlertAction(title: "稍後再評", style: .default, handler: nil)
+                    let okAction = UIAlertAction(title: "我要評分", style: .default){
+                        (action) -> Void in
+                        let appID = ""
+                        let appURL = URL(string: "https://itunes.apple.com/us/app/itunes-u/id\(appID)?action=write-review")!
+                        UIApplication.shared.open(appURL, options: [:]) { (success) in
+                            //
+                        }
+                    }
+                    askController.addAction(laterAction)
+                    askController.addAction(okAction)
+                    self.present(askController,animated: true, completion: nil)
+                }else if indexPath.row == 1{
+                    if (MFMailComposeViewController.canSendMail()){
+                        let alert = UIAlertController(title: "", message: "我希望能夠聆聽你的反應，感謝！", preferredStyle: .alert)
+                        let email = UIAlertAction(title: "email", style: .default) { (action) -> Void in
+                            let mailController = MFMailComposeViewController()
+                            mailController.mailComposeDelegate = self
+                            mailController.title = "I have question"
+                            mailController.setSubject("I have question")
+                            let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+                            let product = Bundle.main.object(forInfoDictionaryKey: "CFBundleName" )
+                            let messageBody = "<br/><br/><br/>Product:\(product!)(\(version!))"
+                            mailController.setMessageBody(messageBody, isHTML: true)
+                            mailController.setToRecipients(["sssumusic@gmail.com"])
+                            self.present(mailController,animated: true,completion: nil)
+                        }
+                        let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+                        alert.addAction(cancel)
+                        alert.addAction(email)
+                        self.present(alert, animated: true, completion: nil)
+                    }else{
+                        print("can't not send email")
+                        let alert = UIAlertController(title: "", message: "請檢查是否能夠寄出郵件，感謝！", preferredStyle: .alert)
+                        let email = UIAlertAction(title: "email", style: .default) { (action) -> Void in
+                            
+                        }
+                        alert.addAction(email)
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+        }else if indexPath.section == 4{
+            if Auth.auth().currentUser == nil {
+            }else{
+                if indexPath.row == 0 {
+                    let homeURL = URL(fileURLWithPath: NSHomeDirectory())
+                    let docURL = homeURL.appendingPathComponent("Documents")
+                    let fileURL = docURL.appendingPathComponent("RecordDatas.archive")
+                    let manager = FileManager.default
+                    try? manager.removeItem(at: fileURL)
+                    let notificationName = Notification.Name("ClearDatas")
+                    NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
+                    print("Training Data already Clear")
+                }
+            }
         }
         tableView.reloadData()
     }
@@ -305,15 +422,21 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             return "訓練參數調整"
         case 2:
             if Auth.auth().currentUser == nil {
-                return "訓練資料調整"
+                return "ＡＰＰ相關"
             }else {
                 return "會員功能"
             }
         case 3:
-            if Auth.auth().currentUser != nil {
+            if Auth.auth().currentUser == nil {
                 return "訓練資料調整"
+            }else{
+                return "ＡＰＰ相關"
             }
-            return nil
+        case 4:
+            if Auth.auth().currentUser == nil {
+                return nil
+            }
+            return "訓練資料調整"
         default:
             return nil
         }
@@ -333,13 +456,18 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             
         }
     }
-    
-}
-
-extension UIImageView {
-    func setImageColor(color: UIColor) {
-        let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
-        self.image = templateImage
-        self.tintColor = color
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result{
+        case .cancelled:
+            print("user cancelled")
+        case .failed:
+            print("user failed")
+        case .saved:
+            print("user saved email")
+        case .sent:
+            print("email sent")
+        }
+        self.dismiss(animated: true, completion: nil)
     }
+    
 }
