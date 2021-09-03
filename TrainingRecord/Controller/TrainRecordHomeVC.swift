@@ -145,7 +145,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     let targetTV = UITextView(frame: CGRect(x: 0, y: 0, width: 343, height: 38))
 
     //MARK: Model parameters
-    var isModeSetToGeneral = true
+    var isModeSetToSimple = false
     
     
     
@@ -1027,7 +1027,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 }
         
         // Check the System Mode
-        isModeSetToGeneral = UserDefaults.standard.bool(forKey: "isModeSetToGeneral")
+            isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
         
         
         
@@ -1365,7 +1365,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             return
         }
         
-        if isModeSetToGeneral {
+        if !isModeSetToSimple {
         for view in self.view.subviews{
             view.isHidden = true
         }

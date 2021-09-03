@@ -26,7 +26,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     var prepareTime: Int = 3
     
     var isEditTrainItem = false
-    var isModeSetToGeneral = true
+    var isModeSetToSimple = false
     
     var dateRecord = ""
     
@@ -36,10 +36,12 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if let a = UserDefaults.standard.string(forKey: "userName")  {
+            userTextLabel = a + " 您好,點此加入會員！"
+        }
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
         trainUnitSettoKg = UserDefaults.standard.bool(forKey: "trainUnitSet")
-        isModeSetToGeneral = UserDefaults.standard.bool(forKey: "isModeSetToGeneral")
+        isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
         trainingGoals = ["體脂降低10％","肌肉重量增加\(trainUnitSettoKg ? "1 Kg" : "2.2 lb")","基礎代謝率增加200大卡"]
         if let user = Auth.auth().currentUser{
             print("\(user.uid) login")
@@ -156,7 +158,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             }else if indexPath.row == 1{
                 cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
                 cell.textLabel?.text = trainingParameters[indexPath.row]
-                cell.detailTextLabel?.text = isModeSetToGeneral ? "一般模式" : "簡易模式"
+                cell.detailTextLabel?.text = isModeSetToSimple ?  "簡易模式" : "一般模式"
                 cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                 cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
             }
@@ -297,8 +299,8 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             UserDefaults.standard.set(trainUnit, forKey: "trainUnit")
             UserDefaults.standard.synchronize()
             }else if indexPath.row == 1{
-                isModeSetToGeneral = !isModeSetToGeneral
-                UserDefaults.standard.set(isModeSetToGeneral,forKey: "isModeSetToGeneral")
+                isModeSetToSimple = !isModeSetToSimple
+                UserDefaults.standard.set(isModeSetToSimple,forKey: "isModeSetToSimple")
                 UserDefaults.standard.synchronize()
             }
         }else if indexPath.section == 2{
@@ -562,6 +564,8 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             print("user saved email")
         case .sent:
             print("email sent")
+        @unknown default:
+            print("something wrong")
         }
         self.dismiss(animated: true, completion: nil)
     }
