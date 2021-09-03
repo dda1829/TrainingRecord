@@ -11,7 +11,7 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     var trainWeight : Float = 10
     var trainTimes : Int = 10
     var trainEachSetInterval : Int = 30
-    var trainSetEachInterval : Float = 1
+    var trainSetEachInterval : Float = 3
     var trainUnit: String = "kg"
     var trainLS: [Int] = []
     @IBOutlet weak var trainWeightTF: UITextField!

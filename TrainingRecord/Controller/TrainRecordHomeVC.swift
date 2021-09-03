@@ -57,9 +57,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     // MARK: Train's setting
     var trainWeight : Float  = 10.0
-    var trainTimes : Int = 1
+    var trainTimes : Int = 10
     var trainEachSetInterval : Int = 30
-    var trainSetEachInterval : Float = 1
+    var trainSetEachInterval : Float = 3.0
     var trainUnit: String = "Kg"
     
     
@@ -115,7 +115,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var trainIsStart = false
 //    var data : [String: RecordItem] = [:]
     var trainToday = ""
-    var recordTimes = 0
     var recordSet = 0
     var recordData: RecordItem?
     
@@ -145,6 +144,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var trainingGoal : String?
     let targetTV = UITextView(frame: CGRect(x: 0, y: 0, width: 343, height: 38))
 
+    //MARK: Model parameters
+    var isModeSetToGeneral = true
+    
+    
+    
+    
+    
     
     // MARK: PickerView Delegate
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -720,9 +726,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        let notificationName = Notification.Name("ChangeTrainUnit")
-        NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(clearDatas(noti:)), name: Notification.Name("ClearDatas"), object: nil)
+//        let notificationName = Notification.Name("ChangeTrainUnit")
+//        NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(clearDatas(noti:)), name: Notification.Name("ClearDatas"), object: nil)
         NotificationCenter.default.addObserver(forName: Notification.Name("dataDownloadDone"), object: nil, queue: OperationQueue.main) { notification in
             self.downloadImageFormListFromfirebase()
         }
@@ -731,25 +737,25 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         
     }
-    @objc func getUpdateNoti(noti:Notification) {
-        trainUnit = noti.userInfo!["trainUnit"] as! String
-        print(trainUnit)
-    }
-    @objc func clearDatas(noti:Notification){
-        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
-        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
-        let file = doc.appendingPathComponent("RecordDatas")
-        let manager = FileManager.default
-        do{
-            try manager.removeItem(at: file)
-        }catch{
-            print("removeFail")
-        }
-        todayItem = RecordItem(trainToday, [:], [:], [], [:], [:], [:], [])
-        dateRecord = trainToday
-        RecordListTV.reloadData()
-        print("Already delete the data")
-    }
+//    @objc func getUpdateNoti(noti:Notification) {
+//        trainUnit = noti.userInfo!["trainUnit"] as! String
+//        print(trainUnit)
+//    }
+//    @objc func clearDatas(noti:Notification){
+//        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+//        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+//        let file = doc.appendingPathComponent("RecordDatas")
+//        let manager = FileManager.default
+//        do{
+//            try manager.removeItem(at: file)
+//        }catch{
+//            print("removeFail")
+//        }
+//        todayItem = RecordItem(trainToday, [:], [:], [], [:], [:], [:], [])
+//        dateRecord = trainToday
+//        RecordListTV.reloadData()
+//        print("Already delete the data")
+//    }
     deinit {
         NotificationCenter.default.removeObserver(self)
         
@@ -890,14 +896,15 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             
             // MARK: build an alert activity to check the data if you want to record
             if self.recordIsStart {
-                let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值", message: "", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值，您完成了\(self.fitRecordLocation(self.trainLS))中的\(self.fitRecordLocationItem(self.trainLS))的項目\(self.todayItem!.trainTimes[self.trainLS]![self.todayItem!.trainSet[self.trainLS]!-1])次了！請問您是否要紀錄，若要紀錄請選ＯＫ，不紀錄請Cancel，謝謝！", message: "", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                     print("OK")
-                    let alertController = UIAlertController(title: "您完成了\(self.fitRecordLocation(self.trainLS))中的\(self.fitRecordLocationItem(self.trainLS))的項目\(self.todayItem!.trainTimes[self.trainLS]![self.todayItem!.trainSet[self.trainLS]!-1])次了！請問您是否要紀錄，若要紀錄請選ＯＫ，不紀錄請Cancel，謝謝！", message: "", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "已經紀錄完成了！", message: "", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                         print("OK")
                         self.writeToFile()
                         self.RecordListTV.reloadData()
+                        self.recordIsStart = false
                     }
                     alertController.addAction(okAction)
                     
@@ -914,7 +921,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                         self.todayItem?.trainWeight[self.trainLS]?.removeLast()
                         self.todayItem?.trainUnit[self.trainLS]?.removeLast()
                         self.todayItem!.trainRate.removeLast()
-                        self.recordTimesCount[self.trainLS]? -= 1
                         self.recordIsStart = false
                     }
                 }
@@ -938,47 +944,71 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         RecordListTV.register(ShareTableViewCell.nib(), forCellReuseIdentifier: ShareTableViewCell.identifier)
         let a =  UserDefaults.standard.integer(forKey: "LoginTimes")
         print(a)
-        if a == 0 {
-            for view in self.view.subviews{
-                view.isHidden = true
-            }
-            navigationController?.setNavigationBarHidden(true, animated: true)
-            // this use to generate a view to introduce the program how to use
+        if a == 0 /*&& traitCollection.userInterfaceIdiom == .phone*/{
+           
+                for view in self.view.subviews{
+                    view.isHidden = true
+                }
+                navigationController?.setNavigationBarHidden(true, animated: true)
+                // this use to generate a view to introduce the program how to use
 
-            IntroduceSV.delegate = self
-            IntroduceSV.contentSize.width = (fullScreenSize.width) * CGFloat(imageArray.count + 1)
-            IntroduceSV.contentSize.height = IntroduceSV.frame.height
-            IntroduceSV.showsVerticalScrollIndicator = false
-            IntroduceSV.showsHorizontalScrollIndicator = false
-            IntroduceSV.bounces = false
-            IntroduceSV.isPagingEnabled = true
-            IntroduceSV.isDirectionalLockEnabled = true
-            IntroducePCol.numberOfPages = imageArray.count
-            IntroducePCol.currentPage = 0
-            IntroducePCol.currentPageIndicatorTintColor = .blue
-            IntroducePCol.pageIndicatorTintColor = .brown
+                IntroduceSV.delegate = self
+                IntroduceSV.contentSize.width = (fullScreenSize.width) * CGFloat(imageArray.count + 1)
+                IntroduceSV.contentSize.height = IntroduceSV.frame.height
+                IntroduceSV.showsVerticalScrollIndicator = false
+                IntroduceSV.showsHorizontalScrollIndicator = false
+                IntroduceSV.bounces = false
+                IntroduceSV.isPagingEnabled = true
+                IntroduceSV.translatesAutoresizingMaskIntoConstraints = false
+                IntroduceSV.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                IntroduceSV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+                IntroduceSV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+                IntroduceSV.bottomAnchor.constraint(equalTo: self.IntroducePCol.topAnchor, constant: 0).isActive = true
+                
+                
+                
+                
+                
+                IntroduceSV.isDirectionalLockEnabled = true
+                IntroducePCol.numberOfPages = imageArray.count
+                IntroducePCol.currentPage = 0
+                IntroducePCol.currentPageIndicatorTintColor = .blue
+                IntroducePCol.pageIndicatorTintColor = .brown
+            IntroducePCol.translatesAutoresizingMaskIntoConstraints = false
+            IntroducePCol.topAnchor.constraint(equalTo: IntroduceSV.bottomAnchor, constant: 0).isActive = true
+            IntroducePCol.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            IntroducePCol.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            IntroducePCol.widthAnchor.constraint(equalToConstant: fullScreenSize.width).isActive = true
+                
+                for i in 0 ..< imageArray.count{
+                    myScrollImageView = UIImageView()
+                    myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 0, width: fullScreenSize.width, height: fullScreenSize.height - 40)
+                    myScrollImageView.contentMode = .scaleToFill
+                    myScrollImageView.image = imageArray[i]
+                    self.IntroduceSV.addSubview(myScrollImageView)
+//                    myScrollImageView.translatesAutoresizingMaskIntoConstraints = false
+//                    myScrollImageView.heightAnchor.constraint(equalToConstant: self.view.frame.height).isActive = true
+//                    myScrollImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+//                    myScrollImageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+//                    myScrollImageView.bottomAnchor.constraint(equalTo: IntroducePCol.topAnchor, constant: 0).isActive = true
+                  
+                }
 
+                
+                IntroduceSV.isHidden = false
+                IntroducePCol.isHidden = false
             
             
-            for i in 0 ..< imageArray.count{
-                myScrollImageView = UIImageView()
-                myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 0, width: fullScreenSize.width, height: IntroduceSV.frame.height - CGFloat(50))
-                myScrollImageView.image = imageArray[i]
-                self.IntroduceSV.addSubview(myScrollImageView)
-
-              
-            }
-
             
-            IntroduceSV.isHidden = false
-            IntroducePCol.isHidden = false
+            
+            
             
         }else{
             IntroduceSV.delegate = .none
             IntroduceSV.removeFromSuperview()
             IntroducePCol.removeFromSuperview()
         }
-        
+       
         loginTimes += 1
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
@@ -995,6 +1025,11 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
 //
 //                    }
                 }
+        
+        // Check the System Mode
+        isModeSetToGeneral = UserDefaults.standard.bool(forKey: "isModeSetToGeneral")
+        
+        
         
     }
     @objc func registerTheMember(){
@@ -1159,11 +1194,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if lastData == [:]{
-//            TimerUse.share.setTimer(30, self, #selector(setCoreDataStore), false, 1)
             TimerUse.share.setTimer(1, self, #selector(checkFormListCount), true, 2)
-//            MDProgress = MBProgressHUD.showAdded(to: self.view, animated: true)
-//            TimerUse.share.setTimer(20, self, #selector(setImageFormListFromfirebase), false, 3)
-            
         }
         
         
@@ -1173,7 +1204,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         if lastData["BrestShoulder"] == lastImageDataCheck["BrestShoulder"] && lastData["Back"] == lastImageDataCheck["Back"] && lastData["Abdomen"] ==  lastImageDataCheck["Abdomen"] && lastData["BottomLap"] == lastImageDataCheck["BottomLap"] && lastData["Arm"] == lastImageDataCheck["Arm"] && lastData["Exercise"] == lastImageDataCheck["Exercise"]{
             TimerUse.share.stopTimer(3)
             NotificationCenter.default.post(name: Notification.Name("imageDownloadDone"), object: nil)
-            
         }
     }
     
@@ -1319,7 +1349,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     // MARK: Save Archiving after click the checklist button
     var todayItem : RecordItem?
-    var recordTimesCount: [[Int]:Int] = [:]
     var checkmatrix : [[Int]:[Int]] = [:]
     var checkcount = 0
     // MARK: Start the Record
@@ -1335,6 +1364,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.present(alertController, animated: true, completion: nil)
             return
         }
+        
+        if isModeSetToGeneral {
         for view in self.view.subviews{
             view.isHidden = true
         }
@@ -1343,7 +1374,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         TimerUse.share.setTimer(1,self, #selector(CountDown), true,1)
                 TimerUse.share.fire(1)
         countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
-//        countdownTV.text = "\(countDownCounter)"
         countdownTV.backgroundColor = .black
         countdownTV.textAlignment = .center
         countdownTV.textColor = .green
@@ -1353,15 +1383,49 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         countdownTV.translatesAutoresizingMaskIntoConstraints = false
         countdownTV.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        countdownTV.heightAnchor.constraint(equalToConstant: 234).isActive = true
+        countdownTV.heightAnchor.constraint(equalToConstant: 300).isActive = true
         countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
         
         self.view.addSubview(stopTrainingButton)
         stopTrainingButton.translatesAutoresizingMaskIntoConstraints = false
         stopTrainingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
         NSLayoutConstraint(item: stopTrainingButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.7, constant: 1).isActive = true
-       
+        }else{
+            todayItem!.trainLocationSort.append(trainLS)
+            todayItem!.trainLocation.updateValue(trainLS, forKey: trainLS)
+            todayItem!.trainRate.append("none")
+            if let value = todayItem!.trainSet[trainLS] {
+                todayItem!.trainSet[trainLS]! += 1
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainSet.updateValue(1, forKey: trainLS)
+                print(todayItem!.trainSet)
+            }
+            if let value = todayItem!.trainTimes[trainLS] {
+                todayItem!.trainTimes[trainLS]!.append(trainTimes)
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainTimes.updateValue([trainTimes], forKey: trainLS)
+                print(todayItem!.trainTimes)
+            }
+            if let value = todayItem!.trainWeight[trainLS] {
+                todayItem!.trainWeight[trainLS]!.append(trainWeight)
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainWeight.updateValue([trainWeight], forKey: trainLS)
+                print(todayItem!.trainWeight)
+            }
+            if let value = todayItem!.trainUnit[trainLS] {
+                todayItem!.trainUnit[trainLS]!.append(trainUnit)
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainUnit.updateValue([trainUnit], forKey: trainLS)
+                print(todayItem!.trainWeight)
+            }
+            
+            self.writeToFile()
+            self.RecordListTV.reloadData()
+        }
 
     }
     
@@ -1428,7 +1492,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         countdownTV.translatesAutoresizingMaskIntoConstraints = false
         countdownTV.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        countdownTV.heightAnchor.constraint(equalToConstant: 234).isActive = true
+        countdownTV.heightAnchor.constraint(equalToConstant: 300).isActive = true
         countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
         countdownTV.textColor = .green
         countdownTV.textAlignment = .center
@@ -1451,8 +1515,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         if !recordIsStart {
             CountTimeStart()
             recordIsStart = true
-            
-            recordTimes += 1
            
             todayItem!.trainLocationSort.append(trainLS)
             todayItem!.trainLocation.updateValue(trainLS, forKey: trainLS)
@@ -1485,13 +1547,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 todayItem!.trainUnit.updateValue([trainUnit], forKey: trainLS)
                 print(todayItem!.trainWeight)
             }
-            if let value = recordTimesCount[trainLS]{
-                recordTimesCount[trainLS]! += 1
-                print("add RecordTimesCount \(value)")
-            }else {
-                recordTimesCount.updateValue(1, forKey: trainLS)
-                print(recordTimesCount[trainLS]!)
-            }
         }
         countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
         
@@ -1522,7 +1577,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 self.todayItem!.trainWeight[self.trainLS]!.removeLast()
                 self.todayItem!.trainUnit[self.trainLS]!.removeLast()
                 self.todayItem!.trainRate.removeLast()
-                self.recordTimesCount[self.trainLS]! -= 1
             }
             alertController.addAction(okAction)
             alertController.addAction(cancelAction)
@@ -1611,6 +1665,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             vc.infoEmail = infodataEmail
             vc.infoUserName = infodataUserName
         }else if segue.identifier == "segue_Home_SystemVC"{
+            let vc = segue.destination as! SystemTableViewController
+            vc.dateRecord = dateRecord
         }else if segue.identifier == "report_share_segue"{
 //            let vc = segue.destination as! ShareViewController
             

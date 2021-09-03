@@ -18,15 +18,17 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     var memberFunctionForm : [String] = ["設定會員資料","編輯器材資訊","設定預備時間"]
     //    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","修改訓練項目位置"]
     var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目"]
-    var trainingParameters: [String] = ["重量單位"]
+    var trainingParameters: [String] = ["重量單位","紀錄模式"]
     var editorFormList: [String] = ["評價此ＡＰＰ","聯繫作者"]
+    var clearDatasFormList: [String] = ["清除今日訓練資料","清除所有訓練資料"]
     var db: Firestore?
     var memberDatas: [String:Any]?
     var prepareTime: Int = 3
     
     var isEditTrainItem = false
+    var isModeSetToGeneral = true
     
-    
+    var dateRecord = ""
     
     @objc func getmemberdatas(noti:Notification){
         memberDatas = noti.userInfo as? [String:Any]
@@ -37,6 +39,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
         trainUnitSettoKg = UserDefaults.standard.bool(forKey: "trainUnitSet")
+        isModeSetToGeneral = UserDefaults.standard.bool(forKey: "isModeSetToGeneral")
         trainingGoals = ["體脂降低10％","肌肉重量增加\(trainUnitSettoKg ? "1 Kg" : "2.2 lb")","基礎代謝率增加200大卡"]
         if let user = Auth.auth().currentUser{
             print("\(user.uid) login")
@@ -104,14 +107,14 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             }
         case 3:
             if Auth.auth().currentUser == nil{
-                return 1
+                return clearDatasFormList.count
             }
             return editorFormList.count
         case 4:
             if Auth.auth().currentUser == nil{
                 return 0
             }
-            return 1
+            return clearDatasFormList.count
         default:
             return 0
         }
@@ -144,11 +147,20 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             cell.imageView?.setImageColor(color: .systemBlue)
         }
         else if  indexPath.section == 1  {
+            if indexPath.row == 0{
             cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
             cell.textLabel?.text = trainingParameters[indexPath.row]
             cell.detailTextLabel?.text = trainUnitSettoKg ? "Kg" : "lb"
             cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+                cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+            }else if indexPath.row == 1{
+                cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
+                cell.textLabel?.text = trainingParameters[indexPath.row]
+                cell.detailTextLabel?.text = isModeSetToGeneral ? "一般模式" : "簡易模式"
+                cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+            }
+            
         }else if indexPath.section == 2 {
             if Auth.auth().currentUser == nil {
                 cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
@@ -219,11 +231,17 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             }
         }else   if indexPath.section == 3 {
             if Auth.auth().currentUser == nil {
+                if indexPath.row == 0{
                 cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
-                cell.textLabel?.text = "清除所有訓練資料"
+                cell.textLabel?.text = clearDatasFormList[indexPath.row]
                 cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                 cell.textLabel?.textColor = .red
-                
+                }else if indexPath.row == 1{
+                    cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                    cell.textLabel?.text = clearDatasFormList[indexPath.row]
+                    cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                    cell.textLabel?.textColor = .red
+                }
             }else{
                 cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 cell.textLabel?.text = editorFormList[indexPath.row]
@@ -231,10 +249,20 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                 cell.textLabel?.textColor = .white
             }
         }else if indexPath.section == 4 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
-            cell.textLabel?.text = "清除所有訓練資料"
-            cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-            cell.textLabel?.textColor = .red
+            if Auth.auth().currentUser == nil {
+            }else{
+                if indexPath.row == 0{
+                cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                cell.textLabel?.text = clearDatasFormList[indexPath.row]
+                cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                cell.textLabel?.textColor = .red
+                }else if indexPath.row == 1{
+                    cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                    cell.textLabel?.text = clearDatasFormList[indexPath.row]
+                    cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                    cell.textLabel?.textColor = .red
+                }
+            }
         }
         // Configure the cell...
         
@@ -260,13 +288,19 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     }
                 }
             }
-        }else if indexPath.row == 0 && indexPath.section == 1 {
+        }else if indexPath.section == 1 {
+            if indexPath.row == 0{
             trainUnitSettoKg = !trainUnitSettoKg
             UserDefaults.standard.set(trainUnitSettoKg, forKey: "trainUnitSet")
             UserDefaults.standard.synchronize()
             trainUnit = trainUnitSettoKg ? "Kg" : "lb"
             UserDefaults.standard.set(trainUnit, forKey: "trainUnit")
             UserDefaults.standard.synchronize()
+            }else if indexPath.row == 1{
+                isModeSetToGeneral = !isModeSetToGeneral
+                UserDefaults.standard.set(isModeSetToGeneral,forKey: "isModeSetToGeneral")
+                UserDefaults.standard.synchronize()
+            }
         }else if indexPath.section == 2{
             if Auth.auth().currentUser == nil {
                 if indexPath.row == 0 {
@@ -274,7 +308,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     let laterAction = UIAlertAction(title: "稍後再評", style: .default, handler: nil)
                     let okAction = UIAlertAction(title: "我要評分", style: .default){
                         (action) -> Void in
-                        let appID = ""
+                        let appID = "1581099175"
                         let appURL = URL(string: "https://itunes.apple.com/us/app/itunes-u/id\(appID)?action=write-review")!
                         UIApplication.shared.open(appURL, options: [:]) { (success) in
                             //
@@ -344,14 +378,45 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         }else if indexPath.section == 3{
             if Auth.auth().currentUser == nil {
                 if indexPath.row == 0 {
-                    let homeURL = URL(fileURLWithPath: NSHomeDirectory())
-                    let docURL = homeURL.appendingPathComponent("Documents")
-                    let fileURL = docURL.appendingPathComponent("RecordDatas.archive")
+                    let alert = UIAlertController(title: "", message: "注意，您\(dateRecord)此日的訓練資料即將刪除，請點確認繼續，或者cancel取消。", preferredStyle: .alert)
+                    let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+                        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+                        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+                        let file = doc.appendingPathComponent("RecordDatas")
+                        let file2 = file.appendingPathComponent(self.dateRecord)
+                        let manager = FileManager.default
+                        do{
+                            try manager.removeItem(at: file2)
+                        }catch{
+                            print("removeFail")
+                        }
+                    }
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                        print("cancel")
+                    }
+                    alert.addAction(cancel)
+                    alert.addAction(confirm)
+                    self.present(alert, animated: true, completion: nil)
+                    
+                }else if indexPath.row == 1 {
+                    let alert = UIAlertController(title: "", message: "注意，您所有的訓練資料即將刪除，請點確認繼續，或者cancel取消。", preferredStyle: .alert)
+                    let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+                    let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+                    let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+                    let file = doc.appendingPathComponent("RecordDatas")
                     let manager = FileManager.default
-                    try? manager.removeItem(at: fileURL)
-                    let notificationName = Notification.Name("ClearDatas")
-                    NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
-                    print("Training Data already Clear")
+                    do{
+                        try manager.removeItem(at: file)
+                    }catch{
+                        print("removeFail")
+                    }
+                    }
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                        print("cancel")
+                    }
+                    alert.addAction(cancel)
+                    alert.addAction(confirm)
+                    self.present(alert, animated: true, completion: nil)
                 }
             }else{
                 if indexPath.row == 0 {
@@ -359,7 +424,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     let laterAction = UIAlertAction(title: "稍後再評", style: .default, handler: nil)
                     let okAction = UIAlertAction(title: "我要評分", style: .default){
                         (action) -> Void in
-                        let appID = ""
+                        let appID = "1581099175"
                         let appURL = URL(string: "https://itunes.apple.com/us/app/itunes-u/id\(appID)?action=write-review")!
                         UIApplication.shared.open(appURL, options: [:]) { (success) in
                             //
@@ -402,14 +467,45 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             if Auth.auth().currentUser == nil {
             }else{
                 if indexPath.row == 0 {
-                    let homeURL = URL(fileURLWithPath: NSHomeDirectory())
-                    let docURL = homeURL.appendingPathComponent("Documents")
-                    let fileURL = docURL.appendingPathComponent("RecordDatas.archive")
+                    let alert = UIAlertController(title: "", message: "注意，您\(dateRecord)此日的訓練資料即將刪除，請點確認繼續，或者cancel取消。", preferredStyle: .alert)
+                    let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+                        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+                        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+                        let file = doc.appendingPathComponent("RecordDatas")
+                        let file2 = file.appendingPathComponent(self.dateRecord)
+                        let manager = FileManager.default
+                        do{
+                            try manager.removeItem(at: file2)
+                        }catch{
+                            print("removeFail")
+                        }
+                    }
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                        print("cancel")
+                    }
+                    alert.addAction(cancel)
+                    alert.addAction(confirm)
+                    self.present(alert, animated: true, completion: nil)
+                    
+                }else if indexPath.row == 1 {
+                    let alert = UIAlertController(title: "", message: "注意，您所有的訓練資料即將刪除，請點確認繼續，或者cancel取消。", preferredStyle: .alert)
+                    let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+                    let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+                    let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+                    let file = doc.appendingPathComponent("RecordDatas")
                     let manager = FileManager.default
-                    try? manager.removeItem(at: fileURL)
-                    let notificationName = Notification.Name("ClearDatas")
-                    NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
-                    print("Training Data already Clear")
+                    do{
+                        try manager.removeItem(at: file)
+                    }catch{
+                        print("removeFail")
+                    }
+                    }
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                        print("cancel")
+                    }
+                    alert.addAction(cancel)
+                    alert.addAction(confirm)
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
@@ -419,7 +515,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 1:
-            return "訓練參數調整"
+            return "訓練系統調整"
         case 2:
             if Auth.auth().currentUser == nil {
                 return "ＡＰＰ相關"
