@@ -223,7 +223,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         //                        cell.backgroundColor = .darkGray
                     }else if indexPath.row == 4 {
                         cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
-                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 3]
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 2]
                         cell.detailTextLabel?.text = "\(prepareTime)"
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
@@ -349,22 +349,29 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     }
                 }
             }else{
-                if indexPath.section == 2 && indexPath.row == 0{
+                if indexPath.row == 0{
                     if let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemMemberPage") as? SystemMemberViewController{
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-                }else if indexPath.section == 2 && indexPath.row == 1{
+                }else if indexPath.row == 1{
                     isEditTrainItem = !isEditTrainItem
                 }
                 if isEditTrainItem {
-                    if indexPath.section == 2 && indexPath.row == 2{
+                    if  indexPath.row == 2{
                         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "NewTrainingItemPage") as? NewTrainingItemViewController{
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
-                    }else if indexPath.section == 2 && indexPath.row == 3{
+                    }else if  indexPath.row == 3{
                         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "RemoveTrainingItemPage") as? RemoveTrainingItemViewController{
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
+                    }else if indexPath.row == 4{
+                        prepareTime += 1
+                        if prepareTime == 6 {
+                            prepareTime = 1
+                        }
+                        UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
+                        UserDefaults.standard.synchronize()
                     }
                 }else{
                     if indexPath.section == 2 && indexPath.row == 2{

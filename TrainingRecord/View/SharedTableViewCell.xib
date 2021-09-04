@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ck-Y7-o15">
-                        <rect key="frame" x="7" y="7" width="207" height="50"/>
+                        <rect key="frame" x="7" y="7" width="167" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="kCh-eD-zEs"/>
                         </constraints>
@@ -26,16 +26,16 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZ6-Gx-Cas">
-                        <rect key="frame" x="214" y="7" width="160" height="86"/>
+                        <rect key="frame" x="174" y="7" width="200" height="86"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="160" id="Jjj-wJ-6ga"/>
+                            <constraint firstAttribute="width" constant="200" id="Jjj-wJ-6ga"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sj5-NW-tRx">
-                        <rect key="frame" x="7" y="57" width="207" height="36"/>
+                        <rect key="frame" x="7" y="57" width="167" height="36"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>

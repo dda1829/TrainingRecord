@@ -219,21 +219,21 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                 switch trainRateSeperate[x]![y] {
                 case "Good":
                     if ratingScore[x] == nil {
-                        ratingScore.updateValue([3], forKey: x)
+                        ratingScore.updateValue([1], forKey: x)
                     }else{
-                        ratingScore[x]?.append(3)
+                        ratingScore[x]?.append(1)
                     }
                 case "Normal":
                     if ratingScore[x] == nil {
-                        ratingScore.updateValue([1.5], forKey: x)
+                        ratingScore.updateValue([0], forKey: x)
                     }else{
-                        ratingScore[x]?.append(1.5)
+                        ratingScore[x]?.append(0)
                     }
                 case "Bad":
                     if ratingScore[x] == nil {
-                        ratingScore.updateValue([0.5], forKey: x)
+                        ratingScore.updateValue([-1], forKey: x)
                     }else{
-                        ratingScore[x]?.append(0.5)
+                        ratingScore[x]?.append(-1)
                     }
                 default:
                     if ratingScore[x] == nil {
@@ -246,16 +246,28 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                     for z in ratingScore[x]!{
                          rating += z
                     }
-                    switch rating/Double(y + 1) {
-                    case 2.5 ... 3:
+                    if rating >= 1 {
                         result.append("😃，感覺良好。")
-                    case 1.5 ..< 2.5:
+                    }else if rating == 0{
                         result.append("😐，感覺普通。")
-                    case 0 ..< 1.5:
+                    }else if rating == -1 {
                         result.append("😮‍💨，感覺很糟。")
-                    default:
+                    }else{
                         result.append("資訊不足")
                     }
+                    
+                    
+                    
+//                    switch rating {
+//                    case 1 :
+//                        result.append("😃，感覺良好。")
+//                    case 1.5 ..< 2.5:
+//                        result.append("😐，感覺普通。")
+//                    case 0 ..< 1.5:
+//                        result.append("😮‍💨，感覺很糟。")
+//                    default:
+//                        result.append("資訊不足")
+//                    }
                 }
                 rating = 0
             }

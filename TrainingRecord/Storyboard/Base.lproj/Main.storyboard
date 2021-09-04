@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="您好，這裡提供了更新資訊給各位，如果有更多資料，會利用此欄位新增說明，感謝！" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Czt-xH-3gE">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="您好，這裡提供了更新資訊給各位，如果有更多資料，會利用此欄位新增說明，感謝！" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czt-xH-3gE">
                                 <rect key="frame" x="16" y="410" width="343" height="241"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

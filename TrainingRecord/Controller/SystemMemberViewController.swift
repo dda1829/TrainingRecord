@@ -194,11 +194,18 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
                 BMR = 655 + (4.35 * Double(userWeight.last!)! * 2.2046) + (4.7 * (Double(userHeight.last!)! / 2.54) ) - (4.7 * Double(userAge!)!)
             }
         }
-        
-        conclusionright = "用戶年齡：  " + userAge! + " 歲\n\n"
+        if let userage = userAge{
+        conclusionright = "用戶年齡：  " + userage + " 歲\n\n"
+        }else{
+            conclusionright = "用戶年齡：  " + noInput + " 歲\n\n"
+        }
         conclusionleft = "用戶名稱：  " + (MemberUserDataToFirestore.share.getUserdatas("userName") as! String) + "\n\n"
+        if let usergender = userGender{
+            conclusionleft += "用戶性別：  " + usergender + "\n\n"
+        }else{
+            conclusionleft += "用戶性別：  " + noInput + "\n\n"
+        }
         
-        conclusionleft += "用戶性別：  " + userGender! + "\n\n"
         conclusionright += "用戶身高：  " + userHeight.last! + " cm\n\n"
         conclusionleft += "用戶體重：  " + userWeight.last! + " kg\n\n"
         conclusionright += "用戶體脂:  " + userBodyFat.last! + " %\n\n"

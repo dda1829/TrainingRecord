@@ -8,7 +8,7 @@ import UIKit
 import CoreData
 import Firebase
 //import GoogleMobileAds
-import AppTrackingTransparency
+//import AppTrackingTransparency
 //import AdSupport
 
 
@@ -942,7 +942,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             pickerView(TrainPickerView, didSelectRow: trainLS[0], inComponent: 0)
         }
         RecordListTV.register(ShareTableViewCell.nib(), forCellReuseIdentifier: ShareTableViewCell.identifier)
-        let a =  UserDefaults.standard.integer(forKey: "LoginTimes")
+        let a = 0//  UserDefaults.standard.integer(forKey: "LoginTimes")
         print(a)
         if a == 0 /*&& traitCollection.userInterfaceIdiom == .phone*/{
            
@@ -982,7 +982,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 
                 for i in 0 ..< imageArray.count{
                     myScrollImageView = UIImageView()
-                    myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 0, width: fullScreenSize.width, height: fullScreenSize.height - 40)
+                    myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 20, width: fullScreenSize.width, height: fullScreenSize.height - 100)
                     myScrollImageView.contentMode = .scaleToFill
                     myScrollImageView.image = imageArray[i]
                     self.IntroduceSV.addSubview(myScrollImageView)
@@ -1012,19 +1012,19 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         loginTimes += 1
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
-                ATTrackingManager.requestTrackingAuthorization { status in
-//
-//                    DispatchQueue.main.async {
-//                        self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-//                        self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
-//                        self.bannerView?.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
-//                        //ca-app-pub-3940256099942544/2934735716
-//                        self.bannerView?.rootViewController = self
-//                        self.bannerView?.delegate = self
-//                        self.bannerView?.load(GADRequest())
-//
-//                    }
-                }
+//                ATTrackingManager.requestTrackingAuthorization { status in
+////
+////                    DispatchQueue.main.async {
+////                        self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+////                        self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
+////                        self.bannerView?.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
+////                        //ca-app-pub-3940256099942544/2934735716
+////                        self.bannerView?.rootViewController = self
+////                        self.bannerView?.delegate = self
+////                        self.bannerView?.load(GADRequest())
+////
+////                    }
+//                }
         
         // Check the System Mode
             isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
