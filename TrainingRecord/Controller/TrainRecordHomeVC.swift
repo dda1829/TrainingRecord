@@ -942,7 +942,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             pickerView(TrainPickerView, didSelectRow: trainLS[0], inComponent: 0)
         }
         RecordListTV.register(ShareTableViewCell.nib(), forCellReuseIdentifier: ShareTableViewCell.identifier)
-        let a = 0//  UserDefaults.standard.integer(forKey: "LoginTimes")
+        let a =  UserDefaults.standard.integer(forKey: "LoginTimes")
         print(a)
         if a == 0 /*&& traitCollection.userInterfaceIdiom == .phone*/{
            
@@ -1987,163 +1987,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             lastData.updateValue(Int(beforeInfoData[x].exLast!)!, forKey: "Exercise")
             
         }
-        
-//        // Fetch data from data store Brest
-//        var fetchResultControlleruB: NSFetchedResultsController<UBrestItem>
-//        let fetchRequestuB: NSFetchRequest<UBrestItem> = UBrestItem.fetchRequest()
-//        let sortDescriptoruB = NSSortDescriptor(key: "id", ascending: true)
-//        fetchRequestuB.sortDescriptors = [sortDescriptoruB]
-//        
-//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-//            let context = appDelegate.persistentContainer.viewContext
-//            fetchResultControlleruB = NSFetchedResultsController(fetchRequest: fetchRequestuB, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-//            fetchResultControlleruB.delegate = self
-//            
-//            do {
-//                try fetchResultControlleruB.performFetch()
-//                if let fetchedObjects = fetchResultControlleruB.fetchedObjects {
-//                    uBrestDatas = fetchedObjects
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        }
-//        for x in 0 ..< uBrestDatas.count {
-//            formListBrest.append(uBrestDatas[x].name!)
-//            trainBrestText.append(uBrestDatas[x].def!)
-//            brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uBrestDatas[x].image!) ) as Data)!)
-//        }
-//        // Fetch data from data store Back
-//        var fetchResultControllerUback: NSFetchedResultsController<UBackItem>!
-//        
-//        let fetchRequestUback: NSFetchRequest<UBackItem> = UBackItem.fetchRequest()
-//        let sortDescriptorUback = NSSortDescriptor(key: "id", ascending: true)
-//        fetchRequestUback.sortDescriptors = [sortDescriptorUback]
-//        
-//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-//            let context = appDelegate.persistentContainer.viewContext
-//            fetchResultControllerUback = NSFetchedResultsController(fetchRequest: fetchRequestUback, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-//            fetchResultControllerUback.delegate = self
-//            
-//            do {
-//                try fetchResultControllerUback.performFetch()
-//                if let fetchedObjects = fetchResultControllerUback.fetchedObjects {
-//                    uBackDatas = fetchedObjects
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        }
-//        for x in 0 ..< uBackDatas.count {
-//            formListBack.append(uBackDatas[x].name!)
-//            trainBackText.append(uBackDatas[x].def!)
-//            backImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uBackDatas[x].image!) ) as Data)!)
-//        }
-//        // Fetch data from data store Abdomen
-//        var fetchResultControllerUabdomen: NSFetchedResultsController<UAbdomenItem>!
-//        
-//        let fetchRequestUabdomen: NSFetchRequest<UAbdomenItem> = UAbdomenItem.fetchRequest()
-//        let sortDescriptorUabdomen = NSSortDescriptor(key: "id", ascending: true)
-//        fetchRequestUabdomen.sortDescriptors = [sortDescriptorUabdomen]
-//        
-//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-//            let context = appDelegate.persistentContainer.viewContext
-//            fetchResultControllerUabdomen = NSFetchedResultsController(fetchRequest: fetchRequestUabdomen, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-//            fetchResultControllerUabdomen.delegate = self
-//            
-//            do {
-//                try fetchResultControllerUabdomen.performFetch()
-//                if let fetchedObjects = fetchResultControllerUabdomen.fetchedObjects {
-//                    uAbdomenDatas = fetchedObjects
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        }
-//        for x in 0 ..< uAbdomenDatas.count {
-//            formListAbdomen.append(uAbdomenDatas[x].name!)
-//            trainAbdomenText.append(uAbdomenDatas[x].def!)
-//            abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uAbdomenDatas[x].image!) ) as Data)!)
-//        }
-//        // Fetch data from data store Bottom
-//        var fetchResultControllerUbl: NSFetchedResultsController<UBLItem>!
-//        
-//        let fetchRequestUbl: NSFetchRequest<UBLItem> = UBLItem.fetchRequest()
-//        let sortDescriptorUbl = NSSortDescriptor(key: "id", ascending: true)
-//        fetchRequestUbl.sortDescriptors = [sortDescriptorUbl]
-//        
-//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-//            let context = appDelegate.persistentContainer.viewContext
-//            fetchResultControllerUbl = NSFetchedResultsController(fetchRequest: fetchRequestUbl, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-//            fetchResultControllerUbl.delegate = self
-//            
-//            do {
-//                try fetchResultControllerUbl.performFetch()
-//                if let fetchedObjects = fetchResultControllerUbl.fetchedObjects {
-//                    uBLDatas = fetchedObjects
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        }
-//        for x in 0 ..< uBLDatas.count {
-//            formListBL.append(beforeBLData[x].name!)
-//            trainBLText.append(beforeBLData[x].def!)
-//            blImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeBLData[x].image!) ) as Data)!)
-//            
-//        }
-//        // Fetch data from data store Arm
-//        var fetchResultControllerUarm: NSFetchedResultsController<UArmItem>!
-//        
-//        let fetchRequestUarm: NSFetchRequest<UArmItem> = UArmItem.fetchRequest()
-//        let sortDescriptorUarm = NSSortDescriptor(key: "id", ascending: true)
-//        fetchRequestUarm.sortDescriptors = [sortDescriptorUarm]
-//        
-//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-//            let context = appDelegate.persistentContainer.viewContext
-//            fetchResultControllerUarm = NSFetchedResultsController(fetchRequest: fetchRequestUarm, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-//            fetchResultControllerUarm.delegate = self
-//            
-//            do {
-//                try fetchResultControllerUarm.performFetch()
-//                if let fetchedObjects = fetchResultControllerUarm.fetchedObjects {
-//                    uArmDatas = fetchedObjects
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        }
-//        for x in 0 ..< uArmDatas.count {
-//            formListArm.append(uArmDatas[x].name!)
-//            trainArmText.append(uArmDatas[x].def!)
-//            armImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(uArmDatas[x].image!) ) as Data)!)
-//        }
-//        // Fetch data from data store Exercise
-//        var fetchResultControllerUex: NSFetchedResultsController<UExerciseItem>!
-//        
-//        let fetchRequestUexercise: NSFetchRequest<UExerciseItem> = UExerciseItem.fetchRequest()
-//        let sortDescriptorUexercise = NSSortDescriptor(key: "id", ascending: true)
-//        fetchRequestUexercise.sortDescriptors = [sortDescriptorUexercise]
-//        
-//        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-//            let context = appDelegate.persistentContainer.viewContext
-//            fetchResultControllerUex = NSFetchedResultsController(fetchRequest: fetchRequestUexercise, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-//            fetchResultControllerUex.delegate = self
-//            
-//            do {
-//                try fetchResultControllerUex.performFetch()
-//                if let fetchedObjects = fetchResultControllerUex.fetchedObjects {
-//                    uExDatas = fetchedObjects
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        }
-//        for x in 0 ..< uExDatas.count {
-//            formListEx.append(uExDatas[x].name!)
-//            trainExText.append(uExDatas[x].def!)
-//            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: URL(fileURLWithPath: uExDatas[x].image!)) as Data)!)
-//        }
     }
     // MARK:GADBannerViewDelegate
 //    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
@@ -2178,8 +2021,9 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
         print(tappedIndexPath)
         print("good")
         print(tappedIndexPath.row)
-        
-        todayItem!.trainRate[tappedIndexPath.row]="Good"
+        var rateArray:[String] = todayItem!.trainRate.reversed()
+        rateArray[tappedIndexPath.row] = "Good"
+        todayItem!.trainRate = rateArray.reversed()
         
         writeToFile()
         RecordListTV.reloadData()
@@ -2189,7 +2033,9 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
         guard let tappedIndexPath = RecordListTV.indexPath(for: sender) else {return}
         print(tappedIndexPath)
         print("normal")
-        todayItem!.trainRate[tappedIndexPath.row] = "Normal"
+        var rateArray:[String] = todayItem!.trainRate.reversed()
+        rateArray[tappedIndexPath.row] = "Normal"
+        todayItem!.trainRate = rateArray.reversed()
         writeToFile()
         RecordListTV.reloadData()
     }
@@ -2198,7 +2044,9 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
         guard let tappedIndexPath = RecordListTV.indexPath(for: sender) else {return}
         print(tappedIndexPath)
         print("bad")
-        todayItem!.trainRate[tappedIndexPath.row] = "Bad"
+        var rateArray:[String] = todayItem!.trainRate.reversed()
+        rateArray[tappedIndexPath.row] = "Bad"
+        todayItem!.trainRate = rateArray.reversed()
         writeToFile()
         RecordListTV.reloadData()
     }
@@ -2221,8 +2069,8 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
         if todayItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []){
             let subtitle = recordStringGen(dateRecord)[indexPath.row]
             let title = rangeTVCTitle(dateRecord)[indexPath.row]
-
-            switch todayItem!.trainRate[indexPath.row]{
+            let rateArray = todayItem!.trainRate.reversed()[indexPath.row]
+            switch rateArray{
             case "Good":
                 cell.ratingBtnRecord("Good")
             case "Normal":
@@ -2248,7 +2096,7 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
             result.append(locationString)
             }
         print("record location result = \(result)")
-        return result
+        return result.reversed()
     }
     func recordStringGen (_ traindate : String) -> [String]{
         var result: [String] = []
@@ -2296,12 +2144,11 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
         
         print("record String result = \(result)")
         
-        return result
+        return result.reversed()
         
         
         
     }
-    
     
     func fitRecordLocation(_ locationdata: [Int]) -> String{
         switch locationdata[0] {

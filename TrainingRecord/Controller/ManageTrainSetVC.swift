@@ -68,17 +68,16 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         let currentKeyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
         let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
         //取得textField的frame（windows座標)
-        let textFrame = self.view.window!.convert(self.trainEachSetIntervalTF.frame, from: self.view)
-        let textFrame2 = self.view.window!.convert(self.trainEachSetIntervalMaxTF.frame, from: self.view)
-        let textFrame3 = self.view.window!.convert(self.trainEachSetIntervalMinTF.frame, from: self.view)
+        let textFrame = self.view.window!.convert(self.trainEachSetIntervalMinTF.frame, from: self.view)
+       
         var visibleRect = self.view.frame
         if self.originalFrame == nil {
             self.originalFrame = visibleRect
         }
         //如果textField frame（windows座標)的最低點 > keyboard frame minY,將view往上移
-        if (  textFrame.maxY > currentKeyboardFrame.minY ) || (  textFrame2.maxY > currentKeyboardFrame.minY ) || (  textFrame3.maxY > currentKeyboardFrame.minY ) {
+        if self.trainEachSetIntervalTF.isEditing || self.trainEachSetIntervalMaxTF.isEditing || self.trainEachSetIntervalMinTF.isEditing /*&& (  textFrame.maxY > currentKeyboardFrame.minY )*/ {
             //計算差額
-            let difference = textFrame3.maxY - currentKeyboardFrame.minY + 20
+            let difference = textFrame.maxY - currentKeyboardFrame.minY + 20
             visibleRect.origin.y = visibleRect.origin.y - difference
             //將controller view的 y 往上移
             UIView.animate(withDuration: duration) {
@@ -131,7 +130,7 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
 
     
     @IBAction func trainWeightEditSlider(_ sender: UISlider) {
-//        sender.value.round()
+        sender.value.round()
         if sender.value <= 10 {
             trainWeightTF.text = "\(Float(Int(sender.value * 10))/10)"
             trainWeight = Float(Int(sender.value * 10))/10
@@ -142,34 +141,42 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     }
 
     @IBAction func trainWeightEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainWeight = Float(sender.text!)!
             trainWeightSlider.setValue(Float(trainWeight), animated: true)
+        }else{
+            trainWeightTF.text = "\(trainWeight)"
         }
     }
     var trainWeightMin: Float = 0
     var trainWeightMax: Float = 200
     
     @IBAction func trainWeightMinEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainWeightMin = Float(sender.text!)!
             trainWeightSlider.minimumValue = trainWeightMin
             trainWeightMinTF.text = sender.text!
+        }else{
+            trainWeightMinTF.text = "\(trainWeightMin)"
         }
     }
     
     @IBAction func trainWeightMaxEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainWeightMax = Float(sender.text!)!
             trainWeightSlider.maximumValue = trainWeightMax
             trainWeightMaxTF.text = sender.text!
+        }else{
+            trainWeightMaxTF.text = "\(trainWeightMax)"
         }
     }
     
     @IBAction func trainTimesEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainTimes = Int(sender.text!)!
             trainTimesSlider.setValue(Float(trainTimes), animated: true)
+        }else{
+            trainTimesTF.text = "\(trainTimes)"
         }
     }
     @IBAction func trainTimesEditSlider(_ sender: UISlider) {
@@ -181,25 +188,31 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     var trainTimesMin: Float = 6
     var trainTimesMax: Float = 20
     @IBAction func trainTimesMinEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainTimesMin = Float(sender.text!)!
             trainTimesSlider.minimumValue = trainTimesMin
             trainTimesMinTF.text = sender.text!
+        }else{
+            trainTimesMinTF.text = "\(trainTimesMin)"
         }
     }
     @IBAction func trainTimesMaxEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainTimesMax = Float(sender.text!)!
             trainTimesSlider.maximumValue = trainTimesMax
             trainTimesMaxTF.text = sender.text!
+        }else{
+            trainTimesMaxTF.text = "\(trainTimesMax)"
         }
     }
     
     @IBAction func trainSetEachIntervalEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainSetEachInterval = Float(sender.text!)!
             trainSetEachIntervalSlider.setValue(Float(trainSetEachInterval), animated: true)
             
+        }else{
+            trainSetEachIntervalTF.text = "\(trainSetEachInterval)"
         }
     }
     
@@ -212,26 +225,32 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     var trainSetEachIntervalMax: Float = 5
     
     @IBAction func trainSetEachIntervalMinEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainSetEachIntervalMin = Float(sender.text!)!
             trainSetEachIntervalSlider.minimumValue = trainSetEachIntervalMin
             trainSetEachIntervalMinTF.text = sender.text!
+        }else{
+            trainSetEachIntervalMinTF.text = "\(trainSetEachIntervalMin)"
         }
     }
     
     @IBAction func trainSetEachIntervalMaxEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainSetEachIntervalMax = Float(sender.text!)!
             trainSetEachIntervalSlider.maximumValue = trainSetEachIntervalMax
             trainSetEachIntervalMaxTF.text = sender.text!
+        }else{
+            trainSetEachIntervalMaxTF.text = "\(trainSetEachIntervalMax)"
         }
     }
     
     
     @IBAction func trainEachSetIntervalEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainEachSetInterval = Int(sender.text!)!
             trainEachSetIntervalSlider.setValue(Float(trainEachSetInterval), animated: true)
+        }else{
+            trainEachSetIntervalTF.text = "\(trainEachSetInterval)"
         }
     }
     
@@ -249,20 +268,24 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     
     
     @IBAction func trainEachSetIntervalMinEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainEachSetIntervalMin = Int(sender.text!)!
             trainEachSetIntervalSlider.minimumValue = Float(trainEachSetIntervalMin)
             trainEachSetIntervalMinTF.text = sender.text!
+        }else{
+            trainEachSetIntervalMinTF.text = "\(trainEachSetIntervalMin)"
         }
     }
     
     
     
     @IBAction func trainEachSetIntervalMaxEditTF(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != "" {
             trainEachSetIntervalMax = Int(sender.text!)!
             trainEachSetIntervalSlider.maximumValue = Float(trainEachSetIntervalMax)
             trainEachSetIntervalMaxTF.text = sender.text!
+        }else{
+            trainEachSetIntervalMaxTF.text = "\(trainEachSetIntervalMax)"
         }
     }
     
@@ -270,7 +293,7 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
        
         
-        // 不能輸入空白
+        // digit only
         if !string.isNumberOnly() {
             return false
         }
