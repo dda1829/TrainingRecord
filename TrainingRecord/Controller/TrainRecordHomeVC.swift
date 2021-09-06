@@ -1052,7 +1052,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         
         let adjusttrainingparameters = UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3"), style: .plain, target: self, action: #selector(trainingParametersChange))
-        let trainstartbarbtn = UIBarButtonItem(image: UIImage(named: "start")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(trainStartBtnPressed))
+        let trainstartbarbtn = UIBarButtonItem(image: UIImage(named: "start"), style: .plain, target: self, action: #selector(trainStartBtnPressed))
         let trainreportbarbtn = UIBarButtonItem(image: UIImage(systemName: "arrowshape.turn.up.right"), style: .plain, target: self, action: #selector(trainreportgo))
         let flexible = UIBarButtonItem.flexibleSpace()
         let traindatebarbtn = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .plain, target: self, action: #selector(showDateBarBtnPressed))
@@ -2031,9 +2031,10 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             var locationsort: [[Int]] =  todayItem!.trainLocationSort.reversed()
+            var rateArray:[String] = todayItem!.trainRate.reversed()
             let deleteTarget = locationsort[indexPath.row]
-            var countI = 0
-            var countT = 0
+            var countI = -1
+            var countT = -1
             for x in locationsort{
                countI += 1
                 if x == deleteTarget{
@@ -2043,9 +2044,13 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
                     }
                 }
             }
-            var a = indexPath.row
-            let deletedSet = countT - 1//被刪掉的元素為 總數扣掉倒數回來的個數的順序再加1 表示為 第幾組被刪掉的元素
             
+            
+            let deletedSet = todayItem!.trainSet[deleteTarget]!  - (countT + 1) //被刪掉的元素為 總數扣掉倒數回來的個數的順序再加1 表示為 第幾組被刪掉的元素
+            print(indexPath.row)
+            print(countT)
+            print(deletedSet)
+            rateArray.remove(at: indexPath.row)
             locationsort.remove(at: indexPath.row)
             self.todayItem?.trainLocationSort = locationsort.reversed()
             self.todayItem?.trainSet[deleteTarget]! -= 1
@@ -2053,7 +2058,7 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
             self.todayItem?.trainTimes[deleteTarget]?.remove(at: deletedSet)
             self.todayItem?.trainWeight[deleteTarget]?.remove(at: deletedSet)
             self.todayItem?.trainUnit[deleteTarget]?.removeLast()
-            self.todayItem!.trainRate.remove(at: deletedSet)
+            self.todayItem!.trainRate = rateArray.reversed()
             writeToFile()
             RecordListTV.reloadData()
             

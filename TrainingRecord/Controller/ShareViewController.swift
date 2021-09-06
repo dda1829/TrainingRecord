@@ -120,7 +120,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if trainItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
-            return (trainItem?.trainLocation.count)!
+            return titleForm.count /*(trainItem?.trainLocation.count)!*/
         }
         return 0
     }
