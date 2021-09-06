@@ -8,7 +8,7 @@ import UIKit
 import CoreData
 import Firebase
 //import GoogleMobileAds
-//import AppTrackingTransparency
+import AppTrackingTransparency
 //import AdSupport
 
 
@@ -1012,7 +1012,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         loginTimes += 1
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
-//                ATTrackingManager.requestTrackingAuthorization { status in
+                ATTrackingManager.requestTrackingAuthorization { status in
 ////
 ////                    DispatchQueue.main.async {
 ////                        self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
@@ -1024,7 +1024,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
 ////                        self.bannerView?.load(GADRequest())
 ////
 ////                    }
-//                }
+                }
         
         // Check the System Mode
             isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
@@ -1392,7 +1392,14 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         NSLayoutConstraint(item: stopTrainingButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.7, constant: 1).isActive = true
         }else{
             todayItem!.trainLocationSort.append(trainLS)
-            todayItem!.trainLocation.updateValue(trainLS, forKey: trainLS)
+            
+            if let value = todayItem!.trainLocation[trainLS] {
+                todayItem!.trainLocation[trainLS]!.append(0)
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainLocation.updateValue([0], forKey: trainLS)
+                print(todayItem!.trainLocation)
+            }
             todayItem!.trainRate.append("none")
             if let value = todayItem!.trainSet[trainLS] {
                 todayItem!.trainSet[trainLS]! += 1
@@ -1517,7 +1524,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             recordIsStart = true
            
             todayItem!.trainLocationSort.append(trainLS)
-            todayItem!.trainLocation.updateValue(trainLS, forKey: trainLS)
+            if let value = todayItem!.trainLocation[trainLS] {
+                todayItem!.trainLocation[trainLS]!.append(0)
+                print("add new value \(value)")
+            }else {
+                todayItem!.trainLocation.updateValue([0], forKey: trainLS)
+                print(todayItem!.trainLocation)
+            }
             todayItem!.trainRate.append("none")
             if let value = todayItem!.trainSet[trainLS] {
                 todayItem!.trainSet[trainLS]! += 1
@@ -2015,7 +2028,38 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
 
 
 extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTableViewCellDelegate {
-    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            var locationsort: [[Int]] =  todayItem!.trainLocationSort.reversed()
+            let deleteTarget = locationsort[indexPath.row]
+            var countI = 0
+            var countT = 0
+            for x in locationsort{
+               countI += 1
+                if x == deleteTarget{
+                    countT += 1
+                    if countI == indexPath.row{
+                        break
+                    }
+                }
+            }
+            var a = indexPath.row
+            let deletedSet = countT - 1//被刪掉的元素為 總數扣掉倒數回來的個數的順序再加1 表示為 第幾組被刪掉的元素
+            
+            locationsort.remove(at: indexPath.row)
+            self.todayItem?.trainLocationSort = locationsort.reversed()
+            self.todayItem?.trainSet[deleteTarget]! -= 1
+            self.todayItem?.trainLocation[deleteTarget]?.removeLast()
+            self.todayItem?.trainTimes[deleteTarget]?.remove(at: deletedSet)
+            self.todayItem?.trainWeight[deleteTarget]?.remove(at: deletedSet)
+            self.todayItem?.trainUnit[deleteTarget]?.removeLast()
+            self.todayItem!.trainRate.remove(at: deletedSet)
+            writeToFile()
+            RecordListTV.reloadData()
+            
+        }
+        
+    }
     func shareTableViewCellDidTapGood(_ sender: ShareTableViewCell) {
         guard let tappedIndexPath = RecordListTV.indexPath(for: sender) else {return}
         print(tappedIndexPath)

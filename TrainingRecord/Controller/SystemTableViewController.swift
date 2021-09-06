@@ -20,7 +20,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目"]
     var trainingParameters: [String] = ["重量單位","紀錄模式"]
     var editorFormList: [String] = ["評價此ＡＰＰ","聯繫作者"]
-    var clearDatasFormList: [String] = ["清除今日訓練資料","清除所有訓練資料"]
+    var clearDatasFormList: [String] = ["備份資料至iCloud","從iCloud還原資料","清除今日訓練資料","清除所有訓練資料"]
     var db: Firestore?
     var memberDatas: [String:Any]?
     var prepareTime: Int = 3
@@ -234,11 +234,21 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         }else   if indexPath.section == 3 {
             if Auth.auth().currentUser == nil {
                 if indexPath.row == 0{
+                    cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                    cell.textLabel?.text = clearDatasFormList[indexPath.row]
+                    cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                    cell.textLabel?.textColor = .white
+                }else if indexPath.row == 1{
                 cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 cell.textLabel?.text = clearDatasFormList[indexPath.row]
                 cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-                cell.textLabel?.textColor = .red
-                }else if indexPath.row == 1{
+                cell.textLabel?.textColor = .white
+                }else if indexPath.row == 2{
+                    cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                    cell.textLabel?.text = clearDatasFormList[indexPath.row]
+                    cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                    cell.textLabel?.textColor = .red
+                }else if indexPath.row == 3{
                     cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                     cell.textLabel?.text = clearDatasFormList[indexPath.row]
                     cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
@@ -253,12 +263,22 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         }else if indexPath.section == 4 {
             if Auth.auth().currentUser == nil {
             }else{
-                if indexPath.row == 0{
+                if indexPath.row == 0 {
+                    cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                    cell.textLabel?.text = clearDatasFormList[indexPath.row]
+                    cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                    cell.textLabel?.textColor = .white
+                }else if indexPath.row == 1{
                 cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 cell.textLabel?.text = clearDatasFormList[indexPath.row]
                 cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-                cell.textLabel?.textColor = .red
-                }else if indexPath.row == 1{
+                cell.textLabel?.textColor = .white
+                }else if indexPath.row == 2{
+                    cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                    cell.textLabel?.text = clearDatasFormList[indexPath.row]
+                    cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                    cell.textLabel?.textColor = .red
+                }else if indexPath.row == 3{
                     cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                     cell.textLabel?.text = clearDatasFormList[indexPath.row]
                     cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
@@ -331,7 +351,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                             let product = Bundle.main.object(forInfoDictionaryKey: "CFBundleName" )
                             let messageBody = "<br/><br/><br/>Product:\(product!)(\(version!))"
                             mailController.setMessageBody(messageBody, isHTML: true)
-                            mailController.setToRecipients(["sssumusic@gmail.com"])
+                            mailController.setToRecipients(["dda1829@yahoo.com.tw"])
                             self.present(mailController,animated: true,completion: nil)
                         }
                         let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
@@ -387,6 +407,64 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         }else if indexPath.section == 3{
             if Auth.auth().currentUser == nil {
                 if indexPath.row == 0 {
+                    if FileManager.default.ubiquityIdentityToken == nil {
+                        print("plz open iCloud Drive")
+                        let alert = UIAlertController(title: "", message: "請開啟這個ＡＰＰ的iCloud服務，感謝！", preferredStyle: .alert)
+                        let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+                            
+                        }
+                        alert.addAction(confirm)
+                        present(alert, animated: true, completion: nil)
+                    }else{
+                        let path = FileManager.default.url(forUbiquityContainerIdentifier:"iCloud.recordItem")
+                        let ddc = path?.appendingPathComponent("Documents")
+                        let fileURL = ddc?.appendingPathComponent("RecordDatas/")
+                        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+                        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+                        let file = doc.appendingPathComponent("RecordDatas/")
+                        let manager = FileManager.default
+                        do {
+                            try manager.removeItem(at: fileURL!)
+//                            try manager.copyItem(at: file, to: fileURL!)
+
+
+                        } catch  {
+                                print(error)
+                        }
+                        do {
+                            try manager.copyItem(at: file, to: fileURL!)
+                        } catch  {
+                            print(error)
+                        }
+
+                    }
+                }else if indexPath.row == 1 {
+                    if FileManager.default.ubiquityIdentityToken == nil {
+                        print("plz open iCloud Drive")
+                        let alert = UIAlertController(title: "", message: "請開啟這個ＡＰＰ的iCloud服務，感謝！", preferredStyle: .alert)
+                        let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+                            
+                        }
+                        alert.addAction(confirm)
+                        present(alert, animated: true, completion: nil)
+                    }else{
+                        let path = FileManager.default.url(forUbiquityContainerIdentifier:"iCloud.recordItem")
+                        let doc2 = path?.appendingPathComponent("Documents")
+                        let fileURL = doc2?.appendingPathComponent("RecordDatas")
+
+                        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+                        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+                        let file = doc.appendingPathComponent("RecordDatas")
+                        let manager = FileManager.default
+                        do {
+                            try manager.copyItem(at: fileURL!, to: file)
+                            print("成功寫入")
+                        } catch  {
+                                print(error)
+                        }
+
+                    }
+                }else if indexPath.row == 2 {
                     let alert = UIAlertController(title: "", message: "注意，您\(dateRecord)此日的訓練資料即將刪除，請點確認繼續，或者cancel取消。", preferredStyle: .alert)
                     let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
                         let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
@@ -407,7 +485,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     alert.addAction(confirm)
                     self.present(alert, animated: true, completion: nil)
                     
-                }else if indexPath.row == 1 {
+                }else if indexPath.row == 3 {
                     let alert = UIAlertController(title: "", message: "注意，您所有的訓練資料即將刪除，請點確認繼續，或者cancel取消。", preferredStyle: .alert)
                     let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
                     let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
@@ -454,7 +532,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                             let product = Bundle.main.object(forInfoDictionaryKey: "CFBundleName" )
                             let messageBody = "<br/><br/><br/>Product:\(product!)(\(version!))"
                             mailController.setMessageBody(messageBody, isHTML: true)
-                            mailController.setToRecipients(["sssumusic@gmail.com"])
+                            mailController.setToRecipients(["dda1829@yahoo.com.tw"])
                             self.present(mailController,animated: true,completion: nil)
                         }
                         let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
@@ -476,6 +554,64 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             if Auth.auth().currentUser == nil {
             }else{
                 if indexPath.row == 0 {
+                    if FileManager.default.ubiquityIdentityToken == nil {
+                        print("plz open iCloud Drive")
+                        let alert = UIAlertController(title: "", message: "請開啟這個ＡＰＰ的iCloud服務，感謝！", preferredStyle: .alert)
+                        let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+                            
+                        }
+                        alert.addAction(confirm)
+                        present(alert, animated: true, completion: nil)
+                    }else{
+                        let path = FileManager.default.url(forUbiquityContainerIdentifier:"iCloud.recordItem")
+                        let ddc = path?.appendingPathComponent("Documents")
+                        let fileURL = ddc?.appendingPathComponent("RecordDatas/")
+                        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+                        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+                        let file = doc.appendingPathComponent("RecordDatas/")
+                        let manager = FileManager.default
+                        do {
+                            try manager.removeItem(at: fileURL!)
+//                            try manager.copyItem(at: file, to: fileURL!)
+
+
+                        } catch  {
+                                print(error)
+                        }
+                        do {
+                            try manager.copyItem(at: file, to: fileURL!)
+                        } catch  {
+                            print(error)
+                        }
+
+                    }
+                }else if indexPath.row == 1 {
+                    if FileManager.default.ubiquityIdentityToken == nil {
+                        print("plz open iCloud Drive")
+                        let alert = UIAlertController(title: "", message: "請開啟這個ＡＰＰ的iCloud服務，感謝！", preferredStyle: .alert)
+                        let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+                            
+                        }
+                        alert.addAction(confirm)
+                        present(alert, animated: true, completion: nil)
+                    }else{
+                        let path = FileManager.default.url(forUbiquityContainerIdentifier:"iCloud.recordItem")
+                        let doc2 = path?.appendingPathComponent("Documents")
+                        let fileURL = doc2?.appendingPathComponent("RecordDatas")
+
+                        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+                        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+                        let file = doc.appendingPathComponent("RecordDatas")
+                        let manager = FileManager.default
+                        do {
+                            try manager.copyItem(at: fileURL!, to: file)
+                            print("成功寫入")
+                        } catch  {
+                                print(error)
+                        }
+
+                    }
+                }else if indexPath.row == 2 {
                     let alert = UIAlertController(title: "", message: "注意，您\(dateRecord)此日的訓練資料即將刪除，請點確認繼續，或者cancel取消。", preferredStyle: .alert)
                     let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
                         let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
@@ -496,7 +632,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     alert.addAction(confirm)
                     self.present(alert, animated: true, completion: nil)
                     
-                }else if indexPath.row == 1 {
+                }else if indexPath.row == 3 {
                     let alert = UIAlertController(title: "", message: "注意，您所有的訓練資料即將刪除，請點確認繼續，或者cancel取消。", preferredStyle: .alert)
                     let confirm = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
                     let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
@@ -533,7 +669,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             }
         case 3:
             if Auth.auth().currentUser == nil {
-                return "訓練資料調整"
+                return "訓練資料相關"
             }else{
                 return "ＡＰＰ相關"
             }
@@ -541,7 +677,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
             if Auth.auth().currentUser == nil {
                 return nil
             }
-            return "訓練資料調整"
+            return "訓練資料相關"
         default:
             return nil
         }

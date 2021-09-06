@@ -24,7 +24,7 @@
 		DC96E66926B929F8003AD4CD /* MemberAlreadyLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96E66826B929F8003AD4CD /* MemberAlreadyLoginViewController.swift */; };
 		DC96E66B26BA6F11003AD4CD /* MemberLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96E66A26BA6F11003AD4CD /* MemberLoginViewController.swift */; };
 		DC96E66D26BAC652003AD4CD /* SystemMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96E66C26BAC650003AD4CD /* SystemMemberViewController.swift */; };
-		DCA9913D26BBE71900C08E5D /* MemberUserDataToFirestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9913C26BBE71900C08E5D /* MemberUserDataToFirestore.swift */; };
+		DCA9913D26BBE71900C08E5D /* MemberUserDataToSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */; };
 		DCA9E34326D60E1B00964F02 /* RemoveTrainingItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9E34226D60E1B00964F02 /* RemoveTrainingItemViewController.swift */; };
 		DCA9E34526D60E4100964F02 /* EditTrainingItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9E34426D60E4100964F02 /* EditTrainingItemViewController.swift */; };
 		DCC2AF8A26C50D4C00087FA6 /* BeepGo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */; };
@@ -57,6 +57,9 @@
 		DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrainingRecord-Bridging-Header.h"; sourceTree = "<group>"; };
 		DC42096A26DE036E00518879 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		DC42096B26DE036F00518879 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		DC4BA03F26E578F400C598DF /* TrainingRecord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrainingRecord.entitlements; sourceTree = "<group>"; };
+		DC4BA04026E5ADD400C598DF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hant"; path = "zh-Hant.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		DC4BA04126E5ADD500C598DF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTableViewController.swift; sourceTree = "<group>"; };
 		DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewController.swift; sourceTree = "<group>"; };
 		DC6B6A1126D8BDB8000AFBE3 /* SharedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTableViewCell.swift; sourceTree = "<group>"; };
@@ -67,7 +70,7 @@
 		DC96E66826B929F8003AD4CD /* MemberAlreadyLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAlreadyLoginViewController.swift; sourceTree = "<group>"; };
 		DC96E66A26BA6F11003AD4CD /* MemberLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberLoginViewController.swift; sourceTree = "<group>"; };
 		DC96E66C26BAC650003AD4CD /* SystemMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMemberViewController.swift; sourceTree = "<group>"; };
-		DCA9913C26BBE71900C08E5D /* MemberUserDataToFirestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberUserDataToFirestore.swift; sourceTree = "<group>"; };
+		DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberUserDataToSystem.swift; sourceTree = "<group>"; };
 		DCA9E34226D60E1B00964F02 /* RemoveTrainingItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveTrainingItemViewController.swift; sourceTree = "<group>"; };
 		DCA9E34426D60E4100964F02 /* EditTrainingItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrainingItemViewController.swift; sourceTree = "<group>"; };
 		DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepGo.m4a; sourceTree = "<group>"; };
@@ -157,7 +160,7 @@
 				DC00C5DE2685DFAF00161DBA /* Timer.swift */,
 				DCC7D14626529D2C0040DFA8 /* Assets.xcassets */,
 				DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */,
-				DCA9913C26BBE71900C08E5D /* MemberUserDataToFirestore.swift */,
+				DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */,
 				DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */,
 				DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */,
 				DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */,
@@ -196,6 +199,7 @@
 		DCC7D13926529D290040DFA8 /* TrainingRecord */ = {
 			isa = PBXGroup;
 			children = (
+				DC4BA03F26E578F400C598DF /* TrainingRecord.entitlements */,
 				DCF0A8F426DCC2AC000CB0E1 /* Extension */,
 				DCF0A8F326DCC297000CB0E1 /* View */,
 				DCC7D13A26529D290040DFA8 /* AppDelegate.swift */,
@@ -275,6 +279,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = DCC7D12E26529D290040DFA8;
 			productRefGroup = DCC7D13826529D290040DFA8 /* Products */;
@@ -388,7 +393,7 @@
 				DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */,
 				DCC7D14526529D290040DFA8 /* TrainingRecord.xcdatamodeld in Sources */,
 				DCC7D13D26529D290040DFA8 /* SceneDelegate.swift in Sources */,
-				DCA9913D26BBE71900C08E5D /* MemberUserDataToFirestore.swift in Sources */,
+				DCA9913D26BBE71900C08E5D /* MemberUserDataToSystem.swift in Sources */,
 				DC42096C26DE036F00518879 /* MBProgressHUD.m in Sources */,
 				DC62BC1926A806F700B245F6 /* InfoTableViewController.swift in Sources */,
 				DCF123AE2655011F00CB9307 /* NewTrainingItemViewController.swift in Sources */,
@@ -407,6 +412,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				DCC7D14126529D290040DFA8 /* Base */,
+				DC4BA04026E5ADD400C598DF /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -415,6 +421,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				DCC7D14926529D2C0040DFA8 /* Base */,
+				DC4BA04126E5ADD500C598DF /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -426,6 +433,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -484,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -543,6 +552,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = TrainingRecord/TrainingRecord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -569,6 +580,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = TrainingRecord/TrainingRecord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

@@ -173,7 +173,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
                         self.isMember = true
                         UserDefaults.standard.set(self.isMember, forKey: "isMember")
                         UserDefaults.standard.synchronize()
-                        MemberUserDataToFirestore.share.createUserDocument()
                         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                         changeRequest?.displayName = self.userNameTextField.text
                         changeRequest?.commitChanges { error in

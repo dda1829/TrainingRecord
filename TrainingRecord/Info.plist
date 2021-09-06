@@ -37,6 +37,8 @@
 	<string>You need the permission of this to add photo on your item</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>You need to access me to use your photo</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This App will track your crash information and the usage count to analyize this APP, please help me to allow it.</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
