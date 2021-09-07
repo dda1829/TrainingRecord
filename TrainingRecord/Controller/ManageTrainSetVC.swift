@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Firebase
 class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate {
     var trainWeight : Float = 10
     var trainTimes : Int = 10
@@ -46,6 +46,8 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
     
     @IBOutlet weak var trainEachSetIntervalMaxTF: UITextField!
     
+    @IBOutlet weak var trainEachSetIntervalLabel: UILabel!
+    @IBOutlet weak var trainEachSetIntervalUnitLabel: UILabel!
     var originalFrame : CGRect?
     //畫面顯示時註冊通知
     override func viewWillAppear(_ animated: Bool) {
@@ -121,6 +123,14 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
             trainEachSetIntervalTF.text = "\(trainEachSetInterval)"
         }
         
+        if Auth.auth().currentUser == nil{
+            trainEachSetIntervalTF.isHidden = true
+            trainEachSetIntervalMaxTF.isHidden = true
+            trainEachSetIntervalSlider.isHidden = true
+            trainEachSetIntervalMinTF.isHidden = true
+            trainEachSetIntervalLabel.isHidden = true
+            trainEachSetIntervalUnitLabel.isHidden = true
+        }
     }
    
     // 關閉瑩幕小鍵盤

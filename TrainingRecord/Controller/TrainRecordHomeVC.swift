@@ -80,7 +80,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var blImageURLs: [String] = []
     var armImageURLs: [String] = []
     var exImageURLs: [String] = []
-   
+    
     
     
     
@@ -113,7 +113,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     let stopRestingButton = UIButton()
     var countDownCounter = 3
     var trainIsStart = false
-//    var data : [String: RecordItem] = [:]
+    //    var data : [String: RecordItem] = [:]
     var trainToday = ""
     var recordSet = 0
     var recordData: RecordItem?
@@ -138,12 +138,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var infodataUserName: [String] = []
     var infodataEmail: [String] = []
     var beforeinfodatainside : [String] = []
-//    var bannerView: GADBannerView!
+    //    var bannerView: GADBannerView!
     
     //MARK: Member parameters
     var trainingGoal : String?
     let targetTV = UITextView(frame: CGRect(x: 0, y: 0, width: 343, height: 38))
-
+    
     //MARK: Model parameters
     var isModeSetToSimple = false
     
@@ -459,12 +459,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     
     @IBOutlet weak var IntroduceSV: UIScrollView!
- 
-
+    
+    
     
     @IBOutlet weak var RecordListTV: UITableView!
     
-
+    
     
     @IBOutlet weak var IntroducePCol: UIPageControl!
     @IBAction func IntroducePC(_ sender: UIPageControl) {
@@ -505,18 +505,18 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         dateFormatter.timeStyle = .none
         ToolBarManage()
         
-    
+        
         dateRecord = dateFormatter.string(from: sender.date)
         print("DatePicke is used")
         
         print(dateRecord)
-
+        
         loadFromFile()
         RecordListTV.reloadData()
         picker.removeFromSuperview()
     }
     
-   
+    
     
     
     
@@ -639,20 +639,20 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let storageRef = Storage.storage(url: "gs://trainingrecord-ad7d7.appspot.com/").reference()
         let imageRef = storageRef.child("\(documentname)/\(filename)").write(toFile: fileUrl)
         
-//        imageRef.write(toFile: fileUrl) { (url,error) in
-//            if let e = error {
-//                print( "error \(e)")
-//            } else {
-//
-//            }
-//        }
-            imageRef.observe(.success) { [self] snapshot in
-                if lastImageDataCheck[documentname] == nil {
+        //        imageRef.write(toFile: fileUrl) { (url,error) in
+        //            if let e = error {
+        //                print( "error \(e)")
+        //            } else {
+        //
+        //            }
+        //        }
+        imageRef.observe(.success) { [self] snapshot in
+            if lastImageDataCheck[documentname] == nil {
                 lastImageDataCheck.updateValue(1, forKey: documentname)
-                }else{
-                    lastImageDataCheck[documentname]! += 1
-                }
-        
+            }else{
+                lastImageDataCheck[documentname]! += 1
+            }
+            
             
         }
     }
@@ -660,9 +660,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         if onoff{
             MBProgressHUD.showAdded(to: self.view, animated: true)
         }else{
-        MBProgressHUD.hide(for: self.view, animated: true)
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
-        }
+    }
     
     func trainingItemImageAppend(_ documentname: String, _ filename: String) {
         let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
@@ -671,44 +671,44 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let fileUrl = doc2Url.appendingPathComponent(filename)
         var c = 0
         while c == 0 {
-        if let a = try! NSData.init(contentsOf: fileUrl){
-            let b = UIImage(data: a as Data)!
-        switch documentname {
-        case "BrestShoulder":
-            self.brestImageforms.append(b)
-            print(fileUrl.absoluteString)
-            self.brestImageURLs.append("Documents/\(documentname)/\(filename)")
-            print(homeUrl.absoluteString)
-            print("Documents/\(documentname)/\(filename)")
-            c += 1
-        case "Back":
-            self.backImageforms.append(b)
-            self.backImageURLs.append("Documents/\(documentname)/\(filename)")
-            c += 1
-        case "Abdomen":
-            self.abdomenImageforms.append(b)
-            self.abdomenImageURLs.append("Documents/\(documentname)/\(filename)")
-            c += 1
-        case "Arm":
-            self.armImageforms.append(b)
-            self.armImageURLs.append("Documents/\(documentname)/\(filename)")
-            c += 1
-        case "BottomLap":
-            self.blImageforms.append(b)
-            self.blImageURLs.append("Documents/\(documentname)/\(filename)")
-            c += 1
-        case "Exercise":
-            self.exerciseImageform.append(b)
-            self.exImageURLs.append("Documents/\(documentname)/\(filename)")
-            c += 1
-        default:
-            print("wrong type")
-        }
-        }
+            if let a = try! NSData.init(contentsOf: fileUrl){
+                let b = UIImage(data: a as Data)!
+                switch documentname {
+                case "BrestShoulder":
+                    self.brestImageforms.append(b)
+                    print(fileUrl.absoluteString)
+                    self.brestImageURLs.append("Documents/\(documentname)/\(filename)")
+                    print(homeUrl.absoluteString)
+                    print("Documents/\(documentname)/\(filename)")
+                    c += 1
+                case "Back":
+                    self.backImageforms.append(b)
+                    self.backImageURLs.append("Documents/\(documentname)/\(filename)")
+                    c += 1
+                case "Abdomen":
+                    self.abdomenImageforms.append(b)
+                    self.abdomenImageURLs.append("Documents/\(documentname)/\(filename)")
+                    c += 1
+                case "Arm":
+                    self.armImageforms.append(b)
+                    self.armImageURLs.append("Documents/\(documentname)/\(filename)")
+                    c += 1
+                case "BottomLap":
+                    self.blImageforms.append(b)
+                    self.blImageURLs.append("Documents/\(documentname)/\(filename)")
+                    c += 1
+                case "Exercise":
+                    self.exerciseImageform.append(b)
+                    self.exImageURLs.append("Documents/\(documentname)/\(filename)")
+                    c += 1
+                default:
+                    print("wrong type")
+                }
+            }
         }
         if documentname == "Exercise" && filename == String(lastData["Exercise"]!) + ".png" {
             setCoreDataStore()
-           mbProgress(false)
+            mbProgress(false)
         }
     }
     
@@ -726,9 +726,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-//        let notificationName = Notification.Name("ChangeTrainUnit")
-//        NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(clearDatas(noti:)), name: Notification.Name("ClearDatas"), object: nil)
+        //        let notificationName = Notification.Name("ChangeTrainUnit")
+        //        NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(clearDatas(noti:)), name: Notification.Name("ClearDatas"), object: nil)
         NotificationCenter.default.addObserver(forName: Notification.Name("dataDownloadDone"), object: nil, queue: OperationQueue.main) { notification in
             self.downloadImageFormListFromfirebase()
         }
@@ -737,25 +737,25 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         
     }
-//    @objc func getUpdateNoti(noti:Notification) {
-//        trainUnit = noti.userInfo!["trainUnit"] as! String
-//        print(trainUnit)
-//    }
-//    @objc func clearDatas(noti:Notification){
-//        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
-//        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
-//        let file = doc.appendingPathComponent("RecordDatas")
-//        let manager = FileManager.default
-//        do{
-//            try manager.removeItem(at: file)
-//        }catch{
-//            print("removeFail")
-//        }
-//        todayItem = RecordItem(trainToday, [:], [:], [], [:], [:], [:], [])
-//        dateRecord = trainToday
-//        RecordListTV.reloadData()
-//        print("Already delete the data")
-//    }
+    //    @objc func getUpdateNoti(noti:Notification) {
+    //        trainUnit = noti.userInfo!["trainUnit"] as! String
+    //        print(trainUnit)
+    //    }
+    //    @objc func clearDatas(noti:Notification){
+    //        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+    //        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+    //        let file = doc.appendingPathComponent("RecordDatas")
+    //        let manager = FileManager.default
+    //        do{
+    //            try manager.removeItem(at: file)
+    //        }catch{
+    //            print("removeFail")
+    //        }
+    //        todayItem = RecordItem(trainToday, [:], [:], [], [:], [:], [:], [])
+    //        dateRecord = trainToday
+    //        RecordListTV.reloadData()
+    //        print("Already delete the data")
+    //    }
     deinit {
         NotificationCenter.default.removeObserver(self)
         
@@ -794,32 +794,32 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         ToolBarManage()
         if Auth.auth().currentUser != nil {
             if let usergoal = UserDefaults.standard.string(forKey: "userGoal"){
-               trainingGoal = usergoal
-
-                    self.view.addSubview(targetTV)
-                    targetTV.translatesAutoresizingMaskIntoConstraints = false
-                    targetTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
-                    targetTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-                    targetTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-                    targetTV.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor, constant: 0).isActive = true
-                    targetTV.heightAnchor.constraint(equalToConstant: 45).isActive = true
-                    targetTV.backgroundColor = .darkGray
-                    targetTV.textColor = .red
-                    targetTV.font = UIFont.systemFont(ofSize: 20)
-                    targetTV.isEditable = false
-                    targetTV.adjustsFontForContentSizeCategory = true
-                    targetTV.textAlignment = .center
-                    targetTV.text = "目標：" + (trainingGoal ?? "讀取中，請於系統設定確認。")
-                    RecordListTV.topAnchor.constraint(equalTo: targetTV.bottomAnchor, constant: 0).isActive = true
-                    RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-                    RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-                    RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
-                }else{
-                    RecordListTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
-                    RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-                    RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-                    RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
-                }
+                trainingGoal = usergoal
+                
+                self.view.addSubview(targetTV)
+                targetTV.translatesAutoresizingMaskIntoConstraints = false
+                targetTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
+                targetTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+                targetTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+                targetTV.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor, constant: 0).isActive = true
+                targetTV.heightAnchor.constraint(equalToConstant: 45).isActive = true
+                targetTV.backgroundColor = .darkGray
+                targetTV.textColor = .red
+                targetTV.font = UIFont.systemFont(ofSize: 20)
+                targetTV.isEditable = false
+                targetTV.adjustsFontForContentSizeCategory = true
+                targetTV.textAlignment = .center
+                targetTV.text = "目標：" + (trainingGoal ?? "讀取中，請於系統設定確認。")
+                RecordListTV.topAnchor.constraint(equalTo: targetTV.bottomAnchor, constant: 0).isActive = true
+                RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+                RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+                RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
+            }else{
+                RecordListTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
+                RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+                RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+                RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
+            }
             
             
             
@@ -828,7 +828,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
             RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
             RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
-           
+            
             
         }
         var isPlay = false
@@ -853,7 +853,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         pauseAndplayImageButton.addAction(pauseTraining, for: .touchUpInside)
         pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
-
+        
         // MARK: 先把資料抓出來確認是否為今天的資料，若為今天的資料便將資料存回今日，或非則將資料改至明日。
         
         
@@ -880,7 +880,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 view.isHidden = false
             }
             if self.trainLS != [0,0]  && self.trainLS != [1,0] && self.trainLS != [2,0] && self.trainLS != [3,0] && self.trainLS != [4,0] && self.trainLS != [5,0] && self.trainLS != [6,0]{
-            self.homeImageView?.isHidden = true
+                self.homeImageView?.isHidden = true
             }
         }
         stopRestingButton.addAction(stopRestBtnAction, for: .touchUpInside)
@@ -945,58 +945,58 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let a =  UserDefaults.standard.integer(forKey: "LoginTimes")
         print(a)
         if a == 0 /*&& traitCollection.userInterfaceIdiom == .phone*/{
-           
-                for view in self.view.subviews{
-                    view.isHidden = true
-                }
-                navigationController?.setNavigationBarHidden(true, animated: true)
-                // this use to generate a view to introduce the program how to use
-
-                IntroduceSV.delegate = self
-                IntroduceSV.contentSize.width = (fullScreenSize.width) * CGFloat(imageArray.count + 1)
-                IntroduceSV.contentSize.height = IntroduceSV.frame.height
-                IntroduceSV.showsVerticalScrollIndicator = false
-                IntroduceSV.showsHorizontalScrollIndicator = false
-                IntroduceSV.bounces = false
-                IntroduceSV.isPagingEnabled = true
-                IntroduceSV.translatesAutoresizingMaskIntoConstraints = false
-                IntroduceSV.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-                IntroduceSV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
-                IntroduceSV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
-                IntroduceSV.bottomAnchor.constraint(equalTo: self.IntroducePCol.topAnchor, constant: 0).isActive = true
-                
-                
-                
-                
-                
-                IntroduceSV.isDirectionalLockEnabled = true
-                IntroducePCol.numberOfPages = imageArray.count
-                IntroducePCol.currentPage = 0
-                IntroducePCol.currentPageIndicatorTintColor = .blue
-                IntroducePCol.pageIndicatorTintColor = .brown
+            
+            for view in self.view.subviews{
+                view.isHidden = true
+            }
+            navigationController?.setNavigationBarHidden(true, animated: true)
+            // this use to generate a view to introduce the program how to use
+            
+            IntroduceSV.delegate = self
+            IntroduceSV.contentSize.width = (fullScreenSize.width) * CGFloat(imageArray.count + 1)
+            IntroduceSV.contentSize.height = IntroduceSV.frame.height
+            IntroduceSV.showsVerticalScrollIndicator = false
+            IntroduceSV.showsHorizontalScrollIndicator = false
+            IntroduceSV.bounces = false
+            IntroduceSV.isPagingEnabled = true
+            IntroduceSV.translatesAutoresizingMaskIntoConstraints = false
+            IntroduceSV.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+            IntroduceSV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+            IntroduceSV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+            IntroduceSV.bottomAnchor.constraint(equalTo: self.IntroducePCol.topAnchor, constant: 0).isActive = true
+            
+            
+            
+            
+            
+            IntroduceSV.isDirectionalLockEnabled = true
+            IntroducePCol.numberOfPages = imageArray.count
+            IntroducePCol.currentPage = 0
+            IntroducePCol.currentPageIndicatorTintColor = .blue
+            IntroducePCol.pageIndicatorTintColor = .brown
             IntroducePCol.translatesAutoresizingMaskIntoConstraints = false
             IntroducePCol.topAnchor.constraint(equalTo: IntroduceSV.bottomAnchor, constant: 0).isActive = true
             IntroducePCol.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
             IntroducePCol.heightAnchor.constraint(equalToConstant: 40).isActive = true
             IntroducePCol.widthAnchor.constraint(equalToConstant: fullScreenSize.width).isActive = true
+            
+            for i in 0 ..< imageArray.count{
+                myScrollImageView = UIImageView()
+                myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 20, width: fullScreenSize.width, height: fullScreenSize.height - 100)
+                myScrollImageView.contentMode = .scaleToFill
+                myScrollImageView.image = imageArray[i]
+                self.IntroduceSV.addSubview(myScrollImageView)
+                //                    myScrollImageView.translatesAutoresizingMaskIntoConstraints = false
+                //                    myScrollImageView.heightAnchor.constraint(equalToConstant: self.view.frame.height).isActive = true
+                //                    myScrollImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+                //                    myScrollImageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+                //                    myScrollImageView.bottomAnchor.constraint(equalTo: IntroducePCol.topAnchor, constant: 0).isActive = true
                 
-                for i in 0 ..< imageArray.count{
-                    myScrollImageView = UIImageView()
-                    myScrollImageView.frame = CGRect(x: fullScreenSize.width * CGFloat(i) , y: 20, width: fullScreenSize.width, height: fullScreenSize.height - 100)
-                    myScrollImageView.contentMode = .scaleToFill
-                    myScrollImageView.image = imageArray[i]
-                    self.IntroduceSV.addSubview(myScrollImageView)
-//                    myScrollImageView.translatesAutoresizingMaskIntoConstraints = false
-//                    myScrollImageView.heightAnchor.constraint(equalToConstant: self.view.frame.height).isActive = true
-//                    myScrollImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
-//                    myScrollImageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-//                    myScrollImageView.bottomAnchor.constraint(equalTo: IntroducePCol.topAnchor, constant: 0).isActive = true
-                  
-                }
-
-                
-                IntroduceSV.isHidden = false
-                IntroducePCol.isHidden = false
+            }
+            
+            
+            IntroduceSV.isHidden = false
+            IntroducePCol.isHidden = false
             
             
             
@@ -1008,26 +1008,26 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             IntroduceSV.removeFromSuperview()
             IntroducePCol.removeFromSuperview()
         }
-       
+        
         loginTimes += 1
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
-                ATTrackingManager.requestTrackingAuthorization { status in
-////
-////                    DispatchQueue.main.async {
-////                        self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-////                        self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
-////                        self.bannerView?.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
-////                        //ca-app-pub-3940256099942544/2934735716
-////                        self.bannerView?.rootViewController = self
-////                        self.bannerView?.delegate = self
-////                        self.bannerView?.load(GADRequest())
-////
-////                    }
-                }
+        ATTrackingManager.requestTrackingAuthorization { status in
+            ////
+            ////                    DispatchQueue.main.async {
+            ////                        self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+            ////                        self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
+            ////                        self.bannerView?.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
+            ////                        //ca-app-pub-3940256099942544/2934735716
+            ////                        self.bannerView?.rootViewController = self
+            ////                        self.bannerView?.delegate = self
+            ////                        self.bannerView?.load(GADRequest())
+            ////
+            ////                    }
+        }
         
         // Check the System Mode
-            isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
+        isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
         
         
         
@@ -1037,10 +1037,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
             print("OK")
             
-            }
-            alertController.addAction(okAction)
-            
-            self.present(alertController, animated: true, completion: nil)
+        }
+        alertController.addAction(okAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func ToolBarManage(){
@@ -1209,11 +1209,11 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     @objc func checkFormListCount() {
         
-            if (formListBrest.count - 1) == lastData["BrestShoulder"] && (formListBack.count - 1) == lastData["Back"] && (formListAbdomen.count - 1) == lastData["Abdomen"] && (formListBL.count - 1) == lastData["BottomLap"] && (formListArm.count - 1) == lastData["Arm"] && (formListEx.count - 1) == lastData["Exercise"]  {
-                NotificationCenter.default.post(name: Notification.Name("dataDownloadDone"), object: nil)
-                TimerUse.share.stopTimer(2)
-                TimerUse.share.setTimer(1, self,#selector(checkImageDownloaded),true,3)
-            }
+        if (formListBrest.count - 1) == lastData["BrestShoulder"] && (formListBack.count - 1) == lastData["Back"] && (formListAbdomen.count - 1) == lastData["Abdomen"] && (formListBL.count - 1) == lastData["BottomLap"] && (formListArm.count - 1) == lastData["Arm"] && (formListEx.count - 1) == lastData["Exercise"]  {
+            NotificationCenter.default.post(name: Notification.Name("dataDownloadDone"), object: nil)
+            TimerUse.share.stopTimer(2)
+            TimerUse.share.setTimer(1, self,#selector(checkImageDownloaded),true,3)
+        }
         
     }
     @objc func setImageFormListFromfirebase() {
@@ -1291,17 +1291,17 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     @objc func setCoreDataStore() {
         print(formListBrest)
-            formlistCoredata(1,formListBrest, trainBrestText, brestImageURLs)
-            formlistCoredata(2,formListBack, trainBackText, backImageURLs)
-            formlistCoredata(3, formListBL, trainBLText, blImageURLs)
-            formlistCoredata(4, formListAbdomen, trainAbdomenText, abdomenImageURLs)
-            formlistCoredata(5, formListArm, trainArmText, armImageURLs)
-            formlistCoredata(6, formListEx, trainExText, exImageURLs)
-            for x in 0 ..< infodatainside.count {
-                trainingItemCoreDataStore(7, infodatainside[x], infodatainside[x], infodatainside[x], x)
-            }
+        formlistCoredata(1,formListBrest, trainBrestText, brestImageURLs)
+        formlistCoredata(2,formListBack, trainBackText, backImageURLs)
+        formlistCoredata(3, formListBL, trainBLText, blImageURLs)
+        formlistCoredata(4, formListAbdomen, trainAbdomenText, abdomenImageURLs)
+        formlistCoredata(5, formListArm, trainArmText, armImageURLs)
+        formlistCoredata(6, formListEx, trainExText, exImageURLs)
+        for x in 0 ..< infodatainside.count {
+            trainingItemCoreDataStore(7, infodatainside[x], infodatainside[x], infodatainside[x], x)
+        }
     }
-
+    
     
     
     
@@ -1366,30 +1366,30 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         
         if !isModeSetToSimple {
-        for view in self.view.subviews{
-            view.isHidden = true
-        }
-        navigationController?.setNavigationBarHidden(true, animated: true)
-        countDownCounter = prepareTime
-        TimerUse.share.setTimer(1,self, #selector(CountDown), true,1)
-                TimerUse.share.fire(1)
-        countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
-        countdownTV.backgroundColor = .black
-        countdownTV.textAlignment = .center
-        countdownTV.textColor = .green
-        countdownTV.isEditable = false
-        countdownTV.isSelectable = false
-        self.view.addSubview(countdownTV)
-        countdownTV.translatesAutoresizingMaskIntoConstraints = false
-        countdownTV.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        countdownTV.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
-        
-        self.view.addSubview(stopTrainingButton)
-        stopTrainingButton.translatesAutoresizingMaskIntoConstraints = false
-        stopTrainingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        NSLayoutConstraint(item: stopTrainingButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.7, constant: 1).isActive = true
+            for view in self.view.subviews{
+                view.isHidden = true
+            }
+            navigationController?.setNavigationBarHidden(true, animated: true)
+            countDownCounter = prepareTime
+            TimerUse.share.setTimer(1,self, #selector(CountDown), true,1)
+            TimerUse.share.fire(1)
+            countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
+            countdownTV.backgroundColor = .black
+            countdownTV.textAlignment = .center
+            countdownTV.textColor = .green
+            countdownTV.isEditable = false
+            countdownTV.isSelectable = false
+            self.view.addSubview(countdownTV)
+            countdownTV.translatesAutoresizingMaskIntoConstraints = false
+            countdownTV.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+            countdownTV.heightAnchor.constraint(equalToConstant: 300).isActive = true
+            countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
+            
+            self.view.addSubview(stopTrainingButton)
+            stopTrainingButton.translatesAutoresizingMaskIntoConstraints = false
+            stopTrainingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            NSLayoutConstraint(item: stopTrainingButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.7, constant: 1).isActive = true
         }else{
             todayItem!.trainLocationSort.append(trainLS)
             
@@ -1433,7 +1433,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.writeToFile()
             self.RecordListTV.reloadData()
         }
-
+        
     }
     
     
@@ -1481,10 +1481,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             let alertController = UIAlertController(title: "請您註冊會員，方能使用休息計時器之功能，感謝！", message: "", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                 print("OK")
-                }
-                alertController.addAction(okAction)
-                
-                self.present(alertController, animated: true, completion: nil)
+            }
+            alertController.addAction(okAction)
+            
+            self.present(alertController, animated: true, completion: nil)
             return
         }
         for view in self.view.subviews{
@@ -1493,7 +1493,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         navigationController?.setNavigationBarHidden(true, animated: true)
         countDownCounter = trainEachSetInterval
         self.view.addSubview(countdownTV)
-      
+        
         countdownTV.text = "\(countDownCounter)"
         countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
         countdownTV.translatesAutoresizingMaskIntoConstraints = false
@@ -1522,7 +1522,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         if !recordIsStart {
             CountTimeStart()
             recordIsStart = true
-           
+            
             todayItem!.trainLocationSort.append(trainLS)
             if let value = todayItem!.trainLocation[trainLS] {
                 todayItem!.trainLocation[trainLS]!.append(0)
@@ -1568,7 +1568,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         countdownTV.isEditable = false
         countdownTV.isSelectable = false
         countdownTV.alwaysBounceHorizontal = true
-       
+        
         
         if countDownCounter == trainTimes {
             
@@ -1681,7 +1681,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             let vc = segue.destination as! SystemTableViewController
             vc.dateRecord = dateRecord
         }else if segue.identifier == "report_share_segue"{
-//            let vc = segue.destination as! ShareViewController
+            //            let vc = segue.destination as! ShareViewController
             
             
         }
@@ -1801,7 +1801,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             appDelegate.saveContext()
         }
     }
-   
+    
     
     
     func loadTheTrainList(){
@@ -2002,27 +2002,27 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
     }
     // MARK:GADBannerViewDelegate
-//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-//
-//        self.RecordListTV.tableHeaderView = bannerView
-//        //        if bannerView.superview == nil {
-//        //            //第一次廣告進來
-//        //            self.view.addSubview(bannerView)
-//        //            self.RecordListTV.topAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>) //關閉tableview上緣的條件
-//        //            //廣告上緣貼齊safearea的上緣
-//        //            bannerView.topAnchor.constraint(equalTo: self.RecordListTV.safeAreaLayoutGuide.topAnchor).isActive = true
-//        //            //廣告下緣貼齊tableView的上緣
-//        ////            bannerView.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor).isActive = true
-//        //            //廣告左右緣貼齊self.view的左右
-//        //            bannerView.rightAnchor.constraint(equalTo: self.RecordListTV.rightAnchor).isActive = true
-//        //            bannerView.leftAnchor.constraint(equalTo: self.RecordListTV.leftAnchor).isActive = true
-//        //
-//        //        }
-//
-//    }
-//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-//        print(error)
-//    }
+    //    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+    //
+    //        self.RecordListTV.tableHeaderView = bannerView
+    //        //        if bannerView.superview == nil {
+    //        //            //第一次廣告進來
+    //        //            self.view.addSubview(bannerView)
+    //        //            self.RecordListTV.topAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>) //關閉tableview上緣的條件
+    //        //            //廣告上緣貼齊safearea的上緣
+    //        //            bannerView.topAnchor.constraint(equalTo: self.RecordListTV.safeAreaLayoutGuide.topAnchor).isActive = true
+    //        //            //廣告下緣貼齊tableView的上緣
+    //        ////            bannerView.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor).isActive = true
+    //        //            //廣告左右緣貼齊self.view的左右
+    //        //            bannerView.rightAnchor.constraint(equalTo: self.RecordListTV.rightAnchor).isActive = true
+    //        //            bannerView.leftAnchor.constraint(equalTo: self.RecordListTV.leftAnchor).isActive = true
+    //        //
+    //        //        }
+    //
+    //    }
+    //    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+    //        print(error)
+    //    }
     
 }
 
@@ -2036,7 +2036,7 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
             var countI = -1
             var countT = -1
             for x in locationsort{
-               countI += 1
+                countI += 1
                 if x == deleteTarget{
                     countT += 1
                     if countI == indexPath.row{
@@ -2129,10 +2129,10 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
             default:
                 cell.ratingBtnRecord("None")
             }
-        cell.Title.text = title
-        cell.subTitle.text = subtitle
+            cell.Title.text = title
+            cell.subTitle.text = subtitle
             
-        cell.delegate = self
+            cell.delegate = self
         }
         return cell
     }
@@ -2143,7 +2143,7 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
         for x in todayItem!.trainLocationSort {
             locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
             result.append(locationString)
-            }
+        }
         print("record location result = \(result)")
         return result.reversed()
     }
@@ -2164,29 +2164,29 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
                 
                 
                 if locationcounter[trainlocation] == 0 {
-                if trainlocation[0] == 6{
-                    let recordstringdefault = "第\(1)組  \( todayItem!.trainTimes[trainlocation]![0]) Times"
-                    recordListString = recordstringdefault
-                    result.append(recordListString)
-                }else{
-                    let recordstringdefault = "第\(1)組  \(todayItem!.trainWeight[trainlocation]![0]) \(todayItem!.trainUnit[trainlocation]![0]) * \( todayItem!.trainTimes[trainlocation]![0]) Times"
-                    recordListString = recordstringdefault
-                    result.append(recordListString)
-                }
+                    if trainlocation[0] == 6{
+                        let recordstringdefault = "第\(1)組  \( todayItem!.trainTimes[trainlocation]![0]) Times"
+                        recordListString = recordstringdefault
+                        result.append(recordListString)
+                    }else{
+                        let recordstringdefault = "第\(1)組  \(todayItem!.trainWeight[trainlocation]![0]) \(todayItem!.trainUnit[trainlocation]![0]) * \( todayItem!.trainTimes[trainlocation]![0]) Times"
+                        recordListString = recordstringdefault
+                        result.append(recordListString)
+                    }
                     
                 }else{
                     if trainlocation[0] == 6 {
                         recordListString = "\n第\(locationcounter[trainlocation]! + 1)組  \(todayItem!.trainTimes[trainlocation]![locationcounter[trainlocation]!]) Times"
-                    result.append(recordListString)
+                        result.append(recordListString)
                     }else{
-                                        
-                          recordListString = "\n第\(locationcounter[trainlocation]! + 1)組  \(todayItem!.trainWeight[trainlocation]![locationcounter[trainlocation]!]) \(todayItem!.trainUnit[trainlocation]![locationcounter[trainlocation]!]) * \(todayItem!.trainTimes[trainlocation]![locationcounter[trainlocation]!]) Times"
-                           result.append(recordListString)
+                        
+                        recordListString = "\n第\(locationcounter[trainlocation]! + 1)組  \(todayItem!.trainWeight[trainlocation]![locationcounter[trainlocation]!]) \(todayItem!.trainUnit[trainlocation]![locationcounter[trainlocation]!]) * \(todayItem!.trainTimes[trainlocation]![locationcounter[trainlocation]!]) Times"
+                        result.append(recordListString)
                     }
-                                       
+                    
                 }
                 locationcounter[trainlocation]! += 1
-              
+                
             }
         }
         

@@ -10,7 +10,6 @@ import Firebase
 class MemberLoginViewController: UIViewController, UITextFieldDelegate {
     var userName: String?
     
-    @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var memberEmailTextView: UITextField!
     @IBOutlet weak var memberPasswordTextView: UITextField!
     
@@ -65,15 +64,39 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate {
                         }
                         
                     }
-                    self.activity.startAnimating()
+                    mbProgress(true)
 //                    TimerUse.share.setTimer(3, self, #selector(goAlreadylogin), false, 1)
                     
                 }
         }
     }
     
- func goAlreadylogin(){
-        activity.stopAnimating()
+    func mbProgress(_ onoff: Bool){
+        if onoff{
+            MBProgressHUD.showAdded(to: self.view, animated: true)
+        }else{
+            MBProgressHUD.hide(for: self.view, animated: true)
+        }
+    }
+    @IBAction func forgetPasswordBtnPressed(_ sender: Any) {
+        let alertController = UIAlertController(title: "注意", message: "請將您印象中的email填至帳號欄內後再按下確認，確認後重設密碼的郵件便會送出。", preferredStyle: .alert)
+        
+        let defaultAction = UIAlertAction(title: "確認", style: .default) { (action) -> Void in
+            if let email = self.memberEmailTextView.text {
+            Auth.auth().sendPasswordReset(withEmail: email) { error in
+              // ...
+            }
+            }
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancel)
+        alertController.addAction(defaultAction)
+        
+        present(alertController, animated: true, completion: nil)
+        
+    }
+    func goAlreadylogin(){
+        mbProgress(false)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoggedIn") as? MemberAlreadyLoginViewController
         if let username = self.userName {
         vc?.userName = username

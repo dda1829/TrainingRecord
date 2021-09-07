@@ -165,8 +165,10 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
                 present(alertController, animated: true, completion: nil)
             
             } else {
+//
+                
                 Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
-                    
+
                     if error == nil {
                         print("You have successfully signed up")
                         //Goes to the Setup page which lets the user take a photo for their profile picture and also chose a username
@@ -181,22 +183,76 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
                                 return
                             }
                         }
+                        Auth.auth().currentUser?.sendEmailVerification { error in
+                        }
+                        print(Auth.auth().currentUser?.isEmailVerified)
+                        let alertController = UIAlertController(title: "請收取驗證信！", message: "請至您已填寫的信箱，收取驗證信，感謝。", preferredStyle: .alert)
+
+                        let defaultAction = UIAlertAction(title: "OK", style: .default) { (action) -> Void in
+                            self.mbProgress(true)
+                            TimerUse.share.setTimer(2, self, #selector(self.checkVeried), false, 1)
+                        }
+                        alertController.addAction(defaultAction)
+
+                        self.present(alertController, animated: true, completion: nil)
                         
-                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoggedIn") as? MemberAlreadyLoginViewController
-                        vc?.userName = self.userNameTextField.text
-                        self.navigationController?.pushViewController(vc!,animated: true)
                         
                     } else {
                         let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                        
+
                         let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                         alertController.addAction(defaultAction)
-                        
+
                         self.present(alertController, animated: true, completion: nil)
                     }
                 }
             }
     }
+    
+    @objc func checkVeried(){
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print(error)
+        }
+        TimerUse.share.setTimer(1, self, #selector(cV), false, 1)
+    }
+    @objc func cV(){
+        
+        Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { [self] result, error in
+            if let e = error {
+                print( "error \(e)")
+                return
+            }
+            
+        }
+        TimerUse.share.setTimer(1, self, #selector(checkVerified), false, 1)
+    }
+    @objc func checkVerified(){
+        if let isemailverified = Auth.auth().currentUser?.isEmailVerified, isemailverified{
+            GoLogInPage()
+        }else{
+        TimerUse.share.setTimer(1, self, #selector(checkVeried), false, 1)
+        }
+    }
+    
+    
+    
+    func mbProgress(_ onoff: Bool){
+        if onoff{
+            MBProgressHUD.showAdded(to: self.view, animated: true)
+        }else{
+            MBProgressHUD.hide(for: self.view, animated: true)
+        }
+    }
+    
+    func GoLogInPage() {
+        TimerUse.share.stopTimer(1)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoggedIn") as? MemberAlreadyLoginViewController
+        vc?.userName = self.userNameTextField.text
+        self.navigationController?.pushViewController(vc!,animated: true)
+    }
+    
     
     @IBAction func memberLoginBtnPressed(_ sender: Any) {
         

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Firebase
 class ShareViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var ratingForm: [String] = []
     var titleForm: [String] = []
@@ -32,9 +32,63 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         navigationController?.title = "訓練紀錄報表"
         // Do any additional setup after loading the view.
-        if let userreportleft = UserDefaults.standard.string(forKey: "userReportLeft"), let userreportright = UserDefaults.standard.string(forKey: "userReportRight"){
-        userReportLeft.text = userreportleft
-        userReportRight.text = userreportright
+        if Auth.auth().currentUser != nil{
+            var conclusionright = ""
+            var conclusionleft = ""
+            let userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as! String
+            let userGender = MemberUserDataToFirestore.share.getUserdatas("userGender") as! String
+            let userHeight = MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]
+            let userWeight = MemberUserDataToFirestore.share.getUserdatas("userWeight") as! [String]
+            let userBodyFat = MemberUserDataToFirestore.share.getUserdatas("userBodyFat") as! [String]
+            let BMIo = (MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]).last
+            let BMRo = (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]).last
+            let BMI = Double(BMIo!)
+            let BMR = Double(BMRo!)
+            let noInput = "NoData"
+            if userAge != ""{
+            conclusionright = "用戶年齡：  " + userAge + " 歲\n"
+            }else{
+                conclusionright = "用戶年齡：  " + noInput + " 歲\n"
+            }
+            conclusionleft = "用戶名稱：  " + (MemberUserDataToFirestore.share.getUserdatas("userName") as! String) + "\n"
+            if  userGender != ""{
+                conclusionleft += "用戶性別：  " + userGender + "\n"
+            }else{
+                conclusionleft += "用戶性別：  " + noInput + "\n"
+            }
+            
+            conclusionright += "用戶身高：  " + userHeight.last! + " cm\n"
+            conclusionleft += "用戶體重：  " + userWeight.last! + " kg\n"
+            conclusionright += "用戶體脂:  " + userBodyFat.last! + " %\n"
+            if BMI == 0.0 {
+                conclusionleft += "BMI:  資料不足\n"
+            }else{
+                conclusionleft += "BMI：  " + String(format: "%.2f", BMI!) + "\n"
+            }
+            
+            if BMR == 0.0{
+                conclusionright += "BMR：  資料不足\n"
+            }else {
+                conclusionright += "BMR:  " + String(format: "%.2f", BMR!) + "\n"
+            }
+            conclusionleft += "^ 身體質量指數"
+            conclusionright += "^ 基礎代謝率"
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        userReportLeft.text = conclusionleft
+        userReportRight.text = conclusionright
             let border = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
             border.backgroundColor = .white
             self.view.addSubview(border)

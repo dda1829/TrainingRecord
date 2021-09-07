@@ -57,9 +57,9 @@
 		DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrainingRecord-Bridging-Header.h"; sourceTree = "<group>"; };
 		DC42096A26DE036E00518879 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		DC42096B26DE036F00518879 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		DC491B3726E7727D001CB228 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DC491B3826E7727E001CB228 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DC4BA03F26E578F400C598DF /* TrainingRecord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrainingRecord.entitlements; sourceTree = "<group>"; };
-		DC4BA04026E5ADD400C598DF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hant"; path = "zh-Hant.lproj/Main.storyboard"; sourceTree = "<group>"; };
-		DC4BA04126E5ADD500C598DF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTableViewController.swift; sourceTree = "<group>"; };
 		DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewController.swift; sourceTree = "<group>"; };
 		DC6B6A1126D8BDB8000AFBE3 /* SharedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTableViewCell.swift; sourceTree = "<group>"; };
@@ -81,10 +81,8 @@
 		DCC7D13A26529D290040DFA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainRecordHomeVC.swift; sourceTree = "<group>"; };
-		DCC7D14126529D290040DFA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DCC7D14426529D290040DFA8 /* TrainingRecord.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrainingRecord.xcdatamodel; sourceTree = "<group>"; };
 		DCC7D14626529D2C0040DFA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DCC7D14926529D2C0040DFA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DCC7D14B26529D2C0040DFA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCEC8ED326BFBAC8003CC74A /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		DCEC8ED526C00A5F003CC74A /* ShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTableViewCell.swift; sourceTree = "<group>"; };
@@ -279,7 +277,6 @@
 			knownRegions = (
 				en,
 				Base,
-				"zh-Hant",
 			);
 			mainGroup = DCC7D12E26529D290040DFA8;
 			productRefGroup = DCC7D13826529D290040DFA8 /* Products */;
@@ -411,8 +408,7 @@
 		DCC7D14026529D290040DFA8 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				DCC7D14126529D290040DFA8 /* Base */,
-				DC4BA04026E5ADD400C598DF /* zh-Hant */,
+				DC491B3726E7727D001CB228 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -420,8 +416,7 @@
 		DCC7D14826529D2C0040DFA8 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				DCC7D14926529D2C0040DFA8 /* Base */,
-				DC4BA04126E5ADD500C598DF /* zh-Hant */,
+				DC491B3826E7727E001CB228 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

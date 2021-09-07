@@ -425,8 +425,6 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         let manager = FileManager.default
                         do {
                             try manager.removeItem(at: fileURL!)
-//                            try manager.copyItem(at: file, to: fileURL!)
-
 
                         } catch  {
                                 print(error)

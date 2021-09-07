@@ -120,8 +120,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
             userRecordDate = MemberUserDataToFirestore.share.getUserdatas("userRecordDate") as! [String]
         }
         
-        
-        if MemberUserDataToFirestore.share.checkAge(){
+//        if MemberUserDataToFirestore.share.checkAge(){
             userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as? String
             userGender = MemberUserDataToFirestore.share.getUserdatas("userGender") as? String
             if userGender == "male"{
@@ -130,7 +129,8 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
                 sexualAgePV.selectRow(2, inComponent: 0, animated: true)
             }
             sexualAgePV.selectRow(Int(userAge!)! - 14, inComponent: 1, animated: true)
-        }
+//        }
+        
     }
     @objc func backToSysBtn (){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemPage") as? SystemTableViewController
@@ -149,7 +149,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         
         userRecordDate.append(dateFormatter.string(from: nowDate))
         MemberUserDataToFirestore.share.updateUserdata("userRecordDate", userRecordDate)
-        let noInput = "未寫入資料"
+        let noInput = "NoData"
         if targetTextField.text != "" {
             userGoals.append(targetTextField.text!)
             UserDefaults.standard.setValue(targetTextField.text!, forKey: "userGoal")
@@ -183,15 +183,40 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         var BMI = 0.0
         if userWeight.last! != noInput && userHeight.last! != noInput {
             BMI = Double(userWeight.last!)! / ((Double(userHeight.last!)! / 100) * (Double(userHeight.last!)! / 100))
+//            if (MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]) == [] {
+                userBMI.append("\(BMI)")
+                MemberUserDataToFirestore.share.updateUserdata("userBMI", userBMI)
+//            }else{
+//                userBMI = MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]
+//                userBMI.append("\(BMI)")
+//                MemberUserDataToFirestore.share.updateUserdata("userBMI", userBMI)
+//            }
+            
         }
         var BMR = 0.0
         if userGender == "male"{
             if userWeight.last! != noInput && userHeight.last! != noInput {
                 BMR = 66 + (6.23 * Double(userWeight.last!)! * 2.2046) + (12.7 * (Double(userHeight.last!)! / 2.54) ) - (6.8 * Double(userAge!)!)
+//                if (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]) == []{
+                userBMR.append("\(BMR)")
+                MemberUserDataToFirestore.share.updateUserdata("userBMR", userBMR)
+//                }else{
+//                    userBMR = MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]
+//                    userBMR.append("\(BMR)")
+//                    MemberUserDataToFirestore.share.updateUserdata("userBMR", userBMR)
+//                }
             }
         }else{
             if userWeight.last! != noInput && userHeight.last! != noInput {
                 BMR = 655 + (4.35 * Double(userWeight.last!)! * 2.2046) + (4.7 * (Double(userHeight.last!)! / 2.54) ) - (4.7 * Double(userAge!)!)
+//                if (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]) == []{
+                userBMR.append("\(BMR)")
+                MemberUserDataToFirestore.share.updateUserdata("userBMR", userBMR)
+//                }else{
+//                    userBMR = MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]
+//                    userBMR.append("\(BMR)")
+//                    MemberUserDataToFirestore.share.updateUserdata("userBMR", userBMR)
+//                }
             }
         }
         if let userage = userAge{
@@ -235,12 +260,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         a.heightAnchor.constraint(equalToConstant: 5).isActive = true
         parametersTVLeft.text = conclusionleft
         parametersTVRight.text = conclusionright
-        UserDefaults.standard.setValue(conclusionleft, forKey: "userReportLeft")
-        UserDefaults.standard.setValue(conclusionright, forKey: "userReportRight")
-        UserDefaults.standard.synchronize()
         isPressedBtn = true
-        MemberUserDataToFirestore.share.updateUserdata("userBMI", BMI)
-        MemberUserDataToFirestore.share.updateUserdata("userBMR", BMR)
         
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

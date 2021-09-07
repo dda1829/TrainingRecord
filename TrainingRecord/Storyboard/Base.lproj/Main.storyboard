@@ -69,7 +69,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="HomePage" id="BYZ-38-t0r" customClass="TrainRecordHomeVC" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -131,7 +131,7 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="526-R8-ls2"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="PhK-LU-lOL"/>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L8D-YQ-MoI">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L8D-YQ-MoI">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items/>
@@ -380,14 +380,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wSV-QQ-Kr0">
-                                <rect key="frame" x="16" y="220" width="343" height="427"/>
+                                <rect key="frame" x="16" y="170" width="343" height="477"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="woN-im-EZk">
-                                <rect key="frame" x="16" y="40" width="172" height="180"/>
+                                <rect key="frame" x="16" y="40" width="172" height="130"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="180" id="Yba-iY-srR"/>
+                                    <constraint firstAttribute="height" constant="130" id="Yba-iY-srR"/>
                                     <constraint firstAttribute="width" constant="172" id="lPG-9N-EGK"/>
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -395,10 +395,10 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6U1-dR-DzF">
-                                <rect key="frame" x="188" y="40" width="171" height="180"/>
+                                <rect key="frame" x="188" y="40" width="171" height="130"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="180" id="jvA-Bs-Vit"/>
+                                    <constraint firstAttribute="height" constant="130" id="jvA-Bs-Vit"/>
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -854,10 +854,12 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="tlV-oh-yel"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="trainEachSetIntervalLabel" destination="jVV-sP-hN0" id="dwO-gl-jxC"/>
                         <outlet property="trainEachSetIntervalMaxTF" destination="waJ-a1-i5s" id="KsX-VT-j32"/>
                         <outlet property="trainEachSetIntervalMinTF" destination="DhD-TG-xqr" id="5Pt-6g-UfB"/>
                         <outlet property="trainEachSetIntervalSlider" destination="z2H-oA-m96" id="HVg-wK-dTz"/>
                         <outlet property="trainEachSetIntervalTF" destination="Emd-Yx-eb0" id="s0N-tn-zcI"/>
+                        <outlet property="trainEachSetIntervalUnitLabel" destination="7Va-1I-1Si" id="QgF-Zh-1OI"/>
                         <outlet property="trainSetEachIntervalMaxTF" destination="STs-hm-p5O" id="D4m-ju-3Mi"/>
                         <outlet property="trainSetEachIntervalMinTF" destination="ubZ-Zj-wnJ" id="jJh-aA-Plf"/>
                         <outlet property="trainSetEachIntervalSlider" destination="47c-hA-Qhy" id="xWk-1Y-93y"/>
@@ -1536,31 +1538,33 @@
                                     <segue destination="GRG-dM-1pI" kind="show" id="hvc-WR-8Nc"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Gcm-Ud-gn4">
-                                <rect key="frame" x="169" y="315" width="37" height="37"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rm2-fp-8oV">
+                                <rect key="frame" x="156.5" y="577" width="62" height="30"/>
+                                <state key="normal" title="忘記密碼"/>
+                                <connections>
+                                    <action selector="forgetPasswordBtnPressed:" destination="Ano-nK-yjY" eventType="touchUpInside" id="Ni2-8W-4nt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="809-KB-OF1"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="809-KB-OF1" firstAttribute="bottom" secondItem="9sU-3r-MuP" secondAttribute="bottom" constant="100" id="3b7-DC-9tF"/>
+                            <constraint firstItem="rm2-fp-8oV" firstAttribute="centerX" secondItem="iYZ-w1-Hza" secondAttribute="centerX" id="9lX-Fh-GLm"/>
+                            <constraint firstItem="809-KB-OF1" firstAttribute="bottom" secondItem="rm2-fp-8oV" secondAttribute="bottom" constant="60" id="9w5-JZ-DjX"/>
                             <constraint firstItem="mhb-RQ-PG0" firstAttribute="centerX" secondItem="iYZ-w1-Hza" secondAttribute="centerX" id="DEF-Nq-xch"/>
                             <constraint firstItem="kWx-qI-Z6s" firstAttribute="centerX" secondItem="iYZ-w1-Hza" secondAttribute="centerX" id="IqG-UA-uk3"/>
                             <constraint firstItem="mhb-RQ-PG0" firstAttribute="top" secondItem="kWx-qI-Z6s" secondAttribute="bottom" constant="35" id="NIR-bU-UOt"/>
                             <constraint firstItem="ANY-4L-ggg" firstAttribute="centerX" secondItem="iYZ-w1-Hza" secondAttribute="centerX" id="W1N-CB-L1c"/>
                             <constraint firstItem="9sU-3r-MuP" firstAttribute="centerX" secondItem="iYZ-w1-Hza" secondAttribute="centerX" id="bzI-u4-cr2"/>
-                            <constraint firstItem="Gcm-Ud-gn4" firstAttribute="centerY" secondItem="iYZ-w1-Hza" secondAttribute="centerY" id="c4v-Yk-jSa"/>
                             <constraint firstItem="9sU-3r-MuP" firstAttribute="top" secondItem="ANY-4L-ggg" secondAttribute="bottom" constant="20" id="haY-KF-nQR"/>
                             <constraint firstItem="kWx-qI-Z6s" firstAttribute="top" secondItem="66C-hH-pit" secondAttribute="bottom" constant="70" id="kxJ-r4-iSQ"/>
                             <constraint firstItem="66C-hH-pit" firstAttribute="top" secondItem="809-KB-OF1" secondAttribute="top" constant="50" id="nK6-Vf-w9Y"/>
-                            <constraint firstItem="Gcm-Ud-gn4" firstAttribute="centerX" secondItem="iYZ-w1-Hza" secondAttribute="centerX" id="pGi-cD-8TU"/>
                             <constraint firstItem="66C-hH-pit" firstAttribute="centerX" secondItem="iYZ-w1-Hza" secondAttribute="centerX" id="tto-17-gq1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lcU-mG-iSa"/>
                     <connections>
-                        <outlet property="activity" destination="Gcm-Ud-gn4" id="aCg-xF-zm1"/>
                         <outlet property="memberEmailTextView" destination="kWx-qI-Z6s" id="clh-C2-Gv5"/>
                         <outlet property="memberPasswordTextView" destination="mhb-RQ-PG0" id="5fJ-bj-mpV"/>
                     </connections>
