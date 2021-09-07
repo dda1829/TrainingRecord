@@ -121,14 +121,14 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
         
 //        if MemberUserDataToFirestore.share.checkAge(){
-            userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as? String
-            userGender = MemberUserDataToFirestore.share.getUserdatas("userGender") as? String
-            if userGender == "male"{
-                sexualAgePV.selectRow(1, inComponent: 0, animated: true)
-            } else if userGender == "female"{
-                sexualAgePV.selectRow(2, inComponent: 0, animated: true)
-            }
-            sexualAgePV.selectRow(Int(userAge!)! - 14, inComponent: 1, animated: true)
+//            userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as? String
+//            userGender = MemberUserDataToFirestore.share.getUserdatas("userGender") as? String
+//            if userGender == "male"{
+//                sexualAgePV.selectRow(1, inComponent: 0, animated: true)
+//            } else if userGender == "female"{
+//                sexualAgePV.selectRow(2, inComponent: 0, animated: true)
+//            }
+//            sexualAgePV.selectRow(Int(userAge!)! - 14, inComponent: 1, animated: true)
 //        }
         
     }

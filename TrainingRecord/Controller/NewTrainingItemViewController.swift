@@ -17,7 +17,7 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     let manager = FileManager.default
     var imageURL : URL?
     var imageString : String?
-
+    var image: UIImage?
     let imagePickerVC = UIImagePickerController()
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
             return 1
@@ -109,6 +109,26 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
             self.present(alertController, animated: true, completion: nil)
             return
         }
+        if let imagedata = imageView.image?.jpegData(compressionQuality: 1){
+        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
+        let docUrl = homeUrl.appendingPathComponent("Documents")
+        let doc2Url = docUrl.appendingPathComponent(fitRecordLocation(trainLS))
+        let fileName = UUID().uuidString
+        let fileUrl = doc2Url.appendingPathComponent(fileName)
+        imageString = "Documents/\(fitRecordLocation(trainLS))/\(fileName)"
+        imageURL = fileUrl
+            do{
+           try imagedata.write(to: imageURL!, options: [.atomic])
+                UserDefaults.standard.setValue(imageString, forKey: "newTrainingItemURLString")
+            }catch{
+                print("\(error)")
+            }
+        }
+        
+        
+        
+        
+        
         UserDefaults.standard.setValue(trainingItemTF.text, forKey: "newTrainingItemName")
         UserDefaults.standard.setValue(trainingItemDefTF.text, forKey: "newTrainingItemDef")
         UserDefaults.standard.setValue(trainLS, forKey: "newTrainingLS")
@@ -124,19 +144,6 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
       
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage, let imagedata = image.jpegData(compressionQuality: 1) {
-        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
-        let docUrl = homeUrl.appendingPathComponent("Documents")
-        let doc2Url = docUrl.appendingPathComponent(fitRecordLocation(trainLS))
-        let fileName = UUID().uuidString
-        let fileUrl = doc2Url.appendingPathComponent(fileName)
-        imageString = "Documents/\(fitRecordLocation(trainLS))/\(fileName)"
-        imageURL = fileUrl
-            do{
-           try imagedata.write(to: imageURL!, options: [.atomic])
-                UserDefaults.standard.setValue(imageString, forKey: "newTrainingItemURLString")
-            }catch{
-                print("\(error)")
-            }
             
         ///取得使用者選擇的圖片
         imageView.image = image
@@ -172,33 +179,124 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        
         textField.resignFirstResponder()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == trainingItemTF {
+            image = self.textToImage(drawText: textField.text!, inImage: UIImage.init(named: "backsquare")!)
+            imageView.image = image
+            trainingItemDefTF.becomeFirstResponder()
+        }else{
+        
+        
             //利用此方式讓按下Return後會Toogle 鍵盤讓它消失
             textField.resignFirstResponder()
             print("按下Return")
+        }
             return false
         }
     
     @IBAction func TrainingItemDidEnd(_ sender: UITextField) {
-        if sender.text != nil {
+        if sender.text != nil && sender == trainingItemTF {
         trainingItem = sender.text!
         print(trainingItem)
+      
         }
     }
 
     
     @IBAction func TrainingItemDefDidEnd(_ sender: UITextField) {
-        if sender.text != nil {
+        image = self.textToImage(drawText: trainingItemTF.text!, inImage: UIImage.init(named: "backsquare")!)
+        imageView.image = image
+        if sender.text != nil && sender == trainingItemDefTF {
         trainingItemDef = sender.text!
         print(trainingItemDef)
         }
     }
     
     
-    
+    func textToImage(drawText text: String, inImage image: UIImage) -> UIImage
+    {
+
+        UIGraphicsBeginImageContext(image.size)
+        image.draw(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+        var target = ""
+        var count = 0
+        if text.count < 4 {
+            target = text
+        }else if text.count >= 4 && text.count < 6 {
+            do{
+                try text.forEach({ word in
+                    count += 1
+                    target += String(word)
+                    if count == 2{
+                        target += "\n"
+                    }
+                })
+            }catch{
+                print(error)
+            }
+            
+        }else if text.count >= 6 && text.count < 8{
+            do{
+                try text.forEach({ word in
+                    count += 1
+                    target += String(word)
+                    if count == 3{
+                        target += "\n"
+                    }
+                })
+            }catch{
+                print(error)
+            }
+        }else if text.count >= 8 && text.count < 10{
+            do{
+                try text.forEach({ word in
+                    count += 1
+                    target += String(word)
+                    if count == 4{
+                        target += "\n"
+                    }
+                })
+            }catch{
+                print(error)
+            }
+        }else if text.count >= 10 && text.count < 12{
+            do{
+                try text.forEach({ word in
+                    count += 1
+                    target += String(word)
+                    if count == 5{
+                        target += "\n"
+                    }
+                })
+            }catch{
+                print(error)
+            }
+        }
+        
+        let font=UIFont(name: "Helvetica-Bold", size: 30)!
+
+        let paraStyle=NSMutableParagraphStyle()
+        paraStyle.alignment=NSTextAlignment.center
+        
+        let attributes = [NSAttributedString.Key.foregroundColor:UIColor.red, NSAttributedString.Key.font:font, NSAttributedString.Key.paragraphStyle:paraStyle]
+
+        let height = image.size.height//font.lineHeight
+
+        let y = (height) / 4
+
+        let strRect = CGRect(x: 0, y: y, width: image.size.width, height: height)
+
+        target.draw(in: strRect.integral, withAttributes: attributes)
+
+        let result=UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return result!
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)

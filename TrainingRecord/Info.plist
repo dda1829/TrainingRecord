@@ -36,7 +36,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>You need the permission of this to add photo on your item</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>You need to access me to use your photo</string>
+	<string>When you adding the new item to the training formlist, this app may take your photo to use for it.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This App will track your crash information and the usage count to analyize this APP, please help me to allow it.</string>
 	<key>SKAdNetworkItems</key>

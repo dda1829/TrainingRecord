@@ -14,6 +14,7 @@
 		DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */; };
 		DC4169A426D2417700BFB4CB /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4169A326D2417700BFB4CB /* StringExtension.swift */; };
 		DC42096C26DE036F00518879 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DC42096B26DE036F00518879 /* MBProgressHUD.m */; };
+		DC491B3A26E78E1D001CB228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC491B3926E78E1D001CB228 /* Assets.xcassets */; };
 		DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */; };
 		DC62BC1926A806F700B245F6 /* InfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */; };
 		DC6B6A1326D8BDB8000AFBE3 /* SharedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6B6A1126D8BDB8000AFBE3 /* SharedTableViewCell.swift */; };
@@ -36,7 +37,6 @@
 		DCC7D13F26529D290040DFA8 /* TrainRecordHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */; };
 		DCC7D14226529D290040DFA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCC7D14026529D290040DFA8 /* Main.storyboard */; };
 		DCC7D14526529D290040DFA8 /* TrainingRecord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D14326529D290040DFA8 /* TrainingRecord.xcdatamodeld */; };
-		DCC7D14726529D2C0040DFA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCC7D14626529D2C0040DFA8 /* Assets.xcassets */; };
 		DCC7D14A26529D2C0040DFA8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCC7D14826529D2C0040DFA8 /* LaunchScreen.storyboard */; };
 		DCEC8ED426BFBAC8003CC74A /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC8ED326BFBAC8003CC74A /* ShareViewController.swift */; };
 		DCEC8ED726C00A5F003CC74A /* ShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEC8ED526C00A5F003CC74A /* ShareTableViewCell.swift */; };
@@ -59,6 +59,7 @@
 		DC42096B26DE036F00518879 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		DC491B3726E7727D001CB228 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DC491B3826E7727E001CB228 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DC491B3926E78E1D001CB228 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC4BA03F26E578F400C598DF /* TrainingRecord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrainingRecord.entitlements; sourceTree = "<group>"; };
 		DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTableViewController.swift; sourceTree = "<group>"; };
 		DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewController.swift; sourceTree = "<group>"; };
@@ -82,7 +83,6 @@
 		DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainRecordHomeVC.swift; sourceTree = "<group>"; };
 		DCC7D14426529D290040DFA8 /* TrainingRecord.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrainingRecord.xcdatamodel; sourceTree = "<group>"; };
-		DCC7D14626529D2C0040DFA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DCC7D14B26529D2C0040DFA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCEC8ED326BFBAC8003CC74A /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		DCEC8ED526C00A5F003CC74A /* ShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTableViewCell.swift; sourceTree = "<group>"; };
@@ -156,8 +156,8 @@
 				DC42096B26DE036F00518879 /* MBProgressHUD.m */,
 				DCC7D14326529D290040DFA8 /* TrainingRecord.xcdatamodeld */,
 				DC00C5DE2685DFAF00161DBA /* Timer.swift */,
-				DCC7D14626529D2C0040DFA8 /* Assets.xcassets */,
 				DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */,
+				DC491B3926E78E1D001CB228 /* Assets.xcassets */,
 				DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */,
 				DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */,
 				DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */,
@@ -300,7 +300,7 @@
 				DCEC8ED826C00A5F003CC74A /* ShareTableViewCell.xib in Resources */,
 				DC6B6A1426D8BDB8000AFBE3 /* SharedTableViewCell.xib in Resources */,
 				DC94415126A424E500A4A3ED /* GoogleService-Info.plist in Resources */,
-				DCC7D14726529D2C0040DFA8 /* Assets.xcassets in Resources */,
+				DC491B3A26E78E1D001CB228 /* Assets.xcassets in Resources */,
 				DCC7D14226529D290040DFA8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
