@@ -762,6 +762,17 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        if Auth.auth().currentUser != nil{
+            if !Auth.auth().currentUser!.isEmailVerified{
+            do{
+                try Auth.auth().signOut()
+            }catch{
+                
+            }
+            }
+        }
+        
+        
         checkNewTrainingItem()
         // Do any additional setup after loading the view.
         if UserDefaults.standard.integer(forKey: "prepareTime") != 0 {
@@ -1053,7 +1064,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
         let adjusttrainingparameters = UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3"), style: .plain, target: self, action: #selector(trainingParametersChange))
         let trainstartbarbtn = UIBarButtonItem(image: UIImage(named: "start"), style: .plain, target: self, action: #selector(trainStartBtnPressed))
-        let trainreportbarbtn = UIBarButtonItem(image: UIImage(systemName: "arrowshape.turn.up.right"), style: .plain, target: self, action: #selector(trainreportgo))
+        let trainreportbarbtn = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(trainreportgo))
         let flexible = UIBarButtonItem.flexibleSpace()
         let traindatebarbtn = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .plain, target: self, action: #selector(showDateBarBtnPressed))
         ToolBar.setItems([restbarbtn,flexible,adjusttrainingparameters,flexible, trainstartbarbtn,flexible,trainreportbarbtn,flexible,traindatebarbtn], animated: false)

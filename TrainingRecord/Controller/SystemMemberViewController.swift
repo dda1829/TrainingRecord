@@ -261,7 +261,9 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         parametersTVLeft.text = conclusionleft
         parametersTVRight.text = conclusionright
         isPressedBtn = true
-        
+        let isMemberDataEdited = true
+        UserDefaults.standard.setValue(isMemberDataEdited, forKey: "isMemberDataEdited")
+        UserDefaults.standard.synchronize()
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

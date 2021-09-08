@@ -65,7 +65,7 @@
             </objects>
             <point key="canvasLocation" x="1878" y="-116"/>
         </scene>
-        <!--Training Record-->
+        <!--健身小幫手-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="HomePage" id="BYZ-38-t0r" customClass="TrainRecordHomeVC" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
@@ -162,7 +162,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7jb-3j-wrG" secondAttribute="trailing" constant="16" id="tzt-u2-Lfn"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Training Record" largeTitleDisplayMode="always" id="oDp-Rn-Sg1">
+                    <navigationItem key="navigationItem" title="健身小幫手" largeTitleDisplayMode="always" id="oDp-Rn-Sg1">
                         <barButtonItem key="backBarButtonItem" title="Back" id="95E-AZ-vk3"/>
                         <barButtonItem key="leftBarButtonItem" title="Item" image="line.horizontal.3" catalog="system" id="DpN-h4-63T">
                             <connections>
@@ -380,7 +380,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wSV-QQ-Kr0">
-                                <rect key="frame" x="16" y="170" width="343" height="477"/>
+                                <rect key="frame" x="16" y="170" width="343" height="437"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="woN-im-EZk">
@@ -405,13 +405,25 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4b5-81-Vln">
-                                <rect key="frame" x="137.5" y="10" width="100" height="30"/>
+                                <rect key="frame" x="112.5" y="10" width="150" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="XP8-3Z-WBS"/>
+                                    <constraint firstAttribute="width" constant="150" id="XP8-3Z-WBS"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="dateRecordTitleBtnPressed:" destination="ZuB-qR-zny" eventType="touchUpInside" id="N6V-w1-uPY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3P4-vo-7OZ">
+                                <rect key="frame" x="170" y="612" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="2gA-6f-Ugx"/>
+                                    <constraint firstAttribute="height" constant="35" id="Xo8-kV-zvn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" image="square.and.arrow.up" catalog="system"/>
+                                <connections>
+                                    <action selector="shareBtnPressed:" destination="ZuB-qR-zny" eventType="touchUpInside" id="0QU-qT-s6O"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -419,15 +431,17 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="woN-im-EZk" firstAttribute="top" secondItem="4b5-81-Vln" secondAttribute="bottom" id="1IH-tV-ROf"/>
+                            <constraint firstItem="3P4-vo-7OZ" firstAttribute="top" secondItem="wSV-QQ-Kr0" secondAttribute="bottom" constant="5" id="29B-Be-h3H"/>
                             <constraint firstItem="6U1-dR-DzF" firstAttribute="top" secondItem="4b5-81-Vln" secondAttribute="bottom" id="5fx-ua-tfa"/>
+                            <constraint firstItem="3P4-vo-7OZ" firstAttribute="centerX" secondItem="Bwu-tA-ywj" secondAttribute="centerX" id="5i6-AP-keq"/>
                             <constraint firstItem="4b5-81-Vln" firstAttribute="top" secondItem="2oQ-N2-8Vo" secondAttribute="top" constant="10" id="BMw-LT-lu8"/>
                             <constraint firstItem="2oQ-N2-8Vo" firstAttribute="trailing" secondItem="6U1-dR-DzF" secondAttribute="trailing" constant="16" id="I4o-A5-pmi"/>
                             <constraint firstItem="6U1-dR-DzF" firstAttribute="leading" secondItem="woN-im-EZk" secondAttribute="trailing" id="K7K-B7-itD"/>
+                            <constraint firstItem="2oQ-N2-8Vo" firstAttribute="bottom" secondItem="3P4-vo-7OZ" secondAttribute="bottom" constant="20" id="OyW-81-QFW"/>
                             <constraint firstItem="wSV-QQ-Kr0" firstAttribute="leading" secondItem="2oQ-N2-8Vo" secondAttribute="leading" constant="16" id="ScW-Au-LcO"/>
                             <constraint firstItem="woN-im-EZk" firstAttribute="leading" secondItem="2oQ-N2-8Vo" secondAttribute="leading" constant="16" id="VCO-hO-bmL"/>
                             <constraint firstItem="wSV-QQ-Kr0" firstAttribute="top" secondItem="woN-im-EZk" secondAttribute="bottom" id="Y0A-G1-Wpf"/>
                             <constraint firstItem="2oQ-N2-8Vo" firstAttribute="trailing" secondItem="wSV-QQ-Kr0" secondAttribute="trailing" constant="16" id="dod-qJ-AW6"/>
-                            <constraint firstItem="2oQ-N2-8Vo" firstAttribute="bottom" secondItem="wSV-QQ-Kr0" secondAttribute="bottom" constant="20" id="ujR-5l-vlU"/>
                             <constraint firstItem="4b5-81-Vln" firstAttribute="centerX" secondItem="Bwu-tA-ywj" secondAttribute="centerX" id="yMu-2E-GMt"/>
                         </constraints>
                     </view>
@@ -441,7 +455,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JEc-fY-ZFh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="927" y="662"/>
+            <point key="canvasLocation" x="925.60000000000002" y="661.61919040479768"/>
         </scene>
         <!--Calender View Controller-->
         <scene sceneID="Z7N-Dx-d6G">
@@ -1624,6 +1638,7 @@
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <systemColor name="separatorColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

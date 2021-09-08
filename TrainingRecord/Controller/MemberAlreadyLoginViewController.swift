@@ -111,6 +111,7 @@ class MemberAlreadyLoginViewController: UIViewController {
             MemberUserDataToFirestore.share.initialUserdata()
             UserDefaults.standard.removeObject(forKey: "userName")
             UserDefaults.standard.removeObject(forKey: "userGoal")
+            UserDefaults.standard.removeObject(forKey: "isMemberDataEdited")
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemPage") as? SystemTableViewController
             self.navigationController?.pushViewController(vc!,animated: true)
           }
@@ -126,6 +127,7 @@ class MemberAlreadyLoginViewController: UIViewController {
         do {
             try Auth.auth().signOut()
             MemberUserDataToFirestore.share.initialUserdata()
+            UserDefaults.standard.removeObject(forKey: "isMemberDataEdited")
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemPage") as? SystemTableViewController
             self.navigationController?.pushViewController(vc!,animated: true)
         } catch {

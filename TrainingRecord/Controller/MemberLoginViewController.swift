@@ -46,30 +46,84 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate {
                         return
                     }
                     var zz = false
-                    let user = Auth.auth().currentUser
-                    if let user = user {
+                    let userc = Auth.auth().currentUser
+                    if let user = userc {
 //                        print(user.displayName)
+                        if user.isEmailVerified {
                         DispatchQueue.global().sync {
                             
                             self.userName = user.displayName!
                             if self.userName != nil {
                                 zz = true
                             }
-                            DispatchQueue.main.async {
+                            DispatchQueue.main.sync {
                                 if zz {
                                     MemberUserDataToFirestore.share.loadUserdatas()
+                                    mbProgress(true)
                                 goAlreadylogin()
                                 }
                             }
                         }
+                        }else{
+                            Auth.auth().currentUser?.sendEmailVerification { error in
+                            }
+                            mbProgress(true)
+                            TimerUse.share.setTimer(1, self, #selector(checkVeried), false, 1)
+                        }
                         
                     }
-                    mbProgress(true)
-//                    TimerUse.share.setTimer(3, self, #selector(goAlreadylogin), false, 1)
                     
                 }
         }
     }
+    
+    
+    @objc func checkVeried(){
+        TimerUse.share.stopTimer(1)
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print(error)
+        }
+        TimerUse.share.setTimer(1, self, #selector(cV), false, 1)
+    }
+    @objc func cV(){
+        TimerUse.share.stopTimer(1)
+        Auth.auth().signIn(withEmail: memberEmailTextView.text!, password: memberPasswordTextView.text!) { [self] result, error in
+            if let e = error {
+                print( "error \(e)")
+                return
+            }
+            
+        }
+        TimerUse.share.setTimer(1, self, #selector(checkVerified), false, 1)
+    }
+    @objc func checkVerified(){
+        TimerUse.share.stopTimer(1)
+        if let isemailverified = Auth.auth().currentUser?.isEmailVerified, isemailverified{
+            let userc = Auth.auth().currentUser
+            var zz = false
+            if let user = userc {
+                DispatchQueue.global().sync {
+                    
+                    self.userName = user.displayName!
+                    if self.userName != nil {
+                        zz = true
+                    }
+                    DispatchQueue.main.sync {
+                        if zz {
+                            MemberUserDataToFirestore.share.loadUserdatas()
+                        goAlreadylogin()
+                        }
+                    }
+                }
+                }
+        }else{
+        TimerUse.share.setTimer(1, self, #selector(checkVeried), false, 1)
+        }
+    }
+    
+    
     
     func mbProgress(_ onoff: Bool){
         if onoff{

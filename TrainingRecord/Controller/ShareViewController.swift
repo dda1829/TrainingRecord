@@ -11,7 +11,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     var ratingForm: [String] = []
     var titleForm: [String] = []
     var subtitleForm: [String] = []
-    
+    var titleFormShare: [String] = []
     var recordListString = ""
     var recordsort: [[Int]] = []
     var trainItem: RecordItem?
@@ -22,17 +22,13 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var RecodListTV: UITableView!
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-       
-        
+        super.init(coder: coder)  
     }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.title = "訓練紀錄報表"
         // Do any additional setup after loading the view.
-        if Auth.auth().currentUser != nil{
+        if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: "isMemberDataEdited"){
             var conclusionright = ""
             var conclusionleft = ""
             let userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as! String
@@ -117,8 +113,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadFromFile()
         subtitleForm = recordStringGen()
         titleForm = recordLocationStringGen()
-        ratingForm = averageRateGen()
-
+        titleFormShare = recordLocationStringGen2()
         
         dateRecordTitleBtn.setTitle(dateRecord, for: .normal)
     }
@@ -232,29 +227,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func recordLocationStringGen () -> [String] {
         var result: [String] = []
-        var locationString = ""
-        for x in recordsort {
-            if (trainItem?.trainSet[x])! <= 2 {
-                locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
-            }else{
-                locationString = ""
-                for _ in 0 ..< (trainItem?.trainSet[x])!/2 {
-                    locationString += "\n"
-                }
-                locationString += "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))"
-//                for _ in 0 ..< (trainItem?.trainSet[x])!/3 {
-//                    locationString += "\n"
-//                }
-            }
-            result.append(locationString)
-        }
-        print("record location result = \(result)")
-        return result
-    }
-    
-    func averageRateGen () -> [String] {
-        var result : [String] = []
-        
+        var rateResult:[String] = []
         var trainRateSeperate : [[Int]:[String]] = [:]
         var traincount = 0
         for x in trainItem!.trainLocationSort {
@@ -301,35 +274,112 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                          rating += z
                     }
                     if rating >= 1 {
-                        result.append("😃，感覺良好。")
+                        rateResult.append("😃，感覺良好。")
                     }else if rating == 0{
-                        result.append("😐，感覺普通。")
+                        rateResult.append("😐，感覺普通。")
                     }else if rating == -1 {
-                        result.append("😮‍💨，感覺很糟。")
+                        rateResult.append("😮‍💨，感覺很糟。")
                     }else{
-                        result.append("資訊不足")
+                        rateResult.append("資訊不足")
                     }
-                    
-                    
-                    
-//                    switch rating {
-//                    case 1 :
-//                        result.append("😃，感覺良好。")
-//                    case 1.5 ..< 2.5:
-//                        result.append("😐，感覺普通。")
-//                    case 0 ..< 1.5:
-//                        result.append("😮‍💨，感覺很糟。")
-//                    default:
-//                        result.append("資訊不足")
-//                    }
                 }
                 rating = 0
             }
         }
-        recordsort = []
+        var locationString = ""
+        var ratecount = 0
+        for x in recordsort {
+            if (trainItem?.trainSet[x])! <= 2 {
+                locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
+            }else{
+                locationString = ""
+                for _ in 0 ..< (trainItem?.trainSet[x])!/4 {
+                    locationString += "\n"
+                }
+                locationString += "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
+//                for _ in 0 ..< (trainItem?.trainSet[x])!/3 {
+//                    locationString += "\n"
+//                }
+            }
+            ratecount += 1
+            result.append(locationString)
+        }
+        print("record location result = \(result)")
         return result
     }
     
+    func recordLocationStringGen2 () -> [String] {
+        var result: [String] = []
+        var rateResult:[String] = []
+        var trainRateSeperate : [[Int]:[String]] = [:]
+        var traincount = 0
+        for x in trainItem!.trainLocationSort {
+            if trainRateSeperate[x] == nil {
+                trainRateSeperate.updateValue(([trainItem!.trainRate[traincount]]), forKey: x)
+            }else{
+                trainRateSeperate[x]?.append(trainItem!.trainRate[traincount])
+            }
+            traincount += 1
+        }
+        var ratingScore: [[Int]:[Double]] = [:]
+        var rating = 0.0
+        for x in recordsort{
+            
+            for y in 0 ..< trainRateSeperate[x]!.count{
+                switch trainRateSeperate[x]![y] {
+                case "Good":
+                    if ratingScore[x] == nil {
+                        ratingScore.updateValue([1], forKey: x)
+                    }else{
+                        ratingScore[x]?.append(1)
+                    }
+                case "Normal":
+                    if ratingScore[x] == nil {
+                        ratingScore.updateValue([0], forKey: x)
+                    }else{
+                        ratingScore[x]?.append(0)
+                    }
+                case "Bad":
+                    if ratingScore[x] == nil {
+                        ratingScore.updateValue([-1], forKey: x)
+                    }else{
+                        ratingScore[x]?.append(-1)
+                    }
+                default:
+                    if ratingScore[x] == nil {
+                        ratingScore.updateValue([0], forKey: x)
+                    }else{
+                        ratingScore[x]?.append(0)
+                    }
+                }
+                if y == trainRateSeperate[x]!.count - 1 {
+                    for z in ratingScore[x]!{
+                         rating += z
+                    }
+                    if rating >= 1 {
+                        rateResult.append("😃，感覺良好。")
+                    }else if rating == 0{
+                        rateResult.append("😐，感覺普通。")
+                    }else if rating == -1 {
+                        rateResult.append("😮‍💨，感覺很糟。")
+                    }else{
+                        rateResult.append("資訊不足")
+                    }
+                }
+                rating = 0
+            }
+        }
+        var locationString = ""
+        var ratecount = 0
+        for x in recordsort {
+                locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
+            
+            ratecount += 1
+            result.append(locationString)
+        }
+        print("record location result = \(result)")
+        return result
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SharedTableViewCell", for: indexPath) as! SharedTableViewCell
@@ -341,7 +391,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             cell.titleLabel.text = titleForm[indexPath.row]
             cell.subTitleLabel.text = subtitleForm[indexPath.row]
-            cell.rateLabel.text = ratingForm[indexPath.row] ?? "未有足夠的資訊"
+//            cell.rateLabel.text = ratingForm[indexPath.row] ?? "未有足夠的資訊"
             
             cell.showsReorderControl = true
             
@@ -450,7 +500,93 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.trainItem = RecordItem(dateRecord, [:], [:], [], [:], [:], [:], [])//有任何錯誤,空陣列
         }
     }
+    
+    func fitSizeImage(_ image: UIImage,_ size: CGSize) -> UIImage? {
+        
+            let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0 //產生畫布，第一個參數指定大小,第二個參數true:不透明(黑色底),false表示透明背景,scale為螢幕scale
+            UIGraphicsBeginImageContextWithOptions(size,false,scale)
+            //計算長寬要縮圖比例，取最大值MAX會變成UIViewContentModeScaleAspectFill //最小值MIN會變成UIViewContentModeScaleAspectFit
+            image.draw(in:CGRect(x: 0,y: 0,
+                                 width: size.width,height: size.height)) //取得畫布上的縮圖
+            let target = UIGraphicsGetImageFromCurrentImageContext(); //關掉畫布
+            UIGraphicsEndImageContext();
+            return target
+    }
+    func pb_takeSnapshot() -> UIImage {
+        let imageA = UIImage(named: "background")!.withRenderingMode(.alwaysTemplate).withTintColor(.darkGray)
+        var font=UIFont(name: "Helvetica-Bold", size: 15)!
+        let paraStyle=NSMutableParagraphStyle()
+        paraStyle.alignment=NSTextAlignment.center
+        var attributes = [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font:font, NSAttributedString.Key.paragraphStyle:paraStyle]
+        let height = font.lineHeight
+        let strRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: height)
+        let wantimageASize = CGSize(width: self.view.frame.width, height: height)
+        let titlex1:CGFloat = -10
+        var imageBHeight: CGFloat = 40
+        var imageBLocationY: CGFloat = 2 + height
+        let imageB = UIImage(named: "background")!.withRenderingMode(.alwaysTemplate).withTintColor(.black)
+        
+        if recordsort.count != 0 {
+            for x in 0 ..< titleFormShare.count {
+                imageBHeight = 40
+                var fitsizecount = 0
+                while fitsizecount < (trainItem?.trainSet[recordsort[x]])!{
+                    fitsizecount += 1
+                    if fitsizecount % 2 == 0 {
+                        imageBHeight += 20
+                    }
+                }
+                imageBLocationY += imageBHeight + 2
+        }
+        }
+        let drawSize = CGSize(width: self.view.frame.width, height: imageBLocationY )
+        
+        imageBHeight = 40
+        imageBLocationY = 2 + height
+        UIGraphicsBeginImageContextWithOptions(drawSize, false, 0.0)
+        
+        fitSizeImage(imageA, wantimageASize)?.draw(in: strRect.integral)
+        (dateRecord as NSString).draw(in: strRect.integral, withAttributes: attributes)
+       
+        font = UIFont(name: "Helvetica-Bold", size: 13)!
+        attributes = [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font:font, NSAttributedString.Key.paragraphStyle:paraStyle]
+        if recordsort.count != 0 {
+            for x in 0 ..< titleFormShare.count {
+                imageBHeight = 40
+                var fitsizecount = 0
+                while fitsizecount < (trainItem?.trainSet[recordsort[x]])!{
+                    fitsizecount += 1
+                    if fitsizecount % 2 == 0 {
+                        imageBHeight += 20
+                    }
+                }
+        let wantBSize = CGSize(width: self.view.frame.width, height: imageBHeight)
+        let titleRect = CGRect(x: titlex1, y: imageBLocationY , width: self.view.frame.width/2, height: imageBHeight)
+        let subtitleRect = CGRect(x: self.view.frame.width/2, y: imageBLocationY, width: self.view.frame.width/2, height: imageBHeight)
+        fitSizeImage(imageB, wantBSize)?.draw(in: CGRect(x: 0, y: imageBLocationY, width: self.view.frame.width, height: imageBHeight))
+            (titleFormShare[x] as NSString).draw(in: titleRect, withAttributes: attributes)
+            (subtitleForm[x] as NSString).draw(in: subtitleRect, withAttributes: attributes)
+                imageBLocationY += imageBHeight + 2
+        }
+        }
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
+    }
     @IBAction func shareBtnPressed(_ sender: Any) {
+        
+        let defaultText = "看看我，今天我完成了..."
+        
+//        let sharedfile = self.view.pb_takeSnapshot()
+        let sharedfile = pb_takeSnapshot()
+        let activityController: UIActivityViewController
+        
+        
+        activityController = UIActivityViewController(activityItems: [defaultText,sharedfile], applicationActivities: nil)
+        
+        
+        
+        self.present(activityController, animated: true, completion: nil)
     }
     
     /*
