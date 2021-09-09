@@ -8,7 +8,8 @@
 import UIKit
 import CoreData
 import Firebase
-
+import GoogleMobileAds
+import UserNotifications
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate{
 
@@ -18,7 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Override point for customization after application launch.
 
         FirebaseApp.configure()
-        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: {(grant,error) in
+            if let e = error {
+                print( "error \(e)")
+                return
+            }
+         })
         return true
     }
 
@@ -83,3 +91,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        //如何顯示通知
+        let userInfo = notification.request.content.userInfo
+        print("willPresent userInfo:\(userInfo)")
+        completionHandler([ .sound, .alert])
+    }
+    // 2.App is suspended in backgrond, and user click remote notification
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        //點開了通知處理
+        let userInfo = response.notification.request.content.userInfo
+        print("didReceive userInfo: \(userInfo)")
+//        guard let aps = userInfo["aps"] as? [String: [String: String]], let alert = aps["alert"] else {
+//            return
+//        }
+        NotificationCenter.default.post(name: Notification.Name("ReceivedNotification"), object: nil)
+        
+        completionHandler()
+    }
+}

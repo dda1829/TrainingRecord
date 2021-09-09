@@ -38,7 +38,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>When you adding the new item to the training formlist, this app may take your photo to use for it.</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>This App will track your crash information and the usage count to analyize this APP, please help me to allow it.</string>
+	<string>這個應用程式會收集您的個人資訊用以投放廣告，除此之外會收集您應用程式上的效能資料以及當機資料。</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>

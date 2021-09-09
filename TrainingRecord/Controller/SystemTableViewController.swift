@@ -30,16 +30,12 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     
     var dateRecord = ""
     
-    @objc func getmemberdatas(noti:Notification){
-        memberDatas = noti.userInfo as? [String:Any]
-        print(memberDatas!)
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         if let a = UserDefaults.standard.string(forKey: "userName")  {
             userTextLabel = a + " 您好,點此加入會員！"
         }
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
         trainUnitSettoKg = UserDefaults.standard.bool(forKey: "trainUnitSet")
         isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
         trainingGoals = ["體脂降低10％","肌肉重量增加\(trainUnitSettoKg ? "1 Kg" : "2.2 lb")","基礎代謝率增加200大卡"]
@@ -74,7 +70,6 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
         self.navigationController?.pushViewController(vc!,animated: true)
         
     }
-    
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)

@@ -14,7 +14,6 @@ class SharedTableViewCell: UITableViewCell {
     }
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subTitleLabel: UILabel!
-    @IBOutlet weak var rateLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = .none

@@ -17,10 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ck-Y7-o15">
-                        <rect key="frame" x="7" y="7" width="167" height="50"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="50" id="kCh-eD-zEs"/>
-                        </constraints>
+                        <rect key="frame" x="7" y="7" width="167" height="86"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -34,29 +31,19 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sj5-NW-tRx">
-                        <rect key="frame" x="7" y="57" width="167" height="36"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="6ck-Y7-o15" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="0qz-GT-5mt"/>
-                    <constraint firstAttribute="bottom" secondItem="sj5-NW-tRx" secondAttribute="bottom" constant="7" id="0vd-81-BHN"/>
-                    <constraint firstItem="PZ6-Gx-Cas" firstAttribute="leading" secondItem="sj5-NW-tRx" secondAttribute="trailing" id="BR9-kY-K0I"/>
+                    <constraint firstAttribute="bottom" secondItem="6ck-Y7-o15" secondAttribute="bottom" constant="7" id="BcS-Id-q40"/>
                     <constraint firstItem="6ck-Y7-o15" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="7" id="CKT-OW-ZY2"/>
                     <constraint firstAttribute="trailing" secondItem="PZ6-Gx-Cas" secondAttribute="trailing" constant="7" id="Cu9-Cf-hcp"/>
                     <constraint firstItem="PZ6-Gx-Cas" firstAttribute="leading" secondItem="6ck-Y7-o15" secondAttribute="trailing" id="F3g-k3-oEL"/>
                     <constraint firstItem="PZ6-Gx-Cas" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="GRW-No-Dnk"/>
                     <constraint firstAttribute="bottom" secondItem="PZ6-Gx-Cas" secondAttribute="bottom" constant="7" id="Z2z-Q7-uRN"/>
-                    <constraint firstItem="sj5-NW-tRx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="7" id="sap-GW-uDR"/>
-                    <constraint firstItem="sj5-NW-tRx" firstAttribute="top" secondItem="6ck-Y7-o15" secondAttribute="bottom" id="xdi-wC-JsC"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="rateLabel" destination="sj5-NW-tRx" id="ZUl-xM-Mra"/>
                 <outlet property="subTitleLabel" destination="PZ6-Gx-Cas" id="avv-Of-Wq5"/>
                 <outlet property="titleLabel" destination="6ck-Y7-o15" id="iSK-zF-tgO"/>
             </connections>

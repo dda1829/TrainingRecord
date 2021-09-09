@@ -11,7 +11,7 @@ class MemberAlreadyLoginViewController: UIViewController {
     var userName: String?
     @IBOutlet weak var LogedinTV: UILabel!
     @objc func backToSysBtn (){
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemPage") as? SystemTableViewController
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
         self.navigationController?.pushViewController(vc!,animated: true)
         
     }
@@ -112,7 +112,7 @@ class MemberAlreadyLoginViewController: UIViewController {
             UserDefaults.standard.removeObject(forKey: "userName")
             UserDefaults.standard.removeObject(forKey: "userGoal")
             UserDefaults.standard.removeObject(forKey: "isMemberDataEdited")
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemPage") as? SystemTableViewController
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
             self.navigationController?.pushViewController(vc!,animated: true)
           }
         }
@@ -128,7 +128,7 @@ class MemberAlreadyLoginViewController: UIViewController {
             try Auth.auth().signOut()
             MemberUserDataToFirestore.share.initialUserdata()
             UserDefaults.standard.removeObject(forKey: "isMemberDataEdited")
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemPage") as? SystemTableViewController
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
             self.navigationController?.pushViewController(vc!,animated: true)
         } catch {
             print(error)

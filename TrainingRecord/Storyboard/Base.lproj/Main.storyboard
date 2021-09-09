@@ -69,7 +69,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="HomePage" id="BYZ-38-t0r" customClass="TrainRecordHomeVC" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -131,7 +131,7 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="526-R8-ls2"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="PhK-LU-lOL"/>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L8D-YQ-MoI">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L8D-YQ-MoI">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items/>
@@ -449,6 +449,7 @@
                     <connections>
                         <outlet property="RecodListTV" destination="wSV-QQ-Kr0" id="RM7-pZ-JII"/>
                         <outlet property="dateRecordTitleBtn" destination="4b5-81-Vln" id="r4m-Ms-ja8"/>
+                        <outlet property="shareBtn" destination="3P4-vo-7OZ" id="sne-41-ffP"/>
                         <outlet property="userReportLeft" destination="woN-im-EZk" id="qk7-9g-hwK"/>
                         <outlet property="userReportRight" destination="6U1-dR-DzF" id="Gmj-iH-iqk"/>
                     </connections>
@@ -1117,7 +1118,7 @@
                             <outlet property="delegate" destination="yTY-uG-Rg3" id="HXA-5F-Fbl"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="系統列表" id="DPr-Q7-TCr"/>
+                    <navigationItem key="navigationItem" title="系統列表" leftItemsSupplementBackButton="YES" id="DPr-Q7-TCr"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rzb-gY-6VY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

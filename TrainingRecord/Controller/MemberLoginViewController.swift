@@ -56,7 +56,7 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate {
                             if self.userName != nil {
                                 zz = true
                             }
-                            DispatchQueue.main.sync {
+                            DispatchQueue.main.async {
                                 if zz {
                                     MemberUserDataToFirestore.share.loadUserdatas()
                                     mbProgress(true)

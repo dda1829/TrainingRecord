@@ -120,16 +120,16 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
             userRecordDate = MemberUserDataToFirestore.share.getUserdatas("userRecordDate") as! [String]
         }
         
-//        if MemberUserDataToFirestore.share.checkAge(){
-//            userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as? String
-//            userGender = MemberUserDataToFirestore.share.getUserdatas("userGender") as? String
-//            if userGender == "male"{
-//                sexualAgePV.selectRow(1, inComponent: 0, animated: true)
-//            } else if userGender == "female"{
-//                sexualAgePV.selectRow(2, inComponent: 0, animated: true)
-//            }
-//            sexualAgePV.selectRow(Int(userAge!)! - 14, inComponent: 1, animated: true)
-//        }
+        if MemberUserDataToFirestore.share.checkAge(){
+            userAge = MemberUserDataToFirestore.share.getUserdatas("userAge") as? String
+            userGender = MemberUserDataToFirestore.share.getUserdatas("userGender") as? String
+            if userGender == "male"{
+                sexualAgePV.selectRow(1, inComponent: 0, animated: true)
+            } else if userGender == "female"{
+                sexualAgePV.selectRow(2, inComponent: 0, animated: true)
+            }
+            sexualAgePV.selectRow(Int(userAge!)! - 14, inComponent: 1, animated: true)
+        }
         
     }
     @objc func backToSysBtn (){
@@ -141,14 +141,10 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         self.view.endEditing(true)
     }
     @IBAction func setTargetBtnPressed(_ sender: Any) {
-        let nowDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
+        let nowDate = Date().timeIntervalSinceNow
         
-        userRecordDate.append(dateFormatter.string(from: nowDate))
-        MemberUserDataToFirestore.share.updateUserdata("userRecordDate", userRecordDate)
+        userRecordDate.append("\(nowDate)")
+        MemberUserDataToFirestore.share.updateUserdata("userRecordTime", userRecordDate)
         let noInput = "NoData"
         if targetTextField.text != "" {
             userGoals.append(targetTextField.text!)

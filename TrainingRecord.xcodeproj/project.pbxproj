@@ -18,8 +18,6 @@
 		DC52D03C26E84ADC00E13DB3 /* UIViewCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52D03B26E84ADC00E13DB3 /* UIViewCapture.swift */; };
 		DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */; };
 		DC62BC1926A806F700B245F6 /* InfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */; };
-		DC6B6A1326D8BDB8000AFBE3 /* SharedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6B6A1126D8BDB8000AFBE3 /* SharedTableViewCell.swift */; };
-		DC6B6A1426D8BDB8000AFBE3 /* SharedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC6B6A1226D8BDB8000AFBE3 /* SharedTableViewCell.xib */; };
 		DC7D8870266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */; };
 		DC94415126A424E500A4A3ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC94415026A424E500A4A3ED /* GoogleService-Info.plist */; };
 		DC96E66726B927AB003AD4CD /* MemberSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96E66626B927AB003AD4CD /* MemberSignUpViewController.swift */; };
@@ -44,6 +42,8 @@
 		DCEC8ED826C00A5F003CC74A /* ShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCEC8ED626C00A5F003CC74A /* ShareTableViewCell.xib */; };
 		DCF0A8F626DCC406000CB0E1 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF0A8F526DCC406000CB0E1 /* UIImageExtension.swift */; };
 		DCF123AE2655011F00CB9307 /* NewTrainingItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF123AD2655011F00CB9307 /* NewTrainingItemViewController.swift */; };
+		DCF82A0D26E9E67B009E74BD /* SharedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCF82A0B26E9E679009E74BD /* SharedTableViewCell.xib */; };
+		DCF82A0E26E9E67B009E74BD /* SharedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF82A0C26E9E67B009E74BD /* SharedTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,8 +65,6 @@
 		DC52D03B26E84ADC00E13DB3 /* UIViewCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewCapture.swift; sourceTree = "<group>"; };
 		DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTableViewController.swift; sourceTree = "<group>"; };
 		DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewController.swift; sourceTree = "<group>"; };
-		DC6B6A1126D8BDB8000AFBE3 /* SharedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTableViewCell.swift; sourceTree = "<group>"; };
-		DC6B6A1226D8BDB8000AFBE3 /* SharedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SharedTableViewCell.xib; sourceTree = "<group>"; };
 		DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrainingItem+InfoitemForFireStore.swift"; sourceTree = "<group>"; };
 		DC94415026A424E500A4A3ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DC96E66626B927AB003AD4CD /* MemberSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSignUpViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +89,8 @@
 		DCEC8ED626C00A5F003CC74A /* ShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareTableViewCell.xib; sourceTree = "<group>"; };
 		DCF0A8F526DCC406000CB0E1 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		DCF123AD2655011F00CB9307 /* NewTrainingItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrainingItemViewController.swift; sourceTree = "<group>"; };
+		DCF82A0B26E9E679009E74BD /* SharedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SharedTableViewCell.xib; sourceTree = "<group>"; };
+		DCF82A0C26E9E67B009E74BD /* SharedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,8 +217,8 @@
 		DCF0A8F326DCC297000CB0E1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DC6B6A1126D8BDB8000AFBE3 /* SharedTableViewCell.swift */,
-				DC6B6A1226D8BDB8000AFBE3 /* SharedTableViewCell.xib */,
+				DCF82A0C26E9E67B009E74BD /* SharedTableViewCell.swift */,
+				DCF82A0B26E9E679009E74BD /* SharedTableViewCell.xib */,
 				DCEC8ED526C00A5F003CC74A /* ShareTableViewCell.swift */,
 				DCEC8ED626C00A5F003CC74A /* ShareTableViewCell.xib */,
 			);
@@ -301,7 +301,7 @@
 				DCC2AF8C26C50D4C00087FA6 /* BeepPrepare.m4a in Resources */,
 				DCC2AF8B26C50D4C00087FA6 /* Radar.mp3 in Resources */,
 				DCEC8ED826C00A5F003CC74A /* ShareTableViewCell.xib in Resources */,
-				DC6B6A1426D8BDB8000AFBE3 /* SharedTableViewCell.xib in Resources */,
+				DCF82A0D26E9E67B009E74BD /* SharedTableViewCell.xib in Resources */,
 				DC94415126A424E500A4A3ED /* GoogleService-Info.plist in Resources */,
 				DC491B3A26E78E1D001CB228 /* Assets.xcassets in Resources */,
 				DCC7D14226529D290040DFA8 /* Main.storyboard in Resources */,
@@ -390,6 +390,7 @@
 				DCA9E34526D60E4100964F02 /* EditTrainingItemViewController.swift in Sources */,
 				DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */,
 				DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */,
+				DCF82A0E26E9E67B009E74BD /* SharedTableViewCell.swift in Sources */,
 				DC96E66D26BAC652003AD4CD /* SystemMemberViewController.swift in Sources */,
 				DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */,
 				DCC7D14526529D290040DFA8 /* TrainingRecord.xcdatamodeld in Sources */,
@@ -401,7 +402,6 @@
 				DC00C5DF2685DFAF00161DBA /* Timer.swift in Sources */,
 				DC96E66726B927AB003AD4CD /* MemberSignUpViewController.swift in Sources */,
 				DCEC8ED426BFBAC8003CC74A /* ShareViewController.swift in Sources */,
-				DC6B6A1326D8BDB8000AFBE3 /* SharedTableViewCell.swift in Sources */,
 				DCF0A8F626DCC406000CB0E1 /* UIImageExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,7 +554,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = TrainingRecord/TrainingRecord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6W5M45K45X;
 				INFOPLIST_FILE = TrainingRecord/Info.plist;
@@ -562,7 +562,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "ST-Chiou.TrainingRecord";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TrainingRecord/Model/TrainingRecord-Bridging-Header.h";
@@ -582,7 +582,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = TrainingRecord/TrainingRecord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6W5M45K45X;
 				INFOPLIST_FILE = TrainingRecord/Info.plist;
@@ -590,7 +590,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "ST-Chiou.TrainingRecord";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TrainingRecord/Model/TrainingRecord-Bridging-Header.h";

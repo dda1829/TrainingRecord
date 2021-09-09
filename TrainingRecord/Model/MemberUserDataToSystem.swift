@@ -9,7 +9,7 @@ import Foundation
 
 class MemberUserDataToFirestore {
     static var share = MemberUserDataToFirestore()
-    private let memberDatasDefault: [String:Any] =  ["userGoal":[],"userTrainingLog":"","userBMI":[], "userBodyFat":[], "userAge":"", "userGender":"","userRecordDate":[],"userHeight":[],"userWeight":[],"userBMR":[]          ]
+    private let memberDatasDefault: [String:Any] =  ["userGoal":[],"userTrainingLog":"","userBMI":[], "userBodyFat":[], "userAge":"", "userGender":"","userRecordTime":[],"userHeight":[],"userWeight":[],"userBMR":[]          ]
     private var memberDatas: [String:Any] =  [:]
     private let db = Firestore.firestore()
     private var accountDatas: [String:String] = [:]
@@ -21,51 +21,20 @@ class MemberUserDataToFirestore {
     func checkAge() -> Bool{
         
         if (memberDatas["userAge"] as! String) != ""  {
-            let nowDate = Date()
-            let dateFormatter = DateFormatter()
-            dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
-            dateFormatter.dateStyle = .medium
-            dateFormatter.timeStyle = .none
-            let nowdate = dateFormatter.string(from: nowDate).split(separator: " ")
-            let recordate = (memberDatas["userRecordDate"]as! [String]).first!.split(separator: " ")
-            let yearDifference = Int(nowdate[2])! - Int(recordate[2])!
-            var dayDifference : Int?
-            var monthDifference : Int?
-            if yearDifference >= 1 {
-                 monthDifference = monthCaculate(String(nowdate[0])) - monthCaculate(String(recordate[0]))
-                if monthDifference! >= 0 {
-                    var datenow = nowdate[1].map(String.init)
-                    var daterecord = recordate[1].map(String.init)
-                    datenow.removeLast()
-                    daterecord.removeLast()
-                    var nowaday = ""
-                    var recordaday = ""
-                    for x in datenow{
-                        nowaday += x
-                    }
-                    for x in daterecord{
-                        recordaday += x
-                    }
-                    dayDifference = Int(nowaday)!-Int(recordaday)!
-//                    print(dayDifference)
-                }
-            }
-            var nowAge = Int(memberDatas["userAge"] as! String)
-            if let month = monthDifference {
-                if month < 0 {
-                    nowAge = Int(memberDatas["userAge"] as! String)! + yearDifference - 1
-                } else if month == 0{
-                    if let day = dayDifference, day >= 0 {
-                        nowAge = Int(memberDatas["userAge"] as! String)! + yearDifference - 1
-                    }else {
-                        nowAge = Int(memberDatas["userAge"] as! String)! + yearDifference
-                    }
-                }else{
-                    nowAge = Int(memberDatas["userAge"] as! String)! + yearDifference
-                }
-            updateUserdata("userAge", "\(nowAge!)")
-            }
+            let nowTime = Date().timeIntervalSinceNow
+            let recordTime = (memberDatas["userRecordTime"]as! [String]).first
+            let timeDifference = Int(nowTime) - Int(recordTime!)!
             
+            var gapYearOld = timeDifference/(60*60*24*365)
+            var yearDifference = 0
+            while gapYearOld >= 1{
+                gapYearOld -= 1
+                yearDifference += 1
+            }
+            if yearDifference > 0 {
+                let nowAge = String(Int((memberDatas["userAge"] as! String))! + yearDifference)
+                updateUserdata(nowAge, "userAge")
+            }
             return true
         }
         return false

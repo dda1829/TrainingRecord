@@ -7,13 +7,13 @@
 import UIKit
 import CoreData
 import Firebase
-//import GoogleMobileAds
+import GoogleMobileAds
 import AppTrackingTransparency
-//import AdSupport
+import AdSupport
 
 
-//class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate, GADBannerViewDelegate{
-class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate{
+class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate, GADBannerViewDelegate{
+//class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate{
     
     // MARK: For Introduce Picture
     let fullScreenSize = UIScreen.main.bounds.size
@@ -138,7 +138,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var infodataUserName: [String] = []
     var infodataEmail: [String] = []
     var beforeinfodatainside : [String] = []
-    //    var bannerView: GADBannerView!
+        var bannerView: GADBannerView!
     
     //MARK: Member parameters
     var trainingGoal : String?
@@ -1024,17 +1024,18 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
         ATTrackingManager.requestTrackingAuthorization { status in
-            ////
-            ////                    DispatchQueue.main.async {
-            ////                        self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-            ////                        self.bannerView?.translatesAutoresizingMaskIntoConstraints = false
-            ////                        self.bannerView?.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
-            ////                        //ca-app-pub-3940256099942544/2934735716
-            ////                        self.bannerView?.rootViewController = self
-            ////                        self.bannerView?.delegate = self
-            ////                        self.bannerView?.load(GADRequest())
-            ////
-            ////                    }
+            DispatchQueue.main.async {
+                self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+                self.bannerView.translatesAutoresizingMaskIntoConstraints = false
+                self.bannerView.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
+//                                    "ca-app-pub-8982946958697547/5526736499"
+                //ca-app-pub-3940256099942544/2934735716
+                self.bannerView.rootViewController = self
+                self.bannerView.delegate = self
+                self.bannerView.load(GADRequest())
+            }
+                                    
+
         }
         
         // Check the System Mode
@@ -1070,7 +1071,11 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         ToolBar.setItems([restbarbtn,flexible,adjusttrainingparameters,flexible, trainstartbarbtn,flexible,trainreportbarbtn,flexible,traindatebarbtn], animated: false)
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        loadFromFile()
+        RecordListTV.reloadData()
+    }
     @objc func trainingParametersChange(){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ManageTrainSetPage") as? ManageTrainSetVC
         vc?.trainLS = trainLS
@@ -1352,6 +1357,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             //把資料轉成[Note]
             if let arrayData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? RecordItem{
                 self.todayItem = arrayData//轉成功就放到self.data裏
+            }else{
+                print("wrong")
             }
         } catch  {
             print("error while fetching data array \(error)")
@@ -2013,27 +2020,31 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
     }
     // MARK:GADBannerViewDelegate
-    //    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-    //
-    //        self.RecordListTV.tableHeaderView = bannerView
-    //        //        if bannerView.superview == nil {
-    //        //            //第一次廣告進來
-    //        //            self.view.addSubview(bannerView)
-    //        //            self.RecordListTV.topAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>) //關閉tableview上緣的條件
-    //        //            //廣告上緣貼齊safearea的上緣
-    //        //            bannerView.topAnchor.constraint(equalTo: self.RecordListTV.safeAreaLayoutGuide.topAnchor).isActive = true
-    //        //            //廣告下緣貼齊tableView的上緣
-    //        ////            bannerView.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor).isActive = true
-    //        //            //廣告左右緣貼齊self.view的左右
-    //        //            bannerView.rightAnchor.constraint(equalTo: self.RecordListTV.rightAnchor).isActive = true
-    //        //            bannerView.leftAnchor.constraint(equalTo: self.RecordListTV.leftAnchor).isActive = true
-    //        //
-    //        //        }
-    //
-    //    }
-    //    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-    //        print(error)
-    //    }
+        func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+            let adSize = GADAdSizeFromCGSize(CGSize(width: 323, height: 20))
+
+            if bannerView.superview == nil && Auth.auth().currentUser == nil {
+                            self.RecordListTV.tableHeaderView = bannerView
+                        //第一次廣告進來
+//                        self.view.addSubview(bannerView)
+                        //關閉tableview上緣的條件
+                        //廣告上緣貼齊safearea的上緣
+//                        RecordListTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = false
+//                        bannerView.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor,constant: 30).isActive = true
+//                        //廣告下緣貼齊tableView的上緣
+//                        bannerView.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor).isActive = true
+//                        //廣告左右緣貼齊self.view的左右
+//                        bannerView.rightAnchor.constraint(equalTo: self.RecordListTV.rightAnchor,constant: 16).isActive = true
+//                        bannerView.leftAnchor.constraint(equalTo: self.RecordListTV.leftAnchor,constant: 16).isActive = true
+//                RecordListTV.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor, constant: 0).isActive = true
+//                        bannerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+                    }
+
+        }
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+      print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
     
 }
 
