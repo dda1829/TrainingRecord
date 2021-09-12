@@ -1027,7 +1027,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             DispatchQueue.main.async {
                 self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
                 self.bannerView.translatesAutoresizingMaskIntoConstraints = false
-                self.bannerView.adUnitID = "ca-app-pub-8982946958697547/7950255289"//廣告編號
+                self.bannerView.adUnitID = "ca-app-pub-8982946958697547/5526736499"//廣告編號
 //                                    "ca-app-pub-8982946958697547/5526736499"
                 //ca-app-pub-3940256099942544/2934735716
                 self.bannerView.rootViewController = self

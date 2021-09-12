@@ -15,7 +15,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     var userPhoto: UIImage?
     var trainUnitSettoKg = true
     var trainUnit = "Kg"
-    var memberFunctionForm : [String] = ["設定會員資料","編輯器材資訊","設定預備時間"]
+    var memberFunctionForm : [String] = ["設定會員資料","編輯器材資訊","設定預備時間","運動提醒"]
     //    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","修改訓練項目位置"]
     var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目"]
     var trainingParameters: [String] = ["重量單位","紀錄模式"]
@@ -188,6 +188,11 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.textLabel?.textColor = .white
+                    }else if indexPath.row == 3{
+                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row]
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
                     }
                 }else {
                     if indexPath.row == 1 {
@@ -222,6 +227,11 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         cell.detailTextLabel?.text = "\(prepareTime)"
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                    }else if indexPath.row == 5{
+                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 3]
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.textLabel?.textColor = .white
                     }
                 }
@@ -387,6 +397,10 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         }
                         UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
                         UserDefaults.standard.synchronize()
+                    }else if indexPath.row == 5{
+                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "RemainderPage") as? TrainingReminderViewController{
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
                     }
                 }else{
                     if indexPath.section == 2 && indexPath.row == 2{
@@ -396,6 +410,10 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         }
                         UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
                         UserDefaults.standard.synchronize()
+                    }else if indexPath.row == 3 {
+                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "RemainderPage") as? TrainingReminderViewController{
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
                     }
                 }
             }

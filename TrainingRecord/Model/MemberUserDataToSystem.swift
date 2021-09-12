@@ -22,8 +22,8 @@ class MemberUserDataToFirestore {
         
         if (memberDatas["userAge"] as! String) != ""  {
             let nowTime = Date().timeIntervalSinceNow
-            let recordTime = (memberDatas["userRecordTime"]as! [String]).first
-            let timeDifference = Int(nowTime) - Int(recordTime!)!
+            let recordTime = (memberDatas["userRecordTime"] as! [String]).first
+            let timeDifference = nowTime - Double(recordTime!)!
             
             var gapYearOld = timeDifference/(60*60*24*365)
             var yearDifference = 0

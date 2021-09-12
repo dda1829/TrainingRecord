@@ -186,7 +186,7 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
                         Auth.auth().currentUser?.sendEmailVerification { error in
                         }
                         print(Auth.auth().currentUser?.isEmailVerified)
-                        let alertController = UIAlertController(title: "請收取驗證信！", message: "請至您已填寫的信箱，收取驗證信，感謝。", preferredStyle: .alert)
+                        let alertController = UIAlertController(title: "請收取驗證信！", message: "請至您已填寫的信箱，收取驗證信，驗證過後即可正常登入，感謝。", preferredStyle: .alert)
 
                         let defaultAction = UIAlertAction(title: "OK", style: .default) { (action) -> Void in
                             self.mbProgress(true)

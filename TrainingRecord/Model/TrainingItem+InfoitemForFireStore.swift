@@ -39,13 +39,3 @@ class InfoItemForFireStore {
     }
 }
 
-class userData{
-    var userID: String?
-    var userGoal: String?
-    var userTrainingLog: String?
-    var userBodyFat: String?
-    var userBMI: String?
-    init(){
-        
-    }
-}

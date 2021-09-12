@@ -116,8 +116,8 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
 //        if (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]).count != 0 {
 //            userBMR = MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]
 //        }
-        if (MemberUserDataToFirestore.share.getUserdatas("userRecordDate") as! [String]).count != 0 {
-            userRecordDate = MemberUserDataToFirestore.share.getUserdatas("userRecordDate") as! [String]
+        if (MemberUserDataToFirestore.share.getUserdatas("userRecordTime") as! [String]).count != 0 {
+            userRecordDate = MemberUserDataToFirestore.share.getUserdatas("userRecordTime") as! [String]
         }
         
         if MemberUserDataToFirestore.share.checkAge(){
@@ -133,8 +133,10 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         
     }
     @objc func backToSysBtn (){
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemPage") as? SystemTableViewController
-        self.navigationController?.pushViewController(vc!,animated: true)
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
+            self.navigationController?.pushViewController(vc!,animated: true)
+            
+        
         
     }
     @objc func dismissKeyboard() {

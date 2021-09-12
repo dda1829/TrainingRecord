@@ -12,10 +12,12 @@
 		DC0D7A1E26E33DEA0067761D /* CVCCalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0D7A1D26E33DEA0067761D /* CVCCalenderViewController.swift */; };
 		DC2276A4267F273C00D0EEF6 /* ManageTrainSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */; };
 		DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */; };
+		DC3B65CE26ECB7E600920590 /* UserNotificationWithCalendarTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */; };
 		DC4169A426D2417700BFB4CB /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4169A326D2417700BFB4CB /* StringExtension.swift */; };
 		DC42096C26DE036F00518879 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DC42096B26DE036F00518879 /* MBProgressHUD.m */; };
 		DC491B3A26E78E1D001CB228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC491B3926E78E1D001CB228 /* Assets.xcassets */; };
 		DC52D03C26E84ADC00E13DB3 /* UIViewCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52D03B26E84ADC00E13DB3 /* UIViewCapture.swift */; };
+		DC5E7E9726EB2ACB008E1797 /* TrainingReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5E7E9626EB2ACB008E1797 /* TrainingReminderViewController.swift */; };
 		DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */; };
 		DC62BC1926A806F700B245F6 /* InfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */; };
 		DC7D8870266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */; };
@@ -54,6 +56,7 @@
 		DC0D7A1D26E33DEA0067761D /* CVCCalenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVCCalenderViewController.swift; sourceTree = "<group>"; };
 		DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTrainSetVC.swift; sourceTree = "<group>"; };
 		DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordItem.swift; sourceTree = "<group>"; };
+		DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationWithCalendarTrigger.swift; sourceTree = "<group>"; };
 		DC4169A326D2417700BFB4CB /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrainingRecord-Bridging-Header.h"; sourceTree = "<group>"; };
 		DC42096A26DE036E00518879 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
@@ -63,6 +66,7 @@
 		DC491B3926E78E1D001CB228 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC4BA03F26E578F400C598DF /* TrainingRecord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrainingRecord.entitlements; sourceTree = "<group>"; };
 		DC52D03B26E84ADC00E13DB3 /* UIViewCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewCapture.swift; sourceTree = "<group>"; };
+		DC5E7E9626EB2ACB008E1797 /* TrainingReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingReminderViewController.swift; sourceTree = "<group>"; };
 		DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTableViewController.swift; sourceTree = "<group>"; };
 		DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewController.swift; sourceTree = "<group>"; };
 		DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrainingItem+InfoitemForFireStore.swift"; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 				DCF123AD2655011F00CB9307 /* NewTrainingItemViewController.swift */,
 				DC96E66826B929F8003AD4CD /* MemberAlreadyLoginViewController.swift */,
 				DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */,
+				DC5E7E9626EB2ACB008E1797 /* TrainingReminderViewController.swift */,
 				DC96E66626B927AB003AD4CD /* MemberSignUpViewController.swift */,
 				DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */,
 				DCA9E34226D60E1B00964F02 /* RemoveTrainingItemViewController.swift */,
@@ -157,6 +162,7 @@
 				DC42096A26DE036E00518879 /* MBProgressHUD.h */,
 				DC42096B26DE036F00518879 /* MBProgressHUD.m */,
 				DCC7D14326529D290040DFA8 /* TrainingRecord.xcdatamodeld */,
+				DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */,
 				DC00C5DE2685DFAF00161DBA /* Timer.swift */,
 				DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */,
 				DC491B3926E78E1D001CB228 /* Assets.xcassets */,
@@ -391,7 +397,9 @@
 				DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */,
 				DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */,
 				DCF82A0E26E9E67B009E74BD /* SharedTableViewCell.swift in Sources */,
+				DC3B65CE26ECB7E600920590 /* UserNotificationWithCalendarTrigger.swift in Sources */,
 				DC96E66D26BAC652003AD4CD /* SystemMemberViewController.swift in Sources */,
+				DC5E7E9726EB2ACB008E1797 /* TrainingReminderViewController.swift in Sources */,
 				DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */,
 				DCC7D14526529D290040DFA8 /* TrainingRecord.xcdatamodeld in Sources */,
 				DCC7D13D26529D290040DFA8 /* SceneDelegate.swift in Sources */,
@@ -554,7 +562,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = TrainingRecord/TrainingRecord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6W5M45K45X;
 				INFOPLIST_FILE = TrainingRecord/Info.plist;
@@ -562,7 +570,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "ST-Chiou.TrainingRecord";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TrainingRecord/Model/TrainingRecord-Bridging-Header.h";
@@ -582,7 +590,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = TrainingRecord/TrainingRecord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6W5M45K45X;
 				INFOPLIST_FILE = TrainingRecord/Info.plist;
@@ -590,7 +598,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "ST-Chiou.TrainingRecord";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TrainingRecord/Model/TrainingRecord-Bridging-Header.h";
