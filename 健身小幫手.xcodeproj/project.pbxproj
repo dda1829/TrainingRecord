@@ -13,6 +13,7 @@
 		DC2276A4267F273C00D0EEF6 /* ManageTrainSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */; };
 		DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */; };
 		DC3B65CE26ECB7E600920590 /* UserNotificationWithCalendarTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */; };
+		DC3D5BB626F18BAF00D10433 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3D5BB526F18BAF00D10433 /* CoreDataHelper.swift */; };
 		DC4169A426D2417700BFB4CB /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4169A326D2417700BFB4CB /* StringExtension.swift */; };
 		DC42096C26DE036F00518879 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DC42096B26DE036F00518879 /* MBProgressHUD.m */; };
 		DC491B3A26E78E1D001CB228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC491B3926E78E1D001CB228 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 		DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */; };
 		DC62BC1926A806F700B245F6 /* InfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */; };
 		DC7D8870266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */; };
+		DC7F813C26F0F53B00439D0F /* ManageTrainingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7F813B26F0F53B00439D0F /* ManageTrainingItem.swift */; };
 		DC94415126A424E500A4A3ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC94415026A424E500A4A3ED /* GoogleService-Info.plist */; };
 		DC96E66726B927AB003AD4CD /* MemberSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96E66626B927AB003AD4CD /* MemberSignUpViewController.swift */; };
 		DC96E66926B929F8003AD4CD /* MemberAlreadyLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC96E66826B929F8003AD4CD /* MemberAlreadyLoginViewController.swift */; };
@@ -57,6 +59,9 @@
 		DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTrainSetVC.swift; sourceTree = "<group>"; };
 		DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordItem.swift; sourceTree = "<group>"; };
 		DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationWithCalendarTrigger.swift; sourceTree = "<group>"; };
+		DC3C59FB26EE1C9A00ED444A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		DC3C59FC26EE1CA700ED444A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		DC3D5BB526F18BAF00D10433 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataHelper.swift; path = ../../../../EEElecture/UIKit/MAPD35/NoteApp3copy/NoteApp/Model/CoreDataHelper.swift; sourceTree = "<group>"; };
 		DC4169A326D2417700BFB4CB /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrainingRecord-Bridging-Header.h"; sourceTree = "<group>"; };
 		DC42096A26DE036E00518879 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
@@ -70,6 +75,7 @@
 		DC62BC1626A806CD00B245F6 /* SystemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTableViewController.swift; sourceTree = "<group>"; };
 		DC62BC1826A806F700B245F6 /* InfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewController.swift; sourceTree = "<group>"; };
 		DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrainingItem+InfoitemForFireStore.swift"; sourceTree = "<group>"; };
+		DC7F813B26F0F53B00439D0F /* ManageTrainingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTrainingItem.swift; sourceTree = "<group>"; };
 		DC94415026A424E500A4A3ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DC96E66626B927AB003AD4CD /* MemberSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSignUpViewController.swift; sourceTree = "<group>"; };
 		DC96E66826B929F8003AD4CD /* MemberAlreadyLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAlreadyLoginViewController.swift; sourceTree = "<group>"; };
@@ -82,7 +88,7 @@
 		DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Radar.mp3; sourceTree = "<group>"; };
 		DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepPrepare.m4a; sourceTree = "<group>"; };
 		DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.swift; sourceTree = "<group>"; };
-		DCC7D13726529D290040DFA8 /* TrainingRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCC7D13726529D290040DFA8 /* 健身小幫手.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "健身小幫手.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCC7D13A26529D290040DFA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainRecordHomeVC.swift; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 		DCA1C0B826635F8600D3A687 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DC3D5BB526F18BAF00D10433 /* CoreDataHelper.swift */,
 				DC42096A26DE036E00518879 /* MBProgressHUD.h */,
 				DC42096B26DE036F00518879 /* MBProgressHUD.m */,
 				DCC7D14326529D290040DFA8 /* TrainingRecord.xcdatamodeld */,
@@ -170,6 +177,7 @@
 				DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */,
 				DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */,
 				DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */,
+				DC7F813B26F0F53B00439D0F /* ManageTrainingItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -197,7 +205,7 @@
 		DCC7D13826529D290040DFA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DCC7D13726529D290040DFA8 /* TrainingRecord.app */,
+				DCC7D13726529D290040DFA8 /* 健身小幫手.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -244,9 +252,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DCC7D13626529D290040DFA8 /* TrainingRecord */ = {
+		DCC7D13626529D290040DFA8 /* 健身小幫手 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCC7D14E26529D2C0040DFA8 /* Build configuration list for PBXNativeTarget "TrainingRecord" */;
+			buildConfigurationList = DCC7D14E26529D2C0040DFA8 /* Build configuration list for PBXNativeTarget "健身小幫手" */;
 			buildPhases = (
 				69492BBD4DA989666972853B /* [CP] Check Pods Manifest.lock */,
 				DCC7D13326529D290040DFA8 /* Sources */,
@@ -259,9 +267,9 @@
 			);
 			dependencies = (
 			);
-			name = TrainingRecord;
+			name = "健身小幫手";
 			productName = TrainingRecord;
-			productReference = DCC7D13726529D290040DFA8 /* TrainingRecord.app */;
+			productReference = DCC7D13726529D290040DFA8 /* 健身小幫手.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -279,20 +287,21 @@
 					};
 				};
 			};
-			buildConfigurationList = DCC7D13226529D290040DFA8 /* Build configuration list for PBXProject "TrainingRecord" */;
+			buildConfigurationList = DCC7D13226529D290040DFA8 /* Build configuration list for PBXProject "健身小幫手" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = DCC7D12E26529D290040DFA8;
 			productRefGroup = DCC7D13826529D290040DFA8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DCC7D13626529D290040DFA8 /* TrainingRecord */,
+				DCC7D13626529D290040DFA8 /* 健身小幫手 */,
 			);
 		};
 /* End PBXProject section */
@@ -403,12 +412,14 @@
 				DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */,
 				DCC7D14526529D290040DFA8 /* TrainingRecord.xcdatamodeld in Sources */,
 				DCC7D13D26529D290040DFA8 /* SceneDelegate.swift in Sources */,
+				DC7F813C26F0F53B00439D0F /* ManageTrainingItem.swift in Sources */,
 				DCA9913D26BBE71900C08E5D /* MemberUserDataToSystem.swift in Sources */,
 				DC42096C26DE036F00518879 /* MBProgressHUD.m in Sources */,
 				DC62BC1926A806F700B245F6 /* InfoTableViewController.swift in Sources */,
 				DCF123AE2655011F00CB9307 /* NewTrainingItemViewController.swift in Sources */,
 				DC00C5DF2685DFAF00161DBA /* Timer.swift in Sources */,
 				DC96E66726B927AB003AD4CD /* MemberSignUpViewController.swift in Sources */,
+				DC3D5BB626F18BAF00D10433 /* CoreDataHelper.swift in Sources */,
 				DCEC8ED426BFBAC8003CC74A /* ShareViewController.swift in Sources */,
 				DCF0A8F626DCC406000CB0E1 /* UIImageExtension.swift in Sources */,
 			);
@@ -421,6 +432,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				DC491B3726E7727D001CB228 /* Base */,
+				DC3C59FB26EE1C9A00ED444A /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -429,6 +441,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				DC491B3826E7727E001CB228 /* Base */,
+				DC3C59FC26EE1CA700ED444A /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -485,7 +498,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -542,7 +555,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -610,7 +623,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DCC7D13226529D290040DFA8 /* Build configuration list for PBXProject "TrainingRecord" */ = {
+		DCC7D13226529D290040DFA8 /* Build configuration list for PBXProject "健身小幫手" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCC7D14C26529D2C0040DFA8 /* Debug */,
@@ -619,7 +632,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DCC7D14E26529D2C0040DFA8 /* Build configuration list for PBXNativeTarget "TrainingRecord" */ = {
+		DCC7D14E26529D2C0040DFA8 /* Build configuration list for PBXNativeTarget "健身小幫手" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCC7D14F26529D2C0040DFA8 /* Debug */,

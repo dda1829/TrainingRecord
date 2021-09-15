@@ -21,6 +21,17 @@ class UserNotificationWithCalendarTriggerUse{
             index = reminderDatas.count
         }
     }
+    func checkAuthorization() -> Bool {
+        var result:Bool = false
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            if settings.authorizationStatus == .authorized {
+                result = true
+            }else if settings.authorizationStatus == .denied {
+                result = false
+            }
+        }
+        return result
+    }
     func setNotificationContent(Title title:String, Body body:String, Sound sound: UNNotificationSound?){
         content.title = title
         content.body = body
@@ -29,7 +40,7 @@ class UserNotificationWithCalendarTriggerUse{
     func setCalendarTrigger(Datecomponents datecomponents: DateComponents, isRepeated isrepeated: Bool){
         trigger = UNCalendarNotificationTrigger(dateMatching: datecomponents, repeats: isrepeated)
     }
-    func sendNotificationRequest(Identifier identifier:String){
+    func sendNotificationRequest(Identifier identifier:String, NotificationDate notificationdate: Date){
         let notificationRequest = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger as? UNCalendarNotificationTrigger)
         UNUserNotificationCenter.current().add(notificationRequest) { error in
             if let e = error {
@@ -37,7 +48,7 @@ class UserNotificationWithCalendarTriggerUse{
                 return
             }
         }
-        reminderData = ReminderItem((trigger as? UNCalendarNotificationTrigger)!, true, content,identifier,index)
+        reminderData = ReminderItem((trigger as? UNCalendarNotificationTrigger)!, true, content,identifier,index,notificationdate)
         reminderDatas.updateValue(reminderData!, forKey: identifier)
         writeToFile()
     }
@@ -75,8 +86,13 @@ class UserNotificationWithCalendarTriggerUse{
             reminderDatas.updateValue(reminderData!, forKey: identifier)
         }
         writeToFile()
-        
     }
+    
+    func returnReminderTime(Identifier identifier:String) -> Date{
+        return (reminderDatas[identifier]!.dateRemind)
+    }
+    
+    
     //MARK: Archiving
     func writeToFile()  {
         //
@@ -120,6 +136,7 @@ class ReminderItem: NSObject ,NSCoding{
         coder.encode(reminderContent,forKey: "reminderContent")
         coder.encode(identifyTitle,forKey: "identifyTitle")
         coder.encode(index,forKey: "index")
+        coder.encode(dateRemind,forKey: "dateRemind")
     }
     
     required init?(coder: NSCoder) {
@@ -128,18 +145,20 @@ class ReminderItem: NSObject ,NSCoding{
         reminderContent = coder.decodeObject(forKey: "reminderContent") as! UNMutableNotificationContent
         identifyTitle = coder.decodeObject(forKey: "identifyTitle") as! String
         index = coder.decodeInteger(forKey: "index")
+        dateRemind = coder.decodeObject(forKey: "dateRemind") as! Date
     }
-    
+    var dateRemind: Date
     var dateTrigger: UNCalendarNotificationTrigger
     var isReminderON: Bool
     var reminderContent: UNMutableNotificationContent
     var identifyTitle: String
     var index: Int
-    init(_ datetrigger: UNCalendarNotificationTrigger, _ isreminderon: Bool, _ remindercontent: UNMutableNotificationContent, _ identifytitle: String,_ indexk:Int) {
+    init(_ datetrigger: UNCalendarNotificationTrigger, _ isreminderon: Bool, _ remindercontent: UNMutableNotificationContent, _ identifytitle: String,_ indexk:Int, _ dateremind:Date) {
         dateTrigger = datetrigger
         isReminderON = isreminderon
         reminderContent = remindercontent
         identifyTitle = identifytitle
         index = indexk
+        dateRemind = dateremind
     }
 }

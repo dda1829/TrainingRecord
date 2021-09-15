@@ -510,10 +510,8 @@ class RemoveTrainingItemViewController: UIViewController, UIPickerViewDelegate, 
         removedTrainingTableView.delegate = self
         removedTrainingTableView.dataSource = self
         loadTheTrainList()
-//        trainingItemTableView.setEditing(true, animated: false)
     }
     
-
     func trainingItemCoreDataStore (_ selected: Int,_ imageurl: String,_ itemname: String,_ itemdef: String,_ itemid: Int ) {
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate){
             switch selected{

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Qrm-ha-7SA">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,7 +13,7 @@
         <!--更新資訊-->
         <scene sceneID="1vW-9I-q5y">
             <objects>
-                <viewController id="bx1-ah-1DP" customClass="InfoTableViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bx1-ah-1DP" customClass="InfoTableViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GsJ-TZ-7dv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -68,14 +69,14 @@
         <!--Training Reminder View Controller-->
         <scene sceneID="K9W-y5-dBZ">
             <objects>
-                <viewController storyboardIdentifier="RemainderPage" id="7Hl-gy-wr2" customClass="TrainingReminderViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RemainderPage" id="7Hl-gy-wr2" customClass="TrainingReminderViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Tz9-4v-d2S">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wps-hb-0IQ">
-                                <rect key="frame" x="16" y="67" width="343" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wps-hb-0IQ">
+                                <rect key="frame" x="9.5" y="60" width="356" height="32"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <segments>
                                     <segment title="Sun."/>
                                     <segment title="Mon."/>
@@ -85,36 +86,42 @@
                                     <segment title="Fri."/>
                                     <segment title="Sat."/>
                                 </segments>
+                                <color key="selectedSegmentTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="weekSegmentedControlPressed:" destination="7Hl-gy-wr2" eventType="valueChanged" id="Q5C-BJ-DhW"/>
                                 </connections>
                             </segmentedControl>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HKs-A0-VtT">
-                                <rect key="frame" x="94" y="111" width="204" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HKs-A0-VtT">
+                                <rect key="frame" x="95" y="111" width="185" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="訓練提醒" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="enk-0R-5Si">
-                                <rect key="frame" x="16" y="118" width="70" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="訓練提醒" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="enk-0R-5Si">
+                                <rect key="frame" x="15" y="118" width="70" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="2cN-xd-uYx"/>
+                                    <constraint firstAttribute="height" constant="21" id="Y0B-du-b17"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="cK0-gE-te6">
-                                <rect key="frame" x="16" y="160" width="343" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="cK0-gE-te6">
+                                <rect key="frame" x="16" y="160" width="343" height="160"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="ibC-sg-woU"/>
+                                </constraints>
                             </datePicker>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VDS-Ra-dEo">
-                                <rect key="frame" x="312" y="114" width="49" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VDS-Ra-dEo">
+                                <rect key="frame" x="310" y="111" width="51" height="31"/>
                                 <connections>
                                     <action selector="reminderSwitchChanged:" destination="7Hl-gy-wr2" eventType="valueChanged" id="zWF-a1-z0i"/>
                                 </connections>
                             </switch>
                             <stackView opaque="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="tMq-oF-rUd">
-                                <rect key="frame" x="71.5" y="317.5" width="232" height="32"/>
+                                <rect key="frame" x="71.5" y="325" width="232" height="32"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7k-i0-Ymo">
                                         <rect key="frame" x="0.0" y="0.0" width="33" height="32"/>
@@ -223,12 +230,38 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快速啟用開關" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZQ-6h-B0H">
+                                <rect key="frame" x="135.5" y="362" width="104" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="104" id="xbq-Of-Cnq"/>
+                                    <constraint firstAttribute="height" constant="21" id="y3P-uH-KWU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sDP-K6-XPy"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="tMq-oF-rUd" firstAttribute="centerY" secondItem="Tz9-4v-d2S" secondAttribute="centerY" id="VKu-rh-YwK"/>
-                            <constraint firstItem="tMq-oF-rUd" firstAttribute="centerX" secondItem="Tz9-4v-d2S" secondAttribute="centerX" id="ccX-Ku-8RG"/>
+                            <constraint firstItem="HKs-A0-VtT" firstAttribute="leading" secondItem="enk-0R-5Si" secondAttribute="trailing" constant="10" id="4Be-1l-DYB"/>
+                            <constraint firstItem="wps-hb-0IQ" firstAttribute="top" secondItem="sDP-K6-XPy" secondAttribute="top" constant="60" id="6RI-Lc-d42"/>
+                            <constraint firstItem="HKs-A0-VtT" firstAttribute="top" secondItem="wps-hb-0IQ" secondAttribute="bottom" constant="20" id="ELz-WS-Hs3"/>
+                            <constraint firstItem="VDS-Ra-dEo" firstAttribute="leading" secondItem="HKs-A0-VtT" secondAttribute="trailing" constant="30" id="GHm-io-ldP"/>
+                            <constraint firstItem="HKs-A0-VtT" firstAttribute="centerX" secondItem="Tz9-4v-d2S" secondAttribute="centerX" id="JmR-xp-USg"/>
+                            <constraint firstItem="sDP-K6-XPy" firstAttribute="trailing" secondItem="cK0-gE-te6" secondAttribute="trailing" constant="16" id="NOA-mw-grP"/>
+                            <constraint firstItem="tMq-oF-rUd" firstAttribute="top" secondItem="cK0-gE-te6" secondAttribute="bottom" constant="5" id="Oxa-yG-4Jj"/>
+                            <constraint firstItem="cK0-gE-te6" firstAttribute="leading" secondItem="sDP-K6-XPy" secondAttribute="leading" constant="16" id="RkT-IK-uMZ"/>
+                            <constraint firstItem="BZQ-6h-B0H" firstAttribute="top" secondItem="tMq-oF-rUd" secondAttribute="bottom" constant="5" id="SuS-WV-hTe"/>
+                            <constraint firstItem="wps-hb-0IQ" firstAttribute="centerX" secondItem="Tz9-4v-d2S" secondAttribute="centerX" id="aY9-uJ-xgf"/>
+                            <constraint firstItem="cK0-gE-te6" firstAttribute="top" secondItem="enk-0R-5Si" secondAttribute="bottom" constant="21" id="eCW-8X-u8v"/>
+                            <constraint firstItem="VDS-Ra-dEo" firstAttribute="top" secondItem="wps-hb-0IQ" secondAttribute="bottom" constant="20" id="gc8-9k-u1K"/>
+                            <constraint firstItem="BZQ-6h-B0H" firstAttribute="centerX" secondItem="Tz9-4v-d2S" secondAttribute="centerX" id="hBa-cY-ywD"/>
+                            <constraint firstItem="enk-0R-5Si" firstAttribute="top" secondItem="wps-hb-0IQ" secondAttribute="bottom" constant="27" id="hD0-bf-bVp"/>
+                            <constraint firstItem="cK0-gE-te6" firstAttribute="centerX" secondItem="Tz9-4v-d2S" secondAttribute="centerX" id="icF-fs-Oyh"/>
+                            <constraint firstItem="tMq-oF-rUd" firstAttribute="centerX" secondItem="Tz9-4v-d2S" secondAttribute="centerX" id="ih1-hG-1dp"/>
+                            <constraint firstItem="enk-0R-5Si" firstAttribute="centerY" secondItem="HKs-A0-VtT" secondAttribute="centerY" id="jTJ-e9-akj"/>
+                            <constraint firstItem="sDP-K6-XPy" firstAttribute="trailing" secondItem="VDS-Ra-dEo" secondAttribute="trailing" constant="16" id="xST-f6-CUw"/>
                         </constraints>
                     </view>
                     <connections>
@@ -252,8 +285,8 @@
         <!--健身小幫手-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="HomePage" id="BYZ-38-t0r" customClass="TrainRecordHomeVC" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                <viewController storyboardIdentifier="HomePage" id="BYZ-38-t0r" customClass="TrainRecordHomeVC" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -315,7 +348,7 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="526-R8-ls2"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="PhK-LU-lOL"/>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L8D-YQ-MoI">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L8D-YQ-MoI">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items/>
@@ -331,7 +364,6 @@
                         <constraints>
                             <constraint firstItem="L8D-YQ-MoI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="2Y6-eY-5Ga"/>
                             <constraint firstItem="nIS-gp-DlZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="6QZ-gL-pWZ"/>
-                            <constraint firstAttribute="bottom" secondItem="wFT-16-Q1k" secondAttribute="bottom" id="Fmq-DX-3Lf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nIS-gp-DlZ" secondAttribute="trailing" constant="16" id="FoO-W7-A8L"/>
                             <constraint firstAttribute="bottom" secondItem="L8D-YQ-MoI" secondAttribute="bottom" id="WhV-ue-YyJ"/>
                             <constraint firstItem="gxM-L5-SGT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="ZKn-fJ-UkO"/>
@@ -377,7 +409,7 @@
         <!--Remove Training Item View Controller-->
         <scene sceneID="aUZ-iO-ZMa">
             <objects>
-                <viewController storyboardIdentifier="RemoveTrainingItemPage" id="JDJ-4z-qZD" customClass="RemoveTrainingItemViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RemoveTrainingItemPage" id="JDJ-4z-qZD" customClass="RemoveTrainingItemViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aDt-RJ-Fky">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -506,15 +538,15 @@
         <!--Edit Training Item View Controller-->
         <scene sceneID="r5u-pl-IGN">
             <objects>
-                <viewController storyboardIdentifier="EditTrainingItemPage" id="dRi-vb-TSW" customClass="EditTrainingItemViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditTrainingItemPage" id="dRi-vb-TSW" customClass="EditTrainingItemViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yD4-eo-hBS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="調整運動項目位置" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvn-zu-lRm">
-                                <rect key="frame" x="34" y="20" width="307" height="50"/>
+                                <rect key="frame" x="37.5" y="20" width="300" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="307" id="1Gg-dW-ue2"/>
+                                    <constraint firstAttribute="width" constant="300" id="1Gg-dW-ue2"/>
                                     <constraint firstAttribute="height" constant="50" id="2mj-s3-GYI"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
@@ -558,7 +590,7 @@
         <!--訓練紀錄報表-->
         <scene sceneID="Qlx-nS-T9Z">
             <objects>
-                <viewController storyboardIdentifier="SharePage" id="ZuB-qR-zny" customClass="ShareViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SharePage" id="ZuB-qR-zny" customClass="ShareViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Bwu-tA-ywj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -645,7 +677,7 @@
         <!--Calender View Controller-->
         <scene sceneID="Z7N-Dx-d6G">
             <objects>
-                <viewController id="tBj-h4-h5G" customClass="CVCCalenderViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tBj-h4-h5G" customClass="CVCCalenderViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mWH-q6-0CR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -696,7 +728,7 @@
         <!--可在此調整訓練參數-->
         <scene sceneID="oJF-4m-Vpo">
             <objects>
-                <viewController storyboardIdentifier="ManageTrainSetPage" id="3Rz-06-r32" customClass="ManageTrainSetVC" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ManageTrainSetPage" id="3Rz-06-r32" customClass="ManageTrainSetVC" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="b8s-Dv-b0S">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1089,7 +1121,7 @@
         <!--New Training Item View Controller-->
         <scene sceneID="3U5-3G-iDV">
             <objects>
-                <viewController storyboardIdentifier="NewTrainingItemPage" id="ENA-xP-OEK" customClass="NewTrainingItemViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewTrainingItemPage" id="ENA-xP-OEK" customClass="NewTrainingItemViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6hh-PN-J4L">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1205,7 +1237,7 @@
         <!--系統列表-->
         <scene sceneID="pcv-mn-za1">
             <objects>
-                <tableViewController storyboardIdentifier="SystemPage" modalTransitionStyle="flipHorizontal" id="yTY-uG-Rg3" customClass="SystemTableViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SystemPage" modalTransitionStyle="flipHorizontal" id="yTY-uG-Rg3" customClass="SystemTableViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="wnC-sD-uOd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1311,7 +1343,7 @@
         <!--System Member View Controller-->
         <scene sceneID="QwT-X6-MwT">
             <objects>
-                <viewController storyboardIdentifier="SystemMemberPage" id="Mdf-VG-Jfp" customClass="SystemMemberViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SystemMemberPage" id="Mdf-VG-Jfp" customClass="SystemMemberViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="D2R-gV-lf1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1494,7 +1526,7 @@
         <!--Member Sign Up View Controller-->
         <scene sceneID="TJF-wJ-2fg">
             <objects>
-                <viewController storyboardIdentifier="SignUpPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GRG-dM-1pI" customClass="MemberSignUpViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GRG-dM-1pI" customClass="MemberSignUpViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X5w-Pl-Lq6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1511,10 +1543,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="82" id="rRM-Ce-XJP"/>
                                 </constraints>
-                                <string key="text">1. 本產品提供會員免廣告的方式。
-2. 本產品幫助會員紀錄身體指數。
-3. 本產品幫助會員訂立個人健身目標。
-4. 本產品不會擅自使用會員資料。</string>
+                                <string key="text">1.  本產品幫助會員紀錄身體指數。
+2. 本產品幫助會員訂立個人健身目標。
+3. 本產品不會擅自使用會員資料。</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1631,7 +1662,7 @@
         <!--Member Already Login View Controller-->
         <scene sceneID="piK-iF-5T7">
             <objects>
-                <viewController storyboardIdentifier="LoggedIn" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BXq-hC-vva" customClass="MemberAlreadyLoginViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoggedIn" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BXq-hC-vva" customClass="MemberAlreadyLoginViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lhK-PA-e9H">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1691,7 +1722,7 @@
         <!--Member Login View Controller-->
         <scene sceneID="Wcv-Ov-mxf">
             <objects>
-                <viewController storyboardIdentifier="MemberLoginPage" id="Ano-nK-yjY" customClass="MemberLoginViewController" customModule="TrainingRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemberLoginPage" id="Ano-nK-yjY" customClass="MemberLoginViewController" customModule="健身小幫手" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iYZ-w1-Hza">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

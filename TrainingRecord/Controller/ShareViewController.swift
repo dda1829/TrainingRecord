@@ -82,18 +82,6 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             conclusionright += "^ 基礎代謝率"
             
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
         userReportLeft.text = conclusionleft
         userReportRight.text = conclusionright
             let border = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -117,6 +105,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             warningWord.font = UIFont.systemFont(ofSize: 14)
             warningWord.isEditable = false
             warningWord.isSelectable = false
+            warningWord.backgroundColor = .black
         }
         RecodListTV.delegate = self
         RecodListTV.dataSource = self
@@ -140,18 +129,22 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         if !showDateBtnClick {
         picker.datePickerMode = UIDatePicker.Mode.date
         picker.addTarget(self, action:#selector(dueDateChanged(sender:)),for: UIControl.Event.valueChanged)
-        let pickerSize : CGSize = picker.sizeThatFits(CGSize.zero)
-        picker.frame = CGRect(x:50, y:120, width:pickerSize.width - 16, height:400)
+        
             // you probably don't want to set background color as black
         
-        picker.preferredDatePickerStyle = .inline
+            if #available(iOS 14.0, *) {
+                picker.preferredDatePickerStyle = .inline
+            } else {
+            }
+            let pickerSize : CGSize = picker.sizeThatFits(CGSize.zero)
+              picker.frame = CGRect(x:50, y:120, width:pickerSize.width - 16, height:400)
             self.view.addSubview(picker)
         picker.backgroundColor = .darkGray
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         picker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            picker.widthAnchor.constraint(equalToConstant: self.view.sizeThatFits(CGSize.zero).width-40).isActive = true
-            picker.heightAnchor.constraint(equalToConstant: self.view.sizeThatFits(CGSize.zero).width + 50).isActive = true
+            picker.widthAnchor.constraint(equalToConstant: pickerSize.width).isActive = true
+            picker.heightAnchor.constraint(equalToConstant: pickerSize.height).isActive = true
             showDateBtnClick = true
         } else {
             showDateBtnClick = false
@@ -289,7 +282,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }else if rating == 0{
                         rateResult.append("😐，感覺普通。")
                     }else if rating == -1 {
-                        rateResult.append("😮‍💨，感覺很糟。")
+                        rateResult.append("😱，感覺很糟。")
                     }else{
                         rateResult.append("資訊不足")
                     }
@@ -372,7 +365,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }else if rating == 0{
                         rateResult.append("😐，感覺普通。")
                     }else if rating == -1 {
-                        rateResult.append("😮‍💨，感覺很糟。")
+                        rateResult.append("😱，感覺很糟。")
                     }else{
                         rateResult.append("資訊不足")
                     }

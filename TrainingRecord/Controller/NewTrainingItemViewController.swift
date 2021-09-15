@@ -143,7 +143,7 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
       
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage, let imagedata = image.jpegData(compressionQuality: 1) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             
         ///取得使用者選擇的圖片
         imageView.image = image

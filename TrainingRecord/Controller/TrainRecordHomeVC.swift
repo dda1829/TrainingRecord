@@ -480,18 +480,23 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         if !showDateBtnClick {
             picker.datePickerMode = UIDatePicker.Mode.date
             picker.addTarget(self, action:#selector(dueDateChanged(sender:)),for: UIControl.Event.valueChanged)
-            let pickerSize : CGSize = picker.sizeThatFits(CGSize.zero)
-            picker.frame = CGRect(x:50, y:120, width:pickerSize.width - 16, height:400)
+           
             // you probably don't want to set background color as black
             
-            picker.preferredDatePickerStyle = .inline
+            if #available(iOS 14.0, *) {
+                picker.preferredDatePickerStyle = .inline
+            } else {
+                // Fallback on earlier versions
+            }
+            let pickerSize : CGSize = picker.sizeThatFits(CGSize.zero)
+            picker.frame = CGRect(x:50, y:120, width:pickerSize.width - 16, height:400)
             self.view.addSubview(picker)
             picker.backgroundColor = .darkGray
             picker.translatesAutoresizingMaskIntoConstraints = false
             picker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             picker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            picker.widthAnchor.constraint(equalToConstant: self.view.sizeThatFits(CGSize.zero).width - 40).isActive = true
-            picker.heightAnchor.constraint(equalToConstant: self.view.sizeThatFits(CGSize.zero).width + 50).isActive = true
+            picker.widthAnchor.constraint(equalToConstant: pickerSize.width).isActive = true
+            picker.heightAnchor.constraint(equalToConstant: pickerSize.height).isActive = true
             showDateBtnClick = true
         } else {
             showDateBtnClick = false
@@ -656,6 +661,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             
         }
     }
+    override func didReceiveMemoryWarning() {
+            super.didReceiveMemoryWarning()
+            // Dispose of any resources that can be recreated.
+        }
     func mbProgress(_ onoff: Bool){
         if onoff{
             MBProgressHUD.showAdded(to: self.view, animated: true)
@@ -729,11 +738,18 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         //        let notificationName = Notification.Name("ChangeTrainUnit")
         //        NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
         //        NotificationCenter.default.addObserver(self, selector: #selector(clearDatas(noti:)), name: Notification.Name("ClearDatas"), object: nil)
+        NotificationCenter.default.addObserver(forName: Notification.Name("isModeSetToSimple"), object: nil, queue: OperationQueue.main) { notification in
+            self.isModeSetToSimple = !self.isModeSetToSimple
+        }
         NotificationCenter.default.addObserver(forName: Notification.Name("dataDownloadDone"), object: nil, queue: OperationQueue.main) { notification in
             self.downloadImageFormListFromfirebase()
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("imageDownloadDone"), object: nil, queue: OperationQueue.main) { notification in
             self.setImageFormListFromfirebase()
+        }
+        NotificationCenter.default.addObserver(forName: Notification.Name("prepareTime"), object: nil, queue: OperationQueue.main) { notitfication in
+            let data = notitfication.userInfo!["prepareTime"]
+            self.prepareTime = data as! Int
         }
         
     }
@@ -760,6 +776,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         NotificationCenter.default.removeObserver(self)
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if Auth.auth().currentUser != nil{
@@ -843,26 +860,34 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             
         }
         var isPlay = false
-        let pauseTraining = UIAction(title: "pauseTraining"){(action) in
-            if isPlay == false {
-                self.pauseAndplayImageButton.setImage(UIImage(named: "play"), for: .normal)
-                TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
-                self.pauseAndplayImageButton.isEnabled = false
-                TimerUse.share.stopTimer(1)
-                print(self.countDownCounter)
-                isPlay = true
-                return
-            }else{
-                self.pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
-                TimerUse.share.setTimer(self.trainSetEachInterval, self, #selector(self.CountTimer),true,1)
-                TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
-                self.pauseAndplayImageButton.isEnabled = false
-                isPlay = false
-                return
+        if #available(iOS 13.0, *) {
+            let pauseTraining = UIAction(title: "pauseTraining"){(action) in
+                if isPlay == false {
+                    self.pauseAndplayImageButton.setImage(UIImage(named: "play"), for: .normal)
+                    TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
+                    self.pauseAndplayImageButton.isEnabled = false
+                    TimerUse.share.stopTimer(1)
+                    print(self.countDownCounter)
+                    isPlay = true
+                    return
+                }else{
+                    self.pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
+                    TimerUse.share.setTimer(self.trainSetEachInterval, self, #selector(self.CountTimer),true,1)
+                    TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
+                    self.pauseAndplayImageButton.isEnabled = false
+                    isPlay = false
+                    return
+                }
+                
             }
-            
+
+        if #available(iOS 14.0, *) {
+            pauseAndplayImageButton.addAction(pauseTraining, for: .touchUpInside)
+        } else {
+            // Fallback on earlier versions
+            pauseAndplayImageButton.addTarget(self, action: #selector(pausetraining), for: .touchUpInside)
         }
-        pauseAndplayImageButton.addAction(pauseTraining, for: .touchUpInside)
+        }
         pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
         
         // MARK: 先把資料抓出來確認是否為今天的資料，若為今天的資料便將資料存回今日，或非則將資料改至明日。
@@ -880,72 +905,88 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         dateRecord = trainToday
         loadFromFile()
         print(trainToday)
+        if #available(iOS 13.0, *) {
+            let stopRestBtnAction = UIAction(title:"stopRestBtnAction"){(action) in
+                self.stopRestingButton.removeFromSuperview()
+                self.countdownTV.removeFromSuperview()
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+                TimerUse.share.stopTimer(1)
+                self.countDownCounter = self.prepareTime
+                for view in self.view.subviews{
+                    view.isHidden = false
+                }
+                if self.trainLS != [0,0]  && self.trainLS != [1,0] && self.trainLS != [2,0] && self.trainLS != [3,0] && self.trainLS != [4,0] && self.trainLS != [5,0] && self.trainLS != [6,0]{
+                    self.homeImageView?.isHidden = true
+                }
+            }
         
-        let stopRestBtnAction = UIAction(title:"stopRestBtnAction"){(action) in
-            self.stopRestingButton.removeFromSuperview()
-            self.countdownTV.removeFromSuperview()
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-            TimerUse.share.stopTimer(1)
-            self.countDownCounter = self.prepareTime
-            for view in self.view.subviews{
-                view.isHidden = false
-            }
-            if self.trainLS != [0,0]  && self.trainLS != [1,0] && self.trainLS != [2,0] && self.trainLS != [3,0] && self.trainLS != [4,0] && self.trainLS != [5,0] && self.trainLS != [6,0]{
-                self.homeImageView?.isHidden = true
-            }
+        if #available(iOS 14.0, *) {
+            stopRestingButton.addAction(stopRestBtnAction, for: .touchUpInside)
+        } else {
+            // Fallback on earlier versions
+            stopRestingButton.addTarget(self, action: #selector(stopRestBtnaction), for: .touchUpInside)
         }
-        stopRestingButton.addAction(stopRestBtnAction, for: .touchUpInside)
+        }
         stopRestingButton.setImage(UIImage(named: "stop"), for: .normal)
-        
-        let stopTrainBegin = UIAction(title: "stopTrainBegin"){(action) in
-            self.stopTrainingButton.removeFromSuperview()
-            self.pauseAndplayImageButton.removeFromSuperview()
-            self.countdownTV.removeFromSuperview()
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-            TimerUse.share.stopTimer(1)
-            self.countDownCounter = self.prepareTime
-            
-            // MARK: build an alert activity to check the data if you want to record
-            if self.recordIsStart {
-                let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值，您完成了\(self.fitRecordLocation(self.trainLS))中的\(self.fitRecordLocationItem(self.trainLS))的項目\(self.todayItem!.trainTimes[self.trainLS]![self.todayItem!.trainSet[self.trainLS]!-1])次了！請問您是否要紀錄，若要紀錄請選ＯＫ，不紀錄請Cancel，謝謝！", message: "", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-                    print("OK")
-                    let alertController = UIAlertController(title: "已經紀錄完成了！", message: "", preferredStyle: .alert)
+        var stopTrainBegin: Any?
+        if #available(iOS 13.0, *) {
+             stopTrainBegin = UIAction(title: "stopTrainBegin"){(action) in
+                self.stopTrainingButton.removeFromSuperview()
+                self.pauseAndplayImageButton.removeFromSuperview()
+                self.countdownTV.removeFromSuperview()
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+                TimerUse.share.stopTimer(1)
+                self.countDownCounter = self.prepareTime
+                
+                // MARK: build an alert activity to check the data if you want to record
+                if self.recordIsStart {
+                    let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值，您完成了\(self.fitRecordLocation(self.trainLS))中的\(self.fitRecordLocationItem(self.trainLS))的項目\(self.todayItem!.trainTimes[self.trainLS]![self.todayItem!.trainSet[self.trainLS]!-1])次了！請問您是否要紀錄，若要紀錄請選ＯＫ，不紀錄請Cancel，謝謝！", message: "", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
                         print("OK")
-                        self.writeToFile()
-                        self.RecordListTV.reloadData()
-                        self.recordIsStart = false
+                        let alertController = UIAlertController(title: "已經紀錄完成了！", message: "", preferredStyle: .alert)
+                        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                            print("OK")
+                            self.writeToFile()
+                            self.RecordListTV.reloadData()
+                            self.recordIsStart = false
+                        }
+                        alertController.addAction(okAction)
+                        
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+                        print("Cancel")
+                        //
+                        if self.recordIsStart{
+                            self.todayItem?.trainLocationSort.removeLast()
+                            self.todayItem?.trainLocation[self.trainLS]?.removeLast()
+                            self.todayItem?.trainSet[self.trainLS]! -= 1
+                            self.todayItem?.trainTimes[self.trainLS]?.removeLast()
+                            self.todayItem?.trainWeight[self.trainLS]?.removeLast()
+                            self.todayItem?.trainUnit[self.trainLS]?.removeLast()
+                            self.todayItem!.trainRate.removeLast()
+                            self.recordIsStart = false
+                        }
                     }
                     alertController.addAction(okAction)
-                    
+                    alertController.addAction(cancelAction)
                     self.present(alertController, animated: true, completion: nil)
                 }
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-                    print("Cancel")
-                    //
-                    if self.recordIsStart{
-                        self.todayItem?.trainLocationSort.removeLast()
-                        self.todayItem?.trainLocation[self.trainLS]?.removeLast()
-                        self.todayItem?.trainSet[self.trainLS]! -= 1
-                        self.todayItem?.trainTimes[self.trainLS]?.removeLast()
-                        self.todayItem?.trainWeight[self.trainLS]?.removeLast()
-                        self.todayItem?.trainUnit[self.trainLS]?.removeLast()
-                        self.todayItem!.trainRate.removeLast()
-                        self.recordIsStart = false
-                    }
+                
+                for view in self.view.subviews{
+                    view.isHidden = false
                 }
-                alertController.addAction(okAction)
-                alertController.addAction(cancelAction)
-                self.present(alertController, animated: true, completion: nil)
+                self.homeImageView?.isHidden = true
             }
-            
-            for view in self.view.subviews{
-                view.isHidden = false
-            }
-            self.homeImageView?.isHidden = true
+        } else {
+            // Fallback on earlier versions
         }
-        stopTrainingButton.addAction(stopTrainBegin, for: .touchUpInside)
+        if #available(iOS 14.0, *) {
+            stopTrainingButton.addAction(stopTrainBegin as! UIAction, for: .touchUpInside)
+        } else {
+            // Fallback on earlier versions
+            stopTrainingButton.addTarget(self, action: #selector(stoptrainbegin), for: .touchUpInside)
+        }
         stopTrainingButton.setImage(UIImage(named: "stop"), for: .normal)
         
         if trainLS != [] {
@@ -1008,11 +1049,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             
             IntroduceSV.isHidden = false
             IntroducePCol.isHidden = false
-            
-            
-            
-            
-            
+                
             
         }else{
             IntroduceSV.delegate = .none
@@ -1023,26 +1060,120 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         loginTimes += 1
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
-        ATTrackingManager.requestTrackingAuthorization { status in
-            DispatchQueue.main.async {
-                self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-                self.bannerView.translatesAutoresizingMaskIntoConstraints = false
-                self.bannerView.adUnitID = "ca-app-pub-8982946958697547/5526736499"//廣告編號
-//                                    "ca-app-pub-8982946958697547/5526736499"
-                //ca-app-pub-3940256099942544/2934735716
-                self.bannerView.rootViewController = self
-                self.bannerView.delegate = self
-                self.bannerView.load(GADRequest())
+        if Auth.auth().currentUser == nil {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                DispatchQueue.main.async {
+                    self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+                    self.bannerView.translatesAutoresizingMaskIntoConstraints = false
+                    self.bannerView.adUnitID = "ca-app-pub-8982946958697547/5526736499"//廣告編號
+                    //                                    "ca-app-pub-8982946958697547/5526736499"
+                    //ca-app-pub-3940256099942544/2934735716
+                    self.bannerView.rootViewController = self
+                    self.bannerView.delegate = self
+                    self.bannerView.load(GADRequest())
+                }
+                
+                
             }
-                                    
-
+        } else {
+            // Fallback on earlier versions
+            self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+            self.bannerView.translatesAutoresizingMaskIntoConstraints = false
+            self.bannerView.adUnitID = "ca-app-pub-8982946958697547/5526736499"//廣告編號
+            //                                    "ca-app-pub-8982946958697547/5526736499"
+            //ca-app-pub-3940256099942544/2934735716
+            self.bannerView.rootViewController = self
+            self.bannerView.delegate = self
+            self.bannerView.load(GADRequest())
         }
-        
+        }
         // Check the System Mode
         isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
+           
+    }
+    @objc func stoptrainbegin() {
+        self.stopTrainingButton.removeFromSuperview()
+        self.pauseAndplayImageButton.removeFromSuperview()
+        self.countdownTV.removeFromSuperview()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        TimerUse.share.stopTimer(1)
+        self.countDownCounter = self.prepareTime
         
+        // MARK: build an alert activity to check the data if you want to record
+        if self.recordIsStart {
+            let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值，您完成了\(self.fitRecordLocation(self.trainLS))中的\(self.fitRecordLocationItem(self.trainLS))的項目\(self.todayItem!.trainTimes[self.trainLS]![self.todayItem!.trainSet[self.trainLS]!-1])次了！請問您是否要紀錄，若要紀錄請選ＯＫ，不紀錄請Cancel，謝謝！", message: "", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                print("OK")
+                let alertController = UIAlertController(title: "已經紀錄完成了！", message: "", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                    print("OK")
+                    self.writeToFile()
+                    self.RecordListTV.reloadData()
+                    self.recordIsStart = false
+                }
+                alertController.addAction(okAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+                print("Cancel")
+                //
+                if self.recordIsStart{
+                    self.todayItem?.trainLocationSort.removeLast()
+                    self.todayItem?.trainLocation[self.trainLS]?.removeLast()
+                    self.todayItem?.trainSet[self.trainLS]! -= 1
+                    self.todayItem?.trainTimes[self.trainLS]?.removeLast()
+                    self.todayItem?.trainWeight[self.trainLS]?.removeLast()
+                    self.todayItem?.trainUnit[self.trainLS]?.removeLast()
+                    self.todayItem!.trainRate.removeLast()
+                    self.recordIsStart = false
+                }
+            }
+            alertController.addAction(okAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
         
-        
+        for view in self.view.subviews{
+            view.isHidden = false
+        }
+        self.homeImageView?.isHidden = true
+    }
+    
+    @objc func stopRestBtnaction(){
+        self.stopRestingButton.removeFromSuperview()
+        self.countdownTV.removeFromSuperview()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        TimerUse.share.stopTimer(1)
+        self.countDownCounter = self.prepareTime
+        for view in self.view.subviews{
+            view.isHidden = false
+        }
+        if self.trainLS != [0,0]  && self.trainLS != [1,0] && self.trainLS != [2,0] && self.trainLS != [3,0] && self.trainLS != [4,0] && self.trainLS != [5,0] && self.trainLS != [6,0]{
+            self.homeImageView?.isHidden = true
+        }
+    }
+    var isPlay: Bool = false
+    
+    @objc func pausetraining(){
+        if isPlay == false {
+            self.pauseAndplayImageButton.setImage(UIImage(named: "play"), for: .normal)
+            TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
+            self.pauseAndplayImageButton.isEnabled = false
+            TimerUse.share.stopTimer(1)
+            print(self.countDownCounter)
+            isPlay = true
+            return
+        }else{
+            self.pauseAndplayImageButton.setImage(UIImage(named: "pause"), for: .normal)
+            TimerUse.share.setTimer(self.trainSetEachInterval, self, #selector(self.CountTimer),true,1)
+            TimerUse.share.setTimer(0.5, self, #selector(self.enablePause),false,2)
+            self.pauseAndplayImageButton.isEnabled = false
+            isPlay = false
+            return
+        }
+       
     }
     @objc func registerTheMember(){
         let alertController = UIAlertController(title: "註冊會員後便開放此功能！", message: "", preferredStyle: .alert)
@@ -1058,23 +1189,31 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     func ToolBarManage(){
         var restbarbtn = UIBarButtonItem()
         if Auth.auth().currentUser != nil{
-            restbarbtn = UIBarButtonItem(image: UIImage(systemName: "bed.double.fill"), style: .plain, target: self, action: #selector(breakCounterBtnPressed))
+                restbarbtn = UIBarButtonItem(image: UIImage(systemName: "bed.double.fill"), style: .plain, target: self, action: #selector(breakCounterBtnPressed))
         }else{
-            restbarbtn = UIBarButtonItem(image: UIImage(systemName: "bed.double.fill")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(registerTheMember))
+            restbarbtn = UIBarButtonItem(image: UIImage(systemName: "bed.double.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), style: .plain, target: self, action: #selector(registerTheMember))
         }
         
         let adjusttrainingparameters = UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3"), style: .plain, target: self, action: #selector(trainingParametersChange))
         let trainstartbarbtn = UIBarButtonItem(image: UIImage(named: "start"), style: .plain, target: self, action: #selector(trainStartBtnPressed))
         let trainreportbarbtn = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(trainreportgo))
-        let flexible = UIBarButtonItem.flexibleSpace()
+        var flexible = UIBarButtonItem()
+        if #available(iOS 14.0, *) {
+             flexible = UIBarButtonItem.flexibleSpace()
+        } else {
+            // Fallback on earlier versions
+            flexible = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        }
         let traindatebarbtn = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .plain, target: self, action: #selector(showDateBarBtnPressed))
         ToolBar.setItems([restbarbtn,flexible,adjusttrainingparameters,flexible, trainstartbarbtn,flexible,trainreportbarbtn,flexible,traindatebarbtn], animated: false)
+        ToolBar.backgroundColor = .black
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         loadFromFile()
         RecordListTV.reloadData()
+        TrainPickerView.reloadAllComponents()
     }
     @objc func trainingParametersChange(){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ManageTrainSetPage") as? ManageTrainSetVC
@@ -2021,7 +2160,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     // MARK:GADBannerViewDelegate
         func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-            let adSize = GADAdSizeFromCGSize(CGSize(width: 323, height: 20))
+            let _ = GADAdSizeFromCGSize(CGSize(width: 323, height: 20))
 
             if bannerView.superview == nil && Auth.auth().currentUser == nil {
                             self.RecordListTV.tableHeaderView = bannerView
@@ -2177,7 +2316,6 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
         if todayItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
             
             let locationsort = todayItem!.trainLocationSort
-            var locationmax = todayItem?.trainSet
             
             for trainlocation in locationsort{
                 if locationcounter[trainlocation] == nil {

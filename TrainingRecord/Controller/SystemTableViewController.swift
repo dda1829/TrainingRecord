@@ -192,6 +192,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
                         cell.textLabel?.text = memberFunctionForm[indexPath.row]
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.backgroundColor = .black
                         cell.textLabel?.textColor = .white
                     }
                 }else {
@@ -230,7 +231,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         cell.textLabel?.textColor = .white
                     }else if indexPath.row == 5{
                         cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
-                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 3]
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 2]
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.textLabel?.textColor = .white
                     }
@@ -327,6 +328,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                 isModeSetToSimple = !isModeSetToSimple
                 UserDefaults.standard.set(isModeSetToSimple,forKey: "isModeSetToSimple")
                 UserDefaults.standard.synchronize()
+                NotificationCenter.default.post(name: Notification.Name("isModeSetToSimple"), object: nil)
             }
         }else if indexPath.section == 2{
             if Auth.auth().currentUser == nil {
@@ -397,6 +399,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         }
                         UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
                         UserDefaults.standard.synchronize()
+                        NotificationCenter.default.post(name: Notification.Name("prepareTime"), object: nil, userInfo: ["prepareTime":prepareTime])
                     }else if indexPath.row == 5{
                         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "RemainderPage") as? TrainingReminderViewController{
                             self.navigationController?.pushViewController(vc, animated: true)
@@ -410,6 +413,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         }
                         UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
                         UserDefaults.standard.synchronize()
+                        NotificationCenter.default.post(name: Notification.Name("prepareTime"), object: nil, userInfo: ["prepareTime":prepareTime])
                     }else if indexPath.row == 3 {
                         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "RemainderPage") as? TrainingReminderViewController{
                             self.navigationController?.pushViewController(vc, animated: true)

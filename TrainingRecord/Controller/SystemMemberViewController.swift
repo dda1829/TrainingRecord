@@ -92,7 +92,6 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         sexualAgePV.setValue(UIColor.white, forKey: "textColor")
         sexualAgePV.delegate = self
         sexualAgePV.dataSource = self
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
         navigationController?.title = "會員資料設定"
         if (MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]).count != 0 {
             userHeight = MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]
@@ -130,13 +129,6 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
             }
             sexualAgePV.selectRow(Int(userAge!)! - 14, inComponent: 1, animated: true)
         }
-        
-    }
-    @objc func backToSysBtn (){
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
-            self.navigationController?.pushViewController(vc!,animated: true)
-            
-        
         
     }
     @objc func dismissKeyboard() {

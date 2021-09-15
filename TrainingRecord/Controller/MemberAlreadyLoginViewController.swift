@@ -18,7 +18,7 @@ class MemberAlreadyLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
-        print(Auth.auth().currentUser?.isEmailVerified)
+        print(Auth.auth().currentUser!.isEmailVerified)
         // Do any additional setup after loading the view.
         if let user = Auth.auth().currentUser{
             if let username = user.displayName {

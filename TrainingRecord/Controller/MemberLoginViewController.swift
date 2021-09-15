@@ -89,7 +89,7 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate {
     }
     @objc func cV(){
         TimerUse.share.stopTimer(1)
-        Auth.auth().signIn(withEmail: memberEmailTextView.text!, password: memberPasswordTextView.text!) { [self] result, error in
+        Auth.auth().signIn(withEmail: memberEmailTextView.text!, password: memberPasswordTextView.text!) { result, error in
             if let e = error {
                 print( "error \(e)")
                 return
