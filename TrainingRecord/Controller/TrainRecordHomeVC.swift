@@ -779,6 +779,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let aa = ManageTrainingItem.share.getTrainingItem(Location: "BrestShoulder")
+        
+        
+        
+        
+        
+        
         if Auth.auth().currentUser != nil{
             if !Auth.auth().currentUser!.isEmailVerified{
             do{

@@ -176,8 +176,8 @@
 				DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */,
 				DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */,
 				DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */,
-				DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */,
 				DC7F813B26F0F53B00439D0F /* ManageTrainingItem.swift */,
+				DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
