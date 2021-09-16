@@ -88,7 +88,7 @@
 		DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Radar.mp3; sourceTree = "<group>"; };
 		DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepPrepare.m4a; sourceTree = "<group>"; };
 		DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.swift; sourceTree = "<group>"; };
-		DCC7D13726529D290040DFA8 /* 健身小幫手.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "健身小幫手.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCC7D13726529D290040DFA8 /* TrainRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCC7D13A26529D290040DFA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainRecordHomeVC.swift; sourceTree = "<group>"; };
@@ -205,7 +205,7 @@
 		DCC7D13826529D290040DFA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DCC7D13726529D290040DFA8 /* 健身小幫手.app */,
+				DCC7D13726529D290040DFA8 /* TrainRecord.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -252,9 +252,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DCC7D13626529D290040DFA8 /* 健身小幫手 */ = {
+		DCC7D13626529D290040DFA8 /* TrainRecord */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCC7D14E26529D2C0040DFA8 /* Build configuration list for PBXNativeTarget "健身小幫手" */;
+			buildConfigurationList = DCC7D14E26529D2C0040DFA8 /* Build configuration list for PBXNativeTarget "TrainRecord" */;
 			buildPhases = (
 				69492BBD4DA989666972853B /* [CP] Check Pods Manifest.lock */,
 				DCC7D13326529D290040DFA8 /* Sources */,
@@ -267,9 +267,9 @@
 			);
 			dependencies = (
 			);
-			name = "健身小幫手";
+			name = TrainRecord;
 			productName = TrainingRecord;
-			productReference = DCC7D13726529D290040DFA8 /* 健身小幫手.app */;
+			productReference = DCC7D13726529D290040DFA8 /* TrainRecord.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -287,7 +287,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DCC7D13226529D290040DFA8 /* Build configuration list for PBXProject "健身小幫手" */;
+			buildConfigurationList = DCC7D13226529D290040DFA8 /* Build configuration list for PBXProject "TrainRecord" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -301,7 +301,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DCC7D13626529D290040DFA8 /* 健身小幫手 */,
+				DCC7D13626529D290040DFA8 /* TrainRecord */,
 			);
 		};
 /* End PBXProject section */
@@ -623,7 +623,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DCC7D13226529D290040DFA8 /* Build configuration list for PBXProject "健身小幫手" */ = {
+		DCC7D13226529D290040DFA8 /* Build configuration list for PBXProject "TrainRecord" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCC7D14C26529D2C0040DFA8 /* Debug */,
@@ -632,7 +632,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DCC7D14E26529D2C0040DFA8 /* Build configuration list for PBXNativeTarget "健身小幫手" */ = {
+		DCC7D14E26529D2C0040DFA8 /* Build configuration list for PBXNativeTarget "TrainRecord" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCC7D14F26529D2C0040DFA8 /* Debug */,

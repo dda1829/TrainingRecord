@@ -24,35 +24,35 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var loginTimes = 0
     var prepareTime = 3
     
-    // MARK: CoreData for TrainItem's List
-    var brestData : BrestItem!
-    var backData : BackItem!
-    var abdomenData : AbdomenItem!
-    var blData : BLItem!
-    var exerciseData : ExerciseItem!
-    var armData : ArmItem!
-    var infoData : InfoItem!
-    var beforeInfoData : [InfoItem] = []
-    var beforeBrestData : [BrestItem] = []
-    var beforeBackData : [BackItem] = []
-    var beforeAbdomenData : [AbdomenItem] = []
-    var beforeBLData : [BLItem] = []
-    var beforeExerciseData : [ExerciseItem] = []
-    var beforeArmData : [ArmItem] = []
-    
-    //MARK: CoreData for User's TrainItem's List
-    var uBrestData: UBrestItem!
-    var uBackData: UBackItem!
-    var uAbdomenData: UAbdomenItem!
-    var uBLData : UBLItem!
-    var uArmData : UArmItem!
-    var uExData : UExerciseItem!
-    var uBrestDatas: [UBrestItem] = []
-    var uBackDatas: [UBackItem] = []
-    var uAbdomenDatas: [UAbdomenItem] = []
-    var uBLDatas: [UBLItem] = []
-    var uArmDatas: [UArmItem] = []
-    var uExDatas: [UExerciseItem] = []
+//    // MARK: CoreData for TrainItem's List
+//    var brestData : BrestItem!
+//    var backData : BackItem!
+//    var abdomenData : AbdomenItem!
+//    var blData : BLItem!
+//    var exerciseData : ExerciseItem!
+//    var armData : ArmItem!
+//    var infoData : InfoItem!
+//    var beforeInfoData : [InfoItem] = []
+//    var beforeBrestData : [BrestItem] = []
+//    var beforeBackData : [BackItem] = []
+//    var beforeAbdomenData : [AbdomenItem] = []
+//    var beforeBLData : [BLItem] = []
+//    var beforeExerciseData : [ExerciseItem] = []
+//    var beforeArmData : [ArmItem] = []
+//    
+//    //MARK: CoreData for User's TrainItem's List
+//    var uBrestData: UBrestItem!
+//    var uBackData: UBackItem!
+//    var uAbdomenData: UAbdomenItem!
+//    var uBLData : UBLItem!
+//    var uArmData : UArmItem!
+//    var uExData : UExerciseItem!
+//    var uBrestDatas: [UBrestItem] = []
+//    var uBackDatas: [UBackItem] = []
+//    var uAbdomenDatas: [UAbdomenItem] = []
+//    var uBLDatas: [UBLItem] = []
+//    var uArmDatas: [UArmItem] = []
+//    var uExDatas: [UExerciseItem] = []
     
     
     // MARK: Train's setting
@@ -797,7 +797,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         
         
-        checkNewTrainingItem()
+//        checkNewTrainingItem()
         // Do any additional setup after loading the view.
         if UserDefaults.standard.integer(forKey: "prepareTime") != 0 {
             prepareTime = UserDefaults.standard.integer(forKey: "prepareTime")
@@ -817,8 +817,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         homeImageView!.translatesAutoresizingMaskIntoConstraints = false
         homeImageView!.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         homeImageView!.bottomAnchor.constraint(equalTo: self.TrainPickerView.topAnchor, constant: -10).isActive = true
-        loadTheTrainList()
-        DefaultFormEditor()
         if lastData != [:]{
             self.RecordListTV.dataSource = self
             self.RecordListTV.delegate = self
@@ -1242,57 +1240,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     }
     
     
-    func checkNewTrainingItem(){
-        let tranLSnew = UserDefaults.standard.integer(forKey: "newTrainingLS")
-        guard let trainingItemName = UserDefaults.standard.string(forKey: "newTrainingItemName") , let trainingItemDef = UserDefaults.standard.string(forKey: "newTrainingItemDef") , let trainingItemImageString = UserDefaults.standard.string(forKey: "newTrainingItemURLString") else {
-            return
-        }
-        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
-        let imageUrl = homeUrl.appendingPathComponent(trainingItemImageString)
-        UserDefaults.standard.removeObject(forKey: "newTrainingLS")
-        UserDefaults.standard.removeObject(forKey:"newTrainingItemName")
-        UserDefaults.standard.removeObject(forKey:"newTrainingItemDef")
-        UserDefaults.standard.removeObject(forKey:"newTrainingItemURLString")
-        switch tranLSnew{
-        case 1:
-            formListBrest.append(trainingItemName)
-            trainBrestText.append(trainingItemDef)
-            brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
-            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListBrest.count)
-            
-        case 2:
-            formListBack.append(trainingItemName)
-            trainBackText.append(trainingItemDef)
-            backImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
-            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListBack.count)
-        case 3:
-            formListBL.append(trainingItemName)
-            trainBLText.append(trainingItemDef)
-            blImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
-            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListBL.count)
-        case 4:
-            formListAbdomen.append(trainingItemName)
-            trainAbdomenText.append(trainingItemDef)
-            abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
-            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListAbdomen.count)
-        case 5:
-            
-            formListArm.append(trainingItemName)
-            trainArmText.append(trainingItemDef)
-            armImageforms.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
-            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListArm.count)
-        case 6:
-            formListEx.append(trainingItemName)
-            trainExText.append(trainingItemDef)
-            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: imageUrl) as Data)!)
-            trainingItemCoreDataStore(tranLSnew, trainingItemImageString, trainingItemName, trainingItemDef, formListEx.count)
-        default:
-            print("nothing added")
-        }
-    }
-    
-    
-    
     
     
     // MARK: Use for Introduce the App
@@ -1348,16 +1295,14 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let itemimage: [String] = imagearray
         
         for x in 0 ..< itemname.count {
-            trainingItemCoreDataStore(locationnumber, itemimage[x], itemname[x], itemdef[x], x + 1)
+//            trainingItemCoreDataStore(locationnumber, itemimage[x], itemname[x], itemdef[x], x + 1)
         }
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if lastData == [:]{
-            TimerUse.share.setTimer(1, self, #selector(checkFormListCount), true, 2)
-        }
+        
         
         
     }
@@ -1460,7 +1405,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         formlistCoredata(5, formListArm, trainArmText, armImageURLs)
         formlistCoredata(6, formListEx, trainExText, exImageURLs)
         for x in 0 ..< infodatainside.count {
-            trainingItemCoreDataStore(7, infodatainside[x], infodatainside[x], infodatainside[x], x)
+//            trainingItemCoreDataStore(7, infodatainside[x], infodatainside[x], infodatainside[x], x)
         }
     }
     
@@ -1851,320 +1796,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         
     }
-    func trainingItemCoreDataStore (_ selected: Int,_ imageurl: String,_ itemname: String,_ itemdef: String,_ itemid: Int ) {
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate){
-            switch selected{
-            case 1:
-                brestData = BrestItem(context: appDelegate.persistentContainer.viewContext)
-                brestData.name = itemname
-                brestData.def = itemdef
-                brestData.id = Int16(itemid)
-                brestData.image = imageurl
-                print(imageurl)
-            case 2:
-                backData = BackItem(context: appDelegate.persistentContainer.viewContext)
-                backData.name = itemname
-                backData.def = itemdef
-                backData.id = Int16(itemid)
-                backData.image = imageurl
-                
-            case 3:
-                blData = BLItem(context: appDelegate.persistentContainer.viewContext)
-                blData.name = itemname
-                blData.def = itemdef
-                blData.id = Int16(itemid)
-                blData.image = imageurl
-                
-            case 4:
-                abdomenData = AbdomenItem(context: appDelegate.persistentContainer.viewContext)
-                abdomenData.name = itemname
-                abdomenData.def = itemdef
-                abdomenData.id = Int16(itemid)
-                abdomenData.image = imageurl
-                
-            case 5:
-                
-                armData = ArmItem(context: appDelegate.persistentContainer.viewContext)
-                armData.name = itemname
-                armData.def = itemdef
-                armData.id = Int16(itemid)
-                armData.image = imageurl
-                
-            case 6:
-                exerciseData = ExerciseItem(context: appDelegate.persistentContainer.viewContext)
-                exerciseData.name = itemname
-                exerciseData.def = itemdef
-                exerciseData.id = Int16(itemid)
-                exerciseData.image = imageurl
-                
-            case 7:
-                infoData = InfoItem(context: appDelegate.persistentContainer.viewContext)
-                infoData.content = itemname
-                infoData.id = Int16(itemid)
-                infoData.brestLast = "\(lastData["BrestShoulder"]!)"
-                infoData.backLast = "\(lastData["Back"]!)"
-                infoData.abdomenLast = "\(lastData["Abdomen"]!)"
-                infoData.blLast = "\(lastData["BottomLap"]!)"
-                infoData.armLast = "\(lastData["Arm"]!)"
-                infoData.exLast = "\(lastData["Exercise"]!)"
-            default:
-                print("CoreData store select is wrong")
-            }
-            appDelegate.saveContext()
-        }
-    }
-    func userTrainingItemCoreDataStore (_ selected: Int,_ imageurl: String,_ itemname: String,_ itemdef: String,_ itemid: Int ) {
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate){
-            switch selected{
-            case 1:
-                uBrestData = UBrestItem(context: appDelegate.persistentContainer.viewContext)
-                uBrestData.name = itemname
-                uBrestData.def = itemdef
-                uBrestData.id = Int16(itemid)
-                uBrestData.image = imageurl
-                
-            case 2:
-                uBackData = UBackItem(context: appDelegate.persistentContainer.viewContext)
-                uBackData.name = itemname
-                uBackData.def = itemdef
-                uBackData.id = Int16(itemid)
-                uBackData.image = imageurl
-                
-            case 3:
-                uBLData = UBLItem(context: appDelegate.persistentContainer.viewContext)
-                uBLData.name = itemname
-                uBLData.def = itemdef
-                uBLData.id = Int16(itemid)
-                uBLData.image = imageurl
-                
-            case 4:
-                uAbdomenData = UAbdomenItem(context: appDelegate.persistentContainer.viewContext)
-                uAbdomenData.name = itemname
-                uAbdomenData.def = itemdef
-                uAbdomenData.id = Int16(itemid)
-                uAbdomenData.image = imageurl
-                
-            case 5:
-                
-                uArmData = UArmItem(context: appDelegate.persistentContainer.viewContext)
-                uArmData.name = itemname
-                uArmData.def = itemdef
-                uArmData.id = Int16(itemid)
-                uArmData.image = imageurl
-                
-            case 6:
-                uExData = UExerciseItem(context: appDelegate.persistentContainer.viewContext)
-                uExData.name = itemname
-                uExData.def = itemdef
-                uExData.id = Int16(itemid)
-                uExData.image = imageurl
-                
-            default:
-                print("CoreData store select is wrong")
-            }
-            appDelegate.saveContext()
-        }
-    }
+  
     
     
     
-    func loadTheTrainList(){
-        let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
-        // Fetch data from data store Brest
-        var fetchResultController: NSFetchedResultsController<BrestItem>
-        let fetchRequest: NSFetchRequest<BrestItem> = BrestItem.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultController.delegate = self
-            
-            do {
-                try fetchResultController.performFetch()
-                if let fetchedObjects = fetchResultController.fetchedObjects {
-                    beforeBrestData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeBrestData.count{
-            formListBrest.append(beforeBrestData[x].name!)
-            trainBrestText.append(beforeBrestData[x].def!)
-            brestImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent("\(beforeBrestData[x].image!)")) as Data)!)
-        }
-        
-        // Fetch data from data store Back
-        var fetchResultControllerback: NSFetchedResultsController<BackItem>!
-        
-        let fetchRequestback: NSFetchRequest<BackItem> = BackItem.fetchRequest()
-        let sortDescriptorback = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestback.sortDescriptors = [sortDescriptorback]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerback = NSFetchedResultsController(fetchRequest: fetchRequestback, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerback.delegate = self
-            
-            do {
-                try fetchResultControllerback.performFetch()
-                if let fetchedObjects = fetchResultControllerback.fetchedObjects {
-                    beforeBackData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeBackData.count{
-            formListBack.append(beforeBackData[x].name!)
-            trainBackText.append(beforeBackData[x].def!)
-            backImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeBackData[x].image!) ) as Data)!)
-        }
-        // Fetch data from data store Abdomen
-        var fetchResultControllerabdomen: NSFetchedResultsController<AbdomenItem>!
-        
-        let fetchRequestabdomen: NSFetchRequest<AbdomenItem> = AbdomenItem.fetchRequest()
-        let sortDescriptorabdomen = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestabdomen.sortDescriptors = [sortDescriptorabdomen]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerabdomen = NSFetchedResultsController(fetchRequest: fetchRequestabdomen, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerabdomen.delegate = self
-            
-            do {
-                try fetchResultControllerabdomen.performFetch()
-                if let fetchedObjects = fetchResultControllerabdomen.fetchedObjects {
-                    beforeAbdomenData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeAbdomenData.count{
-            formListAbdomen.append(beforeAbdomenData[x].name!)
-            trainAbdomenText.append(beforeAbdomenData[x].def!)
-            
-            abdomenImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeAbdomenData[x].image!)) as Data)!)
-            
-        }
-        // Fetch data from data store Bottom
-        var fetchResultControllerbl: NSFetchedResultsController<BLItem>!
-        
-        let fetchRequestbl: NSFetchRequest<BLItem> = BLItem.fetchRequest()
-        let sortDescriptorbl = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestbl.sortDescriptors = [sortDescriptorbl]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerbl = NSFetchedResultsController(fetchRequest: fetchRequestbl, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerbl.delegate = self
-            
-            do {
-                try fetchResultControllerbl.performFetch()
-                if let fetchedObjects = fetchResultControllerbl.fetchedObjects {
-                    beforeBLData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeBLData.count{
-            formListBL.append(beforeBLData[x].name!)
-            trainBLText.append(beforeBLData[x].def!)
-            blImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeBLData[x].image!) ) as Data)!)
-            
-        }
-        // Fetch data from data store Arm
-        var fetchResultControllerarm: NSFetchedResultsController<ArmItem>!
-        
-        let fetchRequestarm: NSFetchRequest<ArmItem> = ArmItem.fetchRequest()
-        let sortDescriptorarm = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestarm.sortDescriptors = [sortDescriptorarm]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerarm = NSFetchedResultsController(fetchRequest: fetchRequestarm, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerarm.delegate = self
-            
-            do {
-                try fetchResultControllerarm.performFetch()
-                if let fetchedObjects = fetchResultControllerarm.fetchedObjects {
-                    beforeArmData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeArmData.count{
-            formListArm.append(beforeArmData[x].name!)
-            trainArmText.append(beforeArmData[x].def!)
-            armImageforms.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeArmData[x].image!) ) as Data)!)
-            
-        }
-        // Fetch data from data store Exercise
-        var fetchResultControllerex: NSFetchedResultsController<ExerciseItem>!
-        
-        let fetchRequestexercise: NSFetchRequest<ExerciseItem> = ExerciseItem.fetchRequest()
-        let sortDescriptorexercise = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestexercise.sortDescriptors = [sortDescriptorexercise]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerex = NSFetchedResultsController(fetchRequest: fetchRequestexercise, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerex.delegate = self
-            
-            do {
-                try fetchResultControllerex.performFetch()
-                if let fetchedObjects = fetchResultControllerex.fetchedObjects {
-                    beforeExerciseData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        for x in 0 ..< beforeExerciseData.count{
-            formListEx.append(beforeExerciseData[x].name!)
-            trainExText.append(beforeExerciseData[x].def!)
-            exerciseImageform.append(UIImage(data: try! NSData.init(contentsOf: homeUrl.appendingPathComponent(beforeExerciseData[x].image!) ) as Data)!)
-            
-        }
-        
-        // Fetch data from data store Info
-        var fetchResultControllerInfo: NSFetchedResultsController<InfoItem>!
-        
-        let fetchRequestInfo: NSFetchRequest<InfoItem> = InfoItem.fetchRequest()
-        let sortDescriptorInfo = NSSortDescriptor(key: "id", ascending: true)
-        fetchRequestInfo.sortDescriptors = [sortDescriptorInfo]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultControllerInfo = NSFetchedResultsController(fetchRequest: fetchRequestInfo, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultControllerInfo.delegate = self
-            
-            do {
-                try fetchResultControllerInfo.performFetch()
-                if let fetchedObjects = fetchResultControllerInfo.fetchedObjects {
-                    beforeInfoData = fetchedObjects
-                }
-            } catch {
-                print(error)
-            }
-        }
-        
-        for x in 0 ..< beforeInfoData.count{
-            beforeinfodatainside.append(beforeInfoData[x].content!)
-            lastData.updateValue(Int(beforeInfoData[x].brestLast!)!, forKey: "BrestShoulder")
-            lastData.updateValue(Int(beforeInfoData[x].backLast!)!, forKey: "Back")
-            lastData.updateValue(Int(beforeInfoData[x].abdomenLast!)!, forKey: "Abdomen")
-            lastData.updateValue(Int(beforeInfoData[x].blLast!)!, forKey: "BottomLap")
-            lastData.updateValue(Int(beforeInfoData[x].armLast!)!, forKey: "Arm")
-            lastData.updateValue(Int(beforeInfoData[x].exLast!)!, forKey: "Exercise")
-            
-        }
-    }
     // MARK:GADBannerViewDelegate
         func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
             let _ = GADAdSizeFromCGSize(CGSize(width: 323, height: 20))

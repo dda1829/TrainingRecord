@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
-    <entity name="InfoItem" representedClassName="InfoItem" syncable="YES" codeGenerationType="class">
-        <attribute name="abdomenLast" optional="YES" attributeType="String"/>
-        <attribute name="armLast" optional="YES" attributeType="String"/>
-        <attribute name="backLast" optional="YES" attributeType="String"/>
-        <attribute name="blLast" optional="YES" attributeType="String"/>
-        <attribute name="brestLast" optional="YES" attributeType="String"/>
-        <attribute name="content" optional="YES" attributeType="String"/>
-        <attribute name="exLast" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="InfoItemCoreData" representedClassName=".InfoItem" syncable="YES">
+    <entity name="InfoItemCoreData" representedClassName=".InfoItemCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="abdomenLast" optional="YES" attributeType="String"/>
         <attribute name="armLast" optional="YES" attributeType="String"/>
         <attribute name="backLast" optional="YES" attributeType="String"/>
@@ -21,103 +10,18 @@
         <attribute name="editorEmail" optional="YES" attributeType="String"/>
         <attribute name="editorName" optional="YES" attributeType="String"/>
         <attribute name="exLast" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="String" defaultValueString="0"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="TrainingItem" representedClassName=".TrainingItem" syncable="YES">
+    <entity name="TrainingItem" representedClassName=".TrainingItem" syncable="YES" codeGenerationType="class">
         <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="String" defaultValueString="0"/>
         <attribute name="imageName" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="TrainingitemAbdomen" representedClassName="AbdomenItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="TrainingitemArm" representedClassName="ArmItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="TrainingitemBack" representedClassName="BackItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="TrainingitemBL" representedClassName="BLItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="TrainingItemBrest" representedClassName="BrestItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="TrainingitemExercise" representedClassName="ExerciseItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="UserTIAbdomen" representedClassName="UAbdomenItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="UserTIArm" representedClassName="UArmItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="UserTIBack" representedClassName="UBackItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="UserTIBL" representedClassName="UBLItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="UserTIBrest" representedClassName="UBrestItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="UserTIExercise" representedClassName="UExerciseItem" syncable="YES" codeGenerationType="class">
-        <attribute name="def" optional="YES" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
     <elements>
-        <element name="InfoItem" positionX="0" positionY="117" width="128" height="164"/>
-        <element name="TrainingitemAbdomen" positionX="-9" positionY="126" width="128" height="89"/>
-        <element name="TrainingitemArm" positionX="-27" positionY="117" width="128" height="89"/>
-        <element name="TrainingitemBack" positionX="-54" positionY="153" width="128" height="89"/>
-        <element name="TrainingitemBL" positionX="-45" positionY="108" width="128" height="89"/>
-        <element name="TrainingItemBrest" positionX="-54" positionY="-9" width="128" height="89"/>
-        <element name="TrainingitemExercise" positionX="27" positionY="144" width="128" height="89"/>
-        <element name="UserTIAbdomen" positionX="0" positionY="99" width="128" height="89"/>
-        <element name="UserTIArm" positionX="9" positionY="117" width="128" height="89"/>
-        <element name="UserTIBack" positionX="18" positionY="126" width="128" height="89"/>
-        <element name="UserTIBL" positionX="27" positionY="135" width="128" height="89"/>
-        <element name="UserTIBrest" positionX="36" positionY="144" width="128" height="89"/>
-        <element name="UserTIExercise" positionX="45" positionY="153" width="128" height="89"/>
-        <element name="TrainingItem" positionX="9" positionY="135" width="128" height="104"/>
         <element name="InfoItemCoreData" positionX="18" positionY="144" width="128" height="194"/>
+        <element name="TrainingItem" positionX="9" positionY="135" width="128" height="104"/>
     </elements>
 </model>

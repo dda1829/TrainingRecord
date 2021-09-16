@@ -87,7 +87,7 @@ class ManageTrainingItem {
                     data.exLast = item.exerciseLast!
                     data.content = item.ItemContent!
                     data.title = item.ItemTitle!
-                    data.id = Int16(item.ItemID)!
+                    data.id = "\((item.ItemID))"
                     data.editorName = item.ItemUserName!
                     data.editorEmail = item.ItemEmail!
                     CoreDataHelper.shared.saveContext()//把Note資料存到sqlite
@@ -128,7 +128,7 @@ class ManageTrainingItem {
                     let data = TrainingItem(context: moc)
                         data.name = item.itemName!
                         data.def = item.itemDef!
-                        data.id = indexId
+                        data.id = "\(indexId)"
                         indexId += 1
                         CoreDataHelper.shared.saveContext()//把Note資料存到sqlite
                         breastItems.append(data)
@@ -142,7 +142,7 @@ class ManageTrainingItem {
                         let data = TrainingItem(context: moc)
                             data.name = item.itemName!
                             data.def = item.itemDef!
-                            data.id = indexId
+                            data.id = "\(indexId)"
                             indexId += 1
                             CoreDataHelper.shared.saveContext()//把Note資料存到sqlite
                         blItems.append(data)
@@ -156,7 +156,7 @@ class ManageTrainingItem {
                         let data = TrainingItem(context: moc)
                             data.name = item.itemName!
                             data.def = item.itemDef!
-                            data.id = indexId
+                            data.id = "\(indexId)"
                             indexId += 1
                             CoreDataHelper.shared.saveContext()//把Note資料存到sqlite
                         armItems.append(data)
@@ -170,7 +170,7 @@ class ManageTrainingItem {
                         let data = TrainingItem(context: moc)
                             data.name = item.itemName!
                             data.def = item.itemDef!
-                            data.id = indexId
+                            data.id = "\(indexId)"
                             indexId += 1
                             CoreDataHelper.shared.saveContext()//把Note資料存到sqlite
                         backItems.append(data)
@@ -184,7 +184,7 @@ class ManageTrainingItem {
                         let data = TrainingItem(context: moc)
                             data.name = item.itemName!
                             data.def = item.itemDef!
-                            data.id = indexId
+                            data.id = "\(indexId)"
                             indexId += 1
                             CoreDataHelper.shared.saveContext()//把Note資料存到sqlite
                         abdomenItems.append(data)
@@ -198,7 +198,7 @@ class ManageTrainingItem {
                         let data = TrainingItem(context: moc)
                             data.name = item.itemName!
                             data.def = item.itemDef!
-                            data.id = indexId
+                            data.id = "\(indexId)"
                             indexId += 1
                             CoreDataHelper.shared.saveContext()//把Note資料存到sqlite
                         exerciseItems.append(data)
@@ -508,30 +508,32 @@ class ManageTrainingItem {
     }
     
 }
-class TrainingItem:  NSManagedObject{
-    @NSManaged var name:String
-    @NSManaged var id:Int16
-    @NSManaged var type:String
-    @NSManaged var imageName:String?
-    @NSManaged var def:String
-    
-    override func awakeFromInsert() {
-    }
-}
-class InfoItemCoreData:  NSManagedObject{
-    @NSManaged var title:String
-    @NSManaged var id:Int16
-    @NSManaged var content:String
-    @NSManaged var brestLast:String
-    @NSManaged var backLast:String
-    @NSManaged var abdomenLast:String
-    @NSManaged var armLast:String
-    @NSManaged var blLast:String
-    @NSManaged var exLast:String
-    @NSManaged var editorEmail:String
-    @NSManaged var editorName:String
-    override func awakeFromInsert() {
-    }
-    
-    
-}
+//class TrainingItem:  NSManagedObject{
+////    @nonobjc public class func fetchRequest() -> NSFetchRequest<TrainingItem> {
+//////        return NSFetchRequest<TrainingItem>(entityName: "TrainingItem")
+//////    }
+////    @NSManaged var name:String?
+////    @NSManaged var id:Int16
+////    @NSManaged var type:String?
+////    @NSManaged var imageName:String?
+////    @NSManaged var def:String?
+//
+//}
+//class InfoItemCoreData:  NSManagedObject{
+////    @nonobjc public class func fetchRequest() -> NSFetchRequest<InfoItemCoreData> {
+////        return NSFetchRequest<InfoItemCoreData>(entityName: "InfoItemCoreData")
+////    }
+////    @NSManaged var title:String?
+////    @NSManaged var id:String
+////    @NSManaged var content:String?
+////    @NSManaged var brestLast:String?
+////    @NSManaged var backLast:String?
+////    @NSManaged var abdomenLast:String?
+////    @NSManaged var armLast:String?
+////    @NSManaged var blLast:String?
+////    @NSManaged var exLast:String?
+////    @NSManaged var editorEmail:String?
+////    @NSManaged var editorName:String?
+//
+//
+//}
