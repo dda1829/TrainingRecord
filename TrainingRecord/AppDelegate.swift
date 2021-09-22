@@ -47,8 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
 
     
-//    // MARK: - Core Data stack
-//
+    // MARK: - Core Data stack
+
 //    @available(iOS 13.0, *)
 //    lazy var persistentContainer: NSPersistentCloudKitContainer = {
 //        /*

@@ -31,6 +31,7 @@ class InfoItemForFireStore {
     var ItemID: String
     var ItemTitle: String?
     var ItemContent: String?
+    var haveNewItem: Bool?
     init(){
         ItemID = UUID().uuidString
     }

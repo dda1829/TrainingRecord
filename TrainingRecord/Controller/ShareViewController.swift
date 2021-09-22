@@ -28,16 +28,9 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.title = "訓練紀錄報表"
-        if traitCollection.userInterfaceIdiom == .pad {
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(share))
-            shareBtn.isHidden = true
-            RecodListTV.translatesAutoresizingMaskIntoConstraints = false
-            RecodListTV.topAnchor.constraint(equalTo: userReportLeft.bottomAnchor, constant: 0).isActive = true
-            RecodListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-            RecodListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-            RecodListTV.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 16).isActive = true
-        }
+        
         // Do any additional setup after loading the view.
         if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: "isMemberDataEdited"){
             var conclusionright = ""
@@ -576,21 +569,6 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
-    }
-    @IBAction func shareBtnPressed(_ sender: Any) {
-        
-        let defaultText = "看看我，今天我完成了..."
-        
-//        let sharedfile = self.view.pb_takeSnapshot()
-        let sharedfile = pb_takeSnapshot()
-        var activityController: UIActivityViewController
-        
-        
-        activityController = UIActivityViewController(activityItems: [defaultText,sharedfile], applicationActivities: nil)
-      
-        self.present(activityController, animated: true, completion: nil)
-    
-        
     }
     @objc func share(){
         let defaultText = "看看我，今天我完成了..."
