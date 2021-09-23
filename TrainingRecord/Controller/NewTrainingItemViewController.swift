@@ -119,19 +119,39 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         imageURL = fileUrl
             do{
            try imagedata.write(to: imageURL!, options: [.atomic])
-                UserDefaults.standard.setValue(imageString, forKey: "newTrainingItemURLString")
             }catch{
                 print("\(error)")
             }
         }
-        
-        
-        
-        
-        
-        UserDefaults.standard.setValue(trainingItemTF.text, forKey: "newTrainingItemName")
-        UserDefaults.standard.setValue(trainingItemDefTF.text, forKey: "newTrainingItemDef")
-        UserDefaults.standard.setValue(trainLS, forKey: "newTrainingLS")
+        let moc = CoreDataHelper.shared.managedObjectContext()
+        let newItem: TrainingItem = TrainingItem(context: moc)
+        newItem.id = UUID().uuidString
+        newItem.name = trainingItemTF.text
+        newItem.def = trainingItemDefTF.text
+        newItem.imageName = imageString
+        switch trainLS {
+        case 1:
+            newItem.type = "BrestShoulder"
+            ManageTrainingItem.share.editTraingItem(Location: "BrestShoulder", EditedRow: nil, EditedtoRow: nil, Content: newItem, Type: "new")
+        case 2:
+            newItem.type = "Back"
+            ManageTrainingItem.share.editTraingItem(Location: "Back", EditedRow: nil, EditedtoRow: nil, Content: newItem, Type: "new")
+        case 3:
+            newItem.type = "Abdomen"
+            ManageTrainingItem.share.editTraingItem(Location: "Abdomen", EditedRow: nil, EditedtoRow: nil, Content: newItem, Type: "new")
+        case 4:
+            newItem.type = "BottomLap"
+            ManageTrainingItem.share.editTraingItem(Location: "BottomLap", EditedRow: nil, EditedtoRow: nil, Content: newItem, Type: "new")
+        case 5:
+            newItem.type = "Arm"
+            ManageTrainingItem.share.editTraingItem(Location: "Arm", EditedRow: nil, EditedtoRow: nil, Content: newItem, Type: "new")
+        case 6:
+            newItem.type = "Exercise"
+            ManageTrainingItem.share.editTraingItem(Location: "Exercise", EditedRow: nil, EditedtoRow: nil, Content: newItem, Type: "new")
+        default:
+            
+            print("error")
+        }
         
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
         self.navigationController?.pushViewController(vc!,animated: true)
@@ -185,8 +205,10 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == trainingItemTF {
+            if imageView.image == nil{
             image = self.textToImage(drawText: textField.text!, inImage: UIImage.init(named: "backsquare")!)
             imageView.image = image
+            }
             trainingItemDefTF.becomeFirstResponder()
         }else{
         
@@ -208,8 +230,10 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
 
     
     @IBAction func TrainingItemDefDidEnd(_ sender: UITextField) {
+        if imageView.image == nil{
         image = self.textToImage(drawText: trainingItemTF.text!, inImage: UIImage.init(named: "backsquare")!)
         imageView.image = image
+        }
         if sender.text != nil && sender == trainingItemDefTF {
         trainingItemDef = sender.text!
         print(trainingItemDef)

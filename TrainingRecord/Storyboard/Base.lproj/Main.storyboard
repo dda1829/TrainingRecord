@@ -684,7 +684,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JEc-fY-ZFh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1004" y="688"/>
+            <point key="canvasLocation" x="1004" y="662"/>
         </scene>
         <!--Calender View Controller-->
         <scene sceneID="Z7N-Dx-d6G">
@@ -1160,8 +1160,6 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <connections>
                                     <action selector="TrainingItemDefDidEnd:" destination="ENA-xP-OEK" eventType="editingDidEnd" id="Brr-dW-F0b"/>
-                                    <action selector="TrainingItemDidEnd:" destination="ENA-xP-OEK" eventType="editingDidEnd" id="ruG-om-64K"/>
-                                    <action selector="trainingItemDefTouchup:" destination="ENA-xP-OEK" eventType="touchUpInside" id="ivO-D8-Ium"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYH-lQ-DqE">

@@ -467,21 +467,33 @@ class ManageTrainingItem {
             case "BrestShoulder":
                 breastItems.append(content!)
                 CoreDataHelper.shared.saveContext()
+                TrainingItemQueryFromDB(Location: "BrestShoulder")
+                NotificationCenter.default.post(name: Notification.Name("reloadBreastItems"), object: nil, userInfo: ["BreastItems":breastItems])
             case "Back":
                 backItems.append(content!)
                  CoreDataHelper.shared.saveContext()
+                TrainingItemQueryFromDB(Location: "Back")
+                NotificationCenter.default.post(name: Notification.Name("reloadBackItems"), object: nil, userInfo: ["BackItems":backItems])
             case "Abdomen":
                 abdomenItems.append(content!)
                  CoreDataHelper.shared.saveContext()
+                TrainingItemQueryFromDB(Location: "Abdomen")
+                NotificationCenter.default.post(name: Notification.Name("reloadAbdomenItems"), object: nil, userInfo: ["AbdomenItems":abdomenItems])
             case "Arm":
                 armItems.append(content!)
                  CoreDataHelper.shared.saveContext()
+                TrainingItemQueryFromDB(Location: "Arm")
+                NotificationCenter.default.post(name: Notification.Name("reloadArmItems"), object: nil, userInfo: ["ArmItems":armItems])
             case "BottomLap":
                 blItems.append(content!)
                  CoreDataHelper.shared.saveContext()
+                TrainingItemQueryFromDB(Location: "BottomLap")
+                NotificationCenter.default.post(name: Notification.Name("reloadBLItems"), object: nil, userInfo: ["BLItems":blItems])
             case "Exercise":
                 exerciseItems.append(content!)
                  CoreDataHelper.shared.saveContext()
+                TrainingItemQueryFromDB(Location: "Exercise")
+                NotificationCenter.default.post(name: Notification.Name("reloadExItems"), object: nil, userInfo: ["ExItems":exerciseItems])
             default:
                 print("Wrong Input")
             }
