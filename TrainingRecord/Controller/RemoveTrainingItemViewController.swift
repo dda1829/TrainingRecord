@@ -8,10 +8,48 @@
 import UIKit
 import CoreData
 class RemoveTrainingItemViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UITableViewDelegate {
-  
+    // MARK: TrainingItem's list
+    var breastItems:[TrainingItem] = []
+    var backItems:[TrainingItem] = []
+    var abdomenItems:[TrainingItem] = []
+    var blItems: [TrainingItem] = []
+    var armItems: [TrainingItem] = []
+    var exItems: [TrainingItem] = []
+    var dbreastItems:[TrainingItem] = []
+    var dbackItems:[TrainingItem] = []
+    var dabdomenItems:[TrainingItem] = []
+    var dblItems: [TrainingItem] = []
+    var darmItems: [TrainingItem] = []
+    var dexItems: [TrainingItem] = []
     // MARK: Picker View Selection
     var trainLS = 0
     var formListLocation : [String] = ["運動部位", "肩胸部", "背部" ,"臀腿部", "腹部", "手臂","有氧運動"]
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        trainLocationPickerView.delegate = self
+        trainLocationPickerView.dataSource = self
+        trainingItemTableView.delegate = self
+        trainingItemTableView.dataSource = self
+        removedTrainingTableView.delegate = self
+        removedTrainingTableView.dataSource = self
+        breastItems = ManageTrainingItem.share.getTrainingItem(Location: "BrestShoulder")!
+         backItems = ManageTrainingItem.share.getTrainingItem(Location: "Back")!
+         abdomenItems = ManageTrainingItem.share.getTrainingItem(Location: "Abdomen")!
+         armItems = ManageTrainingItem.share.getTrainingItem(Location: "Arm")!
+         blItems = ManageTrainingItem.share.getTrainingItem(Location: "BottomLap")!
+         exItems = ManageTrainingItem.share.getTrainingItem(Location: "Exercise")!
+        dbreastItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "BrestShoulder")!
+         dbackItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Back")!
+         dabdomenItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Abdomen")!
+         darmItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Arm")!
+         dblItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "BottomLap")!
+         dexItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Exercise")!
+        trainingItemTableView.setEditing(true, animated: true)
+        
+    }
+    // pickerView Setup
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -48,23 +86,10 @@ class RemoveTrainingItemViewController: UIViewController, UIPickerViewDataSource
         removedTrainingTableView.reloadData()
     }
     
-    // MARK: tableView 
-    // MARK: CoreData for TrainItem's List
+   
 
-    // MARK: TrainingItem's list
-    var breastItems:[TrainingItem] = []
-    var backItems:[TrainingItem] = []
-    var abdomenItems:[TrainingItem] = []
-    var blItems: [TrainingItem] = []
-    var armItems: [TrainingItem] = []
-    var exItems: [TrainingItem] = []
-    var dbreastItems:[TrainingItem] = []
-    var dbackItems:[TrainingItem] = []
-    var dabdomenItems:[TrainingItem] = []
-    var dblItems: [TrainingItem] = []
-    var darmItems: [TrainingItem] = []
-    var dexItems: [TrainingItem] = []
     
+    // tableView set up
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == trainingItemTableView {
             switch trainLS {
@@ -160,7 +185,9 @@ class RemoveTrainingItemViewController: UIViewController, UIPickerViewDataSource
             }
         }
         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+        cell.textLabel?.textColor = .white
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
+        cell.detailTextLabel?.textColor = .white
         return cell
     }
 //
@@ -308,64 +335,11 @@ class RemoveTrainingItemViewController: UIViewController, UIPickerViewDataSource
 
     }
 
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        switch trainLS {
-        case 1:
-                let origindata = breastItems.remove(at: sourceIndexPath.row)
-                breastItems.insert(origindata, at: destinationIndexPath.row)
-            ManageTrainingItem.share.editTraingItem(Location: "BrestShoulder", EditedRow: sourceIndexPath.row, EditedtoRow: destinationIndexPath.row, Content: nil, Type: "edit")
-        case 2:
-            let origindata = backItems.remove(at: sourceIndexPath.row)
-            backItems.insert(origindata, at: destinationIndexPath.row)
-            ManageTrainingItem.share.editTraingItem(Location: "Back", EditedRow: sourceIndexPath.row, EditedtoRow: destinationIndexPath.row, Content: nil, Type: "edit")
-        case 3:
-            let origindata = abdomenItems.remove(at: sourceIndexPath.row)
-            abdomenItems.insert(origindata, at: destinationIndexPath.row)
-            ManageTrainingItem.share.editTraingItem(Location: "Abdomen", EditedRow: sourceIndexPath.row, EditedtoRow: destinationIndexPath.row, Content: nil, Type: "edit")
-        case 4:
-            let origindata = blItems.remove(at: sourceIndexPath.row)
-            blItems.insert(origindata, at: destinationIndexPath.row)
-            ManageTrainingItem.share.editTraingItem(Location: "BottomLap", EditedRow: sourceIndexPath.row, EditedtoRow: destinationIndexPath.row, Content: nil, Type: "edit")
-        case 5:
-            let origindata = armItems.remove(at: sourceIndexPath.row)
-            armItems.insert(origindata, at: destinationIndexPath.row)
-            ManageTrainingItem.share.editTraingItem(Location: "Arm", EditedRow: sourceIndexPath.row, EditedtoRow: destinationIndexPath.row, Content: nil, Type: "edit")
-        case 6:
-            let originadata = exItems.remove(at: sourceIndexPath.row)
-            armItems.insert(originadata, at: destinationIndexPath.row)
-            ManageTrainingItem.share.editTraingItem(Location: "Exercise", EditedRow: sourceIndexPath.row, EditedtoRow: destinationIndexPath.row, Content: nil, Type: "edit")
-        default:
-            print("error")
-        }
-        tableView.reloadData()
-
-
-    }
+    
     @IBOutlet weak var trainLocationPickerView: UIPickerView!
     @IBOutlet weak var trainingItemTableView: UITableView!
     @IBOutlet weak var removedTrainingTableView: UITableView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        trainLocationPickerView.delegate = self
-        trainLocationPickerView.dataSource = self
-        trainingItemTableView.delegate = self
-        trainingItemTableView.dataSource = self
-        removedTrainingTableView.delegate = self
-        removedTrainingTableView.dataSource = self
-        breastItems = ManageTrainingItem.share.getTrainingItem(Location: "BrestShoulder")!
-         backItems = ManageTrainingItem.share.getTrainingItem(Location: "Back")!
-         abdomenItems = ManageTrainingItem.share.getTrainingItem(Location: "Abdomen")!
-         armItems = ManageTrainingItem.share.getTrainingItem(Location: "Arm")!
-         blItems = ManageTrainingItem.share.getTrainingItem(Location: "BottomLap")!
-         exItems = ManageTrainingItem.share.getTrainingItem(Location: "Exercise")!
-        dbreastItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "BrestShoulder")!
-         dbackItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Back")!
-         dabdomenItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Abdomen")!
-         darmItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Arm")!
-         dblItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "BottomLap")!
-         dexItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Exercise")!
-        
-    }
+    
 
     
    

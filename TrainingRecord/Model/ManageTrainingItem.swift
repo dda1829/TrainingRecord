@@ -460,7 +460,7 @@ class ManageTrainingItem {
         }
     }
     
-    func editTraingItem(Location location:String, EditedRow editedrow: Int,EditedtoRow editedtorow:Int?,Content content: TrainingItem?,Type type: String){
+    func editTraingItem(Location location:String, EditedRow editedrow: Int?,EditedtoRow editedtorow:Int?,Content content: TrainingItem?,Type type: String){
         switch type {
         case "new":
             switch location {
@@ -488,49 +488,49 @@ class ManageTrainingItem {
         case "delete":
             switch location {
             case "BrestShoulder":
-                let breast = breastItems[editedrow]
+                let breast = breastItems[editedrow!]
                 breast.type = "d\(location)"
-                breastItems[editedrow] = breast
+                breastItems[editedrow!] = breast
                 CoreDataHelper.shared.saveContext()
                 TrainingItemQueryFromDB(Location: "BrestShoulder")
                 TrainingItemDeletedQueryFromDB(Location: "BrestShoulder")
                 NotificationCenter.default.post(name: Notification.Name("reloadBreastItems"), object: nil, userInfo: ["BreastItems":breastItems])
             case "Back":
-                let back = backItems[editedrow]
+                let back = backItems[editedrow!]
                  back.type = "d\(location)"
-                 backItems[editedrow] = back
+                 backItems[editedrow!] = back
                  CoreDataHelper.shared.saveContext()
                 TrainingItemQueryFromDB(Location: "Back")
                 TrainingItemDeletedQueryFromDB(Location: "Back")
                 NotificationCenter.default.post(name: Notification.Name("reloadBackItems"), object: nil, userInfo: ["BackItems":backItems])
             case "Abdomen":
-                let abdomen = abdomenItems[editedrow]
+                let abdomen = abdomenItems[editedrow!]
                  abdomen.type = "d\(location)"
-                 abdomenItems[editedrow] = abdomen
+                 abdomenItems[editedrow!] = abdomen
                  CoreDataHelper.shared.saveContext()
                 TrainingItemQueryFromDB(Location: "Abdomen")
                 TrainingItemDeletedQueryFromDB(Location: "Abdomen")
                 NotificationCenter.default.post(name: Notification.Name("reloadAbdomenItems"), object: nil, userInfo: ["AbdomenItems":abdomenItems])
             case "Arm":
-                let arm = armItems[editedrow]
+                let arm = armItems[editedrow!]
                  arm.type = "d\(location)"
-                 armItems[editedrow] = arm
+                 armItems[editedrow!] = arm
                  CoreDataHelper.shared.saveContext()
                 TrainingItemQueryFromDB(Location: "Arm")
                 TrainingItemDeletedQueryFromDB(Location: "Arm")
                 NotificationCenter.default.post(name: Notification.Name("reloadArmItems"), object: nil, userInfo: ["ArmItems":armItems])
             case "BottomLap":
-                let bl = blItems[editedrow]
+                let bl = blItems[editedrow!]
                  bl.type = "d\(location)"
-                 blItems[editedrow] = bl
+                 blItems[editedrow!] = bl
                  CoreDataHelper.shared.saveContext()
                 TrainingItemQueryFromDB(Location: "BottomLap")
                 TrainingItemDeletedQueryFromDB(Location: "BottomLap")
                 NotificationCenter.default.post(name: Notification.Name("reloadBLItems"), object: nil, userInfo: ["BLItems":blItems])
             case "Exercise":
-                let exercise = exerciseItems[editedrow]
+                let exercise = exerciseItems[editedrow!]
                  exercise.type = "d\(location)"
-                 exerciseItems[editedrow] = exercise
+                 exerciseItems[editedrow!] = exercise
                  CoreDataHelper.shared.saveContext()
                 TrainingItemQueryFromDB(Location: "Exercise")
                 TrainingItemDeletedQueryFromDB(Location: "Exercise")
@@ -539,75 +539,67 @@ class ManageTrainingItem {
                 print("Wrong Input")
             }
             case "edit":
+                
+                if editedtorow! - editedrow! > 0{
                 switch location {
                 case "BrestShoulder":
-                    let breastfrom = breastItems[editedrow]
-                    let breastto = breastItems[editedtorow!]
-                    let x =  breastfrom.id
-                    breastfrom.id = breastto.id
-                    breastto.id = x
-                    breastItems[editedrow] = breastfrom
-                    breastItems[editedtorow!] = breastto
-                    CoreDataHelper.shared.saveContext()
+                    for x in stride(from: editedtorow!, to: editedrow!, by: -1){
+                        let a = breastItems[x - 1].id
+                        breastItems[x - 1].id = breastItems[x].id
+                        breastItems[x].id = a
+                        CoreDataHelper.shared.saveContext()
+                    }
                     TrainingItemQueryFromDB(Location: "BrestShoulder")
                     NotificationCenter.default.post(name: Notification.Name("reloadBreastItems"), object: nil, userInfo: ["BreastItems":breastItems])
                 case "Back":
-                    let backfrom = backItems[editedrow]
-                    let backto = backItems[editedtorow!]
-                    let x = backfrom.id
-                    backfrom.id = backto.id
-                    backto.id = x
-                     backItems[editedrow] = backfrom
-                    backItems[editedtorow!] = backto
-                     CoreDataHelper.shared.saveContext()
+                    
+                            for x in stride(from: editedtorow!, to: editedrow!, by: -1) {
+                              let a = backItems[x - 1].id
+                                backItems[x - 1].id = backItems[x].id
+                                backItems[x].id = a
+                                CoreDataHelper.shared.saveContext()
+                            }
                     TrainingItemQueryFromDB(Location: "Back")
                     NotificationCenter.default.post(name: Notification.Name("reloadBackItems"), object: nil, userInfo: ["BackItems":backItems])
                 case "Abdomen":
-                    let abdomenfrom = abdomenItems[editedrow]
-                    let abdomento = abdomenItems[editedtorow!]
-                    let x = abdomenfrom.id
-                    abdomenfrom.id = abdomenfrom.id
-                    abdomento.id = x
-                     abdomenItems[editedrow] = abdomenfrom
-                    abdomenItems[editedtorow!] = abdomento
-                     CoreDataHelper.shared.saveContext()
+                    for x in stride(from: editedtorow!, to: editedrow!, by: -1){
+                        let a = abdomenItems[x - 1].id
+                        abdomenItems[x - 1].id = abdomenItems[x].id
+                        abdomenItems[x].id = a
+                        CoreDataHelper.shared.saveContext()
+                    }
                     TrainingItemQueryFromDB(Location: "Abdomen")
                     NotificationCenter.default.post(name: Notification.Name("reloadAbdomenItems"), object: nil, userInfo: ["AbdomenItems":abdomenItems])
                 case "Arm":
-                    let armfrom = armItems[editedrow]
-                    let armto = armItems[editedtorow!]
-                    let x = armfrom.id
-                    armfrom.id = armto.id
-                    armto.id = x
-                     armItems[editedrow] = armfrom
-                    armItems[editedtorow!] = armto
-                     CoreDataHelper.shared.saveContext()
+                    for x in stride(from: editedtorow!, to: editedrow!, by: -1){
+                        let a = armItems[x - 1].id
+                        armItems[x - 1].id = armItems[x].id
+                        armItems[x].id = a
+                        CoreDataHelper.shared.saveContext()
+                    }
                     TrainingItemQueryFromDB(Location: "Arm")
                     NotificationCenter.default.post(name: Notification.Name("reloadArmItems"), object: nil, userInfo: ["ArmItems":armItems])
                 case "BottomLap":
-                    let blfrom = blItems[editedrow]
-                    let blto = blItems[editedtorow!]
-                    let x = blfrom.id
-                    blfrom.id = blto.id
-                    blto.id = x
-                     blItems[editedrow] = blfrom
-                    blItems[editedtorow!] = blto
-                     CoreDataHelper.shared.saveContext()
+                    for x in stride(from: editedtorow!, to: editedrow!, by: -1){
+                        let a = blItems[x - 1].id
+                        blItems[x - 1].id = blItems[x].id
+                        blItems[x].id = a
+                        CoreDataHelper.shared.saveContext()
+                    }
                     TrainingItemQueryFromDB(Location: "BottomLap")
                     NotificationCenter.default.post(name: Notification.Name("reloadBLItems"), object: nil, userInfo: ["BLItems":blItems])
                 case "Exercise":
-                    let exercisefrom = exerciseItems[editedrow]
-                    let exerciseto = exerciseItems[editedtorow!]
-                    let x = exercisefrom.id
-                    exercisefrom.id = exerciseto.id
-                    exerciseto.id = x
-                     exerciseItems[editedrow] = exercisefrom
-                    exerciseItems[editedtorow!] = exerciseto
-                     CoreDataHelper.shared.saveContext()
+                    for x in stride(from: editedtorow!, to: editedrow!, by: -1){
+                        let a = exerciseItems[x - 1].id
+                        exerciseItems[x - 1].id = exerciseItems[x].id
+                        exerciseItems[x].id = a
+                        CoreDataHelper.shared.saveContext()
+                    }
                     TrainingItemQueryFromDB(Location: "Exercise")
                     NotificationCenter.default.post(name: Notification.Name("reloadExItems"), object: nil, userInfo: ["ExItems":exerciseItems])
                 default:
                     print("Wrong Input")
+                }
                 }
         default:
             print("Wrong Input")

@@ -607,79 +607,75 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 self.infodataEmail.append(infodatas[x].editorEmail!)
             }
         }
+        // If TrainingItems is edited will notify the data to here
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadBreastItems"), object: nil, queue: OperationQueue.main) { notification in
             self.formListBreast = [ "訓練項目"]
             self.trainBreastText = [ "訓練項目"]
-            self.breastImageforms = []
+            self.breastImageforms = [UIImage(named: "nocolor")!]
             let breastdatas = notification.userInfo!["BreastItems"] as! [TrainingItem]
             for x in 0 ..< breastdatas.count {
-                if !self.formListBreast.contains(breastdatas[x].name!){
                 self.formListBreast.append(breastdatas[x].name!)
                 self.trainBreastText.append(breastdatas[x].def!)
                 imagedata = try! NSData.init(contentsOf: homeUrl.appendingPathComponent(breastdatas[x].imageName!))
                 image = UIImage(data: imagedata as Data)!
                 self.breastImageforms.append(image)
-                }
+                
             }
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadBackItems"), object: nil, queue: OperationQueue.main) { notification in
             self.formListBack = [ "訓練項目"]
             self.trainBackText = [ "訓練項目"]
-            self.backImageforms = []
+            self.backImageforms = [UIImage(named: "nocolor")!]
             let backdatas = notification.userInfo!["BackItems"] as! [TrainingItem]
             for x in 0 ..< backdatas.count{
-                if !self.formListBack.contains(backdatas[x].name!){
                 self.formListBack.append(backdatas[x].name!)
                 self.trainBackText.append(backdatas[x].def!)
                 imagedata = try! NSData.init(contentsOf: homeUrl.appendingPathComponent(backdatas[x].imageName!))
                 image = UIImage(data: imagedata as Data)!
                 self.backImageforms.append(image)
-                }
+                
             }
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadAbdomenItems"), object: nil, queue: OperationQueue.main) { notification in
             self.formListAbdomen = [ "訓練項目"]
             self.trainAbdomenText = [ "訓練項目"]
-            self.abdomenImageforms = []
+            self.abdomenImageforms = [UIImage(named: "nocolor")!]
             let abdomendatas = notification.userInfo!["AbdomenItems"] as! [TrainingItem]
             for x in 0 ..< abdomendatas.count{
-                if !self.formListAbdomen.contains(abdomendatas[x].name!){
+                
                 self.formListAbdomen.append(abdomendatas[x].name!)
                 self.trainAbdomenText.append(abdomendatas[x].def!)
                 imagedata = try! NSData.init(contentsOf: homeUrl.appendingPathComponent(abdomendatas[x].imageName!))
                 image = UIImage(data: imagedata as Data)!
                 self.abdomenImageforms.append(image)
-                }
+                
             }
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadBLItems"), object: nil, queue: OperationQueue.main) { notification in
             self.formListBL = [ "訓練項目"]
             self.trainBLText = [ "訓練項目"]
-            self.blImageforms = []
+            self.blImageforms = [UIImage(named: "nocolor")!]
             let bldatas = notification.userInfo!["BLItems"] as! [TrainingItem]
             for x in 0 ..< bldatas.count{
-                if !self.formListBL.contains(bldatas[x].name!){
                 self.formListBL.append(bldatas[x].name!)
                 self.trainBLText.append(bldatas[x].def!)
                 imagedata = try! NSData.init(contentsOf: homeUrl.appendingPathComponent(bldatas[x].imageName!))
                 image = UIImage(data: imagedata as Data)!
                 self.blImageforms.append(image)
-                }
+                
             }
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadExItems"), object: nil, queue: OperationQueue.main) { notification in
             self.formListEx = [ "訓練項目"]
             self.trainExText = [ "訓練項目"]
-            self.exerciseImageform = []
+            self.exerciseImageform = [UIImage(named: "nocolor")!]
             let exdatas = notification.userInfo!["ExItems"] as! [TrainingItem]
             for x in 0 ..< exdatas.count{
-                if !self.formListEx.contains(exdatas[x].name!){
                 self.formListEx.append(exdatas[x].name!)
                 self.trainExText.append(exdatas[x].def!)
                 imagedata = try! NSData.init(contentsOf: homeUrl.appendingPathComponent(exdatas[x].imageName!))
                 image = UIImage(data: imagedata as Data)!
                 self.exerciseImageform.append(image)
-                }
             }
         }
     }
@@ -1007,11 +1003,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 myScrollImageView.contentMode = .scaleToFill
                 myScrollImageView.image = imageArray[i]
                 self.IntroduceSV.addSubview(myScrollImageView)
-                //                    myScrollImageView.translatesAutoresizingMaskIntoConstraints = false
-                //                    myScrollImageView.heightAnchor.constraint(equalToConstant: self.view.frame.height).isActive = true
-                //                    myScrollImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
-                //                    myScrollImageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-                //                    myScrollImageView.bottomAnchor.constraint(equalTo: IntroducePCol.topAnchor, constant: 0).isActive = true
                 
             }
             

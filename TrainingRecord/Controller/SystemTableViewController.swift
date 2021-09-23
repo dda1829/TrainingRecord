@@ -17,7 +17,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     var trainUnit = "Kg"
     var memberFunctionForm : [String] = ["設定會員資料","編輯器材資訊","設定預備時間","運動提醒"]
     //    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","修改訓練項目位置"]
-    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目"]
+    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","調整運動項目位置"]
     var trainingParameters: [String] = ["重量單位","紀錄模式"]
     var editorFormList: [String] = ["評價此ＡＰＰ","聯繫作者"]
     var clearDatasFormList: [String] = ["備份資料至iCloud","從iCloud還原資料","清除今日訓練資料","清除所有訓練資料"]
@@ -216,22 +216,22 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.textLabel?.textColor = .white
                         cell.backgroundColor = .darkGray
-                        //                    }else if indexPath.row == 4 {
-                        //                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
-                        //                        cell.textLabel?.text = "    -" + trainListEditForm[indexPath.row - 2]
-                        //                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-                        //                        cell.textLabel?.textColor = .white
-                        //                        cell.backgroundColor = .darkGray
                     }else if indexPath.row == 4 {
+                        cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
+                        cell.textLabel?.text = "    -" + trainListEditForm[indexPath.row - 2]
+                        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
+                        cell.textLabel?.textColor = .white
+                        cell.backgroundColor = .darkGray
+                    }else if indexPath.row == 5 {
                         cell = tableView.dequeueReusableCell(withIdentifier: "Systemcell", for: indexPath)
-                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 2]
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 3]
                         cell.detailTextLabel?.text = "\(prepareTime)"
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.textLabel?.textColor = .white
-                    }else if indexPath.row == 5{
+                    }else if indexPath.row == 6{
                         cell = tableView.dequeueReusableCell(withIdentifier: "SystemMemberCell", for: indexPath)
-                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 2]
+                        cell.textLabel?.text = memberFunctionForm[indexPath.row - 3]
                         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
                         cell.textLabel?.textColor = .white
                     }
@@ -393,6 +393,10 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }else if indexPath.row == 4{
+                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "EditTrainingItemPage") as? EditTrainingItemViewController{
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }else if indexPath.row == 5{
                         prepareTime += 1
                         if prepareTime == 6 {
                             prepareTime = 1
@@ -400,13 +404,13 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         UserDefaults.standard.setValue(prepareTime, forKey: "prepareTime")
                         UserDefaults.standard.synchronize()
                         NotificationCenter.default.post(name: Notification.Name("prepareTime"), object: nil, userInfo: ["prepareTime":prepareTime])
-                    }else if indexPath.row == 5{
+                    }else if indexPath.row == 6{
                         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "RemainderPage") as? TrainingReminderViewController{
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
                 }else{
-                    if indexPath.section == 2 && indexPath.row == 2{
+                    if indexPath.row == 2{
                         prepareTime += 1
                         if prepareTime == 6 {
                             prepareTime = 1
