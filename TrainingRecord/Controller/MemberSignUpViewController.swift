@@ -14,7 +14,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
     
     
     var passwordstrength = 0
-    var isMember: Bool = false
     
     var originalFrame : CGRect?
     //畫面顯示時註冊通知
@@ -61,21 +60,17 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
             self.view.frame = self.originalFrame!
         }
     }
-    @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tap)
-        userNameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
         // Do any additional setup after loading the view
         
-        if UserDefaults.standard.string(forKey: "userName") != nil {
-            userNameTextField.text = UserDefaults.standard.string(forKey: "userName")
-        }
+        
 
 
     }
@@ -85,13 +80,11 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
 
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == userNameTextField{
-            emailTextField.becomeFirstResponder()
-        }else if textField == emailTextField{
+        if textField == emailTextField{
             passwordTextField.becomeFirstResponder()
         }else{
             self.view.endEditing(true)
-            if emailTextField.text != "" && passwordTextField.text != "" && userNameTextField.text != ""{
+            if emailTextField.text != "" && passwordTextField.text != "" {
                 signUpBtnPressed(self)
             }
         }
@@ -102,61 +95,10 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
     
  
     @IBOutlet weak var passwordStrenthL: UILabel!
-//    @IBAction func googleSignInBtnPressed(_ sender: Any) {guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-//
-//        // Create Google Sign In configuration object.
-//        let config = GIDConfiguration(clientID: clientID)
-//
-//        // Start the sign in flow!
-//        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [unowned self] user, error in
-//
-//          if let error = error {
-//            // ...
-//            return
-//          }
-//
-//          guard
-//            let authentication = user?.authentication,
-//            let idToken = authentication.idToken
-//          else {
-//            return
-//          }
-//
-//          let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-//                                                         accessToken: authentication.accessToken)
-//            Auth.auth().signIn(with: credential) { authResult, error in
-//                if let error = error {
-//                  let authError = error as NSError
-//                  if authError.code == AuthErrorCode.secondFactorRequired.rawValue {
-//                    // The user is a multi-factor user. Second factor challenge is required.
-//                    let resolver = authError
-//                      .userInfo[AuthErrorUserInfoMultiFactorResolverKey] as! MultiFactorResolver
-//                    var displayNameString = ""
-//                    for tmpFactorInfo in resolver.hints {
-//                      displayNameString += tmpFactorInfo.displayName ?? ""
-//                      displayNameString += " "
-//                    }
-//                  } else {
-////                    self.showMessagePrompt(error.localizedDescription)
-//                    return
-//                  }
-//                  // ...
-//                  return
-//                }
-//                // User is signed in
-//                // ...
-//                self.isMember = true
-//                UserDefaults.standard.set(self.isMember, forKey: "isMember")
-//                UserDefaults.standard.synchronize()
-//                MemberUserDataToFirestore.share.createUserDocument()
-//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoggedIn") as? MemberAlreadyLoginViewController
-//                vc?.userName = self.userNameTextField.text
-//                self.navigationController?.pushViewController(vc!,animated: true)
-//            }        }
-//    }
+
     
     @IBAction func signUpBtnPressed(_ sender: Any) {
-        if emailTextField.text == "" || passwordTextField.text == "" || userNameTextField.text == "" {
+        if emailTextField.text == "" || passwordTextField.text == ""  {
                 let alertController = UIAlertController(title: "Error", message: "Please enter your name,email and password", preferredStyle: .alert)
                 
                 let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -172,17 +114,7 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
                     if error == nil {
                         print("You have successfully signed up")
                         //Goes to the Setup page which lets the user take a photo for their profile picture and also chose a username
-                        self.isMember = true
-                        UserDefaults.standard.set(self.isMember, forKey: "isMember")
-                        UserDefaults.standard.synchronize()
-                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                        changeRequest?.displayName = self.userNameTextField.text
-                        changeRequest?.commitChanges { error in
-                            if let e = error {
-                                print( "error \(e)")
-                                return
-                            }
-                        }
+                        
                         Auth.auth().currentUser?.sendEmailVerification { error in
                         }
                         print(Auth.auth().currentUser!.isEmailVerified)
@@ -248,8 +180,10 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
     
     func GoLogInPage() {
         TimerUse.share.stopTimer(1)
+        
+        UserDefaults.standard.setValue("email", forKey: "loginMethod")
+        UserDefaults.standard.synchronize()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoggedIn") as? MemberAlreadyLoginViewController
-        vc?.userName = self.userNameTextField.text
         self.navigationController?.pushViewController(vc!,animated: true)
     }
     
@@ -309,9 +243,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
         // 不能輸入空白
         if string.isContainsSpaceCharacters() {
             return false
-        }
-        guard textField != userNameTextField else {
-            return true
         }
         // 不能輸入中文字
         if string.isContainsChineseCharacters() {

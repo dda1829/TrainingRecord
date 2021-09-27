@@ -306,15 +306,11 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }else{
-                if !UserDefaults.standard.bool(forKey: "isMember"){
-                    if let vc = self.storyboard?.instantiateViewController(withIdentifier: "SignUpPage") as? MemberSignUpViewController{
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
-                }else{
+                
                     if let vc = self.storyboard?.instantiateViewController(withIdentifier: "MemberLoginPage") as? MemberLoginViewController{
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-                }
+                
             }
         }else if indexPath.section == 1 {
             if indexPath.row == 0{

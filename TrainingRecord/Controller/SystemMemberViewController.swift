@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate,UIPickerViewDataSource,UITextViewDelegate {
    
+    @IBOutlet weak var userNameTV: UITextField!
     @IBOutlet weak var sexualAgePV: UIPickerView!
     @IBOutlet weak var targetTextField: UITextField!
     @IBOutlet weak var heightTF: UITextField!
@@ -65,7 +66,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
         if component == 0 {
             if row != 0 {
-            MemberUserDataToFirestore.share.updateUserdata("userGender", sex[row-1])
+            MemberUserDataToFirestore.share.updateUserdata("userGender", sex[row - 1])
                 userGender = sex[row-1]
             } else {
                 MemberUserDataToFirestore.share.updateUserdata("userGender", "性別不詳")
@@ -83,8 +84,15 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
     }
     
     
+    @objc func backToSysBtn (){
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
+        self.navigationController?.pushViewController(vc!,animated: true)
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
+        userNameTV.delegate = self
         targetTextField.delegate = self
         // Do any additional setup after loading the view.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -109,12 +117,6 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
             userGoals = MemberUserDataToFirestore.share.getUserdatas("userGoal") as! [String]
             targetTextField.placeholder = userGoals.last!
         }
-//        if (MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]).count != 0{
-//            userBMI = MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]
-//        }
-//        if (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]).count != 0 {
-//            userBMR = MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]
-//        }
         if (MemberUserDataToFirestore.share.getUserdatas("userRecordTime") as! [String]).count != 0 {
             userRecordDate = MemberUserDataToFirestore.share.getUserdatas("userRecordTime") as! [String]
         }
@@ -135,6 +137,23 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         self.view.endEditing(true)
     }
     @IBAction func setTargetBtnPressed(_ sender: Any) {
+        guard userNameTV.text != "" else {
+            let alert = UIAlertController(title: "", message: "請填入您的暱稱告知我您怎麼稱呼？", preferredStyle: .alert)
+            let alertaction =  UIAlertAction(title: "OK", style: .cancel) { alert in
+                print("please input your name")
+            }
+            alert.addAction(alertaction)
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+        UserDefaults.standard.setValue(userNameTV.text, forKey: "userName")
+        UserDefaults.standard.synchronize()
+        changeRequest?.displayName = userNameTV.text
+        changeRequest?.commitChanges { error in
+            print("update user's data failed: \(error?.localizedDescription)")
+        }
         let nowDate = Date().timeIntervalSinceNow
         
         userRecordDate.append("\(nowDate)")

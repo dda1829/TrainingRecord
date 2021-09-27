@@ -7,9 +7,30 @@
 
 import UIKit
 import Firebase
-class MemberAlreadyLoginViewController: UIViewController {
+import FBSDKCoreKit
+import FBSDKLoginKit
+class MemberAlreadyLoginViewController: UIViewController, LoginButtonDelegate {
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        //
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        do {
+            try Auth.auth().signOut()
+            MemberUserDataToFirestore.share.initialUserdata()
+            UserDefaults.standard.removeObject(forKey: "isMemberDataEdited")
+            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
+            self.navigationController?.pushViewController(vc!,animated: true)
+        } catch {
+            print(error)
+        }
+    }
+    
     var userName: String?
     @IBOutlet weak var LogedinTV: UILabel!
+    @IBOutlet weak var logOutBtn: UIButton!
+    @IBOutlet weak var removeAccountBtn: UIButton!
     @objc func backToSysBtn (){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
         self.navigationController?.pushViewController(vc!,animated: true)
@@ -25,6 +46,22 @@ class MemberAlreadyLoginViewController: UIViewController {
             LogedinTV.text = "\(userName ?? username)您好\n您已經登入了！"
         }
         }
+        switch UserDefaults.standard.string(forKey: "loginMethod") {
+        case "FaceBook":
+            logOutBtn.removeFromSuperview()
+            let fblogoutbtn = FBLoginButton()
+            fblogoutbtn.delegate = self
+            view.addSubview(fblogoutbtn)
+            fblogoutbtn.translatesAutoresizingMaskIntoConstraints = false
+            fblogoutbtn.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+            fblogoutbtn.bottomAnchor.constraint(equalTo: removeAccountBtn.topAnchor, constant: 25).isActive = true
+        default:
+            print("emailLogin")
+        }
+        
+        
+        
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         if let user = Auth.auth().currentUser {
@@ -35,17 +72,49 @@ class MemberAlreadyLoginViewController: UIViewController {
         }
     }
     var db : Firestore?
-    @IBAction func RemoveAccountBtn(_ sender: UIButton) {
-        do{
-            try Auth.auth().signOut()
-        }catch{
-            print(error)
+    @IBAction func goMemberDataSetPage(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SystemMemberPage") as? SystemMemberViewController
+        self.navigationController?.pushViewController(vc!,animated: true)
+    }
+    @IBAction func RemoveAccountBtnPressed(_ sender: UIButton) {
+        
+       
+            
+        
+        if UserDefaults.standard.string(forKey: "loginMethod") == "email"{
+            do{
+                try Auth.auth().signOut()
+            }catch{
+                print(error)
+            }
+            
+            
+            TimerUse.share.setTimer(1, self, #selector(removeAccount), false, 1)
+            
+            mbProgress(true)
+        }else{
+            if let user = Auth.auth().currentUser{
+                let deleteUserDatas = user.email!
+            do {
+                try Auth.auth().signOut()
+            } catch {
+                print(error)
+            }
+            MemberUserDataToFirestore.share.removeUserdata(deleteUserDatas)
+            MemberUserDataToFirestore.share.initialUserdata()
+            UserDefaults.standard.removeObject(forKey: "userName")
+            UserDefaults.standard.removeObject(forKey: "userGoal")
+            UserDefaults.standard.removeObject(forKey: "isMemberDataEdited")
+            UserDefaults.standard.synchronize()
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
+            self.navigationController?.pushViewController(vc!,animated: true)
+            }
         }
         
         
-        TimerUse.share.setTimer(1, self, #selector(removeAccount), false, 1)
         
-        mbProgress(true)
+        
+        
         
     }
     func mbProgress(_ onoff: Bool){
@@ -91,7 +160,6 @@ class MemberAlreadyLoginViewController: UIViewController {
             
             
             
-            db = Firestore.firestore()
             let deleteUserDatas = user.email!
             
                   
@@ -128,6 +196,7 @@ class MemberAlreadyLoginViewController: UIViewController {
             try Auth.auth().signOut()
             MemberUserDataToFirestore.share.initialUserdata()
             UserDefaults.standard.removeObject(forKey: "isMemberDataEdited")
+            
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
             self.navigationController?.pushViewController(vc!,animated: true)
         } catch {

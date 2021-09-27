@@ -40,10 +40,10 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             let userHeight = MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]
             let userWeight = MemberUserDataToFirestore.share.getUserdatas("userWeight") as! [String]
             let userBodyFat = MemberUserDataToFirestore.share.getUserdatas("userBodyFat") as! [String]
-            let BMIo = (MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]).last
-            let BMRo = (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]).last
-            let BMI = Double(BMIo!)
-            let BMR = Double(BMRo!)
+            let BMIo = (MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]).last ?? "0"
+            let BMRo = (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]).last ?? "0"
+            let BMI = Double(BMIo)
+            let BMR = Double(BMRo)
             let noInput = "NoData"
             if userAge != ""{
             conclusionright = "用戶年齡：  " + userAge + " 歲\n"
@@ -104,12 +104,19 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         RecodListTV.dataSource = self
         RecodListTV.register(SharedTableViewCell.nib(), forCellReuseIdentifier: SharedTableViewCell.identifier)
         loadFromFile()
+        
+        getFormList()
+        dateRecordTitleBtn.setTitle(dateRecord, for: .normal)
+    }
+    
+    
+    func getFormList() {
         subtitleForm = recordStringGen()
         titleForm = recordLocationStringGen()
         titleFormShare = recordLocationStringGen2()
-        
-        dateRecordTitleBtn.setTitle(dateRecord, for: .normal)
     }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         loadFromFile()
@@ -154,6 +161,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         showDateBtnClick = !showDateBtnClick
         loadFromFile()
         print("DatePicke is used")
+        getFormList()
         RecodListTV.reloadData()
         print(dateRecord)
         picker.removeFromSuperview()
@@ -238,8 +246,9 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         var ratingScore: [[Int]:[Double]] = [:]
         var rating = 0.0
         for x in recordsort{
+            if let rate = trainRateSeperate[x] {
             
-            for y in 0 ..< trainRateSeperate[x]!.count{
+            for y in 0 ..< rate.count{
                 switch trainRateSeperate[x]![y] {
                 case "Good":
                     if ratingScore[x] == nil {
@@ -266,7 +275,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                         ratingScore[x]?.append(0)
                     }
                 }
-                if y == trainRateSeperate[x]!.count - 1 {
+                if y == rate.count - 1 {
                     for z in ratingScore[x]!{
                          rating += z
                     }
@@ -280,13 +289,15 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                         rateResult.append("資訊不足")
                     }
                 }
+            }
                 rating = 0
             }
         }
         var locationString = ""
         var ratecount = 0
         for x in recordsort {
-            if (trainItem?.trainSet[x])! <= 2 {
+            if let trainset = trainItem?.trainSet[x] {
+            if trainset <= 2 {
                 locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
             }else{
                 locationString = ""
@@ -300,6 +311,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             ratecount += 1
             result.append(locationString)
+            }
         }
         print("record location result = \(result)")
         return result
@@ -321,8 +333,8 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         var ratingScore: [[Int]:[Double]] = [:]
         var rating = 0.0
         for x in recordsort{
-            
-            for y in 0 ..< trainRateSeperate[x]!.count{
+            if let rate = trainRateSeperate[x] {
+            for y in 0 ..< rate.count{
                 switch trainRateSeperate[x]![y] {
                 case "Good":
                     if ratingScore[x] == nil {
@@ -349,7 +361,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                         ratingScore[x]?.append(0)
                     }
                 }
-                if y == trainRateSeperate[x]!.count - 1 {
+                if y == rate.count - 1 {
                     for z in ratingScore[x]!{
                          rating += z
                     }
@@ -365,6 +377,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 rating = 0
             }
+            }
         }
         var locationString = ""
         var ratecount = 0
@@ -374,6 +387,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             ratecount += 1
             result.append(locationString)
         }
+        recordsort = []
         print("record location result = \(result)")
         return result
     }

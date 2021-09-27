@@ -93,7 +93,7 @@ class MemberUserDataToFirestore {
         if let currentuser = Auth.auth().currentUser{
             
                 accountDatas.updateValue(currentuser.email!, forKey: "userEmail")
-                accountDatas.updateValue(currentuser.displayName!, forKey: "userName")
+                accountDatas.updateValue(currentuser.displayName ?? "", forKey: "userName")
             
             let docRef = db.collection("users").document("\(currentuser.email!)")
             docRef.getDocument { (document, error) in

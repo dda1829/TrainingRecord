@@ -686,6 +686,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        do {
+//            try Auth.auth().signOut()
+//        } catch {
+//            print(error)
+//        }
+//        
+        
         let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
         var imagedata = try! NSData.init()
         var image = UIImage()
@@ -746,19 +753,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
         
         
-        
-        if Auth.auth().currentUser != nil{
-            if !Auth.auth().currentUser!.isEmailVerified{
-            do{
-                try Auth.auth().signOut()
-            }catch{
-                
-            }
-            }
-        }
-        
-        
-//        checkNewTrainingItem()
         // Do any additional setup after loading the view.
         if UserDefaults.standard.integer(forKey: "prepareTime") != 0 {
             prepareTime = UserDefaults.standard.integer(forKey: "prepareTime")
@@ -1020,7 +1014,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         loginTimes += 1
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
-        if Auth.auth().currentUser == nil {
+//        if Auth.auth().currentUser == nil {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { status in
                 DispatchQueue.main.async {
@@ -1047,7 +1041,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.bannerView.delegate = self
             self.bannerView.load(GADRequest())
         }
-        }
+//        }
         // Check the System Mode
         isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
            
@@ -1215,19 +1209,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 for view in self.view.subviews{
                     view.isHidden = false
                 }
-                let alertController = UIAlertController(title: nil, message: "歡迎您使用此應用！", preferredStyle: .alert)
-                alertController.addTextField { textfield in
-                    textfield.placeholder = "請問大名"
-                }
-                let action = UIAlertAction(title: "Save", style: .default) { action in
-                    //取得textfield中的值
-                    if let input =  alertController.textFields?[0].text{
-                        UserDefaults.standard.set(input, forKey: "userName")
-                        UserDefaults.standard.synchronize()
-                    }
-                }
-                alertController.addAction(action)
-                self.present(alertController, animated: true, completion: nil)
             }
         }
         
@@ -1650,7 +1631,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
             let _ = GADAdSizeFromCGSize(CGSize(width: 323, height: 20))
 
-            if bannerView.superview == nil && Auth.auth().currentUser == nil {
+            if bannerView.superview == nil /*&& Auth.auth().currentUser == nil*/ {
                             self.RecordListTV.tableHeaderView = bannerView
                         //第一次廣告進來
 //                        self.view.addSubview(bannerView)
