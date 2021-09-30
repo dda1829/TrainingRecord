@@ -17,7 +17,7 @@ class EditTrainingItemViewController: UIViewController, UIPickerViewDataSource, 
     var exItems: [TrainingItem] = []
     // MARK: Picker View Selection
     var trainLS = 0
-    var formListLocation : [String] = ["運動部位", "肩胸部", "背部" ,"臀腿部", "腹部", "手臂","有氧運動"]
+    var formListLocation : [String] = [NSLocalizedString("TrainingLocation",comment: "運動部位"), NSLocalizedString("BrestShoulder",comment: "肩胸部"),NSLocalizedString("Back",comment: "背部"), NSLocalizedString("Abdomen",comment: "核心"),NSLocalizedString("BottomLap",comment: "臀腿部"),NSLocalizedString("Arm",comment: "手臂")  ,NSLocalizedString("Exercise",comment: "有氧運動")]
     
     // tableview setup
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -165,6 +165,7 @@ class EditTrainingItemViewController: UIViewController, UIPickerViewDataSource, 
         trainingItemTableView.dataSource = self
         trainingItemTableView.delegate = self
         trainingItemTableView.setEditing(true, animated: true)
+        trainLocationPickerView.setValue(UIColor.white, forKey: "textColor")
         // Do any additional setup after loading the view.
     }
     

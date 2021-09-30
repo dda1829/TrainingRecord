@@ -13,7 +13,7 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
     var trainingItem : String = ""
     var trainingItemDef : String = ""
     var trainLS = 0
-    var formListLocation : [String] = ["運動部位", "肩胸部", "背部" ,"臀腿部", "腹部", "手臂","有氧運動"]
+    var formListLocation : [String] = [NSLocalizedString("TrainingLocation",comment: "運動部位"), NSLocalizedString("BrestShoulder",comment: "肩胸部"),NSLocalizedString("Back",comment: "背部"), NSLocalizedString("Abdomen",comment: "核心"),NSLocalizedString("BottomLap",comment: "臀腿部"),NSLocalizedString("Arm",comment: "手臂")  ,NSLocalizedString("Exercise",comment: "有氧運動")]
     let manager = FileManager.default
     var imageURL : URL?
     var imageString : String?

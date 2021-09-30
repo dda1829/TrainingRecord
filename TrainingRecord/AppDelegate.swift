@@ -12,6 +12,7 @@ import GoogleMobileAds
 import UserNotifications
 import FBSDKCoreKit
 import GoogleSignIn
+import AVFoundation
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate{
 
@@ -31,6 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             }
          })
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
+        let audioSession = AVAudioSession.sharedInstance()
+                do {
+                    try audioSession.setCategory(AVAudioSession.Category.playback)
+                } catch {
+                    print("Setting category to AVAudioSessionCategoryPlayback failed.")
+                }
         return true
     }
 
@@ -76,10 +83,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         //點開了通知處理
         let userInfo = response.notification.request.content.userInfo
         print("didReceive userInfo: \(userInfo)")
-//        guard let aps = userInfo["aps"] as? [String: [String: String]], let alert = aps["alert"] else {
-//            return
-//        }
-        NotificationCenter.default.post(name: Notification.Name("ReceivedNotification"), object: nil)
+
         
         completionHandler()
     }

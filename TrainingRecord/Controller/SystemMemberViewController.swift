@@ -18,6 +18,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
     @IBOutlet weak var parametersTVLeft: UITextView!
     @IBOutlet weak var parametersTVRight: UITextView!
     @IBOutlet weak var sendBtn: UIButton!
+    // for the input properties
     var age: [Int] = Array(15...70)
     var sex: [String] = ["male","female"]
     var userAge: String?
@@ -29,6 +30,10 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
     var userRecordDate : [String] = []
     var userBMI : [String] = []
     var userBMR : [String] = []
+    
+    
+    
+    var isPressedBtn = false
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
@@ -49,13 +54,13 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component:Int)-> String?{
         if component == 0{
             if row == 0 {
-                return "生理性別"
+                return NSLocalizedString("Gender",comment: "生理性別")
             }
             return sex[row-1]
         }
         else if component == 1 {
             if row == 0 {
-                return "年齡"
+                return NSLocalizedString("Age",comment: "年齡")
             }
             return "\(age[row-1])"
         }
@@ -89,6 +94,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         self.navigationController?.pushViewController(vc!,animated: true)
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToSysBtn))
@@ -101,15 +107,16 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         sexualAgePV.delegate = self
         sexualAgePV.dataSource = self
         navigationController?.title = "會員資料設定"
-        if (MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]).count != 0 {
+        let noInput = "NoData"
+        if (MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]).count != 0 && (MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]).last != noInput{
             userHeight = MemberUserDataToFirestore.share.getUserdatas("userHeight") as! [String]
             heightTF.placeholder = userHeight.last! + "cm"
         }
-        if (MemberUserDataToFirestore.share.getUserdatas("userWeight") as! [String]).count != 0 {
+        if (MemberUserDataToFirestore.share.getUserdatas("userWeight") as! [String]).count != 0 && (MemberUserDataToFirestore.share.getUserdatas("userWeight") as! [String]).last != noInput {
             userWeight = MemberUserDataToFirestore.share.getUserdatas("userWeight") as! [String]
             weightTF.placeholder = userWeight.last! + "kg"
         }
-        if (MemberUserDataToFirestore.share.getUserdatas("userBodyFat") as! [String]).count != 0  {
+        if (MemberUserDataToFirestore.share.getUserdatas("userBodyFat") as! [String]).count != 0 && (MemberUserDataToFirestore.share.getUserdatas("userBodyFat") as! [String]).last != noInput {
             userBodyFat = MemberUserDataToFirestore.share.getUserdatas("userBodyFat") as! [String]
             BodyFatTF.placeholder = userBodyFat.last! + "%"
         }
@@ -119,6 +126,12 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
         if (MemberUserDataToFirestore.share.getUserdatas("userRecordTime") as! [String]).count != 0 {
             userRecordDate = MemberUserDataToFirestore.share.getUserdatas("userRecordTime") as! [String]
+        }
+        
+        if let username = Auth.auth().currentUser?.displayName  {
+            userNameTV.text = username
+        }else if UserDefaults.standard.string(forKey: "userName") != "" {
+            userNameTV.text = UserDefaults.standard.string(forKey: "userName")
         }
         
         if MemberUserDataToFirestore.share.checkAge(){
@@ -192,46 +205,29 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         var BMI = 0.0
         if userWeight.last! != noInput && userHeight.last! != noInput {
             BMI = Double(userWeight.last!)! / ((Double(userHeight.last!)! / 100) * (Double(userHeight.last!)! / 100))
-//            if (MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]) == [] {
                 userBMI.append("\(BMI)")
                 MemberUserDataToFirestore.share.updateUserdata("userBMI", userBMI)
-//            }else{
-//                userBMI = MemberUserDataToFirestore.share.getUserdatas("userBMI") as! [String]
-//                userBMI.append("\(BMI)")
-//                MemberUserDataToFirestore.share.updateUserdata("userBMI", userBMI)
-//            }
             
         }
         var BMR = 0.0
         if userGender == "male"{
             if userWeight.last! != noInput && userHeight.last! != noInput {
                 BMR = 66 + (6.23 * Double(userWeight.last!)! * 2.2046) + (12.7 * (Double(userHeight.last!)! / 2.54) ) - (6.8 * Double(userAge!)!)
-//                if (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]) == []{
                 userBMR.append("\(BMR)")
                 MemberUserDataToFirestore.share.updateUserdata("userBMR", userBMR)
-//                }else{
-//                    userBMR = MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]
-//                    userBMR.append("\(BMR)")
-//                    MemberUserDataToFirestore.share.updateUserdata("userBMR", userBMR)
-//                }
             }
         }else{
             if userWeight.last! != noInput && userHeight.last! != noInput {
                 BMR = 655 + (4.35 * Double(userWeight.last!)! * 2.2046) + (4.7 * (Double(userHeight.last!)! / 2.54) ) - (4.7 * Double(userAge!)!)
-//                if (MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]) == []{
                 userBMR.append("\(BMR)")
                 MemberUserDataToFirestore.share.updateUserdata("userBMR", userBMR)
-//                }else{
-//                    userBMR = MemberUserDataToFirestore.share.getUserdatas("userBMR") as! [String]
-//                    userBMR.append("\(BMR)")
-//                    MemberUserDataToFirestore.share.updateUserdata("userBMR", userBMR)
-//                }
+
             }
         }
         if let userage = userAge{
         conclusionright = "用戶年齡：  " + userage + " 歲\n\n"
         }else{
-            conclusionright = "用戶年齡：  " + noInput + " 歲\n\n"
+            conclusionright = "用戶年齡：  " + noInput + " \n\n"
         }
         conclusionleft = "用戶名稱：  " + (MemberUserDataToFirestore.share.getUserdatas("userName") as! String) + "\n\n"
         if let usergender = userGender{
@@ -239,10 +235,21 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         }else{
             conclusionleft += "用戶性別：  " + noInput + "\n\n"
         }
-        
+        if userHeight.last! != noInput{
         conclusionright += "用戶身高：  " + userHeight.last! + " cm\n\n"
+        }else {
+            conclusionright += "用戶身高：  " + userHeight.last! + "\n\n"
+        }
+        if userWeight.last! != noInput{
         conclusionleft += "用戶體重：  " + userWeight.last! + " kg\n\n"
+        }else{
+            conclusionleft += "用戶體重：  " + userWeight.last! + " \n\n"
+        }
+        if userBodyFat.last! != noInput{
         conclusionright += "用戶體脂:  " + userBodyFat.last! + " %\n\n"
+        }else{
+        conclusionright += "用戶體脂:  " + userBodyFat.last! + "\n\n"
+        }
         if BMI == 0.0 {
             conclusionleft += "BMI:  資料不足\n"
         }else{
@@ -258,14 +265,12 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         conclusionright += "^ 基礎代謝率"
         let a = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         a.layer.borderWidth = 2
-//        a.layer.borderColor = UIColor.white.cgColor
         a.layer.backgroundColor = UIColor.white.cgColor
         view.addSubview(a)
         a.translatesAutoresizingMaskIntoConstraints = false
-        a.topAnchor.constraint(equalTo: self.heightTF.bottomAnchor, constant: 25).isActive = true
+        a.topAnchor.constraint(equalTo: self.heightTF.bottomAnchor, constant: 5).isActive = true
         a.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         a.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-//        a.bottomAnchor.constraint(equalTo: self.sendBtn.topAnchor, constant: -50).isActive = true
         a.heightAnchor.constraint(equalToConstant: 5).isActive = true
         parametersTVLeft.text = conclusionleft
         parametersTVRight.text = conclusionright
@@ -283,6 +288,9 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         if range.location >= 11 {
             return false
         }
+        guard textField != userNameTV else {
+            return true
+        }
         guard textField != targetTextField else {
             return true
         }
@@ -291,7 +299,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
         return true
     }
-    var isPressedBtn = false
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         if isPressedBtn {
@@ -300,14 +308,5 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

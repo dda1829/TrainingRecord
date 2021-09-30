@@ -1,6 +1,6 @@
 
-/* Class = "UITextView"; text = "1. 本產品提供會員免廣告的方式。\n2. 本產品幫助會員紀錄身體指數。\n3. 本產品幫助會員訂立個人健身目標。\n4. 本產品不會擅自使用會員資料。"; ObjectID = "0aT-6w-mUa"; */
-"0aT-6w-mUa.text" = "1. 本產品提供會員免廣告的方式。\n2. 本產品幫助會員紀錄身體指數。\n3. 本產品幫助會員訂立個人健身目標。\n4. 本產品不會擅自使用會員資料。";
+/* Class = "UITextView"; text = "1. 本產品幫助會員紀錄身體指數。\n2. 本產品幫助會員訂立個人健身目標。\n3. 本產品不會擅自使用會員資料。"; ObjectID = "0aT-6w-mUa"; */
+"0aT-6w-mUa.text" = "1. 本產品幫助會員紀錄身體指數。\n2. 本產品幫助會員訂立個人健身目標。\n3. 本產品不會擅自使用會員資料。";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "1dQ-Sf-zAV"; */
 "1dQ-Sf-zAV.title" = "Back";
@@ -14,6 +14,9 @@
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "3QL-Tn-dHr"; */
 "3QL-Tn-dHr.text" = "Subtitle";
 
+/* Class = "UITextView"; text = "初次登入，請去會員設定頁面設定您的身體資訊，以便幫助您達成您的身體目標！"; ObjectID = "3Yz-ZO-gps"; */
+"3Yz-ZO-gps.text" = "初次登入，請去會員設定頁面設定您的身體資訊，以便幫助您達成您的身體目標！";
+
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "3oS-Yh-jlv"; */
 "3oS-Yh-jlv.text" = "Subtitle";
 
@@ -22,6 +25,7 @@
 
 /* Class = "UILabel"; text = "會員登入"; ObjectID = "66C-hH-pit"; */
 "66C-hH-pit.text" = "會員登入";
+
 
 /* Class = "UITextField"; text = "0"; ObjectID = "6E3-HH-418"; */
 "6E3-HH-418.text" = "0";
@@ -41,8 +45,14 @@
 /* Class = "UITextField"; placeholder = "輸入想增加的訓練項目的說明"; ObjectID = "7sB-Wx-5Xv"; */
 "7sB-Wx-5Xv.placeholder" = "輸入想增加的訓練項目的說明";
 
+/* Class = "UILabel"; text = "請輸入您的名字："; ObjectID = "8eK-ze-fct"; */
+"8eK-ze-fct.text" = "請輸入您的名字：";
+
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "95E-AZ-vk3"; */
 "95E-AZ-vk3.title" = "Back";
+
+/* Class = "UILabel"; text = "訓練提醒"; ObjectID = "9ak-CS-Iof"; */
+"9ak-CS-Iof.text" = "訓練提醒";
 
 /* Class = "UIButton"; normalTitle = "註冊帳號"; ObjectID = "9sU-3r-MuP"; */
 "9sU-3r-MuP.normalTitle" = "註冊帳號";
@@ -55,6 +65,9 @@
 
 /* Class = "UILabel"; text = "會員註冊"; ObjectID = "BBz-ZH-i8f"; */
 "BBz-ZH-i8f.text" = "會員註冊";
+
+/* Class = "UILabel"; text = "快速啟用開關"; ObjectID = "BZQ-6h-B0H"; */
+"BZQ-6h-B0H.text" = "快速啟用開關";
 
 /* Class = "UITextField"; text = "10"; ObjectID = "BcA-IA-GDx"; */
 "BcA-IA-GDx.text" = "10";
@@ -77,6 +90,7 @@
 /* Class = "UINavigationItem"; title = "系統列表"; ObjectID = "DPr-Q7-TCr"; */
 "DPr-Q7-TCr.title" = "系統列表";
 
+
 /* Class = "UITextField"; text = "30"; ObjectID = "DhD-TG-xqr"; */
 "DhD-TG-xqr.text" = "30";
 
@@ -96,7 +110,7 @@
 "Ihj-VP-9BA.normalTitle" = "登出";
 
 /* Class = "UILabel"; text = "You're already log in."; ObjectID = "IsX-t1-7Qt"; */
-"IsX-t1-7Qt.text" = "You're already log in.";
+"IsX-t1-7Qt.text" = "您好\n您已經登入了！";
 
 /* Class = "UITextField"; text = "200"; ObjectID = "Kq8-le-Abi"; */
 "Kq8-le-Abi.text" = "200";
@@ -118,6 +132,9 @@
 
 /* Class = "UINavigationItem"; title = "訓練紀錄報表"; ObjectID = "OhA-xP-HEW"; */
 "OhA-xP-HEW.title" = "訓練紀錄報表";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "QXt-jt-rXg"; */
+"QXt-jt-rXg.text" = "Title";
 
 /* Class = "UIButton"; normalTitle = "提交"; ObjectID = "Rya-Nu-G9h"; */
 "Rya-Nu-G9h.normalTitle" = "提交";
@@ -145,6 +162,9 @@
 
 /* Class = "UILabel"; text = "增加運動項目"; ObjectID = "UqO-9q-0mT"; */
 "UqO-9q-0mT.text" = "增加運動項目";
+
+/* Class = "UITextField"; placeholder = "( at 12 charactors)"; ObjectID = "Vsy-QU-GsZ"; */
+"Vsy-QU-GsZ.placeholder" = "(12字以內)";
 
 /* Class = "UIButton"; normalTitle = "會員登入"; ObjectID = "W43-dA-np1"; */
 "W43-dA-np1.normalTitle" = "會員登入";
@@ -176,8 +196,8 @@
 /* Class = "UILabel"; text = "秒"; ObjectID = "crd-JE-wxo"; */
 "crd-JE-wxo.text" = "秒";
 
-/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "elQ-nY-N8p"; */
-"elQ-nY-N8p.normalTitle" = "Button";
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "dmp-Ph-mqH"; */
+"dmp-Ph-mqH.normalTitle" = "Button";
 
 /* Class = "UILabel"; text = "訓練提醒"; ObjectID = "enk-0R-5Si"; */
 "enk-0R-5Si.text" = "訓練提醒";
@@ -200,6 +220,9 @@
 /* Class = "UITextField"; placeholder = "請輸入您帳號所設定的Email"; ObjectID = "kWx-qI-Z6s"; */
 "kWx-qI-Z6s.placeholder" = "請輸入您帳號所設定的Email";
 
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "l9W-lI-BCA"; */
+"l9W-lI-BCA.text" = "Subtitle";
+
 /* Class = "UILabel"; text = "此組次數"; ObjectID = "lr9-7S-yVb"; */
 "lr9-7S-yVb.text" = "此組次數";
 
@@ -214,9 +237,6 @@
 
 /* Class = "UINavigationItem"; title = "健身小幫手"; ObjectID = "oDp-Rn-Sg1"; */
 "oDp-Rn-Sg1.title" = "健身小幫手";
-
-/* Class = "UITextField"; placeholder = "請輸入您的暱稱"; ObjectID = "pJA-ih-Nes"; */
-"pJA-ih-Nes.placeholder" = "請輸入您的暱稱";
 
 /* Class = "UILabel"; text = "kg"; ObjectID = "q5S-Ow-Mg7"; */
 "q5S-Ow-Mg7.text" = "kg";
@@ -244,6 +264,9 @@
 
 /* Class = "UITextField"; text = "1"; ObjectID = "ubZ-Zj-wnJ"; */
 "ubZ-Zj-wnJ.text" = "1";
+
+/* Class = "UIButton"; normalTitle = "前往設定個人目標"; ObjectID = "v3u-Ga-IBe"; */
+"v3u-Ga-IBe.normalTitle" = "前往設定個人目標";
 
 /* Class = "UIButton"; normalTitle = "Fri."; ObjectID = "wVS-Jr-Gyj"; */
 "wVS-Jr-Gyj.normalTitle" = "Fri.";
@@ -283,3 +306,6 @@
 
 /* Class = "UITextView"; text = "訓練重量：10 kg。\n此組次數：10 下。\n每下間隔：1 秒。\n休息時間：60 秒"; ObjectID = "zs6-W4-NQA"; */
 "zs6-W4-NQA.text" = "訓練重量：10 kg。\n此組次數：10 下。\n每下間隔：1 秒。\n休息時間：60 秒";
+
+/* Class = "UITextField"; placeholder = "請輸入您的暱稱"; ObjectID = "pJA-ih-Nes"; */
+"pJA-ih-Nes.placeholder" = "請輸入您的暱稱";

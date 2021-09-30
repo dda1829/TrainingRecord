@@ -23,7 +23,7 @@ class RemoveTrainingItemViewController: UIViewController, UIPickerViewDataSource
     var dexItems: [TrainingItem] = []
     // MARK: Picker View Selection
     var trainLS = 0
-    var formListLocation : [String] = ["運動部位", "肩胸部", "背部" ,"臀腿部", "腹部", "手臂","有氧運動"]
+    var formListLocation : [String] = [NSLocalizedString("TrainingLocation",comment: "運動部位"), NSLocalizedString("BrestShoulder",comment: "肩胸部"),NSLocalizedString("Back",comment: "背部"), NSLocalizedString("Abdomen",comment: "核心"),NSLocalizedString("BottomLap",comment: "臀腿部"),NSLocalizedString("Arm",comment: "手臂")  ,NSLocalizedString("Exercise",comment: "有氧運動")]
     
     
     override func viewDidLoad() {
@@ -47,7 +47,7 @@ class RemoveTrainingItemViewController: UIViewController, UIPickerViewDataSource
          dblItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "BottomLap")!
          dexItems = ManageTrainingItem.share.getDeletedTrainingItem(Location: "Exercise")!
         trainingItemTableView.setEditing(true, animated: true)
-        
+        trainLocationPickerView.setValue(UIColor.white, forKey: "textColor")
     }
     // pickerView Setup
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

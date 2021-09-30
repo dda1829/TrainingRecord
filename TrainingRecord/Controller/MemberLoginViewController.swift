@@ -84,7 +84,14 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
             }
             return true
         }
-
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
+    
+    
+    
+    
     @IBOutlet weak var appleLogInBtn: ASAuthorizationAppleIDButton!
     
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
@@ -175,9 +182,7 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
     
     
     
-    @objc func dismissKeyboard() {
-        self.view.endEditing(true)
-    }
+    
     @IBAction func LogInBtnPressed(_ sender: Any) {
         if memberEmailTextView.text == "" || memberPasswordTextView.text == "" {
                 let alertController = UIAlertController(title: "Error", message: "Please enter your email and password", preferredStyle: .alert)

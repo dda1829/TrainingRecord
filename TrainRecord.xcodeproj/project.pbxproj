@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DC00C5DF2685DFAF00161DBA /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00C5DE2685DFAF00161DBA /* Timer.swift */; };
-		DC0D7A1E26E33DEA0067761D /* FSCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0D7A1D26E33DEA0067761D /* FSCalendarViewController.swift */; };
 		DC2276A4267F273C00D0EEF6 /* ManageTrainSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */; };
 		DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */; };
 		DC3B65CE26ECB7E600920590 /* UserNotificationWithCalendarTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */; };
@@ -30,6 +29,8 @@
 		DCA9913D26BBE71900C08E5D /* MemberUserDataToSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */; };
 		DCA9E34326D60E1B00964F02 /* RemoveTrainingItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9E34226D60E1B00964F02 /* RemoveTrainingItemViewController.swift */; };
 		DCA9E34526D60E4100964F02 /* EditTrainingItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9E34426D60E4100964F02 /* EditTrainingItemViewController.swift */; };
+		DCBEA9A427058C5D008F4723 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCBEA9A627058C5D008F4723 /* InfoPlist.strings */; };
+		DCBEA9AA270592A2008F4723 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCBEA9AC270592A2008F4723 /* Localizable.strings */; };
 		DCC2AF8A26C50D4C00087FA6 /* BeepGo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */; };
 		DCC2AF8B26C50D4C00087FA6 /* Radar.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */; };
 		DCC2AF8C26C50D4C00087FA6 /* BeepPrepare.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */; };
@@ -58,12 +59,9 @@
 		5845EDE9F5F65ACB60E7710B /* Pods_TrainRecord.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainRecord.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		86CD764196533084B090606A /* Pods-TrainRecord.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainRecord.debug.xcconfig"; path = "Target Support Files/Pods-TrainRecord/Pods-TrainRecord.debug.xcconfig"; sourceTree = "<group>"; };
 		DC00C5DE2685DFAF00161DBA /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
-		DC0D7A1D26E33DEA0067761D /* FSCalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarViewController.swift; sourceTree = "<group>"; };
 		DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTrainSetVC.swift; sourceTree = "<group>"; };
 		DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordItem.swift; sourceTree = "<group>"; };
 		DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationWithCalendarTrigger.swift; sourceTree = "<group>"; };
-		DC3C59FB26EE1C9A00ED444A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
-		DC3C59FC26EE1CA700ED444A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		DC3D5BB526F18BAF00D10433 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataHelper.swift; path = ../../../../EEElecture/UIKit/MAPD35/NoteApp3copy/NoteApp/Model/CoreDataHelper.swift; sourceTree = "<group>"; };
 		DC4169A326D2417700BFB4CB /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrainingRecord-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -87,6 +85,12 @@
 		DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberUserDataToSystem.swift; sourceTree = "<group>"; };
 		DCA9E34226D60E1B00964F02 /* RemoveTrainingItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveTrainingItemViewController.swift; sourceTree = "<group>"; };
 		DCA9E34426D60E4100964F02 /* EditTrainingItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrainingItemViewController.swift; sourceTree = "<group>"; };
+		DCBEA9A727058C63008F4723 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DCBEA9AD270592AD008F4723 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DCBEA9AE2705B4DA008F4723 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		DCBEA9AF2705B4DC008F4723 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		DCBEA9B02705B529008F4723 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		DCBEA9B12705B531008F4723 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepGo.m4a; sourceTree = "<group>"; };
 		DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Radar.mp3; sourceTree = "<group>"; };
 		DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepPrepare.m4a; sourceTree = "<group>"; };
@@ -152,7 +156,6 @@
 				DCA9E34426D60E4100964F02 /* EditTrainingItemViewController.swift */,
 				DC96E66A26BA6F11003AD4CD /* MemberLoginViewController.swift */,
 				DC96E66C26BAC650003AD4CD /* SystemMemberViewController.swift */,
-				DC0D7A1D26E33DEA0067761D /* FSCalendarViewController.swift */,
 				DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */,
 				DCEC8ED326BFBAC8003CC74A /* ShareViewController.swift */,
 			);
@@ -186,6 +189,16 @@
 				DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		DCBEA9A127058C09008F4723 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DC94415026A424E500A4A3ED /* GoogleService-Info.plist */,
+				DCBEA9A627058C5D008F4723 /* InfoPlist.strings */,
+				DCBEA9AC270592A2008F4723 /* Localizable.strings */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		DCC2AF8626C50D4A00087FA6 /* Ring */ = {
@@ -228,8 +241,8 @@
 				DCA1C0B626635F1400D3A687 /* Controller */,
 				DCA1C0B826635F8600D3A687 /* Model */,
 				DCA1C0B726635F7900D3A687 /* Storyboard */,
+				DCBEA9A127058C09008F4723 /* Supporting Files */,
 				DCC7D14B26529D2C0040DFA8 /* Info.plist */,
-				DC94415026A424E500A4A3ED /* GoogleService-Info.plist */,
 			);
 			path = TrainingRecord;
 			sourceTree = "<group>";
@@ -325,6 +338,7 @@
 			files = (
 				DCC2AF8A26C50D4C00087FA6 /* BeepGo.m4a in Resources */,
 				DCC7D14A26529D2C0040DFA8 /* LaunchScreen.storyboard in Resources */,
+				DCBEA9AA270592A2008F4723 /* Localizable.strings in Resources */,
 				DCC2AF8C26C50D4C00087FA6 /* BeepPrepare.m4a in Resources */,
 				DCC2AF8B26C50D4C00087FA6 /* Radar.mp3 in Resources */,
 				DCEC8ED826C00A5F003CC74A /* ShareTableViewCell.xib in Resources */,
@@ -332,6 +346,7 @@
 				DC94415126A424E500A4A3ED /* GoogleService-Info.plist in Resources */,
 				DC491B3A26E78E1D001CB228 /* Assets.xcassets in Resources */,
 				DCC7D14226529D290040DFA8 /* Main.storyboard in Resources */,
+				DCBEA9A427058C5D008F4723 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,7 +428,6 @@
 				DC52D03C26E84ADC00E13DB3 /* UIViewCapture.swift in Sources */,
 				DCC7D13F26529D290040DFA8 /* TrainRecordHomeVC.swift in Sources */,
 				DCA9E34326D60E1B00964F02 /* RemoveTrainingItemViewController.swift in Sources */,
-				DC0D7A1E26E33DEA0067761D /* FSCalendarViewController.swift in Sources */,
 				DCA9E34526D60E4100964F02 /* EditTrainingItemViewController.swift in Sources */,
 				DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */,
 				DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */,
@@ -440,11 +454,29 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		DCBEA9A627058C5D008F4723 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DCBEA9A727058C63008F4723 /* en */,
+				DCBEA9B02705B529008F4723 /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DCBEA9AC270592A2008F4723 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DCBEA9AD270592AD008F4723 /* en */,
+				DCBEA9B12705B531008F4723 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		DCC7D14026529D290040DFA8 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DC491B3726E7727D001CB228 /* Base */,
-				DC3C59FB26EE1C9A00ED444A /* zh-Hant */,
+				DCBEA9AE2705B4DA008F4723 /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -453,7 +485,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				DC491B3826E7727E001CB228 /* Base */,
-				DC3C59FC26EE1CA700ED444A /* zh-Hant */,
+				DCBEA9AF2705B4DC008F4723 /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -595,7 +627,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "ST-Chiou.TrainingRecord";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TrainingRecord/Model/TrainingRecord-Bridging-Header.h";
@@ -623,7 +655,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "ST-Chiou.TrainingRecord";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TrainingRecord/Model/TrainingRecord-Bridging-Header.h";

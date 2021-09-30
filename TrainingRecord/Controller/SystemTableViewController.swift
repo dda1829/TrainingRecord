@@ -16,7 +16,6 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
     var trainUnitSettoKg = true
     var trainUnit = "Kg"
     var memberFunctionForm : [String] = ["設定會員資料","編輯器材資訊","設定預備時間","運動提醒"]
-    //    var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","修改訓練項目位置"]
     var trainListEditForm : [String] = ["新增訓練項目","刪除訓練項目","調整運動項目位置"]
     var trainingParameters: [String] = ["重量單位","紀錄模式"]
     var editorFormList: [String] = ["評價此ＡＰＰ","聯繫作者"]

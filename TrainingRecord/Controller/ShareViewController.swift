@@ -7,21 +7,36 @@
 
 import UIKit
 import Firebase
-class ShareViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate {
+import FSCalendar
+
+class ShareViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate,UIGestureRecognizerDelegate {
+    // building the sharing list data
     var ratingForm: [String] = []
     var titleForm: [String] = []
     var subtitleForm: [String] = []
     var titleFormShare: [String] = []
     var recordListString = ""
     var recordsort: [[Int]] = []
+    var recordsort2: [[Int]] = []
     var trainItem: RecordItem?
     var dateRecord : String = ""
+    // use for date picker View
+    var datePicker = FSCalendar()
+    var isDatePickerExist: Bool = false
+    // for sharing list
+    var dateRecordList: [String] = []
+    var formListLocation : [String] = [NSLocalizedString("TrainingLocation",comment: "運動部位"), NSLocalizedString("BrestShoulder",comment: "肩胸部"),NSLocalizedString("Back",comment: "背部"), NSLocalizedString("Abdomen",comment: "核心"),NSLocalizedString("BottomLap",comment: "臀腿部"),NSLocalizedString("Arm",comment: "手臂")  ,NSLocalizedString("Exercise",comment: "有氧運動")]
+    var formListBreast : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListBL : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListAbdomen : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListArm : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListEx : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListBack : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
     @IBOutlet weak var dateRecordTitleBtn: UIButton!
     @IBOutlet weak var userReportLeft: UITextView!
     @IBOutlet weak var userReportRight: UITextView!
     @IBOutlet weak var RecodListTV: UITableView!
     
-    @IBOutlet weak var shareBtn: UIButton!
     required init?(coder: NSCoder) {
         super.init(coder: coder)  
     }
@@ -45,21 +60,32 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             let BMI = Double(BMIo)
             let BMR = Double(BMRo)
             let noInput = "NoData"
-            if userAge != ""{
+            if userAge != "" && userAge != noInput{
             conclusionright = "用戶年齡：  " + userAge + " 歲\n"
             }else{
-                conclusionright = "用戶年齡：  " + noInput + " 歲\n"
+                conclusionright = "用戶年齡：  " + noInput + " \n"
             }
             conclusionleft = "用戶名稱：  " + (MemberUserDataToFirestore.share.getUserdatas("userName") as! String) + "\n"
-            if  userGender != ""{
+            if  userGender != "" && userGender != noInput{
                 conclusionleft += "用戶性別：  " + userGender + "\n"
             }else{
                 conclusionleft += "用戶性別：  " + noInput + "\n"
             }
-            
+            if userHeight.last != noInput{
             conclusionright += "用戶身高：  " + userHeight.last! + " cm\n"
+            }else{
+                conclusionright += "用戶身高：  " + userHeight.last! + "\n"
+            }
+            if userWeight.last != noInput{
             conclusionleft += "用戶體重：  " + userWeight.last! + " kg\n"
+            }else{
+                conclusionleft += "用戶體重：  " + userWeight.last! + " \n"
+            }
+            if userBodyFat.last != noInput {
             conclusionright += "用戶體脂:  " + userBodyFat.last! + " %\n"
+            }else{
+                conclusionright += "用戶體脂:  " + userBodyFat.last! + " \n"
+            }
             if BMI == 0.0 {
                 conclusionleft += "BMI:  資料不足\n"
             }else{
@@ -107,7 +133,54 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         getFormList()
         dateRecordTitleBtn.setTitle(dateRecord, for: .normal)
+        let manager = FileManager.default
+        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+        let file = doc.appendingPathComponent("RecordDatas")
+        
+        do {
+           let a =  try manager.contentsOfDirectory(at: file, includingPropertiesForKeys: nil)
+            for x in a{
+                dateRecordList.append(x.lastPathComponent)
+            }
+            print(a)
+           
+        } catch {
+            // failed to read directory – bad permissions, perhaps?
+            print(error)
+        }
+        datePicker.delegate = self
+        datePicker.dataSource = self
+        dismissOnTap()
     }
+    
+    func dismissOnTap() {
+            self.view.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissDatePicker))
+            tap.delegate = self
+            tap.cancelsTouchesInView = false
+            self.view.addGestureRecognizer(tap)
+     }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard isDatePickerExist else {
+                    return false
+                }
+        if !datePicker.bounds.contains(touch.location(in: datePicker)){
+            if dateRecordTitleBtn.bounds.contains(touch.location(in: dateRecordTitleBtn)){
+                return false
+            }
+            return true
+        }
+        
+        
+                return false
+        }
+    @objc func dismissDatePicker() {
+        datePicker.removeFromSuperview()
+        isDatePickerExist = false
+    }
+    
     
     
     func getFormList() {
@@ -122,49 +195,22 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadFromFile()
     }
     
-    var showDateBtnClick = false
-    var picker = UIDatePicker()
-    
     @IBAction func dateRecordTitleBtnPressed(_ sender: Any) {
-        if !showDateBtnClick {
-        picker.datePickerMode = UIDatePicker.Mode.date
-        picker.addTarget(self, action:#selector(dueDateChanged(sender:)),for: UIControl.Event.valueChanged)
-        
-            // you probably don't want to set background color as black
-        
-            if #available(iOS 14.0, *) {
-                picker.preferredDatePickerStyle = .inline
-            } else {
-            }
-            let pickerSize : CGSize = picker.sizeThatFits(CGSize.zero)
-              picker.frame = CGRect(x:50, y:120, width:pickerSize.width - 16, height:400)
-            self.view.addSubview(picker)
-        picker.backgroundColor = .darkGray
-        picker.translatesAutoresizingMaskIntoConstraints = false
-        picker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        picker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            picker.widthAnchor.constraint(equalToConstant: pickerSize.width).isActive = true
-            picker.heightAnchor.constraint(equalToConstant: pickerSize.height).isActive = true
-            showDateBtnClick = true
-        } else {
-            showDateBtnClick = false
-            picker.removeFromSuperview()
+        if !isDatePickerExist {
+            
+            datePicker.frame = CGRect(x:50, y:120, width:400, height: 300)
+            self.view.addSubview(datePicker)
+            datePicker.backgroundColor = .darkGray
+            datePicker.translatesAutoresizingMaskIntoConstraints = false
+            datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            datePicker.widthAnchor.constraint(equalToConstant: 400).isActive = true
+            datePicker.heightAnchor.constraint(equalToConstant: 300).isActive = true
+            isDatePickerExist = true
+        }else{
+            isDatePickerExist = false
+            datePicker.removeFromSuperview()
         }
-    }
-    @objc func dueDateChanged(sender:UIDatePicker){
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        dateRecordTitleBtn.setTitle(dateFormatter.string(from: sender.date), for: .normal)
-        dateRecord = dateFormatter.string(from: sender.date)
-        showDateBtnClick = !showDateBtnClick
-        loadFromFile()
-        print("DatePicke is used")
-        getFormList()
-        RecodListTV.reloadData()
-        print(dateRecord)
-        picker.removeFromSuperview()
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -305,9 +351,6 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                     locationString += "\n"
                 }
                 locationString += "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
-//                for _ in 0 ..< (trainItem?.trainSet[x])!/3 {
-//                    locationString += "\n"
-//                }
             }
             ratecount += 1
             result.append(locationString)
@@ -387,6 +430,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             ratecount += 1
             result.append(locationString)
         }
+        recordsort2 = recordsort
         recordsort = []
         print("record location result = \(result)")
         return result
@@ -402,7 +446,6 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             cell.titleLabel.text = titleForm[indexPath.row]
             cell.subTitleLabel.text = subtitleForm[indexPath.row]
-//            cell.rateLabel.text = ratingForm[indexPath.row] ?? "未有足夠的資訊"
             
             cell.showsReorderControl = true
             
@@ -435,8 +478,8 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         switch locationdata[0] {
         case 1:
             print(locationdata[1])
-            print(formListBrest)
-            return formListBrest[locationdata[1]]
+            print(formListBreast)
+            return formListBreast[locationdata[1]]
         case 2:
             print(locationdata[1])
             print(formListBack)
@@ -468,13 +511,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     
-    var formListLocation: [String] = ["運動部位", "肩胸部","背部", "核心","臀腿部",  "手臂","有氧運動"]
-    var formListBrest : [String] = [ "訓練項目"]
-    var formListBL : [String] = [ "訓練項目"]
-    var formListAbdomen : [String] = [ "訓練項目"]
-    var formListArm : [String] = [ "訓練項目"]
-    var formListEx : [String] = [ "訓練項目"]
-    var formListBack : [String] = [ "訓練項目"]
+    
     
     //MARK: Archiving
     func writeToFile()  {
@@ -537,11 +574,11 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         var imageBLocationY: CGFloat = 2 + height
         let imageB = UIImage(named: "background")!.withRenderingMode(.alwaysTemplate).withTintColor(.black)
         
-        if recordsort.count != 0 {
+        if recordsort2.count != 0 {
             for x in 0 ..< titleFormShare.count {
                 imageBHeight = 40
                 var fitsizecount = 0
-                while fitsizecount < (trainItem?.trainSet[recordsort[x]])!{
+                while fitsizecount < (trainItem?.trainSet[recordsort2[x]])!{
                     fitsizecount += 1
                     if fitsizecount % 2 == 0 {
                         imageBHeight += 20
@@ -561,11 +598,11 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
        
         font = UIFont(name: "Helvetica-Bold", size: 13)!
         attributes = [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font:font, NSAttributedString.Key.paragraphStyle:paraStyle]
-        if recordsort.count != 0 {
+        if recordsort2.count != 0 {
             for x in 0 ..< titleFormShare.count {
                 imageBHeight = 40
                 var fitsizecount = 0
-                while fitsizecount < (trainItem?.trainSet[recordsort[x]])!{
+                while fitsizecount < (trainItem?.trainSet[recordsort2[x]])!{
                     fitsizecount += 1
                     if fitsizecount % 2 == 0 {
                         imageBHeight += 20
@@ -607,4 +644,35 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     */
 
+}
+
+extension ShareViewController: FSCalendarDelegate,FSCalendarDataSource{
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        let string = formatter.string(from: date)
+        for x in dateRecordList {
+            if string == x{
+                return 1
+            }
+        }
+        return 0
+    }
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        isDatePickerExist = false
+        dateRecordTitleBtn.setTitle(dateFormatter.string(from: date), for: .normal)
+        dateRecord = dateFormatter.string(from: date)
+        loadFromFile()
+        print("DatePicke is used")
+        getFormList()
+        RecodListTV.reloadData()
+        print(dateRecord)
+        datePicker.removeFromSuperview()
+        
+    }
 }

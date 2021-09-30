@@ -7,15 +7,21 @@
 
 import UIKit
 import Firebase
-class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate {
+import GoogleMobileAds
+import AdSupport
+import AppTrackingTransparency
+class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate,GADBannerViewDelegate {
     var trainWeight : Float = 10
     var trainTimes : Int = 10
     var trainEachSetInterval : Int = 30
     var trainSetEachInterval : Float = 3
     var trainUnit: String = "kg"
     var trainLS: [Int] = []
+    
+    var bannerView: GADBannerView!
     @IBOutlet weak var trainWeightTF: UITextField!
 
+    @IBOutlet weak var doneBtn: UIButton!
     @IBOutlet weak var trainWeightSlider: UISlider!
     
     @IBOutlet weak var trainWeightMinTF: UITextField!
@@ -130,6 +136,54 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
             trainEachSetIntervalMinTF.isHidden = true
             trainEachSetIntervalLabel.isHidden = true
             trainEachSetIntervalUnitLabel.isHidden = true
+            doneBtn.translatesAutoresizingMaskIntoConstraints = false
+            doneBtn.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0 ).isActive = true
+            doneBtn.topAnchor.constraint(equalTo: trainSetEachIntervalSlider.bottomAnchor, constant: 10).isActive = true
+            if #available(iOS 14, *) {
+                ATTrackingManager.requestTrackingAuthorization { status in
+                    DispatchQueue.main.async {
+                        self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+                        self.bannerView.translatesAutoresizingMaskIntoConstraints = false
+                        self.bannerView.adUnitID = "ca-app-pub-8982946958697547/7467804861"//廣告編號
+                        let frame = { () -> CGRect in
+                                  // Here safe area is taken into account, hence the view frame is used
+                                  // after the view has been laid out.
+                                  if #available(iOS 11.0, *) {
+                                    return self.view.frame.inset(by: self.view.safeAreaInsets)
+                                  } else {
+                                    return self.view.frame
+                                  }
+                                }()
+                                let viewWidth = frame.size.width
+
+                        self.bannerView.adSize = GADCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth(viewWidth)
+                        self.bannerView.rootViewController = self
+                        self.bannerView.delegate = self
+                        self.bannerView.load(GADRequest())
+                    }
+                    
+                }
+            } else {
+                // Fallback on earlier versions
+                self.bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+                self.bannerView.translatesAutoresizingMaskIntoConstraints = false
+                self.bannerView.adUnitID = "ca-app-pub-8982946958697547/7467804861"//廣告編號
+                let frame = { () -> CGRect in
+                          // Here safe area is taken into account, hence the view frame is used
+                          // after the view has been laid out.
+                          if #available(iOS 11.0, *) {
+                            return view.frame.inset(by: view.safeAreaInsets)
+                          } else {
+                            return view.frame
+                          }
+                        }()
+                        let viewWidth = frame.size.width
+
+                bannerView.adSize = GADCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth(viewWidth)
+                self.bannerView.rootViewController = self
+                self.bannerView.delegate = self
+                self.bannerView.load(GADRequest())
+            }
         }
     }
    
@@ -318,7 +372,35 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate 
         UserDefaults.standard.synchronize()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
         vc?.trainLS = trainLS
+        vc?.trainWeight = trainWeight
+        vc?.trainTimes = trainTimes
+        vc?.trainEachSetInterval = trainEachSetInterval
+        vc?.trainSetEachInterval = trainSetEachInterval
         self.navigationController?.pushViewController(vc!,animated: true)
     }
+    
+    // MARK:GADBannerViewDelegate
+        func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+
+            if bannerView.superview == nil && Auth.auth().currentUser == nil {
+//                let a = UIStackView()
+//                self.view.addSubview(a)
+//                a.translatesAutoresizingMaskIntoConstraints = false
+//                a.bottomAnchor.constraint(equalTo: self.view.topAnchor,constant: 20).isActive = true
+//                a.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+                self.view.addSubview(bannerView)
+                bannerView.translatesAutoresizingMaskIntoConstraints = false
+
+                bannerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0).isActive = true
+                bannerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+                bannerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+                    }
+
+        }
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+      print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+    
 }
 

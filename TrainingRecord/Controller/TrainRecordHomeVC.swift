@@ -10,9 +10,9 @@ import Firebase
 import GoogleMobileAds
 import AppTrackingTransparency
 import AdSupport
+import FSCalendar
 
-
-class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate, GADBannerViewDelegate{
+class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, GADBannerViewDelegate{
 //class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate{
     
     // MARK: For Introduce Picture
@@ -51,13 +51,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     
     // MARK: TrainItem's list
-    var formListLocation : [String] = ["運動部位", "肩胸部","背部", "核心","臀腿部",  "手臂","有氧運動"]
-    var formListBreast : [String] = [ "訓練項目"]
-    var formListBL : [String] = [ "訓練項目"]
-    var formListAbdomen : [String] = [ "訓練項目"]
-    var formListArm : [String] = [ "訓練項目"]
-    var formListEx : [String] = [ "訓練項目"]
-    var formListBack : [String] = [ "訓練項目"]
+    var formListLocation : [String] = [NSLocalizedString("TrainingLocation",comment: "運動部位"), NSLocalizedString("BrestShoulder",comment: "肩胸部"),NSLocalizedString("Back",comment: "背部"), NSLocalizedString("Abdomen",comment: "核心"),NSLocalizedString("BottomLap",comment: "臀腿部"),NSLocalizedString("Arm",comment: "手臂")  ,NSLocalizedString("Exercise",comment: "有氧運動")]
+    var formListBreast : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListBL : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListAbdomen : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListArm : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListEx : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    var formListBack : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
     var trainBreastText:[String] = [ ""]
     var trainBackText:[String] = [ ""]
     var trainBLText:[String] = [""]
@@ -97,8 +97,13 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var infodataUserName: [String] = []
     var infodataEmail: [String] = []
     var beforeinfodatainside : [String] = []
-    var bannerView: GADBannerView!
     
+    // For advertisement
+    var bannerView: GADBannerView!
+    // For Calendar
+    
+    let datePicker = FSCalendar()
+    var isDatePickerExist: Bool = false
     //MARK: Member parameters
     var trainingGoal : String?
     let targetTV = UITextView(frame: CGRect(x: 0, y: 0, width: 343, height: 38))
@@ -106,10 +111,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     //MARK: Model parameters
     var isModeSetToSimple = false
     
+    //MARK: Array for datepicker to record the
+    var dateRecordList: [String] = []
     
     
-    
-    
+    // MARK: Use for Introduce the App
+    var myScrollImageView: UIImageView!
     
     // MARK: PickerView Delegate
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -164,7 +171,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             case 6:
                 return formListEx[row]
             default:
-                return "訓練項目"
+                return NSLocalizedString("TrainingItems",comment: "運動項目")
             }
             
         }
@@ -302,8 +309,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 homeImageView?.image = homeImageforms[row]
                 homeImageView!.isHidden = false
                 pickerView.reloadAllComponents()
-                
-            }}
+            }
+        }
         else if component == 1{
             switch trainLS[0] {  //trainLS tranin location
             case 1:    //Brest
@@ -432,59 +439,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         let offset = CGPoint(x: width * CGFloat(currentPageNumber), y: 0)
         IntroduceSV.setContentOffset(offset, animated: true)
     }
-    let picker : UIDatePicker = UIDatePicker()
-    var showDateBtnClick = false
-    
-    @objc func showDateBarBtnPressed(_ sender: Any) {
-        if !showDateBtnClick {
-            picker.datePickerMode = UIDatePicker.Mode.date
-            picker.addTarget(self, action:#selector(dueDateChanged(sender:)),for: UIControl.Event.valueChanged)
-           
-            // you probably don't want to set background color as black
-            
-            if #available(iOS 14.0, *) {
-                picker.preferredDatePickerStyle = .inline
-            } else {
-                // Fallback on earlier versions
-            }
-            let pickerSize : CGSize = picker.sizeThatFits(CGSize.zero)
-            picker.frame = CGRect(x:50, y:120, width:pickerSize.width - 16, height:400)
-            self.view.addSubview(picker)
-            picker.backgroundColor = .darkGray
-            picker.translatesAutoresizingMaskIntoConstraints = false
-            picker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            picker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            picker.widthAnchor.constraint(equalToConstant: pickerSize.width).isActive = true
-            picker.heightAnchor.constraint(equalToConstant: pickerSize.height).isActive = true
-            showDateBtnClick = true
-        } else {
-            showDateBtnClick = false
-            picker.removeFromSuperview()
-        }
-    }
-    @objc func dueDateChanged(sender:UIDatePicker){
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        ToolBarManage()
-        
-        
-        dateRecord = dateFormatter.string(from: sender.date)
-        print("DatePicke is used")
-        
-        print(dateRecord)
-        
-        loadFromFile()
-        RecordListTV.reloadData()
-        picker.removeFromSuperview()
-    }
     
     
-    
-    
-    
-    
+ 
     func reloadTrainParameters(){
         if UserDefaults.standard.float(forKey: "trainWeight") != 0.0{
             trainWeight = UserDefaults.standard.float(forKey: "trainWeight")
@@ -498,7 +455,12 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         if UserDefaults.standard.float(forKey: "trainSetEachInterval") != 0.0 {
             trainSetEachInterval = UserDefaults.standard.float(forKey: "trainSetEachInterval")
         }
-        let textDefault : String = "訓練重量：\(trainWeight)\(trainUnit)。\n此組次數：\(trainTimes)下。\n每下間隔：\(Float(Int(trainSetEachInterval*10))/10 )秒。\n休息時間：\(trainEachSetInterval)秒"
+        var textDefault = ""
+        if Auth.auth().currentUser != nil {
+         textDefault = "訓練重量：\(trainWeight)\(trainUnit)。\n此組次數：\(trainTimes)下。\n每下間隔：\(Float(Int(trainSetEachInterval*10))/10 )秒。\n休息時間：\(trainEachSetInterval)秒"
+        }else {
+             textDefault = "訓練重量：\(trainWeight)\(trainUnit)。\n此組次數：\(trainTimes)下。\n每下間隔：\(Float(Int(trainSetEachInterval*10))/10 )秒。\n"
+        }
         trainParametersTV.text = textDefault
     }
    
@@ -528,7 +490,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.prepareTime = data as! Int
         }
         let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
-        var imagedata = try! NSData.init()
+        var imagedata = NSData.init()
         var image = UIImage()
         NotificationCenter.default.addObserver(forName: Notification.Name("TrainingItemDeliver"), object: nil, queue: OperationQueue.current) { notification in
             let breastdatas = notification.userInfo!["breastItems"] as! [TrainingItem]
@@ -609,8 +571,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
         // If TrainingItems is edited will notify the data to here
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadBreastItems"), object: nil, queue: OperationQueue.main) { notification in
-            self.formListBreast = [ "訓練項目"]
-            self.trainBreastText = [ "訓練項目"]
+            self.formListBreast = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+            self.trainBreastText = [ ""]
             self.breastImageforms = [UIImage(named: "nocolor")!]
             let breastdatas = notification.userInfo!["BreastItems"] as! [TrainingItem]
             for x in 0 ..< breastdatas.count {
@@ -623,7 +585,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             }
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadBackItems"), object: nil, queue: OperationQueue.main) { notification in
-            self.formListBack = [ "訓練項目"]
+            self.formListBack = [ NSLocalizedString("TrainingItems",comment: "運動項目")]
             self.trainBackText = [ "訓練項目"]
             self.backImageforms = [UIImage(named: "nocolor")!]
             let backdatas = notification.userInfo!["BackItems"] as! [TrainingItem]
@@ -637,7 +599,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             }
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadAbdomenItems"), object: nil, queue: OperationQueue.main) { notification in
-            self.formListAbdomen = [ "訓練項目"]
+            self.formListAbdomen = [ NSLocalizedString("TrainingItems",comment: "運動項目")]
             self.trainAbdomenText = [ "訓練項目"]
             self.abdomenImageforms = [UIImage(named: "nocolor")!]
             let abdomendatas = notification.userInfo!["AbdomenItems"] as! [TrainingItem]
@@ -652,7 +614,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             }
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadBLItems"), object: nil, queue: OperationQueue.main) { notification in
-            self.formListBL = [ "訓練項目"]
+            self.formListBL = [NSLocalizedString("TrainingItems",comment: "運動項目")]
             self.trainBLText = [ "訓練項目"]
             self.blImageforms = [UIImage(named: "nocolor")!]
             let bldatas = notification.userInfo!["BLItems"] as! [TrainingItem]
@@ -666,7 +628,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             }
         }
         NotificationCenter.default.addObserver(forName: Notification.Name("reloadExItems"), object: nil, queue: OperationQueue.main) { notification in
-            self.formListEx = [ "訓練項目"]
+            self.formListEx = [NSLocalizedString("TrainingItems",comment: "運動項目")]
             self.trainExText = [ "訓練項目"]
             self.exerciseImageform = [UIImage(named: "nocolor")!]
             let exdatas = notification.userInfo!["ExItems"] as! [TrainingItem]
@@ -686,15 +648,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        do {
-//            try Auth.auth().signOut()
-//        } catch {
-//            print(error)
-//        }
-//        
+ 
         
         let homeUrl = URL(fileURLWithPath: NSHomeDirectory())
-        var imagedata = try! NSData.init()
+        var imagedata = NSData.init()
         var image = UIImage()
         let breastItems = ManageTrainingItem.share.getTrainingItem(Location: "BrestShoulder")
         let backItems = ManageTrainingItem.share.getTrainingItem(Location: "Back")
@@ -751,7 +708,18 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             mbProgress(true)
         }
         
-        
+        if UserDefaults.standard.float(forKey: "trainWeight") != 0.0 {
+            trainWeight = UserDefaults.standard.float(forKey: "trainWeight")
+        }
+        if UserDefaults.standard.integer(forKey: "trainTimes") != 0 {
+            trainTimes = UserDefaults.standard.integer(forKey: "trainTimes")
+        }
+        if UserDefaults.standard.float(forKey: "trainSetEachInterval") != 0.0{
+            trainSetEachInterval = UserDefaults.standard.float(forKey: "trainSetEachInterval")
+        }
+        if UserDefaults.standard.integer(forKey: "trainEachSetInterval") != 0 {
+            trainEachSetInterval = UserDefaults.standard.integer(forKey: "trainEachSetInterval")
+        }
         
         // Do any additional setup after loading the view.
         if UserDefaults.standard.integer(forKey: "prepareTime") != 0 {
@@ -800,7 +768,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 RecordListTV.topAnchor.constraint(equalTo: targetTV.bottomAnchor, constant: 0).isActive = true
                 RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
                 RecordListTV.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-                RecordListTV.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
             }else{
                 RecordListTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = true
                 RecordListTV.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
@@ -1014,7 +981,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         loginTimes += 1
         UserDefaults.standard.set(loginTimes, forKey: "LoginTimes")
         UserDefaults.standard.synchronize()
-//        if Auth.auth().currentUser == nil {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { status in
                 DispatchQueue.main.async {
@@ -1041,11 +1007,56 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.bannerView.delegate = self
             self.bannerView.load(GADRequest())
         }
-//        }
         // Check the System Mode
         isModeSetToSimple = UserDefaults.standard.bool(forKey: "isModeSetToSimple")
+        let manager = FileManager.default
+        let home = URL(fileURLWithPath: NSHomeDirectory())//利用URL物件組路徑
+        let doc = home.appendingPathComponent("Documents")//Documents不要拚錯
+        let file = doc.appendingPathComponent("RecordDatas")
+        
+        do {
+           let a =  try manager.contentsOfDirectory(at: file, includingPropertiesForKeys: nil)
+            for x in a{
+                dateRecordList.append(x.lastPathComponent)
+            }
+            print(a)
            
+        } catch {
+            // failed to read directory – bad permissions, perhaps?
+            print(error)
+        }
+        datePicker.delegate = self
+        datePicker.dataSource = self
+        dismissOnTap()
     }
+    
+    func dismissOnTap() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissDatePicker))
+            tap.delegate = self
+            tap.cancelsTouchesInView = false
+            self.view.addGestureRecognizer(tap)
+        self.view.tag = 1112
+     }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard isDatePickerExist else {
+                    return false
+                }
+        if !datePicker.bounds.contains(touch.location(in: datePicker)){
+            if ToolBar.bounds.contains(touch.location(in: ToolBar)){
+                return false
+            }
+            return true
+        }
+        
+        
+                return false
+        }
+    @objc func dismissDatePicker() {
+        datePicker.removeFromSuperview()
+        isDatePickerExist = false
+    }
+    
     @objc func stoptrainbegin() {
         self.stopTrainingButton.removeFromSuperview()
         self.pauseAndplayImageButton.removeFromSuperview()
@@ -1163,6 +1174,23 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         ToolBar.backgroundColor = .black
     }
     
+    @objc func showDateBarBtnPressed(_ sender: Any) {
+        if !isDatePickerExist {
+            datePicker.frame = CGRect(x:50, y:120, width:400, height: 300)
+            self.view.addSubview(datePicker)
+            datePicker.backgroundColor = .darkGray
+            datePicker.translatesAutoresizingMaskIntoConstraints = false
+            datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            datePicker.widthAnchor.constraint(equalToConstant: 400).isActive = true
+            datePicker.heightAnchor.constraint(equalToConstant: 300).isActive = true
+            isDatePickerExist = true
+        }else{
+            isDatePickerExist = false
+            datePicker.removeFromSuperview()
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         loadFromFile()
@@ -1178,7 +1206,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     @objc func trainreportgo() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SharePage") as? ShareViewController
         vc?.formListBL = formListBL
-        vc?.formListBrest = formListBreast
+        vc?.formListBreast = formListBreast
         vc?.formListEx = formListEx
         vc?.formListArm = formListArm
         vc?.formListBack = formListBack
@@ -1191,8 +1219,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     
     
-    // MARK: Use for Introduce the App
-    var myScrollImageView: UIImageView!
+    
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (IntroduceSV != nil){
@@ -1214,27 +1241,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
         
     }
-    
-    func manageStringArray(_ arraydata: [String]) -> [String]{
-        var result : [String] = []
-        for item in arraydata{
-            result.append(item)
-        }
-        result.removeFirst()
-        return result
-    }
-    
-    func formlistCoredata (_ locationnumber: Int,_ namearray: [String], _ defarray: [String], _ imagearray: [String]){
-        
-        let itemname: [String] = manageStringArray(namearray)
-        let itemdef: [String] = manageStringArray(defarray)
-        let itemimage: [String] = imagearray
-        
-        for x in 0 ..< itemname.count {
-//            trainingItemCoreDataStore(locationnumber, itemimage[x], itemname[x], itemdef[x], x + 1)
-        }
-    }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -1632,7 +1638,20 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             let _ = GADAdSizeFromCGSize(CGSize(width: 323, height: 20))
 
             if bannerView.superview == nil /*&& Auth.auth().currentUser == nil*/ {
-                            self.RecordListTV.tableHeaderView = bannerView
+                if Auth.auth().currentUser == nil{
+                self.RecordListTV.tableHeaderView = bannerView
+                }else{
+                    self.view.addSubview(bannerView)
+                    bannerView.translatesAutoresizingMaskIntoConstraints = false
+                    bannerView.topAnchor.constraint(equalTo: self.RecordListTV.bottomAnchor, constant: 0).isActive = true
+                    bannerView.bottomAnchor.constraint(equalTo: self.ToolBar.topAnchor, constant: 0).isActive = true
+                    bannerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+                    bannerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+                }
+                
+                
+                
+                
                         //第一次廣告進來
 //                        self.view.addSubview(bannerView)
                         //關閉tableview上緣的條件
@@ -1881,4 +1900,33 @@ extension TrainRecordHomeVC: UITableViewDataSource, UITableViewDelegate,ShareTab
     }
     
 }
+extension TrainRecordHomeVC: FSCalendarDataSource, FSCalendarDelegate{
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        let string = formatter.string(from: date)
+        for x in dateRecordList {
+            if string == x{
+                return 1
+            }
+        }
+        return 0
+    }
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
 
+        isDatePickerExist = false
+        dateRecord = dateFormatter.string(from: date)
+        print("DatePicke is used")
+        
+        print(dateRecord)
+        
+        loadFromFile()
+        RecordListTV.reloadData()
+        datePicker.removeFromSuperview()
+    }
+}
