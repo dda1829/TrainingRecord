@@ -9,13 +9,17 @@
 			<key>orderHint</key>
 			<integer>32</integer>
 		</dict>
-		<key>TrainingRecord.xcscheme_^#shared#^_</key>
+		<key>TrainingRecord.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>健身小幫手.xcscheme_^#shared#^_</key>
+		<key>健身小幫手.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>31</integer>
 		</dict>

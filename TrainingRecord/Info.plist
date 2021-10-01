@@ -24,17 +24,13 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>https://trainingrecord-ad7d7.firebaseapp.com/__/auth/handler</string>
-			</array>
+			<array/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>1559035441155253</string>
-			</array>
+			<array/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -264,7 +260,6 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
-		<string>processing</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

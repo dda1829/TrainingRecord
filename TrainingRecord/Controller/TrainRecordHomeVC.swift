@@ -13,7 +13,6 @@ import AdSupport
 import FSCalendar
 
 class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate, GADBannerViewDelegate{
-//class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewDelegate, NSFetchedResultsControllerDelegate,UIScrollViewDelegate{
     
     // MARK: For Introduce Picture
     let fullScreenSize = UIScreen.main.bounds.size
@@ -77,7 +76,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     var trainIsStart = false
     var trainToday = ""
     
-    
+    // MARK: Save Archiving after click the checklist button
+    var todayItem : RecordItem?
     
     //MARK: firebase firestore used
     var db: Firestore!
@@ -114,7 +114,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     //MARK: Array for datepicker to record the
     var dateRecordList: [String] = []
     
-    
+    var recordIsStart : Bool = false
     // MARK: Use for Introduce the App
     var myScrollImageView: UIImageView!
     
@@ -414,25 +414,14 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         
     }
     @IBOutlet weak var ToolBar: UIToolbar!
-    
     @IBOutlet weak var definitionTV: UITextView!
-    
     @IBOutlet weak var trainImageView: UIImageView!
-    
     @IBOutlet weak var trainParametersTV: UITextView!
-    
     @IBOutlet weak var TrainPickerView: UIPickerView!
-    
-    
     @IBOutlet weak var IntroduceSV: UIScrollView!
-    
-    
-    
     @IBOutlet weak var RecordListTV: UITableView!
-    
-    
-    
     @IBOutlet weak var IntroducePCol: UIPageControl!
+    
     @IBAction func IntroducePC(_ sender: UIPageControl) {
         let currentPageNumber = sender.currentPage
         let width = IntroduceSV.frame.size.width
@@ -440,8 +429,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         IntroduceSV.setContentOffset(offset, animated: true)
     }
     
-    
- 
     func reloadTrainParameters(){
         if UserDefaults.standard.float(forKey: "trainWeight") != 0.0{
             trainWeight = UserDefaults.standard.float(forKey: "trainWeight")
@@ -479,9 +466,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        //        let notificationName = Notification.Name("ChangeTrainUnit")
-        //        NotificationCenter.default.addObserver(self, selector: #selector(getUpdateNoti(noti:)), name: notificationName, object: nil)
-        //        NotificationCenter.default.addObserver(self, selector: #selector(clearDatas(noti:)), name: Notification.Name("ClearDatas"), object: nil)
         NotificationCenter.default.addObserver(forName: Notification.Name("isModeSetToSimple"), object: nil, queue: OperationQueue.main) { notification in
             self.isModeSetToSimple = !self.isModeSetToSimple
         }
@@ -1064,7 +1048,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         TimerUse.share.stopTimer(1)
         self.countDownCounter = self.prepareTime
-        
         // MARK: build an alert activity to check the data if you want to record
         if self.recordIsStart {
             let alertController = UIAlertController(title: "請確認是否儲存目前的訓練數值，您完成了\(self.fitRecordLocation(self.trainLS))中的\(self.fitRecordLocationItem(self.trainLS))的項目\(self.todayItem!.trainTimes[self.trainLS]![self.todayItem!.trainSet[self.trainLS]!-1])次了！請問您是否要紀錄，若要紀錄請選ＯＫ，不紀錄請Cancel，謝謝！", message: "", preferredStyle: .alert)
@@ -1296,12 +1279,8 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             self.todayItem = RecordItem(dateRecord, [:], [:], [], [:], [:], [:], [])//有任何錯誤,空陣列
         }
     }
-    // MARK: Save Archiving after click the checklist button
-    var todayItem : RecordItem?
-    var checkmatrix : [[Int]:[Int]] = [:]
-    var checkcount = 0
-    // MARK: Start the Record
     
+    // MARK: Start the Record
     @objc func trainStartBtnPressed(_ sender: Any) {
         print(trainLS)
         guard trainLS != [0,0]  && trainLS != [1,0] && trainLS != [2,0] && trainLS != [3,0] && trainLS != [4,0] && trainLS != [5,0] && trainLS != [6,0] else {
@@ -1334,7 +1313,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             countdownTV.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
             countdownTV.heightAnchor.constraint(equalToConstant: 300).isActive = true
             countdownTV.widthAnchor.constraint(equalToConstant: 500).isActive = true
-            
             self.view.addSubview(stopTrainingButton)
             stopTrainingButton.translatesAutoresizingMaskIntoConstraints = false
             stopTrainingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -1378,11 +1356,9 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                 todayItem!.trainUnit.updateValue([trainUnit], forKey: trainLS)
                 print(todayItem!.trainWeight)
             }
-            
             self.writeToFile()
             self.RecordListTV.reloadData()
         }
-        
     }
     
     
@@ -1390,7 +1366,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         pauseAndplayImageButton.isEnabled = true
     }
     func CountTimeStart (){
-        
         self.view.addSubview(pauseAndplayImageButton)
         pauseAndplayImageButton.translatesAutoresizingMaskIntoConstraints = false
         pauseAndplayImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -1402,7 +1377,7 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
     
     
     
-    var recordIsStart : Bool = false
+    
     @objc func CountDown() {
         
         if countDownCounter == 0{
@@ -1426,14 +1401,23 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         }
     }
     @objc func breakCounterBtnPressed(_ sender: Any) {
-        guard Auth.auth().currentUser != nil else {
-            let alertController = UIAlertController(title: "請您註冊會員，方能使用休息計時器之功能，感謝！", message: "", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-                print("OK")
-            }
-            alertController.addAction(okAction)
-            
-            self.present(alertController, animated: true, completion: nil)
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
+            let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
+                    
+                    // go to setting alert action
+                    let goToSettingsAction = UIAlertAction(title: "Go to settings", style: .default, handler: { (action) in
+                        guard let settingURL = URL(string: UIApplication.openSettingsURLString) else { return }
+                        if UIApplication.shared.canOpenURL(settingURL) {
+                            UIApplication.shared.open(settingURL, completionHandler: { (success) in
+                                print("Settings opened: \(success)")
+                            })
+                        }
+                    })
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .default)
+                    useNotificationsAlertController.addAction(goToSettingsAction)
+                    useNotificationsAlertController.addAction(cancelAction)
+                    
+                    self.present(useNotificationsAlertController, animated: true)
             return
         }
         for view in self.view.subviews{
@@ -1459,6 +1443,10 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
         stopRestingButton.translatesAutoresizingMaskIntoConstraints = false
         stopRestingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         NSLayoutConstraint(item: stopRestingButton, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.7, constant: 1).isActive = true
+        UserNotificationWithTriggerUse.share.setNotificationContent(Title: "休息結束", Body: "該重新開始運動了！", Sound: UNNotificationSound(named: UNNotificationSoundName(rawValue: "Radar.mp3")))
+        UserNotificationWithTriggerUse.share.setTimeTrigger(Timeinterval: TimeInterval(Double(trainEachSetInterval)), isRepeated: false)
+        print(trainEachSetInterval)
+        UserNotificationWithTriggerUse.share.sendNotificationRequest(Identifier: "Break Time", NotificationDate: nil, TriggerType: "TimeInterval")
         TimerUse.share.setTimer(1, self, #selector(CountTimeBreak), true, 1)
         TimerUse.share.fire(1)
     }
@@ -1511,14 +1499,11 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             }
         }
         countdownTV.font = UIFont(name: "Helvetica-Light", size: 200)
-        
         countdownTV.textAlignment = .center
         countdownTV.textColor = .red
         countdownTV.isEditable = false
         countdownTV.isSelectable = false
         countdownTV.alwaysBounceHorizontal = true
-        
-        
         if countDownCounter == trainTimes {
             
             countDownCounter = trainEachSetInterval
@@ -1570,30 +1555,17 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
             AVFoundationUse.share.playTheSound(url)
         }
     }
-    @objc func stopAlarmRadar() {
-        TimerUse.share.stopTimer(2)
-        AVFoundationUse.share.stopTheSound()
-    }
     
     @objc func CountTimeBreak (){
         if countDownCounter == 0{
-            if let url = Bundle.main.url(forResource: "Radar", withExtension: "mp3"){
-                AVFoundationUse.share.playTheSound(url)
-            }
-            TimerUse.share.setTimer(3, self, #selector(alarmRadar), true, 2)
-            TimerUse.share.setTimer(18, self, #selector(stopAlarmRadar), false, 3)
+//            if let url = Bundle.main.url(forResource: "Radar", withExtension: "mp3"){
+//                AVFoundationUse.share.playTheSound(url)
+//            }
+//            TimerUse.share.setTimer(3, self, #selector(alarmRadar), true, 2)
         }else{
             countdownTV.text = "\(countDownCounter)"
         }
         if countDownCounter == 0 {
-            let alertController = UIAlertController(title: "休息時間結束，請點OK關閉鬧鐘。", message: "", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-                print("OK")
-                TimerUse.share.stopTimer(2)
-                AVFoundationUse.share.stopTheSound()
-            }
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true, completion: nil)
             countDownCounter = prepareTime
             for view in self.view.subviews{
                 view.isHidden = false
@@ -1648,24 +1620,6 @@ class TrainRecordHomeVC: UIViewController , UIPickerViewDataSource,UIPickerViewD
                     bannerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
                     bannerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
                 }
-                
-                
-                
-                
-                        //第一次廣告進來
-//                        self.view.addSubview(bannerView)
-                        //關閉tableview上緣的條件
-                        //廣告上緣貼齊safearea的上緣
-//                        RecordListTV.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor, constant: 0).isActive = false
-//                        bannerView.topAnchor.constraint(equalTo: self.TrainPickerView.bottomAnchor,constant: 30).isActive = true
-//                        //廣告下緣貼齊tableView的上緣
-//                        bannerView.bottomAnchor.constraint(equalTo: self.RecordListTV.topAnchor).isActive = true
-//                        //廣告左右緣貼齊self.view的左右
-//                        bannerView.rightAnchor.constraint(equalTo: self.RecordListTV.rightAnchor,constant: 16).isActive = true
-//                        bannerView.leftAnchor.constraint(equalTo: self.RecordListTV.leftAnchor,constant: 16).isActive = true
-//                RecordListTV.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor, constant: 0).isActive = true
-//                        bannerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
                     }
 
         }

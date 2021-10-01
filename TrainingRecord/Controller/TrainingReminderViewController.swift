@@ -6,13 +6,11 @@
 //
 
 import UIKit
-import UserNotifications
+//import UserNotifications
 class TrainingReminderViewController: UIViewController {
     let unContent = UNMutableNotificationContent()
     var unDateComponents = DateComponents()
     var replaceString = ""
-    var notificationDatas:[String:ReminderItem]?
-    var weekdayNotification: ReminderItem?
     @IBOutlet weak var reminderSwitch: UISwitch!
     @IBOutlet weak var weekSegmentedControl: UISegmentedControl!
     @IBOutlet weak var reminderTitleTF: UITextField!
@@ -30,14 +28,14 @@ class TrainingReminderViewController: UIViewController {
         if weekSegmentedControl.selectedSegmentIndex == 0 {
             reminderTitleTF.text = "星期日的運動提醒"
             replaceString = "星期日的運動提醒"
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: replaceString) {
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: replaceString) {
                 reminderSwitch.isOn = true
             }
         }
        let checklist: [String] = ["星期日的運動提醒","星期一的運動提醒","星期二的運動提醒","星期三的運動提醒","星期四的運動提醒","星期五的運動提醒","星期六的運動提醒"]
         let btns: [String:UIButton] = ["星期日的運動提醒":sundayReminderBtn,"星期一的運動提醒":mondayReminderBtn,"星期二的運動提醒":tuesdayReminderBtn,"星期三的運動提醒":wednesdayReminderBtn,"星期四的運動提醒":thursdayReminderBtn,"星期五的運動提醒":fridayReminderBtn,"星期六的運動提醒":satuardayReminderBtn]
         for x in checklist {
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: x) {
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: x) {
                 btns[x]?.backgroundColor = .green
             }else{
                 btns[x]?.backgroundColor = .systemGray2
@@ -48,7 +46,7 @@ class TrainingReminderViewController: UIViewController {
     
    
     @IBAction func reminderSwitchChanged(_ sender: UISwitch) {
-        guard !UserNotificationWithCalendarTriggerUse.share.checkAuthorization() else {
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
             let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
                     
                     // go to setting alert action
@@ -78,9 +76,9 @@ class TrainingReminderViewController: UIViewController {
         if sender.isOn{
             unDateComponents = Calendar.current.dateComponents([.hour,.minute], from: determineDatePicker.date)
             unDateComponents.weekday = weekSegmentedControl.selectedSegmentIndex + 1
-            UserNotificationWithCalendarTriggerUse.share.setNotificationContent(Title: reminderTitleTF.text ?? replaceString, Body: "該訓練了！！", Sound: UNNotificationSound(named: UNNotificationSoundName(rawValue: "Radar.mp3")))
-            UserNotificationWithCalendarTriggerUse.share.setCalendarTrigger(Datecomponents: unDateComponents, isRepeated: true)
-            UserNotificationWithCalendarTriggerUse.share.sendNotificationRequest(Identifier: replaceString,NotificationDate: determineDatePicker.date)
+            UserNotificationWithTriggerUse.share.setNotificationContent(Title: reminderTitleTF.text ?? replaceString, Body: "該訓練了！！", Sound: UNNotificationSound(named: UNNotificationSoundName(rawValue: "Radar.mp3")))
+            UserNotificationWithTriggerUse.share.setCalendarTrigger(Datecomponents: unDateComponents, isRepeated: true)
+            UserNotificationWithTriggerUse.share.sendNotificationRequest(Identifier: replaceString,NotificationDate: determineDatePicker.date,TriggerType: "Calendar")
             switch replaceString {
             case "星期日的運動提醒":
                 sundayReminderBtn.backgroundColor = .green
@@ -101,7 +99,7 @@ class TrainingReminderViewController: UIViewController {
             }
         }else{
             
-            UserNotificationWithCalendarTriggerUse.share.dismissNotificationRequest(Identifier: replaceString)
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: replaceString)
             switch replaceString {
             case "星期日的運動提醒":
                 sundayReminderBtn.backgroundColor = .systemGray2
@@ -128,7 +126,7 @@ class TrainingReminderViewController: UIViewController {
             print("sun")
             reminderTitleTF.text = "星期日的運動提醒"
             replaceString = "星期日的運動提醒"
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: replaceString){
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: replaceString){
                 reminderSwitch.isOn = true
             }else{
                 reminderSwitch.isOn = false
@@ -137,7 +135,7 @@ class TrainingReminderViewController: UIViewController {
             print("Mon")
             reminderTitleTF.text = "星期一的運動提醒"
             replaceString = "星期一的運動提醒"
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: replaceString){
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: replaceString){
                 reminderSwitch.isOn = true
             }else{
                 reminderSwitch.isOn = false
@@ -146,7 +144,7 @@ class TrainingReminderViewController: UIViewController {
             print("Tue")
             reminderTitleTF.text = "星期二的運動提醒"
             replaceString = "星期二的運動提醒"
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: replaceString){
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: replaceString){
                 reminderSwitch.isOn = true
             }else{
                 reminderSwitch.isOn = false
@@ -155,7 +153,7 @@ class TrainingReminderViewController: UIViewController {
             print("Wed")
             reminderTitleTF.text = "星期三的運動提醒"
             replaceString = "星期三的運動提醒"
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: replaceString){
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: replaceString){
                 reminderSwitch.isOn = true
             }else{
                 reminderSwitch.isOn = false
@@ -164,7 +162,7 @@ class TrainingReminderViewController: UIViewController {
             print("Thu")
             reminderTitleTF.text = "星期四的運動提醒"
             replaceString = "星期四的運動提醒"
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: replaceString){
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: replaceString){
                 reminderSwitch.isOn = true
             }else{
                 reminderSwitch.isOn = false
@@ -173,7 +171,7 @@ class TrainingReminderViewController: UIViewController {
             print("Fri")
             reminderTitleTF.text = "星期五的運動提醒"
             replaceString = "星期五的運動提醒"
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: replaceString){
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: replaceString){
                 reminderSwitch.isOn = true
             }else{
                 reminderSwitch.isOn = false
@@ -182,7 +180,7 @@ class TrainingReminderViewController: UIViewController {
             print("Sat")
             reminderTitleTF.text = "星期六的運動提醒"
             replaceString = "星期六的運動提醒"
-            if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: replaceString){
+            if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: replaceString){
                 reminderSwitch.isOn = true
             }else{
                 reminderSwitch.isOn = false
@@ -193,7 +191,7 @@ class TrainingReminderViewController: UIViewController {
     }
    
     @IBAction func sataurdayReminderPressed(_ sender: Any) {
-        guard !UserNotificationWithCalendarTriggerUse.share.checkAuthorization() else {
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
             let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
                     
                     // go to setting alert action
@@ -212,16 +210,16 @@ class TrainingReminderViewController: UIViewController {
                     self.present(useNotificationsAlertController, animated: true)
             return
         }
-        guard UserNotificationWithCalendarTriggerUse.share.checkNotification(Identifier: "星期六的運動提醒") else {
+        guard UserNotificationWithTriggerUse.share.checkNotification(Identifier: "星期六的運動提醒") else {
             let alert = UIAlertController(title: "注意", message: "請先設定過這個在使用此按鈕，感謝！", preferredStyle: .alert)
             let okaction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
             alert.addAction(okaction)
             present(alert, animated: true, completion: nil)
             return
         }
-        if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: "星期六的運動提醒"){
+        if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期六的運動提醒"){
             satuardayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithCalendarTriggerUse.share.dismissNotificationRequest(Identifier: "星期六的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期六的運動提醒")
             if weekSegmentedControl.selectedSegmentIndex == 6{
                 reminderSwitch.isOn = false
             }
@@ -230,14 +228,14 @@ class TrainingReminderViewController: UIViewController {
                 weekSegmentedControl.selectedSegmentIndex = 6
             
             satuardayReminderBtn.backgroundColor = .green
-            UserNotificationWithCalendarTriggerUse.share.setNotificationFromDatas(Identifier: "星期六的運動提醒")
-            determineDatePicker.date = UserNotificationWithCalendarTriggerUse.share.returnReminderTime(Identifier: "星期六的運動提醒")
+            UserNotificationWithTriggerUse.share.setNotificationFromDatas(Identifier: "星期六的運動提醒")
+            determineDatePicker.date = UserNotificationWithTriggerUse.share.returnReminderTime(Identifier: "星期六的運動提醒")
                 reminderSwitch.isOn = true
             
         }
     }
     @IBAction func fridayReminderPressed(_ sender: Any) {
-        guard !UserNotificationWithCalendarTriggerUse.share.checkAuthorization() else {
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
             let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
                     
                     // go to setting alert action
@@ -256,30 +254,30 @@ class TrainingReminderViewController: UIViewController {
                     self.present(useNotificationsAlertController, animated: true)
             return
         }
-        guard UserNotificationWithCalendarTriggerUse.share.checkNotification(Identifier: "星期五的運動提醒") else {
+        guard UserNotificationWithTriggerUse.share.checkNotification(Identifier: "星期五的運動提醒") else {
             let alert = UIAlertController(title: "注意", message: "請先設定過這個在使用此按鈕，感謝！", preferredStyle: .alert)
             let okaction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
             alert.addAction(okaction)
             present(alert, animated: true, completion: nil)
             return
         }
-        if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: "星期五的運動提醒"){
+        if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期五的運動提醒"){
             fridayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithCalendarTriggerUse.share.dismissNotificationRequest(Identifier: "星期五的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期五的運動提醒")
             if weekSegmentedControl.selectedSegmentIndex == 5{
                 reminderSwitch.isOn = false
             }
         }else{
             weekSegmentedControl.selectedSegmentIndex = 5
             fridayReminderBtn.backgroundColor = .green
-            UserNotificationWithCalendarTriggerUse.share.setNotificationFromDatas(Identifier: "星期五的運動提醒")
-            determineDatePicker.date = UserNotificationWithCalendarTriggerUse.share.returnReminderTime(Identifier: "星期五的運動提醒")
+            UserNotificationWithTriggerUse.share.setNotificationFromDatas(Identifier: "星期五的運動提醒")
+            determineDatePicker.date = UserNotificationWithTriggerUse.share.returnReminderTime(Identifier: "星期五的運動提醒")
                 reminderSwitch.isOn = true
             
         }
     }
     @IBAction func thursdayReminderPressed(_ sender: Any) {
-        guard !UserNotificationWithCalendarTriggerUse.share.checkAuthorization() else {
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
             let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
                     
                     // go to setting alert action
@@ -298,30 +296,30 @@ class TrainingReminderViewController: UIViewController {
                     self.present(useNotificationsAlertController, animated: true)
             return
         }
-        guard UserNotificationWithCalendarTriggerUse.share.checkNotification(Identifier: "星期四的運動提醒") else {
+        guard UserNotificationWithTriggerUse.share.checkNotification(Identifier: "星期四的運動提醒") else {
             let alert = UIAlertController(title: "注意", message: "請先設定過這個在使用此按鈕，感謝！", preferredStyle: .alert)
             let okaction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
             alert.addAction(okaction)
             present(alert, animated: true, completion: nil)
             return
         }
-        if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: "星期四的運動提醒"){
+        if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期四的運動提醒"){
             thursdayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithCalendarTriggerUse.share.dismissNotificationRequest(Identifier: "星期四的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期四的運動提醒")
             if weekSegmentedControl.selectedSegmentIndex == 4{
                 reminderSwitch.isOn = false
             }
         }else{
             thursdayReminderBtn.backgroundColor = .green
-            UserNotificationWithCalendarTriggerUse.share.setNotificationFromDatas(Identifier: "星期四的運動提醒")
-            determineDatePicker.date = UserNotificationWithCalendarTriggerUse.share.returnReminderTime(Identifier: "星期四的運動提醒")
+            UserNotificationWithTriggerUse.share.setNotificationFromDatas(Identifier: "星期四的運動提醒")
+            determineDatePicker.date = UserNotificationWithTriggerUse.share.returnReminderTime(Identifier: "星期四的運動提醒")
             weekSegmentedControl.selectedSegmentIndex = 4
                 reminderSwitch.isOn = true
             
         }
     }
     @IBAction func wednesdayReminderPressed(_ sender: Any) {
-        guard !UserNotificationWithCalendarTriggerUse.share.checkAuthorization() else {
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
             let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
                     
                     // go to setting alert action
@@ -340,30 +338,30 @@ class TrainingReminderViewController: UIViewController {
                     self.present(useNotificationsAlertController, animated: true)
             return
         }
-        guard UserNotificationWithCalendarTriggerUse.share.checkNotification(Identifier: "星期三的運動提醒") else {
+        guard UserNotificationWithTriggerUse.share.checkNotification(Identifier: "星期三的運動提醒") else {
             let alert = UIAlertController(title: "注意", message: "請先設定過這個在使用此按鈕，感謝！", preferredStyle: .alert)
             let okaction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
             alert.addAction(okaction)
             present(alert, animated: true, completion: nil)
             return
         }
-        if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: "星期三的運動提醒"){
+        if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期三的運動提醒"){
             wednesdayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithCalendarTriggerUse.share.dismissNotificationRequest(Identifier: "星期三的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期三的運動提醒")
             if weekSegmentedControl.selectedSegmentIndex == 3{
                 reminderSwitch.isOn = false
             }
         }else{
             wednesdayReminderBtn.backgroundColor = .green
-            UserNotificationWithCalendarTriggerUse.share.setNotificationFromDatas(Identifier: "星期三的運動提醒")
-            determineDatePicker.date = UserNotificationWithCalendarTriggerUse.share.returnReminderTime(Identifier: "星期三的運動提醒")
+            UserNotificationWithTriggerUse.share.setNotificationFromDatas(Identifier: "星期三的運動提醒")
+            determineDatePicker.date = UserNotificationWithTriggerUse.share.returnReminderTime(Identifier: "星期三的運動提醒")
              weekSegmentedControl.selectedSegmentIndex = 3
                 reminderSwitch.isOn = true
             
         }
     }
     @IBAction func tuesdayReminderPressed(_ sender: Any) {
-        guard !UserNotificationWithCalendarTriggerUse.share.checkAuthorization() else {
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
             let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
                     
                     // go to setting alert action
@@ -382,30 +380,30 @@ class TrainingReminderViewController: UIViewController {
                     self.present(useNotificationsAlertController, animated: true)
             return
         }
-        guard UserNotificationWithCalendarTriggerUse.share.checkNotification(Identifier: "星期二的運動提醒") else {
+        guard UserNotificationWithTriggerUse.share.checkNotification(Identifier: "星期二的運動提醒") else {
             let alert = UIAlertController(title: "注意", message: "請先設定過這個在使用此按鈕，感謝！", preferredStyle: .alert)
             let okaction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
             alert.addAction(okaction)
             present(alert, animated: true, completion: nil)
             return
         }
-        if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: "星期二的運動提醒"){
+        if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期二的運動提醒"){
             tuesdayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithCalendarTriggerUse.share.dismissNotificationRequest(Identifier: "星期二的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期二的運動提醒")
             if weekSegmentedControl.selectedSegmentIndex == 2{
                 reminderSwitch.isOn = false
             }
         }else{
             tuesdayReminderBtn.backgroundColor = .green
-            UserNotificationWithCalendarTriggerUse.share.setNotificationFromDatas(Identifier: "星期二的運動提醒")
-            determineDatePicker.date = UserNotificationWithCalendarTriggerUse.share.returnReminderTime(Identifier: "星期二的運動提醒")
+            UserNotificationWithTriggerUse.share.setNotificationFromDatas(Identifier: "星期二的運動提醒")
+            determineDatePicker.date = UserNotificationWithTriggerUse.share.returnReminderTime(Identifier: "星期二的運動提醒")
              weekSegmentedControl.selectedSegmentIndex = 2
                 reminderSwitch.isOn = true
             
         }
     }
     @IBAction func mondayReminderPressed(_ sender: Any) {
-        guard !UserNotificationWithCalendarTriggerUse.share.checkAuthorization() else {
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
             let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
                     
                     // go to setting alert action
@@ -424,30 +422,30 @@ class TrainingReminderViewController: UIViewController {
                     self.present(useNotificationsAlertController, animated: true)
             return
         }
-        guard UserNotificationWithCalendarTriggerUse.share.checkNotification(Identifier: "星期一的運動提醒") else {
+        guard UserNotificationWithTriggerUse.share.checkNotification(Identifier: "星期一的運動提醒") else {
             let alert = UIAlertController(title: "注意", message: "請先設定過這個在使用此按鈕，感謝！", preferredStyle: .alert)
             let okaction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
             alert.addAction(okaction)
             present(alert, animated: true, completion: nil)
             return
         }
-        if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: "星期一的運動提醒"){
+        if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期一的運動提醒"){
             mondayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithCalendarTriggerUse.share.dismissNotificationRequest(Identifier: "星期一的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期一的運動提醒")
             if weekSegmentedControl.selectedSegmentIndex == 1{
                 reminderSwitch.isOn = false
             }
         }else{
             mondayReminderBtn.backgroundColor = .green
-            UserNotificationWithCalendarTriggerUse.share.setNotificationFromDatas(Identifier: "星期一的運動提醒")
-            determineDatePicker.date = UserNotificationWithCalendarTriggerUse.share.returnReminderTime(Identifier: "星期一的運動提醒")
+            UserNotificationWithTriggerUse.share.setNotificationFromDatas(Identifier: "星期一的運動提醒")
+            determineDatePicker.date = UserNotificationWithTriggerUse.share.returnReminderTime(Identifier: "星期一的運動提醒")
              weekSegmentedControl.selectedSegmentIndex = 1
                 reminderSwitch.isOn = true
             
         }
     }
     @IBAction func sundayReminderPressed(_ sender: Any) {
-        guard !UserNotificationWithCalendarTriggerUse.share.checkAuthorization() else {
+        guard !UserNotificationWithTriggerUse.share.checkAuthorization() else {
             let useNotificationsAlertController = UIAlertController(title: "請幫我打開通知", message: "運動提醒功能需要您打開通知的功能，感謝！", preferredStyle: .alert)
                     
                     // go to setting alert action
@@ -466,24 +464,24 @@ class TrainingReminderViewController: UIViewController {
                     self.present(useNotificationsAlertController, animated: true)
             return
         }
-        guard UserNotificationWithCalendarTriggerUse.share.checkNotification(Identifier: "星期日的運動提醒") else {
+        guard UserNotificationWithTriggerUse.share.checkNotification(Identifier: "星期日的運動提醒") else {
             let alert = UIAlertController(title: "注意", message: "請先設定過這個在使用此按鈕，感謝！", preferredStyle: .alert)
             let okaction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
             alert.addAction(okaction)
             present(alert, animated: true, completion: nil)
             return
         }
-        if UserNotificationWithCalendarTriggerUse.share.checkNotificationData(Identifier: "星期日的運動提醒"){
+        if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期日的運動提醒"){
             sundayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithCalendarTriggerUse.share.dismissNotificationRequest(Identifier: "星期日的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期日的運動提醒")
             if weekSegmentedControl.selectedSegmentIndex == 0{
                 reminderSwitch.isOn = false
             }
         }else{
             sundayReminderBtn.backgroundColor = .green
-            UserNotificationWithCalendarTriggerUse.share.setNotificationFromDatas(Identifier: "星期日的運動提醒")
+            UserNotificationWithTriggerUse.share.setNotificationFromDatas(Identifier: "星期日的運動提醒")
              weekSegmentedControl.selectedSegmentIndex = 0
-            determineDatePicker.date = UserNotificationWithCalendarTriggerUse.share.returnReminderTime(Identifier: "星期日的運動提醒")
+            determineDatePicker.date = UserNotificationWithTriggerUse.share.returnReminderTime(Identifier: "星期日的運動提醒")
                 reminderSwitch.isOn = true
             
         }

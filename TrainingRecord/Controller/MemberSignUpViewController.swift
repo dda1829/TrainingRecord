@@ -12,10 +12,15 @@ import Firebase
 class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
 
     
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordDebugLabel: UILabel!
+    @IBOutlet weak var passwordStrenthL: UILabel!
     
     var passwordstrength = 0
     
     var originalFrame : CGRect?
+    
     //畫面顯示時註冊通知
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,8 +65,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
             self.view.frame = self.originalFrame!
         }
     }
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -91,12 +94,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    @IBOutlet weak var passwordDebugLabel: UILabel!
-    
- 
-    @IBOutlet weak var passwordStrenthL: UILabel!
-
-    
     @IBAction func signUpBtnPressed(_ sender: Any) {
         if emailTextField.text == "" || passwordTextField.text == ""  {
                 let alertController = UIAlertController(title: "Error", message: "Please enter your name,email and password", preferredStyle: .alert)
@@ -107,8 +104,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
                 present(alertController, animated: true, completion: nil)
             
             } else {
-//
-                
                 Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
 
                     if error == nil {
@@ -150,7 +145,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
         TimerUse.share.setTimer(1, self, #selector(cV), false, 1)
     }
     @objc func cV(){
-        
         Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { result, error in
             if let e = error {
                 print( "error \(e)")
@@ -180,7 +174,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
     
     func GoLogInPage() {
         TimerUse.share.stopTimer(1)
-        
         UserDefaults.standard.setValue("email", forKey: "loginMethod")
         UserDefaults.standard.synchronize()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoggedIn") as? MemberAlreadyLoginViewController
@@ -189,7 +182,6 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func memberLoginBtnPressed(_ sender: Any) {
-        
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "MemberLoginPage") as? MemberLoginViewController
         self.navigationController?.pushViewController(vc!,animated: true)
         
@@ -223,23 +215,13 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
                     if passwordmiddle1.evaluate(with: passwordTextField.text) || passwordmiddle2.evaluate(with: passwordTextField.text) || passwordmiddle3.evaluate(with: passwordTextField.text) {
                         passwordStrenthL.text = "middle"
                         passwordStrenthL.textColor = .yellow
-                        
                     } else{
                         passwordStrenthL.text = "weak"
                         passwordStrenthL.textColor = .red
                     }
                 }
-                
-                
-                
-               
-                    
-                
             }
-            
-            
         }
-        
         // 不能輸入空白
         if string.isContainsSpaceCharacters() {
             return false
@@ -248,25 +230,8 @@ class MemberSignUpViewController: UIViewController, UITextFieldDelegate {
         if string.isContainsChineseCharacters() {
             return false
         }
-        
-        
-        
-        
         return true
     }
-   
-    
-    
-    
-    /*
-     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 

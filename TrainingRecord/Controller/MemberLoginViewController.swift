@@ -16,10 +16,12 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
     func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
         if let error = error {
             print(error.localizedDescription)
+            mbProgress(false)
             return
           }
         mbProgress(true)
         guard let token = AccessToken.current?.tokenString else {
+            mbProgress(false)
             return
         }
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile), name: .ProfileDidChange, object: nil)
@@ -45,6 +47,7 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
     }
     
     func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        mbProgress(false)
     }
     
     @objc func updateProfile(){

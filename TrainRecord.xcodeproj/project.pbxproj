@@ -10,7 +10,7 @@
 		DC00C5DF2685DFAF00161DBA /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00C5DE2685DFAF00161DBA /* Timer.swift */; };
 		DC2276A4267F273C00D0EEF6 /* ManageTrainSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */; };
 		DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */; };
-		DC3B65CE26ECB7E600920590 /* UserNotificationWithCalendarTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */; };
+		DC3B65CE26ECB7E600920590 /* UserNotificationWithTriggerUse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B65CD26ECB7E500920590 /* UserNotificationWithTriggerUse.swift */; };
 		DC3D5BB626F18BAF00D10433 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3D5BB526F18BAF00D10433 /* CoreDataHelper.swift */; };
 		DC4169A426D2417700BFB4CB /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4169A326D2417700BFB4CB /* StringExtension.swift */; };
 		DC42096C26DE036F00518879 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DC42096B26DE036F00518879 /* MBProgressHUD.m */; };
@@ -34,7 +34,7 @@
 		DCC2AF8A26C50D4C00087FA6 /* BeepGo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */; };
 		DCC2AF8B26C50D4C00087FA6 /* Radar.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */; };
 		DCC2AF8C26C50D4C00087FA6 /* BeepPrepare.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */; };
-		DCC2AF8E26C50DD300087FA6 /* AVFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */; };
+		DCC2AF8E26C50DD300087FA6 /* AVFoundationUse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC2AF8D26C50DD300087FA6 /* AVFoundationUse.swift */; };
 		DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13A26529D290040DFA8 /* AppDelegate.swift */; };
 		DCC7D13D26529D290040DFA8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */; };
 		DCC7D13F26529D290040DFA8 /* TrainRecordHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC7D13E26529D290040DFA8 /* TrainRecordHomeVC.swift */; };
@@ -61,9 +61,10 @@
 		DC00C5DE2685DFAF00161DBA /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		DC2276A3267F273C00D0EEF6 /* ManageTrainSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTrainSetVC.swift; sourceTree = "<group>"; };
 		DC25D8D12689F4B5002DB3B2 /* RecordItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordItem.swift; sourceTree = "<group>"; };
-		DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationWithCalendarTrigger.swift; sourceTree = "<group>"; };
+		DC3B65CD26ECB7E500920590 /* UserNotificationWithTriggerUse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationWithTriggerUse.swift; sourceTree = "<group>"; };
 		DC3D5BB526F18BAF00D10433 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataHelper.swift; path = ../../../../EEElecture/UIKit/MAPD35/NoteApp3copy/NoteApp/Model/CoreDataHelper.swift; sourceTree = "<group>"; };
 		DC4169A326D2417700BFB4CB /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		DC41DAFE2705FC6D002A3FBD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		DC42096926DE036B00518879 /* TrainingRecord-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TrainingRecord-Bridging-Header.h"; sourceTree = "<group>"; };
 		DC42096A26DE036E00518879 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		DC42096B26DE036F00518879 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -94,7 +95,7 @@
 		DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepGo.m4a; sourceTree = "<group>"; };
 		DCC2AF8826C50D4A00087FA6 /* Radar.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Radar.mp3; sourceTree = "<group>"; };
 		DCC2AF8926C50D4A00087FA6 /* BeepPrepare.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeepPrepare.m4a; sourceTree = "<group>"; };
-		DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.swift; sourceTree = "<group>"; };
+		DCC2AF8D26C50DD300087FA6 /* AVFoundationUse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundationUse.swift; sourceTree = "<group>"; };
 		DCC7D13726529D290040DFA8 /* TrainRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCC7D13A26529D290040DFA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCC7D13C26529D290040DFA8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -178,9 +179,9 @@
 				DC42096A26DE036E00518879 /* MBProgressHUD.h */,
 				DC42096B26DE036F00518879 /* MBProgressHUD.m */,
 				DCC7D14326529D290040DFA8 /* TrainingRecord.xcdatamodeld */,
-				DC3B65CD26ECB7E500920590 /* UserNotificationWithCalendarTrigger.swift */,
+				DC3B65CD26ECB7E500920590 /* UserNotificationWithTriggerUse.swift */,
 				DC00C5DE2685DFAF00161DBA /* Timer.swift */,
-				DCC2AF8D26C50DD300087FA6 /* AVFoundation.swift */,
+				DCC2AF8D26C50DD300087FA6 /* AVFoundationUse.swift */,
 				DC491B3926E78E1D001CB228 /* Assets.xcassets */,
 				DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */,
 				DC7D886F266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift */,
@@ -424,7 +425,7 @@
 				DC2276A4267F273C00D0EEF6 /* ManageTrainSetVC.swift in Sources */,
 				DCEC8ED726C00A5F003CC74A /* ShareTableViewCell.swift in Sources */,
 				DC7D8870266262AB008CFDAE /* TrainingItem+InfoitemForFireStore.swift in Sources */,
-				DCC2AF8E26C50DD300087FA6 /* AVFoundation.swift in Sources */,
+				DCC2AF8E26C50DD300087FA6 /* AVFoundationUse.swift in Sources */,
 				DC52D03C26E84ADC00E13DB3 /* UIViewCapture.swift in Sources */,
 				DCC7D13F26529D290040DFA8 /* TrainRecordHomeVC.swift in Sources */,
 				DCA9E34326D60E1B00964F02 /* RemoveTrainingItemViewController.swift in Sources */,
@@ -432,7 +433,7 @@
 				DC25D8D22689F4B5002DB3B2 /* RecordItem.swift in Sources */,
 				DC62BC1726A806CD00B245F6 /* SystemTableViewController.swift in Sources */,
 				DCF82A0E26E9E67B009E74BD /* SharedTableViewCell.swift in Sources */,
-				DC3B65CE26ECB7E600920590 /* UserNotificationWithCalendarTrigger.swift in Sources */,
+				DC3B65CE26ECB7E600920590 /* UserNotificationWithTriggerUse.swift in Sources */,
 				DC96E66D26BAC652003AD4CD /* SystemMemberViewController.swift in Sources */,
 				DC5E7E9726EB2ACB008E1797 /* TrainingReminderViewController.swift in Sources */,
 				DCC7D13B26529D290040DFA8 /* AppDelegate.swift in Sources */,
@@ -477,6 +478,7 @@
 			children = (
 				DC491B3726E7727D001CB228 /* Base */,
 				DCBEA9AE2705B4DA008F4723 /* zh-Hant */,
+				DC41DAFE2705FC6D002A3FBD /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
