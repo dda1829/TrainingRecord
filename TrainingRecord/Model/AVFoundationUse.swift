@@ -17,11 +17,7 @@ class AVFoundationUse {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.play()
-            let scene = UIApplication.shared.connectedScenes.first
-                   // grab the scene delegate and give it a reference to this ViewController
-                   if let sceneDelegate : SceneDelegate = (scene?.delegate as? SceneDelegate) {
-                       sceneDelegate.videoViewController = self;
-                   }
+            
         }catch{
             print("Error")
         }

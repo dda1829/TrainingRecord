@@ -74,12 +74,14 @@ class UserNotificationWithTriggerUse{
         }
         
     }
-    func dismissNotificationRequest(Identifier identifier:String){
+    func dismissNotificationRequest(Identifier identifier:String, TriggerType type: String){
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+        if type == "Calendar"{
         reminderData = reminderDatas[identifier]
         reminderData!.isReminderON = false
         reminderDatas.updateValue(reminderData!, forKey: identifier)
-        writeToFile()
+            writeToFile()
+        }
         
     }
     func checkNotification(Identifier idetifier:String) -> Bool{

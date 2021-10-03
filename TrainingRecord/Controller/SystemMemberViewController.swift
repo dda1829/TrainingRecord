@@ -46,8 +46,6 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
             return age.count + 1
         }
         
-        
-        
         return 0
     }
     
@@ -91,6 +89,7 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
     
     @objc func backToSysBtn (){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
+        self.dismiss(animated: true)
         self.navigationController?.pushViewController(vc!,animated: true)
         
     }
@@ -146,9 +145,11 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
         
     }
+    
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
+    
     @IBAction func setTargetBtnPressed(_ sender: Any) {
         guard userNameTV.text != "" else {
             let alert = UIAlertController(title: "", message: "請填入您的暱稱告知我您怎麼稱呼？", preferredStyle: .alert)
@@ -279,11 +280,13 @@ class SystemMemberViewController: UIViewController, UITextFieldDelegate, UIPicke
         UserDefaults.standard.setValue(isMemberDataEdited, forKey: "isMemberDataEdited")
         UserDefaults.standard.synchronize()
     }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
         return true
     }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if range.location >= 11 {
             return false

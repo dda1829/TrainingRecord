@@ -376,6 +376,8 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate,
         vc?.trainTimes = trainTimes
         vc?.trainEachSetInterval = trainEachSetInterval
         vc?.trainSetEachInterval = trainSetEachInterval
+        
+        self.dismiss(animated: true)
         self.navigationController?.pushViewController(vc!,animated: true)
     }
     
@@ -383,11 +385,6 @@ class ManageTrainSetVC: UIViewController,UITextInputTraits, UITextFieldDelegate,
         func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
 
             if bannerView.superview == nil && Auth.auth().currentUser == nil {
-//                let a = UIStackView()
-//                self.view.addSubview(a)
-//                a.translatesAutoresizingMaskIntoConstraints = false
-//                a.bottomAnchor.constraint(equalTo: self.view.topAnchor,constant: 20).isActive = true
-//                a.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
                 self.view.addSubview(bannerView)
                 bannerView.translatesAutoresizingMaskIntoConstraints = false
 

@@ -32,20 +32,20 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     var formListArm : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
     var formListEx : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
     var formListBack : [String] = [NSLocalizedString("TrainingItems",comment: "運動項目")]
+    
     @IBOutlet weak var dateRecordTitleBtn: UIButton!
     @IBOutlet weak var userReportLeft: UITextView!
     @IBOutlet weak var userReportRight: UITextView!
     @IBOutlet weak var RecodListTV: UITableView!
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)  
+        super.init(coder: coder)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.title = "訓練紀錄報表"
-            
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(share))
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(share))
         // Do any additional setup after loading the view.
         if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: "isMemberDataEdited"){
             var conclusionright = ""
@@ -61,7 +61,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             let BMR = Double(BMRo)
             let noInput = "NoData"
             if userAge != "" && userAge != noInput{
-            conclusionright = "用戶年齡：  " + userAge + " 歲\n"
+                conclusionright = "用戶年齡：  " + userAge + " 歲\n"
             }else{
                 conclusionright = "用戶年齡：  " + noInput + " \n"
             }
@@ -72,17 +72,17 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                 conclusionleft += "用戶性別：  " + noInput + "\n"
             }
             if userHeight.last != noInput{
-            conclusionright += "用戶身高：  " + userHeight.last! + " cm\n"
+                conclusionright += "用戶身高：  " + userHeight.last! + " cm\n"
             }else{
                 conclusionright += "用戶身高：  " + userHeight.last! + "\n"
             }
             if userWeight.last != noInput{
-            conclusionleft += "用戶體重：  " + userWeight.last! + " kg\n"
+                conclusionleft += "用戶體重：  " + userWeight.last! + " kg\n"
             }else{
                 conclusionleft += "用戶體重：  " + userWeight.last! + " \n"
             }
             if userBodyFat.last != noInput {
-            conclusionright += "用戶體脂:  " + userBodyFat.last! + " %\n"
+                conclusionright += "用戶體脂:  " + userBodyFat.last! + " %\n"
             }else{
                 conclusionright += "用戶體脂:  " + userBodyFat.last! + " \n"
             }
@@ -101,8 +101,8 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             conclusionright += "^ 基礎代謝率"
             
             
-        userReportLeft.text = conclusionleft
-        userReportRight.text = conclusionright
+            userReportLeft.text = conclusionleft
+            userReportRight.text = conclusionright
             let border = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
             border.backgroundColor = .white
             self.view.addSubview(border)
@@ -112,13 +112,13 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             border.bottomAnchor.constraint(equalTo: RecodListTV.topAnchor, constant: 0).isActive = true
             border.heightAnchor.constraint(equalToConstant: 5).isActive = true
         }else{
-        let warningWord = UITextView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        self.view.addSubview(warningWord)
-        warningWord.translatesAutoresizingMaskIntoConstraints = false
+            let warningWord = UITextView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+            self.view.addSubview(warningWord)
+            warningWord.translatesAutoresizingMaskIntoConstraints = false
             warningWord.topAnchor.constraint(equalTo: self.dateRecordTitleBtn.bottomAnchor, constant: 0).isActive = true
-        warningWord.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16 ).isActive = true
-        warningWord.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-        warningWord.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            warningWord.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16 ).isActive = true
+            warningWord.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+            warningWord.heightAnchor.constraint(equalToConstant: 50).isActive = true
             warningWord.text = "請先完成會員資料，以此作為完整運動報表，感謝。"
             warningWord.textColor = .red
             warningWord.font = UIFont.systemFont(ofSize: 14)
@@ -130,7 +130,6 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         RecodListTV.dataSource = self
         RecodListTV.register(SharedTableViewCell.nib(), forCellReuseIdentifier: SharedTableViewCell.identifier)
         loadFromFile()
-        
         getFormList()
         dateRecordTitleBtn.setTitle(dateRecord, for: .normal)
         let manager = FileManager.default
@@ -139,12 +138,12 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         let file = doc.appendingPathComponent("RecordDatas")
         
         do {
-           let a =  try manager.contentsOfDirectory(at: file, includingPropertiesForKeys: nil)
+            let a =  try manager.contentsOfDirectory(at: file, includingPropertiesForKeys: nil)
             for x in a{
                 dateRecordList.append(x.lastPathComponent)
             }
             print(a)
-           
+            
         } catch {
             // failed to read directory – bad permissions, perhaps?
             print(error)
@@ -155,17 +154,17 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func dismissOnTap() {
-            self.view.isUserInteractionEnabled = true
+        self.view.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissDatePicker))
-            tap.delegate = self
-            tap.cancelsTouchesInView = false
-            self.view.addGestureRecognizer(tap)
-     }
-
+        tap.delegate = self
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+    }
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         guard isDatePickerExist else {
-                    return false
-                }
+            return false
+        }
         if !datePicker.bounds.contains(touch.location(in: datePicker)){
             if dateRecordTitleBtn.bounds.contains(touch.location(in: dateRecordTitleBtn)){
                 return false
@@ -174,14 +173,13 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         
-                return false
-        }
+        return false
+    }
+    
     @objc func dismissDatePicker() {
         datePicker.removeFromSuperview()
         isDatePickerExist = false
     }
-    
-    
     
     func getFormList() {
         subtitleForm = recordStringGen()
@@ -270,12 +268,8 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         return result
         
-        
-        
     }
-    
-    
-    
+     
     func recordLocationStringGen () -> [String] {
         var result: [String] = []
         var rateResult:[String] = []
@@ -293,49 +287,48 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         var rating = 0.0
         for x in recordsort{
             if let rate = trainRateSeperate[x] {
-            
-            for y in 0 ..< rate.count{
-                switch trainRateSeperate[x]![y] {
-                case "Good":
-                    if ratingScore[x] == nil {
-                        ratingScore.updateValue([1], forKey: x)
-                    }else{
-                        ratingScore[x]?.append(1)
+                for y in 0 ..< rate.count{
+                    switch trainRateSeperate[x]![y] {
+                    case "Good":
+                        if ratingScore[x] == nil {
+                            ratingScore.updateValue([1], forKey: x)
+                        }else{
+                            ratingScore[x]?.append(1)
+                        }
+                    case "Normal":
+                        if ratingScore[x] == nil {
+                            ratingScore.updateValue([0], forKey: x)
+                        }else{
+                            ratingScore[x]?.append(0)
+                        }
+                    case "Bad":
+                        if ratingScore[x] == nil {
+                            ratingScore.updateValue([-1], forKey: x)
+                        }else{
+                            ratingScore[x]?.append(-1)
+                        }
+                    default:
+                        if ratingScore[x] == nil {
+                            ratingScore.updateValue([0], forKey: x)
+                        }else{
+                            ratingScore[x]?.append(0)
+                        }
                     }
-                case "Normal":
-                    if ratingScore[x] == nil {
-                        ratingScore.updateValue([0], forKey: x)
-                    }else{
-                        ratingScore[x]?.append(0)
-                    }
-                case "Bad":
-                    if ratingScore[x] == nil {
-                        ratingScore.updateValue([-1], forKey: x)
-                    }else{
-                        ratingScore[x]?.append(-1)
-                    }
-                default:
-                    if ratingScore[x] == nil {
-                        ratingScore.updateValue([0], forKey: x)
-                    }else{
-                        ratingScore[x]?.append(0)
+                    if y == rate.count - 1 {
+                        for z in ratingScore[x]!{
+                            rating += z
+                        }
+                        if rating >= 1 {
+                            rateResult.append("😃，感覺良好。")
+                        }else if rating == 0{
+                            rateResult.append("😐，感覺普通。")
+                        }else if rating == -1 {
+                            rateResult.append("😱，感覺很糟。")
+                        }else{
+                            rateResult.append("資訊不足")
+                        }
                     }
                 }
-                if y == rate.count - 1 {
-                    for z in ratingScore[x]!{
-                         rating += z
-                    }
-                    if rating >= 1 {
-                        rateResult.append("😃，感覺良好。")
-                    }else if rating == 0{
-                        rateResult.append("😐，感覺普通。")
-                    }else if rating == -1 {
-                        rateResult.append("😱，感覺很糟。")
-                    }else{
-                        rateResult.append("資訊不足")
-                    }
-                }
-            }
                 rating = 0
             }
         }
@@ -343,17 +336,17 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         var ratecount = 0
         for x in recordsort {
             if let trainset = trainItem?.trainSet[x] {
-            if trainset <= 2 {
-                locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
-            }else{
-                locationString = ""
-                for _ in 0 ..< (trainItem?.trainSet[x])!/4 {
-                    locationString += "\n"
+                if trainset <= 2 {
+                    locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
+                }else{
+                    locationString = ""
+                    for _ in 0 ..< (trainItem?.trainSet[x])!/4 {
+                        locationString += "\n"
+                    }
+                    locationString += "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
                 }
-                locationString += "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
-            }
-            ratecount += 1
-            result.append(locationString)
+                ratecount += 1
+                result.append(locationString)
             }
         }
         print("record location result = \(result)")
@@ -377,55 +370,55 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         var rating = 0.0
         for x in recordsort{
             if let rate = trainRateSeperate[x] {
-            for y in 0 ..< rate.count{
-                switch trainRateSeperate[x]![y] {
-                case "Good":
-                    if ratingScore[x] == nil {
-                        ratingScore.updateValue([1], forKey: x)
-                    }else{
-                        ratingScore[x]?.append(1)
+                for y in 0 ..< rate.count{
+                    switch trainRateSeperate[x]![y] {
+                    case "Good":
+                        if ratingScore[x] == nil {
+                            ratingScore.updateValue([1], forKey: x)
+                        }else{
+                            ratingScore[x]?.append(1)
+                        }
+                    case "Normal":
+                        if ratingScore[x] == nil {
+                            ratingScore.updateValue([0], forKey: x)
+                        }else{
+                            ratingScore[x]?.append(0)
+                        }
+                    case "Bad":
+                        if ratingScore[x] == nil {
+                            ratingScore.updateValue([-1], forKey: x)
+                        }else{
+                            ratingScore[x]?.append(-1)
+                        }
+                    default:
+                        if ratingScore[x] == nil {
+                            ratingScore.updateValue([0], forKey: x)
+                        }else{
+                            ratingScore[x]?.append(0)
+                        }
                     }
-                case "Normal":
-                    if ratingScore[x] == nil {
-                        ratingScore.updateValue([0], forKey: x)
-                    }else{
-                        ratingScore[x]?.append(0)
+                    if y == rate.count - 1 {
+                        for z in ratingScore[x]!{
+                            rating += z
+                        }
+                        if rating >= 1 {
+                            rateResult.append("😃，感覺良好。")
+                        }else if rating == 0{
+                            rateResult.append("😐，感覺普通。")
+                        }else if rating == -1 {
+                            rateResult.append("😱，感覺很糟。")
+                        }else{
+                            rateResult.append("資訊不足")
+                        }
                     }
-                case "Bad":
-                    if ratingScore[x] == nil {
-                        ratingScore.updateValue([-1], forKey: x)
-                    }else{
-                        ratingScore[x]?.append(-1)
-                    }
-                default:
-                    if ratingScore[x] == nil {
-                        ratingScore.updateValue([0], forKey: x)
-                    }else{
-                        ratingScore[x]?.append(0)
-                    }
+                    rating = 0
                 }
-                if y == rate.count - 1 {
-                    for z in ratingScore[x]!{
-                         rating += z
-                    }
-                    if rating >= 1 {
-                        rateResult.append("😃，感覺良好。")
-                    }else if rating == 0{
-                        rateResult.append("😐，感覺普通。")
-                    }else if rating == -1 {
-                        rateResult.append("😱，感覺很糟。")
-                    }else{
-                        rateResult.append("資訊不足")
-                    }
-                }
-                rating = 0
-            }
             }
         }
         var locationString = ""
         var ratecount = 0
         for x in recordsort {
-                locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
+            locationString = "\(fitRecordLocation(x))-\(fitRecordLocationItem(x))" + "\n" + rateResult[ratecount]
             
             ratecount += 1
             result.append(locationString)
@@ -442,7 +435,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         if trainItem != RecordItem(dateRecord, [:], [:], [], [:], [:], [:], []) {
             
             print("data is not nil")
-           
+            
             
             cell.titleLabel.text = titleForm[indexPath.row]
             cell.subTitleLabel.text = subtitleForm[indexPath.row]
@@ -450,8 +443,6 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             cell.showsReorderControl = true
             
         }
-        
-        
         return cell
     }
     
@@ -474,6 +465,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             return ""
         }
     }
+    
     func fitRecordLocationItem(_ locationdata: [Int])  -> String {
         switch locationdata[0] {
         case 1:
@@ -492,7 +484,6 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             print(locationdata[1])
             print(formListBL)
             return formListBL[locationdata[1]]
-            
         case 5:
             print(locationdata[1])
             print(formListArm)
@@ -507,11 +498,6 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
             return ""
         }
     }
-    
-    
-    
-    
-    
     
     //MARK: Archiving
     func writeToFile()  {
@@ -551,15 +537,16 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func fitSizeImage(_ image: UIImage,_ size: CGSize) -> UIImage? {
         
-            let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0 //產生畫布，第一個參數指定大小,第二個參數true:不透明(黑色底),false表示透明背景,scale為螢幕scale
-            UIGraphicsBeginImageContextWithOptions(size,false,scale)
-            //計算長寬要縮圖比例，取最大值MAX會變成UIViewContentModeScaleAspectFill //最小值MIN會變成UIViewContentModeScaleAspectFit
-            image.draw(in:CGRect(x: 0,y: 0,
-                                 width: size.width,height: size.height)) //取得畫布上的縮圖
-            let target = UIGraphicsGetImageFromCurrentImageContext(); //關掉畫布
-            UIGraphicsEndImageContext();
-            return target
+        let scale = UIScreen.main.scale //找出目前螢幕的scale，視網膜技術為2.0 //產生畫布，第一個參數指定大小,第二個參數true:不透明(黑色底),false表示透明背景,scale為螢幕scale
+        UIGraphicsBeginImageContextWithOptions(size,false,scale)
+        //計算長寬要縮圖比例，取最大值MAX會變成UIViewContentModeScaleAspectFill //最小值MIN會變成UIViewContentModeScaleAspectFit
+        image.draw(in:CGRect(x: 0,y: 0,
+                             width: size.width,height: size.height)) //取得畫布上的縮圖
+        let target = UIGraphicsGetImageFromCurrentImageContext(); //關掉畫布
+        UIGraphicsEndImageContext();
+        return target
     }
+    
     func pb_takeSnapshot() -> UIImage {
         let imageA = UIImage(named: "background")!.withRenderingMode(.alwaysTemplate).withTintColor(.darkGray)
         var font=UIFont(name: "Helvetica-Bold", size: 15)!
@@ -585,7 +572,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 }
                 imageBLocationY += imageBHeight + 2
-        }
+            }
         }
         let drawSize = CGSize(width: self.view.frame.width, height: imageBLocationY )
         
@@ -595,7 +582,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         fitSizeImage(imageA, wantimageASize)?.draw(in: strRect.integral)
         (dateRecord as NSString).draw(in: strRect.integral, withAttributes: attributes)
-       
+        
         font = UIFont(name: "Helvetica-Bold", size: 13)!
         attributes = [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font:font, NSAttributedString.Key.paragraphStyle:paraStyle]
         if recordsort2.count != 0 {
@@ -608,23 +595,24 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
                         imageBHeight += 20
                     }
                 }
-        let wantBSize = CGSize(width: self.view.frame.width, height: imageBHeight)
-        let titleRect = CGRect(x: titlex1, y: imageBLocationY , width: self.view.frame.width/2, height: imageBHeight)
-        let subtitleRect = CGRect(x: self.view.frame.width/2, y: imageBLocationY, width: self.view.frame.width/2, height: imageBHeight)
-        fitSizeImage(imageB, wantBSize)?.draw(in: CGRect(x: 0, y: imageBLocationY, width: self.view.frame.width, height: imageBHeight))
-            (titleFormShare[x] as NSString).draw(in: titleRect, withAttributes: attributes)
-            (subtitleForm[x] as NSString).draw(in: subtitleRect, withAttributes: attributes)
+                let wantBSize = CGSize(width: self.view.frame.width, height: imageBHeight)
+                let titleRect = CGRect(x: titlex1, y: imageBLocationY , width: self.view.frame.width/2, height: imageBHeight)
+                let subtitleRect = CGRect(x: self.view.frame.width/2, y: imageBLocationY, width: self.view.frame.width/2, height: imageBHeight)
+                fitSizeImage(imageB, wantBSize)?.draw(in: CGRect(x: 0, y: imageBLocationY, width: self.view.frame.width, height: imageBHeight))
+                (titleFormShare[x] as NSString).draw(in: titleRect, withAttributes: attributes)
+                (subtitleForm[x] as NSString).draw(in: subtitleRect, withAttributes: attributes)
                 imageBLocationY += imageBHeight + 2
-        }
+            }
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
     }
+    
     @objc func share(){
         let defaultText = "看看我，今天我完成了..."
         
-//        let sharedfile = self.view.pb_takeSnapshot()
+        //        let sharedfile = self.view.pb_takeSnapshot()
         let sharedfile = pb_takeSnapshot()
         var activityController: UIActivityViewController
         
@@ -634,16 +622,7 @@ class ShareViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.present(activityController, animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
 
 extension ShareViewController: FSCalendarDelegate,FSCalendarDataSource{
@@ -659,6 +638,7 @@ extension ShareViewController: FSCalendarDelegate,FSCalendarDataSource{
         }
         return 0
     }
+    
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")

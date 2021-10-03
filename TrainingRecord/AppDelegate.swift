@@ -12,7 +12,6 @@ import GoogleMobileAds
 import UserNotifications
 import FBSDKCoreKit
 import GoogleSignIn
-import AVFoundation
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate{
 
@@ -32,12 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
             }
          })
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
-        let audioSession = AVAudioSession.sharedInstance()
-                do {
-                    try audioSession.setCategory(AVAudioSession.Category.playback)
-                } catch {
-                    print("Setting category to AVAudioSessionCategoryPlayback failed.")
-                }
+      
         return true
     }
 

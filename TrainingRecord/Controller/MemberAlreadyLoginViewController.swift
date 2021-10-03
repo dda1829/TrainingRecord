@@ -35,6 +35,7 @@ class MemberAlreadyLoginViewController: UIViewController, LoginButtonDelegate {
     @objc func backToSysBtn (){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
         self.navigationController?.pushViewController(vc!,animated: true)
+        self.dismiss(animated: true)
     }
     
     override func viewDidLoad() {

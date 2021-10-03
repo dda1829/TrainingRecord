@@ -154,6 +154,8 @@ class NewTrainingItemViewController: UIViewController,UITextInputTraits, UITextF
         }
         
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePage") as? TrainRecordHomeVC
+        
+        self.dismiss(animated: true)
         self.navigationController?.pushViewController(vc!,animated: true)
         
     }

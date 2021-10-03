@@ -29,6 +29,7 @@
 		DCA9913D26BBE71900C08E5D /* MemberUserDataToSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */; };
 		DCA9E34326D60E1B00964F02 /* RemoveTrainingItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9E34226D60E1B00964F02 /* RemoveTrainingItemViewController.swift */; };
 		DCA9E34526D60E4100964F02 /* EditTrainingItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA9E34426D60E4100964F02 /* EditTrainingItemViewController.swift */; };
+		DCB869682707F3E300E706A8 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCB869672707F3E300E706A8 /* CloudKit.framework */; };
 		DCBEA9A427058C5D008F4723 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCBEA9A627058C5D008F4723 /* InfoPlist.strings */; };
 		DCBEA9AA270592A2008F4723 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCBEA9AC270592A2008F4723 /* Localizable.strings */; };
 		DCC2AF8A26C50D4C00087FA6 /* BeepGo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DCC2AF8726C50D4A00087FA6 /* BeepGo.m4a */; };
@@ -86,6 +87,7 @@
 		DCA9913C26BBE71900C08E5D /* MemberUserDataToSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberUserDataToSystem.swift; sourceTree = "<group>"; };
 		DCA9E34226D60E1B00964F02 /* RemoveTrainingItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveTrainingItemViewController.swift; sourceTree = "<group>"; };
 		DCA9E34426D60E4100964F02 /* EditTrainingItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrainingItemViewController.swift; sourceTree = "<group>"; };
+		DCB869672707F3E300E706A8 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DCBEA9A727058C63008F4723 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DCBEA9AD270592AD008F4723 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DCBEA9AE2705B4DA008F4723 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCB869682707F3E300E706A8 /* CloudKit.framework in Frameworks */,
 				E231521324F2356CC0A8A875 /* Pods_TrainRecord.framework in Frameworks */,
 				DCD07B8527018FE200B66F45 /* FSCalendar in Frameworks */,
 			);
@@ -127,6 +130,7 @@
 		019607CB453C8B7201EB8C11 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DCB869672707F3E300E706A8 /* CloudKit.framework */,
 				5845EDE9F5F65ACB60E7710B /* Pods_TrainRecord.framework */,
 			);
 			name = Frameworks;
@@ -629,7 +633,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.10;
+				MARKETING_VERSION = 1.0.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "ST-Chiou.TrainingRecord";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TrainingRecord/Model/TrainingRecord-Bridging-Header.h";
@@ -657,7 +661,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.10;
+				MARKETING_VERSION = 1.0.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "ST-Chiou.TrainingRecord";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TrainingRecord/Model/TrainingRecord-Bridging-Header.h";

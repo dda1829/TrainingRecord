@@ -1536,9 +1536,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="rRM-Ce-XJP"/>
                                 </constraints>
-                                <string key="text">1.  This product will help member record the information of your body.
-2. This product will help you set your goal of your body.
-3. This product will not uss your data personally.</string>
+                                <string key="text">1. 本產品幫助會員紀錄身體指數。
+2. 本產品幫助會員訂立個人健身目標。
+3. 本產品不會擅自使用會員資料。</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1553,7 +1553,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q8y-HI-NX2">
-                                <rect key="frame" x="152.5" y="607" width="70" height="40"/>
+                                <rect key="frame" x="30" y="597" width="70" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="HIH-9w-l0x"/>
                                     <constraint firstAttribute="width" constant="70" id="hjd-iS-8Kz"/>
@@ -1574,7 +1574,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W43-dA-np1">
-                                <rect key="frame" x="152.5" y="567" width="70" height="30"/>
+                                <rect key="frame" x="152.5" y="568.5" width="70" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="2TI-MV-DbM"/>
                                 </constraints>
@@ -1608,21 +1608,21 @@
                         <constraints>
                             <constraint firstItem="BBz-ZH-i8f" firstAttribute="top" secondItem="TaH-XA-3F9" secondAttribute="top" constant="50" id="1dF-Qt-1Vw"/>
                             <constraint firstItem="Spj-pT-sJU" firstAttribute="top" secondItem="xKN-tB-QPW" secondAttribute="bottom" constant="20" id="2HL-v0-94f"/>
-                            <constraint firstItem="q8y-HI-NX2" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" id="3ol-LD-mce"/>
                             <constraint firstItem="BBz-ZH-i8f" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" id="IQr-la-GBV"/>
                             <constraint firstItem="DaO-wD-CDM" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" constant="80" id="ISl-me-DKA"/>
                             <constraint firstItem="xKN-tB-QPW" firstAttribute="top" secondItem="0aT-6w-mUa" secondAttribute="bottom" constant="60" id="JwI-RG-gRb"/>
                             <constraint firstItem="0aT-6w-mUa" firstAttribute="leading" secondItem="TaH-XA-3F9" secondAttribute="leading" constant="16" id="MjX-RU-xNY"/>
+                            <constraint firstItem="q8y-HI-NX2" firstAttribute="leading" secondItem="TaH-XA-3F9" secondAttribute="leading" constant="30" id="NHl-Pm-dAA"/>
                             <constraint firstItem="Z6Z-JS-ZYb" firstAttribute="top" secondItem="Spj-pT-sJU" secondAttribute="bottom" constant="10" id="PjK-NR-BDd"/>
                             <constraint firstItem="Z6Z-JS-ZYb" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" id="Pkk-PI-2PZ"/>
-                            <constraint firstItem="q8y-HI-NX2" firstAttribute="top" secondItem="W43-dA-np1" secondAttribute="bottom" constant="10" id="Rej-MC-4bL"/>
+                            <constraint firstItem="TaH-XA-3F9" firstAttribute="bottom" secondItem="q8y-HI-NX2" secondAttribute="bottom" constant="30" id="SXV-gE-v6Y"/>
                             <constraint firstItem="W43-dA-np1" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" id="Xpi-FG-FsQ"/>
                             <constraint firstItem="Spj-pT-sJU" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" id="ZYt-VK-BR5"/>
-                            <constraint firstItem="TaH-XA-3F9" firstAttribute="bottom" secondItem="q8y-HI-NX2" secondAttribute="bottom" constant="20" id="dDU-Ak-YLd"/>
                             <constraint firstItem="0aT-6w-mUa" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" id="e3A-KJ-TyU"/>
                             <constraint firstItem="Spj-pT-sJU" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" id="gUq-ZD-65h"/>
                             <constraint firstItem="xKN-tB-QPW" firstAttribute="centerX" secondItem="X5w-Pl-Lq6" secondAttribute="centerX" id="gjR-WK-uWK"/>
                             <constraint firstItem="0aT-6w-mUa" firstAttribute="top" secondItem="BBz-ZH-i8f" secondAttribute="bottom" constant="30" id="nte-nb-dxZ"/>
+                            <constraint firstItem="W43-dA-np1" firstAttribute="centerY" secondItem="X5w-Pl-Lq6" secondAttribute="centerY" constant="250" id="qkx-X1-IFZ"/>
                             <constraint firstItem="TaH-XA-3F9" firstAttribute="trailing" secondItem="0aT-6w-mUa" secondAttribute="trailing" constant="16" id="u2x-6m-Azn"/>
                             <constraint firstItem="DaO-wD-CDM" firstAttribute="top" secondItem="Spj-pT-sJU" secondAttribute="bottom" constant="10" id="vQ3-wz-Ibu"/>
                         </constraints>

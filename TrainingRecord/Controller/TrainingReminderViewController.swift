@@ -99,7 +99,7 @@ class TrainingReminderViewController: UIViewController {
             }
         }else{
             
-            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: replaceString)
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: replaceString, TriggerType: "Calendar")
             switch replaceString {
             case "星期日的運動提醒":
                 sundayReminderBtn.backgroundColor = .systemGray2
@@ -219,7 +219,7 @@ class TrainingReminderViewController: UIViewController {
         }
         if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期六的運動提醒"){
             satuardayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期六的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期六的運動提醒", TriggerType: "Calendar")
             if weekSegmentedControl.selectedSegmentIndex == 6{
                 reminderSwitch.isOn = false
             }
@@ -263,7 +263,7 @@ class TrainingReminderViewController: UIViewController {
         }
         if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期五的運動提醒"){
             fridayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期五的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期五的運動提醒", TriggerType: "Calendar")
             if weekSegmentedControl.selectedSegmentIndex == 5{
                 reminderSwitch.isOn = false
             }
@@ -305,7 +305,7 @@ class TrainingReminderViewController: UIViewController {
         }
         if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期四的運動提醒"){
             thursdayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期四的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期四的運動提醒", TriggerType: "Calendar")
             if weekSegmentedControl.selectedSegmentIndex == 4{
                 reminderSwitch.isOn = false
             }
@@ -347,7 +347,7 @@ class TrainingReminderViewController: UIViewController {
         }
         if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期三的運動提醒"){
             wednesdayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期三的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期三的運動提醒", TriggerType: "Calendar")
             if weekSegmentedControl.selectedSegmentIndex == 3{
                 reminderSwitch.isOn = false
             }
@@ -389,7 +389,7 @@ class TrainingReminderViewController: UIViewController {
         }
         if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期二的運動提醒"){
             tuesdayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期二的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期二的運動提醒", TriggerType: "Calendar")
             if weekSegmentedControl.selectedSegmentIndex == 2{
                 reminderSwitch.isOn = false
             }
@@ -431,7 +431,7 @@ class TrainingReminderViewController: UIViewController {
         }
         if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期一的運動提醒"){
             mondayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期一的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期一的運動提醒", TriggerType: "Calendar")
             if weekSegmentedControl.selectedSegmentIndex == 1{
                 reminderSwitch.isOn = false
             }
@@ -473,7 +473,7 @@ class TrainingReminderViewController: UIViewController {
         }
         if UserNotificationWithTriggerUse.share.checkNotificationData(Identifier: "星期日的運動提醒"){
             sundayReminderBtn.backgroundColor = .systemGray2
-            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期日的運動提醒")
+            UserNotificationWithTriggerUse.share.dismissNotificationRequest(Identifier: "星期日的運動提醒", TriggerType: "Calendar")
             if weekSegmentedControl.selectedSegmentIndex == 0{
                 reminderSwitch.isOn = false
             }

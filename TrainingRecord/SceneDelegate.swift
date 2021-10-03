@@ -7,11 +7,8 @@
 
 import UIKit
 import FBSDKCoreKit
-import AVKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-        var videoViewController: AVFoundationUse? = nil
-        var avPlayerSavedReference: AVAudioPlayer? = nil
     var window: UIWindow?
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else {
@@ -59,10 +56,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        if (videoViewController != nil && avPlayerSavedReference != nil) {
-                videoViewController!.audioPlayer = avPlayerSavedReference;
-                avPlayerSavedReference = nil;
-            }
     }
 
     @available(iOS 13.0, *)
@@ -72,10 +65,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        if (videoViewController != nil) {
-            avPlayerSavedReference = videoViewController!.audioPlayer
-            videoViewController?.audioPlayer = nil
-          }
     }
 
 

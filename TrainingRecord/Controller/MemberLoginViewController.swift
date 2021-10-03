@@ -63,8 +63,8 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
     
     @IBOutlet weak var memberEmailTextView: UITextField!
     @IBOutlet weak var memberPasswordTextView: UITextField!
-    
     @IBOutlet weak var forgetPasswordBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         memberEmailTextView.delegate = self
@@ -87,18 +87,13 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
             }
             return true
         }
+    
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
     
-    
-    
-    
-    
     @IBOutlet weak var appleLogInBtn: ASAuthorizationAppleIDButton!
-    
     @IBOutlet weak var googleLogInBtn: GIDSignInButton!
-    
     @IBOutlet weak var fbLogInBtn: FBLoginButton!
     
     func setupSignInButton(){
@@ -109,11 +104,13 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
         fbLogInBtn.permissions = ["public_profile", "email"]
         fbLogInBtn.delegate = self
     }
+    
     @objc func handleSignInWithAppleTapped(){
         mbProgress(true)
         print("good")
         performSignIn()
     }
+    
     func performSignIn() {
         let request = createAppleIDRequest()
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
@@ -131,8 +128,6 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
         currentNonce = nonce
         return request
     }
-    
-    
     
        @objc func googleSignInBtnPressed(_ sender: Any) {
         mbProgress(true)
@@ -178,13 +173,6 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
                     self.navigationController?.pushViewController(vc!,animated: true)
                 }        }
         }
-    
-    
-    
-    
-    
-    
-    
     
     @IBAction func LogInBtnPressed(_ sender: Any) {
         if memberEmailTextView.text == "" || memberPasswordTextView.text == "" {
@@ -249,6 +237,7 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
         }
         TimerUse.share.setTimer(1, self, #selector(cV), false, 1)
     }
+    
     @objc func cV(){
         TimerUse.share.stopTimer(1)
         Auth.auth().signIn(withEmail: memberEmailTextView.text!, password: memberPasswordTextView.text!) { result, error in
@@ -260,6 +249,7 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
         }
         TimerUse.share.setTimer(1, self, #selector(checkVerified), false, 1)
     }
+    
     @objc func checkVerified(){
         TimerUse.share.stopTimer(1)
         if let isemailverified = Auth.auth().currentUser?.isEmailVerified, isemailverified{
@@ -287,8 +277,6 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
         }
     }
     
-    
-    
     func mbProgress(_ onoff: Bool){
         if onoff{
             MBProgressHUD.showAdded(to: self.view, animated: true)
@@ -313,16 +301,19 @@ class MemberLoginViewController: UIViewController, UITextFieldDelegate, LoginBut
         present(alertController, animated: true, completion: nil)
         
     }
+    
     func goAlreadylogin(){
         mbProgress(false)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoggedIn") as? MemberAlreadyLoginViewController
         if let username = self.userName {
         vc?.userName = username
         }
+        
+        self.dismiss(animated: true)
         self.navigationController?.pushViewController(vc!,animated: true)
         
-        
     }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
     

@@ -488,6 +488,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         let manager = FileManager.default
                         do{
                             try manager.removeItem(at: file2)
+                            NotificationCenter.default.post(name: Notification.Name("DeleteFiles"), object: nil)
                         }catch{
                             print("removeFail")
                         }
@@ -508,6 +509,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     let manager = FileManager.default
                     do{
                         try manager.removeItem(at: file)
+                        NotificationCenter.default.post(name: Notification.Name("DeleteFiles"), object: nil)
                     }catch{
                         print("removeFail")
                     }
@@ -635,6 +637,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                         let manager = FileManager.default
                         do{
                             try manager.removeItem(at: file2)
+                            NotificationCenter.default.post(name: Notification.Name("DeleteFiles"), object: nil)
                         }catch{
                             print("removeFail")
                         }
@@ -655,6 +658,7 @@ class SystemTableViewController: UITableViewController,MFMailComposeViewControll
                     let manager = FileManager.default
                     do{
                         try manager.removeItem(at: file)
+                        NotificationCenter.default.post(name: Notification.Name("DeleteFiles"), object: nil)
                     }catch{
                         print("removeFail")
                     }

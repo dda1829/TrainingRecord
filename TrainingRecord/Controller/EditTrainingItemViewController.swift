@@ -73,6 +73,7 @@ class EditTrainingItemViewController: UIViewController, UIPickerViewDataSource, 
         cell.detailTextLabel?.textColor = .white
         return cell
     }
+    
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         switch trainLS {
         case 1:
@@ -103,9 +104,8 @@ class EditTrainingItemViewController: UIViewController, UIPickerViewDataSource, 
             print("error")
         }
         tableView.reloadData()
-
-
     }
+    
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
     }
@@ -125,7 +125,6 @@ class EditTrainingItemViewController: UIViewController, UIPickerViewDataSource, 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return formListLocation[row]
     }
-    
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch row {
@@ -150,8 +149,8 @@ class EditTrainingItemViewController: UIViewController, UIPickerViewDataSource, 
     }
     
     @IBOutlet weak var trainLocationPickerView: UIPickerView!
-    
     @IBOutlet weak var trainingItemTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         breastItems = ManageTrainingItem.share.getTrainingItem(Location: "BrestShoulder")!
@@ -169,15 +168,5 @@ class EditTrainingItemViewController: UIViewController, UIPickerViewDataSource, 
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
